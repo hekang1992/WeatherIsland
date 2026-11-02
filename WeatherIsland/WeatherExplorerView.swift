@@ -29,13 +29,13 @@ struct WeatherExplorerView: View {
                 .accessibilityLabel("关闭天气剧场")
             }
             .padding(.horizontal, 24).padding(.top, 25).padding(.bottom, 20)
+            .weatherReadingWidth()
             if snapshot { collection }
             else { ScrollView { collection }.scrollIndicators(.hidden) }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .foregroundStyle(WeatherPalette.ink)
         .background(WeatherPalette.paper.ignoresSafeArea())
-        .preferredColorScheme(.light)
         .presentationDragIndicator(.visible)
         .sheet(item:$demoDetail){ report in WeatherDetailView(report:report,sceneStyle:sceneStyle) }
 
@@ -59,7 +59,7 @@ struct WeatherExplorerView: View {
                 Text("11 种天空 / 离线演示，点选体验")
                     .font(.system(size: 12, weight: .medium))
             }
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3), spacing: 12) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 96), spacing: 10)], spacing: 12) {
                 ForEach(WeatherKind.allCases) { kind in
                     Button { previewKind=kind;onSelect(kind) } label: {
                         VStack(spacing: 9) {
@@ -101,6 +101,7 @@ struct WeatherExplorerView: View {
             .padding(.vertical, 3)
         }
         .padding(.horizontal, 24).padding(.bottom, 25)
+        .weatherReadingWidth()
     }
 }
 

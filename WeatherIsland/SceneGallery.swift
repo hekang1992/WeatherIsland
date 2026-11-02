@@ -18,7 +18,7 @@ struct SceneGalleryView: View {
                         ForEach(PaperSceneStyle.Family.allCases, id: \.self) { filter($0.artDirection, value: $0) }
                     }
                 }.scrollIndicators(.hidden)
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 155), spacing: 16)], spacing: 16) {
                     ForEach(styles) { style in
                         NavigationLink { SceneDetailView(app: app, style: style) } label: {
                             VStack(alignment: .leading, spacing: 8) {
@@ -30,7 +30,7 @@ struct SceneGalleryView: View {
                     }
                 }
                 Text("画境是宋韵山水与花鸟意境。手动选择会应用到所有地区，真实天气与地区数据保持独立。").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary).lineSpacing(5)
-            }.padding(22)
+            }.padding(22).weatherReadingWidth(960)
         }.background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink).navigationTitle("宋韵画境").paperPageNavigation()
     }
     private func filter(_ name: String, value: PaperSceneStyle.Family?) -> some View {
@@ -62,7 +62,7 @@ struct SceneDetailView: View {
                 Button { app.apply(style); applied = true } label: { Text(app.collection.sceneID == style.id ? "已应用此画境 ✓" : "应用此画境").font(.system(size: 15, weight: .medium)).frame(maxWidth: .infinity).padding(18).foregroundStyle(WeatherPalette.paper).background(Capsule().fill(WeatherPalette.ink)) }.buttonStyle(.plain)
                 if applied { Button("去首页看看") { app.tab = .weather }.frame(maxWidth: .infinity) }
                 Button("恢复随地区选画") { app.apply(nil); applied = false }.font(.system(size: 12)).frame(maxWidth: .infinity)
-            }.padding(24)
+            }.padding(24).weatherReadingWidth()
         }.background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink).navigationTitle("画境小赏").paperPageNavigation()
     }
 }

@@ -2,6 +2,27 @@
 
 更新：2026-11-02（Asia/Shanghai）。工程位于 `/Users/hekang/Desktop/WeatherIsland`。
 
+
+## 晴、多云、阴的视觉辨识度（2026-11-02）
+
+- 山水画新增完整暖阳、局部遮日浮云、连续灰青层云三种独立天空。晴天增加柔和暖光与水面金色反射，阴天降低环境亮度；小岛插画同步调整太阳大小、遮挡关系、云量及饱和度。
+- 最终 Debug iOS Simulator 双架构构建通过（关闭代码签名），日志 `/tmp/WeatherIsland-WeatherClarity-build.log`。`bash Verification/run-checks.sh` 全部通过，日志 `/tmp/WeatherIsland-WeatherClarity-checks.log`；采用固定样本与离线检查，未请求真实天气服务。
+- `bash Branding/export-global-previews.sh --weather-only` 通过。已人工查看 `Previews/Weather-Clear-Cloudy-Overcast.png` 与 `Previews/Weather-Island-Clarity.png`：覆盖江渚、山水、花鸟三种画境和 85 点宽城市卡片，确认静止画面的太阳、云量和冷暖差异。日晕透明端保持相同色相，消除灰色光圈与渐变边界。
+- 对照图由实际 SwiftUI / Canvas 组件通过 macOS ImageRenderer 离屏绘制；本轮未运行模拟器交互测试。
+
+## 设置功能与配图比例（2026-11-02）
+
+- 补齐界面主题、关于我们、服务协议与隐私政策四个入口。主题支持跟随系统／浅色／深色，立即应用并本机持久化；版本和构建号读取 Bundle。协议与隐私说明可离线阅读，包含实际的数据来源、定位、地图网格与缓存行为，隐私页可打开 App 系统权限设置。
+- 早期画面检查发现“已选择深色但实际仍为浅色”：启动根容器与 Tab 容器同时设置外观，根容器又读取不同的默认存储。已统一为 Tab 容器按应用模型设置外观，移除生产页面的强制浅色与 Info.plist 的 Light 限制；测试新增对实际环境深浅色的断言，避免只检查选中状态。
+- 配图原先分别按容器宽、高缩放，在设置三连缩略图和窄城市卡片中发生拉伸。宋韵画境现按 360 × 248 等比居中；首页、缩略图和城市卡片采用原始横幅比例，天气详情同样保留比例。早期小岛组件按 360 × 230 等比绘制，天气粒子也保持形状。
+- 最终 Debug 模拟器双架构构建通过，日志 `/tmp/weather-settings-build.log`；最终 Release iPhone 架构构建通过（关闭代码签名），日志 `/tmp/weather-settings-device-build.log`。两者均包含辅助字号布局优化。
+- `bash Verification/run-checks.sh` 通过，日志 `/tmp/weather-settings-final-checks.log`：新增主题损坏值回退、持久化、预览隔离、城市／画境／天气对象保留检查；已有首次联网、定位名称恢复、手动选城保护、天气和地图回归通过。本轮数据回归采用保存的接口样本与可控异步响应，没有据此声称重新验证真实服务可用性。
+- iPhone 17 Pro / iOS 27.0 最终交互组 `/tmp/WeatherIsland-SettingsFinalQA.xcresult`：3 项通过、0 失败。覆盖深浅色实际显示、重启保留、画廊返回、版本与来源入口、协议全文滚动、隐私全文、系统设置跳转与返回；另覆盖首页 → 城市卡片 → 设置画廊 → 画境详情的配图截图与导航。早期 About 点击用例因未等待目标可点击而失败，补充可点击检查后同一流程通过。
+- 系统外观专项 `/tmp/WeatherIsland-SettingsSystemQA.xcresult`：1 项通过、0 失败。用 simctl 将测试设备设为系统深色，验证默认跟随系统、手动浅色、再回到跟随系统时实际页面恢复深色；测试后已恢复该模拟器为浅色。该项测试有系统深色前置条件，不能直接计入默认浅色环境的整套运行。
+- 初轮 iPhone SE（第 3 代）最大辅助字号专项 `/tmp/WeatherIsland-SettingsSmallQA.xcresult` 通过主题选择与隐私全文可达检查；画面复查仍发现主题说明被左右图标挤窄，随后改为辅助字号时图标与选择标记一行、说明文字独占整行。最终补测 `/tmp/WeatherIsland-SettingsSmallFinalQA.xcresult` 1 项通过、0 失败，确认深色实际显示和隐私全文末尾可达；截图 `Previews/Weather-Settings-Large-Type.png` 为优化后最大字号的实际页面。
+- 已保存并人工查看 `Previews/Weather-Artwork-Home.png`、`Weather-Artwork-Cities.png`、`Weather-Artwork-Gallery.png`、`Weather-Artwork-Detail.png` 及 `Weather-Settings-Light.png`、`Weather-Settings-Dark.png`、`Weather-Settings-About.png`、`Weather-Settings-Privacy.png`。首页配图截图来自离线设计检查入口，使用示例天气；设置交互入口使用隔离的测试偏好，未改写正常用户收藏和主题。
+- 自动化源码为 `Verification/WeatherSettingsUITests.swift`；临时 UI 测试工程 `/tmp/WeatherIslandMapQA` 的 MapQA 目标运行这些测试。设备架构构建关闭代码签名；未进行真机安装与运行，外部第三方页面内容及真实系统网络授权弹窗不属于本轮验收。
+
 ## Xcode 编译与启动修复（2026-11-02）
 
 - 读取用户 Xcode 最新构建记录：14:10–14:11 的三次失败均为 `cannot find 'WeatherLocationNaming' in scope`，编译日志不包含 `WeatherLocationNaming.swift`。磁盘工程已有该文件的 Sources 条目，新的命令行真机架构构建可通过；失败记录反映 Xcode 当时使用的编译列表未纳入新增文件。

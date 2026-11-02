@@ -3,6 +3,7 @@ import SwiftUI
 @MainActor @Observable final class WeatherApplication {
     enum Tab: Hashable { case weather, map, cities, settings }
     var tab: Tab = .weather
+    private(set) var theme: WeatherTheme
     private(set) var collection: CityCollection
     var searchPresented = false
     private(set) var locationRefreshID = 0
@@ -20,6 +21,7 @@ import SwiftUI
          weatherLoader: (@Sendable (WeatherPlace) async throws -> Data)? = nil,
          airLoader: (@Sendable (WeatherPlace) async throws -> AirQualityReading)? = nil) {
         self.defaults=defaults;self.live=live
+        theme = live ? WeatherTheme(rawValue: defaults.string(forKey: WeatherTheme.storageKey) ?? "") ?? .system : .system
         self.weatherLoader=weatherLoader;self.airLoader=airLoader
         let saved = live ? defaults.data(forKey: Self.collectionKey).flatMap {
             try? JSONDecoder().decode(CityCollection.self, from: $0)
@@ -93,6 +95,10 @@ import SwiftUI
     func remove(_ id:String) {collection.remove(id);save()}
     func setDefault(_ id:String) {guard places.contains(where:{$0.id==id})else{return};collection.defaultID=id;save()}
     func move(from:IndexSet,to:Int) {collection.places.move(fromOffsets:from,toOffset:to);save()}
+    func setTheme(_ value: WeatherTheme) {
+        theme = value
+        if live { defaults.set(value.rawValue, forKey: WeatherTheme.storageKey) }
+    }
     func apply(_ style:PaperSceneStyle?) {collection.sceneID=style?.id;save()}
     private func save() {guard live else{return};defaults.set(usesManualCity, forKey:Self.manualCityKey);if let data=try? JSONEncoder().encode(collection){defaults.set(data,forKey:Self.collectionKey)}}
 }
@@ -113,4 +119,27 @@ struct WeatherLocationEntry {
     mutating func failed() { if phase != .ready { phase = .needsCity } }
     mutating func choseCity() { phase = .ready }
     mutating func backgrounded() { if phase == .locating { phase = .pending } }
+}
+
+/// Stored independently of cities so appearance changes do not restart weather or GPS.
+enum WeatherTheme: String, CaseIterable, Identifiable {
+    case system, light, dark
+    static let storageKey = "WeatherIsland.Theme.v1"
+    var id: String { rawValue }
+    var title: String {
+        switch self { case .system: "跟随系统"; case .light: "浅色 · 晴昼"; case .dark: "深色 · 夜墨" }
+    }
+    var detail: String {
+        switch self {
+        case .system: "随设备的浅色与深色外观自动切换。"
+        case .light: "绢色纸面与青绿淡墨，适合白天阅读。"
+        case .dark: "深色纸面与柔和文字，适合夜间查看。"
+        }
+    }
+    var symbol: String {
+        switch self { case .system: "circle.lefthalf.filled"; case .light: "sun.max"; case .dark: "moon.stars" }
+    }
+    var colorScheme: ColorScheme? {
+        switch self { case .system: nil; case .light: .light; case .dark: .dark }
+    }
 }

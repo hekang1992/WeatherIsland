@@ -76,7 +76,7 @@ struct RegionalWeatherHome: View {
             }else{loadingState}
         }
         .padding(.horizontal,24).padding(.top,14).padding(.bottom,28)
-        .frame(maxWidth:560)
+        .frame(maxWidth:720)
         .frame(maxWidth:.infinity)
     }
     private var header:some View {
@@ -107,7 +107,7 @@ struct RegionalWeatherHome: View {
                 .padding(.top, 14).padding(.bottom, 18)
             Button {detail=report} label:{
                 PaperCityScene(style:style,kind:report.kind,animate:motion)
-                    .frame(height:264)
+                    .aspectRatio(360.0 / 248, contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius:5))
                     .overlay(RoundedRectangle(cornerRadius:5).stroke(WeatherPalette.ink.opacity(0.12),lineWidth:0.6))
             }.buttonStyle(.plain).accessibilityLabel("\(place.title)，\(report.kind.name)。打开天气详情")

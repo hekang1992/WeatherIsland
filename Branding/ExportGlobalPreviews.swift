@@ -40,6 +40,33 @@ struct ArtDirectionBoard:View {
     }
 }
 
+struct WeatherClarityBoard: View {
+    private let kinds: [WeatherKind] = [.clear, .partlyCloudy, .overcast]
+    private let descriptions = ["暖阳明亮 · 水面映金", "云遮半日 · 青白浮云", "日光隐去 · 灰青层云"]
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("晴 · 云 · 阴，各有天色").font(WeatherTypography.display(28))
+            HStack(alignment: .top, spacing: 16) {
+                ForEach(Array(kinds.enumerated()), id: \.element.id) { index, kind in
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(kind.name).font(WeatherTypography.display(22))
+                        Text(descriptions[index]).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
+                        ForEach([0, 15, 40], id: \.self) { scene in
+                            PaperCityScene(style: PaperSceneStyle.all[scene], kind: kind, animate: false)
+                                .frame(width: 300, height: 207).clipShape(RoundedRectangle(cornerRadius: 5))
+                        }
+                        HStack(spacing: 12) {
+                            PaperCityScene(style: PaperSceneStyle.all[0], kind: kind, animate: false)
+                                .frame(width: 85, height: 59).clipShape(RoundedRectangle(cornerRadius: 4))
+                            Text("城市卡片缩略图").font(.system(size: 11)).foregroundStyle(WeatherPalette.secondary)
+                        }
+                    }.frame(width: 300)
+                }
+            }
+        }.padding(28).foregroundStyle(WeatherPalette.ink).background(WeatherPalette.paper)
+    }
+}
+
 @main struct ExportGlobalPreviews {
     @MainActor static func save<V:View>(_ view:V,to url:URL,scale:CGFloat=2)throws{
         let renderer=ImageRenderer(content:view.environment(\.colorScheme,.light));renderer.scale=scale;renderer.isOpaque=true
@@ -49,6 +76,20 @@ struct ArtDirectionBoard:View {
     @MainActor static func main()throws{
         _=NSApplication.shared
         let root=URL(fileURLWithPath:CommandLine.arguments[1]);let previews=root.appendingPathComponent("Previews")
+        try save(WeatherClarityBoard(),to:previews.appendingPathComponent("Weather-Clear-Cloudy-Overcast.png"),scale:1.5)
+        try save(HStack(spacing:16) {
+            ForEach([WeatherKind.clear, .partlyCloudy, .overcast]) { kind in
+                VStack(alignment:.leading,spacing:8) {
+                    IslandScene(kind:kind,animate:false).frame(width:300,height:192)
+                    Text(kind.name).font(.system(size:15,weight:.medium))
+                }
+            }
+        }.padding(24).foregroundStyle(WeatherPalette.ink).background(WeatherPalette.paper),
+        to:previews.appendingPathComponent("Weather-Island-Clarity.png"),scale:1.5)
+        if CommandLine.arguments.contains("--weather-only") {
+            print("Exported clear, partly cloudy and overcast comparison boards.")
+            return
+        }
         try save(SceneContactSheet(),to:previews.appendingPathComponent("50-Paper-Scenes.png"),scale:1.5)
         try save(ArtDirectionBoard(),to:previews.appendingPathComponent("Art-Directions.png"),scale:1.5)
         let weatherKinds:[WeatherKind]=[.clear,.overcast,.lightRain,.heavyRain,.thunderstorm,.hail]

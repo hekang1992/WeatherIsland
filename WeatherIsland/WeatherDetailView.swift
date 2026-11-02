@@ -17,6 +17,7 @@ struct WeatherDetailView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 10)
                 .padding(.bottom, 12)
+                .weatherReadingWidth()
             if snapshot {
                 GeometryReader { geometry in
                     content
@@ -32,7 +33,6 @@ struct WeatherDetailView: View {
         }
         .background(WeatherPalette.paper.ignoresSafeArea())
         .foregroundStyle(WeatherPalette.ink)
-        .preferredColorScheme(.light)
         .islandNavigationStyle()
         .task { appeared = true }
     }
@@ -104,6 +104,7 @@ struct WeatherDetailView: View {
         .padding(.horizontal, 24)
         .padding(.top, 4)
         .padding(.bottom, 30)
+        .weatherReadingWidth()
     }
 
     private var weatherSummary: some View {
@@ -116,23 +117,17 @@ struct WeatherDetailView: View {
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(WeatherPalette.secondary)
             }
-            ZStack(alignment: .leading) {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("\(report.temperature)°")
-                        .font(.system(size: 65, weight: .regular, design: .serif))
-                        .tracking(-3)
-                    Text(report.kind.name).font(.system(size: 17, weight: .semibold))
-                        .padding(.top, -3)
-                    Text(report.kind.poem).font(.system(size: 12))
-                        .foregroundStyle(WeatherPalette.secondary).padding(.top, 7)
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .center, spacing: 18) {
+                    summaryReading.fixedSize(horizontal: true, vertical: true)
+                    summaryScene.frame(minWidth: 140, maxWidth: 280)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                PaperCityScene(style: sceneStyle ?? .automatic(for: report.place), kind: report.kind, animate: animate && !snapshot)
-                    .frame(width: 222, height: 155)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .offset(x: 12, y: 4)
+                VStack(alignment: .leading, spacing: 16) {
+                    summaryReading
+                    summaryScene
+                }
             }
-            .frame(height: 148)
+            .padding(.vertical, 12)
             HStack(spacing: 15) {
                 Text("最高 \(report.high)° / 最低 \(report.low)°")
                 Text("体感 \(report.feelsLike)°")
@@ -140,6 +135,25 @@ struct WeatherDetailView: View {
             .font(.system(size: 12, weight: .medium))
             .foregroundStyle(WeatherPalette.secondary)
         }
+    }
+
+    private var summaryReading: some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Text("\(report.temperature)°")
+                .font(.system(size: 65, weight: .regular, design: .serif))
+                .tracking(-3)
+            Text(report.kind.name).font(.system(size: 17, weight: .semibold))
+            Text(report.kind.poem).font(.system(size: 12))
+                .foregroundStyle(WeatherPalette.secondary)
+        }
+        .accessibilityIdentifier("detail.reading")
+    }
+
+    private var summaryScene: some View {
+        PaperCityScene(style: sceneStyle ?? .automatic(for: report.place), kind: report.kind, animate: animate && !snapshot)
+            .aspectRatio(360.0 / 248, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .accessibilityHidden(true)
     }
 
     private var reminder: some View {
@@ -319,14 +333,17 @@ struct WeatherDetailView: View {
                 Spacer()
                 Text(report.isLive ? "日出 / 日落" : "日出 / 日落 · 示例").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
             }
-            ZStack {
-                Path { p in
-                    p.move(to: .init(x: 0, y: 35))
-                    p.addQuadCurve(to: .init(x: 290, y: 35), control: .init(x: 145, y: -25))
+            GeometryReader { geometry in
+                let width = max(0, geometry.size.width - 18)
+                ZStack(alignment: .topLeading) {
+                    Path { p in
+                        p.move(to: .init(x: 9, y: 35))
+                        p.addQuadCurve(to: .init(x: width + 9, y: 35), control: .init(x: width / 2 + 9, y: -25))
+                    }
+                    .stroke(WeatherPalette.accent.opacity(0.7), style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
+                    Image(systemName: "sun.max.fill").foregroundStyle(WeatherPalette.accent)
+                        .font(.system(size: 18)).position(x: width * 0.42 + 9, y: 6)
                 }
-                .stroke(WeatherPalette.accent.opacity(0.7), style: StrokeStyle(lineWidth: 1, dash: [2, 4]))
-                Image(systemName: "sun.max.fill").foregroundStyle(WeatherPalette.accent)
-                    .font(.system(size: 18)).offset(x: -24, y: -8)
             }
             .frame(height: 36)
             HStack {
@@ -342,6 +359,11 @@ struct WeatherDetailView: View {
 }
 
 extension View {
+    /// Limit reading line lengths while keeping the page background edge to edge.
+    func weatherReadingWidth(_ width: CGFloat = 720) -> some View {
+        frame(maxWidth: width).frame(maxWidth: .infinity)
+    }
+
     @ViewBuilder func islandNavigationStyle() -> some View {
         #if os(iOS)
         self.toolbar(.hidden, for: .navigationBar)

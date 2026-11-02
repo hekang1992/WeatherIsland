@@ -74,15 +74,17 @@ struct PaperCityScene: View {
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 24.0, paused: !animate || reduceMotion || phase != .active)) { timeline in
             let time = animate && !reduceMotion && phase == .active ? timeline.date.timeIntervalSince(epoch) : 2.8
-            GeometryReader { geometry in
-                ZStack {
-                    Canvas { context, size in
-                        context.scaleBy(x: size.width / 360, y: size.height / 248)
-                        SongPainting.draw(style, kind: kind, time: time, context: &context)
-                        context.scaleBy(x: 1, y: 248 / 230.0)
-                        WeatherParticles.draw(kind: kind, time: time, context: &context, onDark: false, subtle: true)
-                    }
-                }
+            Canvas { context, size in
+                // Every painting is composed on the same 360 × 248 sheet. Keep
+                // a single scale so circles, birds and architecture retain their shape.
+                let scale = min(size.width / 360, size.height / 248)
+                context.translateBy(x: (size.width - 360 * scale) / 2,
+                                    y: (size.height - 248 * scale) / 2)
+                context.scaleBy(x: scale, y: scale)
+                context.clip(to: Path(CGRect(x: 0, y: 0, width: 360, height: 248)))
+                SongPainting.draw(style, kind: kind, time: time, context: &context)
+                context.translateBy(x: 0, y: (248 - 230) / 2)
+                WeatherParticles.draw(kind: kind, time: time, context: &context, onDark: false, subtle: true)
             }
         }
         .allowsHitTesting(false)
@@ -123,12 +125,13 @@ enum SongPainting {
     static func draw(_ s:PaperSceneStyle,kind:WeatherKind,time:Double,context c:inout GraphicsContext) {
         let v=s.variant
         paper(&c,seed:s.number)
+        weatherSky(kind, time: time, &c)
         var scene=c
         scene.clip(to:Path(CGRect(x:0,y:0,width:360,height:248)))
         switch s.family {
         case .metropolis:
             distant(&scene,v:v,tint:blue)
-            if v == 3 {disc(234,91,14,Color(hex:0xC49B76).opacity(0.24),&scene)}
+            if v == 3 && ![WeatherKind.clear, .partlyCloudy, .overcast].contains(kind) {disc(234,91,14,Color(hex:0xC49B76).opacity(0.24),&scene)}
             bank(-67,218,240,66,moss.opacity(0.36),&scene)
             ripples(174,180,130,&scene)
             boat(177+Double(v)*7,181,scale:v == 4 ? 1.2:0.8,sail:v == 4,&scene)
@@ -191,7 +194,7 @@ enum SongPainting {
                 if v == 4 {curve([(177,198),(204,208),(189,232),(237,249)],blue.opacity(0.3),3,&scene)}
             }
         case .desert:
-            if v == 4 {disc(235,77,19,Color(hex:0xD4C29E).opacity(0.4),&scene)}
+            if v == 4 && ![WeatherKind.clear, .partlyCloudy, .overcast].contains(kind) {disc(235,77,19,Color(hex:0xD4C29E).opacity(0.4),&scene)}
             ridge(140,39,seed:v+6,color:Color(hex:0xB8AE92).opacity(0.25),rocky:false,&scene)
             ridge(182,46,seed:v+1,color:Color(hex:0xAC9874).opacity(0.34),rocky:false,&scene)
             bank(-21,232,258,49,Color(hex:0xAA956A).opacity(0.4),&scene)
@@ -229,12 +232,97 @@ enum SongPainting {
             else {pine(52,225,0.71,seed:v,&scene)}
             for i in 0..<6 {curve([(99+Double(i)*13,206),(128+Double(i)*15,222),(141+Double(i)*18,247)],ink.opacity(0.12),0.5,&scene)}
         }
+        if kind == .clear {
+            // Warm reflected light follows the weather, while the original brushwork stays visible.
+            c.fill(Path(CGRect(x:0,y:0,width:360,height:248)),with:.radialGradient(
+                Gradient(colors:[Color(hex:0xE7BE70).opacity(0.16),Color(hex:0xE7BE70).opacity(0)]),
+                center:point(245,48),startRadius:20,endRadius:215))
+            if [.metropolis, .coast, .canal, .desert, .countryside].contains(s.family) {
+                for i in 0..<7 {
+                    let y=164+Double(i)*7
+                    let halfWidth=7+Double(i)*2.5
+                    let x=241+sin(time*0.45+Double(i)*1.7)*3
+                    curve([(x-halfWidth,y),(x,y-0.8),(x+halfWidth,y)],Color(hex:0xC29A51).opacity(0.42-Double(i)*0.035),0.9,&c)
+                }
+            }
+        }
         if kind == .overcast || kind.severe {
-            c.fill(Path(CGRect(x:0,y:0,width:360,height:248)),with:.color(ink.opacity(kind.severe ? 0.075:0.035)))
+            c.fill(Path(CGRect(x:0,y:0,width:360,height:248)),with:.color(ink.opacity(kind.severe ? 0.075:0.09)))
         }
         if kind == .fog {mist(110+sin(time*0.12)*5,&c);mist(180-sin(time*0.12)*3,&c)}
         inscription(s,&c)
     }
+    /// Weather cues remain legible in still frames and in small city thumbnails.
+    /// Draw the sky before the landscape so clouds stay behind mountains and trees.
+    private static func weatherSky(_ kind: WeatherKind, time: Double, _ c: inout GraphicsContext) {
+        let sky = Path(CGRect(x: 0, y: 0, width: 360, height: 190))
+        switch kind {
+        case .clear:
+            c.fill(sky, with: .linearGradient(
+                Gradient(colors: [Color(hex: 0xEED7A5).opacity(0.55), Color(hex: 0xEED7A5).opacity(0)]),
+                startPoint: point(180, 0), endPoint: point(180, 185)))
+            sunlight(x: 245, y: 44, radius: 19, time: time, clear: true, &c)
+        case .partlyCloudy:
+            c.fill(sky, with: .linearGradient(
+                Gradient(colors: [Color(hex: 0xBCD0CC).opacity(0.32), Color(hex: 0xBCD0CC).opacity(0)]),
+                startPoint: point(180, 0), endPoint: point(180, 175)))
+            sunlight(x: 245, y: 43, radius: 17, time: time, clear: false, &c)
+            let drift = sin(time * 0.22) * 7
+            paintedCloud(x: 28 + drift, y: 19, width: 108, height: 33,
+                         top: 0xF9F5E9, base: 0xB3C0B8, opacity: 0.88, &c)
+            // This cloud overlaps the sun even when motion is disabled.
+            paintedCloud(x: 201 + drift, y: 39, width: 91, height: 35,
+                         top: 0xFBF7EC, base: 0xA7B8B1, opacity: 0.96, &c)
+        case .overcast:
+            c.fill(sky, with: .linearGradient(
+                Gradient(colors: [Color(hex: 0x7F9592).opacity(0.5), Color(hex: 0xA9B6AE).opacity(0.2), Color(hex: 0xA9B6AE).opacity(0)]),
+                startPoint: point(180, 0), endPoint: point(180, 185)))
+            let drift = sin(time * 0.13) * 4
+            paintedCloud(x: -34 + drift, y: 4, width: 226, height: 61,
+                         top: 0x8D9F9A, base: 0xB8C1B8, opacity: 0.88, &c)
+            paintedCloud(x: 136 - drift, y: 17, width: 174, height: 54,
+                         top: 0x859792, base: 0xB3BDB4, opacity: 0.84, &c)
+            paintedCloud(x: 32 + drift, y: 50, width: 242, height: 35,
+                         top: 0xA5B2A9, base: 0xD1D5C8, opacity: 0.78, &c)
+        default:
+            break
+        }
+    }
+
+    private static func sunlight(x: Double, y: Double, radius: Double, time: Double, clear: Bool, _ c: inout GraphicsContext) {
+        let glow = radius * (clear ? 3.2 : 2.2) + sin(time * 0.65) * 1.5
+        c.fill(Path(ellipseIn: CGRect(x: x-glow, y: y-glow, width: glow*2, height: glow*2)),
+               with: .radialGradient(Gradient(colors: [Color(hex: 0xE4BC70).opacity(clear ? 0.42 : 0.24), Color(hex: 0xE4BC70).opacity(0)]),
+                                     center: point(x,y), startRadius: radius*0.7, endRadius: glow))
+        c.fill(Path(ellipseIn: CGRect(x: x-radius, y: y-radius, width: radius*2, height: radius*2)),
+               with: .linearGradient(Gradient(colors: [Color(hex: 0xDCAD5C), Color(hex: 0xBD7848)]),
+                                     startPoint: point(x,y-radius), endPoint: point(x,y+radius)))
+        if clear {
+            c.stroke(Path(ellipseIn: CGRect(x: x-radius-5, y: y-radius-5, width: (radius+5)*2, height: (radius+5)*2)),
+                     with: .color(Color(hex: 0xC49A54).opacity(0.32)), lineWidth: 0.65)
+        }
+    }
+
+    private static func paintedCloud(x: Double, y: Double, width: Double, height: Double,
+                                     top: UInt32, base: UInt32, opacity: Double, _ c: inout GraphicsContext) {
+        var cloud = Path()
+        cloud.move(to: point(x, y+height*0.74))
+        cloud.addCurve(to: point(x+width*0.2, y+height*0.36),
+                       control1: point(x-width*0.02, y+height*0.43), control2: point(x+width*0.1, y+height*0.3))
+        cloud.addCurve(to: point(x+width*0.52, y+height*0.21),
+                       control1: point(x+width*0.25, y-height*0.14), control2: point(x+width*0.46, y-height*0.08))
+        cloud.addCurve(to: point(x+width*0.8, y+height*0.44),
+                       control1: point(x+width*0.65, y+height*0.03), control2: point(x+width*0.79, y+height*0.13))
+        cloud.addCurve(to: point(x+width, y+height*0.76),
+                       control1: point(x+width*0.92, y+height*0.36), control2: point(x+width*1.04, y+height*0.58))
+        cloud.addCurve(to: point(x, y+height*0.74),
+                       control1: point(x+width*0.88, y+height*1.08), control2: point(x+width*0.12, y+height*1.04))
+        cloud.closeSubpath()
+        c.fill(cloud, with: .linearGradient(
+            Gradient(colors: [Color(hex: top).opacity(opacity), Color(hex: base).opacity(opacity*0.68)]),
+            startPoint: point(x,y), endPoint: point(x,y+height)))
+    }
+
     private static func paper(_ c:inout GraphicsContext,seed:Int) {
         c.fill(Path(CGRect(x:0,y:0,width:360,height:248)),with:.linearGradient(Gradient(colors:[Color(hex:0xF1EADA),Color(hex:0xE9E2D1)]),startPoint:point(0,0),endPoint:point(360,248)))
         for i in 0..<820 {

@@ -17,15 +17,18 @@ struct IslandScene: View {
         TimelineView(.animation(minimumInterval: 1.0 / 30, paused: !moves)) { timeline in
             let time = moves ? max(0, timeline.date.timeIntervalSince(epoch)) : frozenTime
             GeometryReader { geometry in
-                let sx = geometry.size.width / 360
-                let sy = geometry.size.height / 230
+                let scale = min(geometry.size.width / 360, geometry.size.height / 230)
+                let sx: CGFloat = 1
+                let sy: CGFloat = 1
                 ZStack(alignment: .topLeading) {
                     Ellipse().fill(skyColor)
                         .frame(width: 189 * sx, height: 177 * sy)
                         .position(x: 188.5 * sx, y: 103.5 * sy)
                     if kind.showsSun {
                         ZStack {
-                            Circle().fill(WeatherPalette.accent).frame(width: 44, height: 44)
+                            Circle().fill(WeatherPalette.accent)
+                                .frame(width: kind == .clear ? 50 : kind == .partlyCloudy ? 38 : 44,
+                                       height: kind == .clear ? 50 : kind == .partlyCloudy ? 38 : 44)
                             Circle().stroke(WeatherPalette.accent.opacity(0.55), style: StrokeStyle(lineWidth: 1, dash: [1.5, 6]))
                                 .frame(width: 62, height: 62)
                                 .rotationEffect(.degrees(rotation + (moves ? time * 6 : 0)))
@@ -37,20 +40,28 @@ struct IslandScene: View {
                         .scaleEffect(min(sx, sy))
                         .position(x: 285 * sx, y: 48 * sy)
                     }
-                    if !kind.showsSun || kind == .partlyCloudy || kind == .windy {
-                        if kind != .partlyCloudy && kind != .windy {
-                            cloud(width: 128, height: 88, shade: cloudColor.opacity(0.7))
-                                .scaleEffect(min(sx, sy))
-                                .position(x: (259 + sin(time * 0.34) * 4) * sx, y: 58 * sy)
+                    if kind == .partlyCloudy {
+                        cloud(width: 100, height: 61, shade: cloudColor)
+                            .position(x: 279 + sin(time * 0.3) * 6, y: 65)
+                    } else if !kind.showsSun {
+                        cloud(width: kind == .overcast ? 172 : 128,
+                              height: kind == .overcast ? 78 : 88, shade: cloudColor.opacity(kind == .overcast ? 0.85 : 0.7))
+                            .position(x: (kind == .overcast ? 247 : 259) + sin(time * 0.34) * 4,
+                                      y: kind == .overcast ? 43 : 58)
+                        if kind == .overcast {
+                            cloud(width: 178, height: 62, shade: Color(hex: 0xB0BDB7))
+                                .position(x: 154 - sin(time * 0.25) * 5, y: 46)
                         }
                     }
                     Canvas { context, size in
                         context.scaleBy(x: size.width / 360, y: size.height / 230)
                         IslandDrawing.draw(in: &context)
                     }
-                    .saturation(kind.severe || kind == .overcast ? 0.65 : 1)
+                    .saturation(kind == .overcast ? 0.4 : kind.severe ? 0.65 : 1)
+                    .brightness(kind == .overcast ? -0.06 : 0)
                     if kind != .clear {
-                        cloud(width: kind == .partlyCloudy ? 97 : 126, height: 80, shade: cloudColor)
+                        cloud(width: kind == .partlyCloudy ? 86 : kind == .overcast ? 150 : 126,
+                              height: kind == .partlyCloudy ? 53 : kind == .overcast ? 68 : 80, shade: cloudColor)
                             .scaleEffect(min(sx, sy))
                             .rotationEffect(.degrees(-6))
                             .position(x: (85 + (kind == .windy ? sin(time * 0.65) * 13 : 0)) * sx,
@@ -67,6 +78,9 @@ struct IslandScene: View {
                         .rotationEffect(.degrees(-12))
                         .position(x: 70 * sx, y: 193 * sy)
                 }
+                .frame(width: 360, height: 230)
+                .scaleEffect(scale)
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
             }
         }
         .allowsHitTesting(false)
@@ -80,7 +94,9 @@ struct IslandScene: View {
     }
     private var skyColor: Color {
         switch kind {
-        case .clear: Color(hex: 0xF1DFC3).opacity(0.5)
+        case .clear: Color(hex: 0xF0CF88).opacity(0.65)
+        case .partlyCloudy: Color(hex: 0xC6DBDE).opacity(0.55)
+        case .overcast: Color(hex: 0x9CADA9).opacity(0.65)
         case .thunderstorm: Color(hex: 0xB8B4CC).opacity(0.6)
         case .heavyRain, .hail: Color(hex: 0xBECAD1).opacity(0.55)
         case .snow, .fog: Color(hex: 0xDCE6E3).opacity(0.65)
@@ -92,7 +108,8 @@ struct IslandScene: View {
         case .thunderstorm: Color(hex: 0x74768D)
         case .heavyRain: Color(hex: 0x96A6B7)
         case .moderateRain, .hail: Color(hex: 0xADBDCB)
-        case .overcast, .fog: Color(hex: 0xC6CEC8)
+        case .overcast: Color(hex: 0x96A8A1)
+        case .fog: Color(hex: 0xC6CEC8)
         case .lightRain: Color(hex: 0xB8C5D1)
         default: Color(hex: 0xFFFFF8)
         }

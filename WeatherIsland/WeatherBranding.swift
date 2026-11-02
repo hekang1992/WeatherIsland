@@ -17,7 +17,7 @@ struct WeatherBrandMark: View {
             g.fill(shore,with:.color(WeatherPalette.ink.opacity(0.75)))
             for i in 0..<3 {let y=110+Double(i)*8;var p=Path();p.move(to:CGPoint(x:81+Double(i)*5,y:y));p.addQuadCurve(to:CGPoint(x:132,y:y),control:CGPoint(x:109,y:y-1));g.stroke(p,with:.color(WeatherPalette.ink.opacity(0.23)),lineWidth:0.7)}
             g.fill(Path(ellipseIn:CGRect(x:102,y:47,width:14,height:14)),with:.color(WeatherPalette.accent.opacity(0.8)))
-        }.aspectRatio(1,contentMode:.fit).accessibilityHidden(true)
+        }.environment(\.colorScheme, .light).aspectRatio(1,contentMode:.fit).accessibilityHidden(true)
     }
 }
 
@@ -82,7 +82,6 @@ struct WeatherSplashView: View {
             }
         }
         .ignoresSafeArea()
-        .preferredColorScheme(.light)
         .task { appeared = true }
     }
 }
@@ -111,7 +110,6 @@ struct WeatherRootView: View {
             }
         }
         .background(WeatherPalette.paper)
-        .preferredColorScheme(.light)
         .task {
             do { try await Task.sleep(for: .milliseconds(reduceMotion ? 500 : 1500)) }
             catch { return }

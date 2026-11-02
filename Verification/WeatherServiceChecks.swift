@@ -7,6 +7,7 @@ import Foundation
         try await checkWeatherConnection(fixture: fixture)
         try checkWeatherLocationEntry()
         await checkWeatherLocationNaming()
+        try checkWeatherSettings()
         let data = try WeatherService.decode(fixture)
         precondition(data.hourly.count == 6 && data.daily.count == 7)
         precondition(data.hours.first?.time == "现在")

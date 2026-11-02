@@ -53,34 +53,45 @@ struct WeatherMapView: View {
     }
 
     var body: some View {
-        ZStack {
-            WeatherMapCanvas(place: place, selected: selected, pinText: valueText, layer: layer, recenter: recenter,
-                satellite: satellite, raster: raster, rasterID: rasterID, area: area,
-                onRegion: { viewport = $0 }, onSelect: { selected = $0; playing = false })
-                .ignoresSafeArea(edges: .top)
-                .accessibilityLabel("天气地图，可拖动缩放，轻点地图查看该位置预报")
-            VStack(spacing: 12) {
-                header
-                selectionCard
-                HStack(alignment: .top) {
+        GeometryReader { geometry in
+            // Use the current safe area, which changes when Duo switches displays.
+            let landscape = geometry.size.width > geometry.size.height && geometry.size.width >= 600
+            let short = geometry.size.height < 700
+            let compactLandscape = landscape && geometry.size.height < 420
+            ZStack(alignment: .topLeading) {
+                WeatherMapCanvas(place: place, selected: selected, pinText: valueText, layer: layer, recenter: recenter,
+                    satellite: satellite, raster: raster, rasterID: rasterID, area: area,
+                    onRegion: { viewport = $0 }, onSelect: { selected = $0; playing = false })
+                    .ignoresSafeArea(edges: .top)
+                    .accessibilityLabel("天气地图，可拖动缩放，轻点地图查看该位置预报")
+                VStack(spacing: compactLandscape ? 8 : 12) {
+                    header
+                    selectionCard(compact: compactLandscape)
                     if movedOutsideCenter {
-                        Button(action: loadViewport) { Label("查看此区域", systemImage: "arrow.clockwise").font(.system(size: 12, weight: .medium)).padding(.horizontal, 14).padding(.vertical, 11).mapGlass(radius: 22) }
-                            .disabled(store.loading)
+                        Button(action: loadViewport) {
+                            Label("查看此区域", systemImage: "arrow.clockwise")
+                                .font(.system(size: 12, weight: .medium))
+                                .padding(.horizontal, 14).padding(.vertical, 11).mapGlass(radius: 22)
+                        }.disabled(store.loading)
                     }
-                    Spacer(minLength: 12)
-                    VStack(spacing: 12) {
-                        layerRail
-                        VStack(spacing: 0) {
-                            mapButton("切换底图", symbol: satellite ? "map.fill" : "square.3.layers.3d") { satellite.toggle() }
-                            Divider().padding(.horizontal, 12)
-                            mapButton("回到所选城市", symbol: "location.north.line") { choose(place) }
-                        }.mapGlass(radius: 25)
-                    }.frame(width: 54)
+                    if !landscape { mapControls(horizontal: short, compact: false) }
+                    Spacer(minLength: 8)
                 }
-                Spacer(minLength: 8)
-            }.padding(.horizontal, 18).padding(.top, 8)
+                .frame(maxWidth: landscape ? 360 : 600)
+                .frame(maxWidth: .infinity, alignment: landscape ? .leading : .center)
+                .padding(.horizontal, 18).padding(.top, 8)
+                if landscape {
+                    mapControls(horizontal: false, compact: compactLandscape)
+                        .padding(.horizontal, 18).padding(.top, 8)
+                }
+            }
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                bottomPanel(compact: compactLandscape)
+                    .frame(maxWidth: landscape ? 420 : 600)
+                    .frame(maxWidth: .infinity, alignment: landscape ? .leading : .center)
+                    .padding(.horizontal, 14).padding(.bottom, 12)
+            }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) { bottomPanel.padding(.horizontal, 14).padding(.bottom, 12) }
         .foregroundStyle(WeatherPalette.ink)
         .background(WeatherPalette.paper)
         .toolbar(.hidden, for: .navigationBar)
@@ -131,7 +142,7 @@ struct WeatherMapView: View {
             Button { information = true } label: { Image(systemName: "info").font(.system(size: 16, weight: .medium)).frame(width: 43, height: 43).mapGlass(radius: 24) }.accessibilityLabel("天气地图数据说明")
         }.padding(.bottom, 3)
     }
-    private var selectionCard: some View {
+    private func selectionCard(compact: Bool) -> some View {
         HStack(spacing: 12) {
             Image(systemName: layer.symbol).font(.system(size: 20)).foregroundStyle(WeatherPalette.ink).frame(width: 43, height: 48).background(WeatherPalette.lime.opacity(0.55), in: RoundedRectangle(cornerRadius: 15))
             VStack(alignment: .leading, spacing: 6) {
@@ -148,7 +159,7 @@ struct WeatherMapView: View {
                     Text(layer.unit).font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
                 }
             }
-        }.padding(13).mapGlass(radius: 22)
+        }.padding(compact ? 9 : 13).mapGlass(radius: 22)
         .accessibilityElement(children: .contain)
     }
     private var selectionDetail: String {
@@ -160,14 +171,39 @@ struct WeatherMapView: View {
         if layer == .wind { return "距地面 10 米风速 · \(selectedTime)" }
         return "天空云覆盖比例 · \(layer.formatted(value))%"
     }
-    private var layerRail: some View {
-        VStack(spacing: 3) {
+    private func mapControls(horizontal: Bool, compact: Bool) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Spacer(minLength: 0)
+            if horizontal {
+                layerRail(horizontal: true, compact: compact)
+                mapActions
+            } else {
+                VStack(spacing: 12) {
+                    layerRail(horizontal: false, compact: compact)
+                    mapActions
+                }.frame(width: 54)
+            }
+        }
+    }
+    private var mapActions: some View {
+        VStack(spacing: 0) {
+            mapButton("切换底图", symbol: satellite ? "map.fill" : "square.3.layers.3d") { satellite.toggle() }
+            Divider().padding(.horizontal, 12)
+            mapButton("回到所选城市", symbol: "location.north.line") { choose(place) }
+        }.frame(width: 54).mapGlass(radius: 25)
+    }
+    private func layerRail(horizontal: Bool, compact: Bool) -> some View {
+        let layout = horizontal ? AnyLayout(HStackLayout(spacing: 3)) : AnyLayout(VStackLayout(spacing: 3))
+        return layout {
             ForEach(WeatherMapLayer.allCases) { item in
                 Button { layer = item } label: {
-                    VStack(spacing: 5) { Image(systemName: item.symbol).font(.system(size: 18)); Text(item.title).font(.system(size: 10, weight: .medium)) }
-                        .frame(width: 46, height: 57)
-                        .foregroundStyle(layer == item ? WeatherPalette.surface : WeatherPalette.secondary)
-                        .background(layer == item ? WeatherPalette.ink : .clear, in: RoundedRectangle(cornerRadius: 20))
+                    VStack(spacing: 5) {
+                        Image(systemName: item.symbol).font(.system(size: 18))
+                        Text(item.title).font(.system(size: 10, weight: .medium))
+                    }
+                    .frame(width: horizontal ? 44 : 46, height: horizontal ? 52 : compact ? 44 : 57)
+                    .foregroundStyle(layer == item ? WeatherPalette.surface : WeatherPalette.secondary)
+                    .background(layer == item ? WeatherPalette.ink : .clear, in: RoundedRectangle(cornerRadius: 20))
                 }.accessibilityLabel("\(item.title)图层").accessibilityAddTraits(layer == item ? [.isSelected] : [])
             }
         }.padding(4).mapGlass(radius: 27)
@@ -175,8 +211,8 @@ struct WeatherMapView: View {
     private func mapButton(_ title: String, symbol: String, action: @escaping () -> Void) -> some View {
         Button(action: action) { Image(systemName: symbol).font(.system(size: 18)).frame(width: 54, height: 48) }.accessibilityLabel(title)
     }
-    private var bottomPanel: some View {
-        VStack(spacing: 14) {
+    private func bottomPanel(compact: Bool) -> some View {
+        VStack(spacing: compact ? 6 : 14) {
             VStack(spacing: 7) {
                 HStack {
                     Label(layer.title + " · " + layer.unit, systemImage: layer.symbol).font(.system(size: 11, weight: .medium))
@@ -191,18 +227,16 @@ struct WeatherMapView: View {
                     }
                 }
             }
-            HStack(alignment: .center) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(selectedTime).font(.system(size: 14, weight: .semibold)).monospacedDigit()
-                    Text(index == 0 ? "当前小时预报" : "未来 \(index) 小时").font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
+            ViewThatFits(in: .horizontal) {
+                HStack {
+                    forecastTime.fixedSize()
+                    Spacer(minLength: 8)
+                    durationPicker
                 }
-                Spacer(minLength: 4)
-                HStack(spacing: 2) {
-                    ForEach([12, 24, 66], id: \.self) { value in
-                        Button { duration = value } label: { Text("\(value)h").font(.system(size: 11, weight: .semibold)).frame(width: 38, height: 31).background(duration == value ? WeatherPalette.ink : .clear, in: Capsule()).foregroundStyle(duration == value ? WeatherPalette.surface : WeatherPalette.secondary) }
-                            .accessibilityLabel("未来\(value)小时").accessibilityAddTraits(duration == value ? [.isSelected] : [])
-                    }
-                }.padding(3).background(WeatherPalette.paper, in: Capsule())
+                VStack(alignment: .leading, spacing: 8) {
+                    forecastTime
+                    durationPicker
+                }.frame(maxWidth: .infinity, alignment: .leading)
             }
             HStack(spacing: 13) {
                 Button { playing.toggle() } label: {
@@ -218,7 +252,25 @@ struct WeatherMapView: View {
             Button { information = true } label: {
                 HStack(spacing: 5) { Circle().fill(forecast?.isDemo == true ? WeatherPalette.accent : WeatherPalette.ink.opacity(0.5)).frame(width: 4, height: 4); Text(sourceText).font(.system(size: 9)); Spacer(minLength: 0); Image(systemName: "chevron.right").font(.system(size: 8)) }.foregroundStyle(WeatherPalette.secondary)
             }.accessibilityLabel("数据来源及更新说明，\(sourceText)")
-        }.padding(17).mapGlass(radius: 27)
+        }.padding(compact ? 12 : 17).mapGlass(radius: 27)
+    }
+    private var forecastTime: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(selectedTime).font(.system(size: 14, weight: .semibold)).monospacedDigit()
+            Text(index == 0 ? "当前小时预报" : "未来 \(index) 小时").font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
+        }
+    }
+    private var durationPicker: some View {
+        HStack(spacing: 2) {
+            ForEach([12, 24, 66], id: \.self) { value in
+                Button { duration = value } label: {
+                    Text("\(value)h").font(.system(size: 11, weight: .semibold))
+                        .frame(width: 38, height: 31)
+                        .background(duration == value ? WeatherPalette.ink : .clear, in: Capsule())
+                        .foregroundStyle(duration == value ? WeatherPalette.surface : WeatherPalette.secondary)
+                }.accessibilityLabel("未来\(value)小时").accessibilityAddTraits(duration == value ? [.isSelected] : [])
+            }
+        }.padding(3).background(WeatherPalette.paper, in: Capsule())
     }
     private var sourceText: String {
         guard let forecast else { return store.loading ? "Open-Meteo · 正在加载区域预报" : "Open-Meteo · 图层尚未就绪" }

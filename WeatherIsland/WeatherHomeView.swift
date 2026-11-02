@@ -1,4 +1,9 @@
 import SwiftUI
+#if os(iOS)
+import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 /// A miniature Shanghai whose sky changes when an hour or forecast ticket is selected.
 struct WeatherHomeView: View {
@@ -87,7 +92,6 @@ struct WeatherHomeView: View {
                 }
             }
         }
-        .preferredColorScheme(.light)
         .task { await refresh() }
         .task(id: entryReady) {
             if entryReady { await enter() }
@@ -703,14 +707,34 @@ struct CloudOutline: Shape {
 
 
 enum WeatherPalette {
-    static let ink = Color(hex: 0x35483D)
-    static let secondary = Color(hex: 0x657163)
-    static let accent = Color(hex: 0xA15342)
-    static let lime = Color(hex: 0xD6DDC8)
-    static let line = Color(hex: 0xD9D4C5)
-    static let paper = Color(hex: 0xF3EFE4)
-    static let surface = Color(hex: 0xFAF7EF)
+    static let ink = adaptive(0x35483D, dark: 0xE3E8DD)
+    static let secondary = adaptive(0x657163, dark: 0xAAB7A8)
+    static let accent = adaptive(0xA15342, dark: 0xE3A18D)
+    static let lime = adaptive(0xD6DDC8, dark: 0x3D5041)
+    static let line = adaptive(0xD9D4C5, dark: 0x425147)
+    static let paper = adaptive(0xF3EFE4, dark: 0x18231E)
+    static let surface = adaptive(0xFAF7EF, dark: 0x233129)
     static var background: Color { paper }
+
+    private static func adaptive(_ light: UInt32, dark: UInt32) -> Color {
+        #if os(iOS)
+        Color(uiColor: UIColor { traits in
+            let hex = traits.userInterfaceStyle == .dark ? dark : light
+            return UIColor(red: CGFloat((hex >> 16) & 255) / 255,
+                           green: CGFloat((hex >> 8) & 255) / 255,
+                           blue: CGFloat(hex & 255) / 255, alpha: 1)
+        })
+        #elseif os(macOS)
+        Color(nsColor: NSColor(name: nil) { appearance in
+            let hex = appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? dark : light
+            return NSColor(srgbRed: CGFloat((hex >> 16) & 255) / 255,
+                           green: CGFloat((hex >> 8) & 255) / 255,
+                           blue: CGFloat(hex & 255) / 255, alpha: 1)
+        })
+        #else
+        Color(hex: light)
+        #endif
+    }
 }
 
 extension Color {

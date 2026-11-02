@@ -83,9 +83,13 @@ Debug 启动参数 `--startup-connection-check` 使用独立缓存，先模拟�
 
 温度数字使用 `numericText` 和 `easeOut`，无弹跳。插画和天气粒子使用 `TimelineView + Canvas`；后台、隐藏 Tab、详情覆盖与「减弱动态效果」时暂停。宋韵画境中的雨雪、风与雷光调低强度，让特效融入山水；系统「减弱动态效果」时停用动态。
 
+晴天、多云与阴天使用独立的天空绘制：晴天为完整暖阳、日晕和水面金光；多云为局部遮日的青白浮云；阴天为连续灰青层云与偏冷暗的天光。山水画和小岛插画均适用，暂停动画及城市卡片缩略图也保留这些特征。可运行 `bash Branding/export-global-previews.sh --weather-only` 导出三种天气的画境与小岛对照。
+
 11 种天气包括晴、多云、阴、小雨、中雨、大雨、雷暴、冰雹、雪、雾和大风。天气剧场独立演示特效和示例生活建议，不修改首页真实天气。雷暴使用缓慢局部闪电，不做全屏频闪。
 
-`RegionalWeatherHome`、`SceneGalleryView`、`WeatherSettingsView` 等默认 Preview 使用 `WeatherApplication(live: false)`，不联网、不读取真实缓存。设置中的全局主题、关于、服务协议和隐私政策为「即将开放」，未放置虚构协议。
+`RegionalWeatherHome`、`SceneGalleryView`、`WeatherSettingsView` 等默认 Preview 使用 `WeatherApplication(live: false)`，不联网、不读取真实缓存。设置提供跟随系统／浅色／深色外观，选择立即生效并在本机保留；关于页读取实际版本与构建号，包含天气、空气质量和地图服务说明。服务协议与隐私政策为本地可读页面，隐私页提供系统权限管理入口。
+
+插画按原始画纸比例绘制：宋韵画境为 360 × 248，小岛绘图为 360 × 230。不同大小的容器统一等比居中，首页、设置缩略图与城市卡片按横幅比例布局，避免窄卡片把画面拉长。深色外观下保留画作原有绢色。
 
 ## 构建与检查
 
@@ -113,3 +117,5 @@ bash Branding/export-global-previews.sh
 
 首页、画境画廊、图标及品牌启动画面统一采用绢纸、黛绿与印泥朱。标题使用系统宋体 `STSongti-SC-Regular`，温度采用衬线数字，数字与度数符号独立排版，并与右侧说明按基线对齐；空间不足或辅助功能大字号时改为上下排列。首次显示直接使用真实读数，刷新时再过渡数值，避免从 0 起跳造成布局变化。数据与正文继续使用系统字体。50 个既有场景 ID 保持兼容，本地收藏、天气接口与地区隔离逻辑保留。画境中的诗意短句为应用文案，不是天气实测数据。
 # WeatherIsland
+
+2026-11-02 设置与配图补充：完成主题、关于、服务协议和隐私政策；修复共享配图的宽高拉伸。iPhone 17 Pro 的 3 项设置／配图交互检查、1 项系统深色专项，以及 iPhone SE 最大辅助字号补测均通过。设置和修复后配图截图见 `Previews/Weather-Settings-*.png`、`Weather-Artwork-*.png`，详细条件见 `Verification/RESULTS.md`。

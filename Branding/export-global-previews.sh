@@ -8,4 +8,4 @@ for name in WeatherConnection WeatherBranding WeatherModels WeatherService Weath
   sources+=("$project_dir/WeatherIsland/$name.swift")
 done
 swiftc -parse-as-library -module-cache-path "$project_dir/work/branding/ModuleCache" -Xfrontend -disable-sandbox "${sources[@]}" "$project_dir/Branding/ExportGlobalPreviews.swift" -o "$export_binary"
-"$export_binary" "$project_dir"
+"$export_binary" "$project_dir" "$@"
