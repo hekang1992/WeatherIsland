@@ -21,6 +21,7 @@ struct WeatherMapView: View {
     @State private var appliedReload = 0
     @State private var raster: CGImage?
     @State private var rasterID = UUID()
+    @State private var timelineHeight: CGFloat = 150
     @Environment(\.scenePhase) private var phase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -54,42 +55,45 @@ struct WeatherMapView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            // Use the current safe area, which changes when Duo switches displays.
             let landscape = geometry.size.width > geometry.size.height && geometry.size.width >= 600
-            let short = geometry.size.height < 700
-            let compactLandscape = landscape && geometry.size.height < 420
-            ZStack(alignment: .topLeading) {
-                WeatherMapCanvas(place: place, selected: selected, pinText: valueText, layer: layer, recenter: recenter,
-                    satellite: satellite, raster: raster, rasterID: rasterID, area: area,
-                    onRegion: { viewport = $0 }, onSelect: { selected = $0; playing = false })
-                    .ignoresSafeArea(edges: .top)
-                    .accessibilityLabel("天气地图，可拖动缩放，轻点地图查看该位置预报")
-                VStack(spacing: compactLandscape ? 8 : 12) {
-                    header
-                    selectionCard(compact: compactLandscape)
-                    if movedOutsideCenter {
-                        Button(action: loadViewport) {
-                            Label("查看此区域", systemImage: "arrow.clockwise")
-                                .font(.system(size: 12, weight: .medium))
-                                .padding(.horizontal, 14).padding(.vertical, 11).mapGlass(radius: 22)
-                        }.disabled(store.loading)
+            if landscape {
+                HStack(alignment: .top, spacing: 10) {
+                    ScrollView {
+                        VStack(spacing: 8) {
+                            header
+                            selectionCard(compact: true)
+                            bottomPanel
+                        }.padding(.vertical, 8).padding(.horizontal, 2)
                     }
-                    if !landscape { mapControls(horizontal: short, compact: false) }
-                    Spacer(minLength: 8)
-                }
-                .frame(maxWidth: landscape ? 360 : 600)
-                .frame(maxWidth: .infinity, alignment: landscape ? .leading : .center)
-                .padding(.horizontal, 18).padding(.top, 8)
-                if landscape {
-                    mapControls(horizontal: false, compact: compactLandscape)
-                        .padding(.horizontal, 18).padding(.top, 8)
-                }
-            }
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-                bottomPanel(compact: compactLandscape)
-                    .frame(maxWidth: landscape ? 420 : 600)
-                    .frame(maxWidth: .infinity, alignment: landscape ? .leading : .center)
-                    .padding(.horizontal, 14).padding(.bottom, 12)
+                    .frame(width: min(300, geometry.size.width * 0.36))
+                    mapCanvas()
+                        .overlay(alignment: .topTrailing) {
+                            rightControls(compact: true).padding(8)
+                        }
+                }.padding(.horizontal, 12).padding(.bottom, 8)
+            } else {
+                mapCanvas(bottomInset: timelineHeight + geometry.safeAreaInsets.bottom + 28)
+                    .ignoresSafeArea(.container, edges: .bottom)
+                    .overlay(alignment: .topLeading) {
+                        selectionCard(compact: true)
+                            .padding(.leading, 14).padding(.trailing, 84).padding(.top, 8)
+                    }
+                    .overlay(alignment: .topTrailing) {
+                        rightControls(compact: geometry.size.height < 650)
+                            .padding(.trailing, 12).padding(.vertical, geometry.size.height < 650 ? 4 : 8)
+                    }
+                    .safeAreaInset(edge: .top, spacing: 4) {
+                        header.padding(.horizontal, 14).padding(.top, 6)
+                    }
+                    .safeAreaInset(edge: .bottom, spacing: 6) {
+                        bottomPanel
+                            .background(GeometryReader { proxy in
+                                Color.clear.preference(key: MapTimelineHeightKey.self, value: proxy.size.height)
+                            })
+                            .onPreferenceChange(MapTimelineHeightKey.self) { timelineHeight = $0 }
+                            .frame(maxWidth: 600)
+                            .padding(.horizontal, 14).padding(.bottom, 12)
+                    }
             }
         }
         .foregroundStyle(WeatherPalette.ink)
@@ -128,6 +132,52 @@ struct WeatherMapView: View {
         .onChange(of: area) { _, _ in raster = nil; rasterID = UUID() }
     }
 
+    // Keep the timeline above the system tab bar; float tools over the map's right edge.
+    private func mapCanvas(bottomInset: CGFloat = 16) -> some View {
+        WeatherMapCanvas(place: place, selected: selected, pinText: valueText, layer: layer, recenter: recenter,
+            satellite: satellite, raster: raster, rasterID: rasterID, area: area, bottomInset: bottomInset,
+            onRegion: { viewport = $0 }, onSelect: { selected = $0; playing = false })
+            .accessibilityLabel("天气地图，可拖动缩放，轻点地图查看该位置预报")
+    }
+
+    private func rightControls(compact: Bool) -> some View {
+        ScrollView(.vertical) {
+            VStack(spacing: compact ? 6 : 10) {
+                VStack(spacing: compact ? 0 : 3) {
+                    Button(action: loadViewport) {
+                        VStack(spacing: 3) {
+                            Image(systemName: "arrow.clockwise").font(.system(size: 16))
+                            Text("查看\n此区域").font(.system(size: compact ? 9 : 10, weight: .medium))
+                                .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+                        }.frame(width: 46, height: compact ? 44 : 56)
+                            .foregroundStyle(movedOutsideCenter ? WeatherPalette.ink : WeatherPalette.secondary)
+                    }.accessibilityLabel("查看此区域").disabled(store.loading || viewport == nil)
+                    Divider().padding(.horizontal, 8)
+                    ForEach(WeatherMapLayer.allCases) { item in
+                        Button { layer = item } label: {
+                            VStack(spacing: 3) {
+                                Image(systemName: item.symbol).font(.system(size: 17))
+                                Text(item.title).font(.system(size: 10, weight: .medium))
+                            }
+                            .frame(width: 46, height: compact ? 44 : 46)
+                            .foregroundStyle(layer == item ? WeatherPalette.surface : WeatherPalette.secondary)
+                            .background(layer == item ? Color(hex: item.accent) : .clear, in: RoundedRectangle(cornerRadius: 17))
+                        }.accessibilityLabel("\(item.title)图层")
+                            .accessibilityAddTraits(layer == item ? [.isSelected] : [])
+                    }
+                }.padding(compact ? 3 : 4).mapGlass(radius: 25)
+                VStack(spacing: 0) {
+                    mapButton("切换底图", symbol: satellite ? "map.fill" : "square.3.layers.3d") { satellite.toggle() }
+                    Divider().padding(.horizontal, 12)
+                    mapButton("回到所选城市", symbol: "location.north.line") { choose(place) }
+                }.mapGlass(radius: 25)
+            }.padding(.vertical, 2)
+        }
+        .scrollIndicators(.hidden)
+        .frame(width: 54)
+        .accessibilityIdentifier("地图右侧工具栏")
+    }
+
     private var header: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 3) {
@@ -144,10 +194,10 @@ struct WeatherMapView: View {
     }
     private func selectionCard(compact: Bool) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: layer.symbol).font(.system(size: 20)).foregroundStyle(WeatherPalette.ink).frame(width: 43, height: 48).background(WeatherPalette.lime.opacity(0.55), in: RoundedRectangle(cornerRadius: 15))
+            Image(systemName: layer.symbol).font(.system(size: 20)).foregroundStyle(Color(hex: layer.accent)).frame(width: 36, height: 40).background(Color(hex: layer.accent).opacity(0.12), in: RoundedRectangle(cornerRadius: 15))
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 6) { Text(selectedTitle).font(.system(size: 15, weight: .semibold)).lineLimit(1); Image(systemName: "mappin.circle.fill").font(.system(size: 11)).foregroundStyle(WeatherPalette.secondary) }
-                Text(selectionDetail).font(.system(size: 11)).foregroundStyle(WeatherPalette.secondary).lineLimit(2)
+                Text(selectionDetail).font(.system(size: 11)).foregroundStyle(WeatherPalette.secondary).lineLimit(2).minimumScaleFactor(0.85)
             }
             Spacer(minLength: 4)
             if store.loading { ProgressView().tint(WeatherPalette.ink).frame(width: 48) }
@@ -155,7 +205,7 @@ struct WeatherMapView: View {
                 Button { reload += 1 } label: { Image(systemName: "arrow.clockwise").frame(width: 42, height: 42) }.accessibilityLabel("重试天气图层")
             } else {
                 VStack(alignment: .trailing, spacing: 1) {
-                    Text(valueText).font(.system(size: 25, weight: .medium, design: .rounded)).monospacedDigit()
+                    Text(valueText).font(.system(size: 25, weight: .medium, design: .rounded)).monospacedDigit().foregroundStyle(Color(hex: layer.accent))
                     Text(layer.unit).font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
                 }
             }
@@ -166,60 +216,23 @@ struct WeatherMapView: View {
         if store.loading { return "正在绘制这一片天空…" }
         if let error = store.error { return error }
         guard let value = sampledValue else { return "此处暂无数据 · 移动地图后加载此区域" }
-        if layer == .precipitation { return value < 0.1 ? "该小时预计无明显降水" : "该小时降水预报 · \(layer.formatted(value)) mm/h" }
-        if layer == .temperature { return "近地面气温 · \(selectedTime)" }
-        if layer == .wind { return "距地面 10 米风速 · \(selectedTime)" }
-        return "天空云覆盖比例 · \(layer.formatted(value))%"
-    }
-    private func mapControls(horizontal: Bool, compact: Bool) -> some View {
-        HStack(alignment: .top, spacing: 10) {
-            Spacer(minLength: 0)
-            if horizontal {
-                layerRail(horizontal: true, compact: compact)
-                mapActions
-            } else {
-                VStack(spacing: 12) {
-                    layerRail(horizontal: false, compact: compact)
-                    mapActions
-                }.frame(width: 54)
-            }
-        }
-    }
-    private var mapActions: some View {
-        VStack(spacing: 0) {
-            mapButton("切换底图", symbol: satellite ? "map.fill" : "square.3.layers.3d") { satellite.toggle() }
-            Divider().padding(.horizontal, 12)
-            mapButton("回到所选城市", symbol: "location.north.line") { choose(place) }
-        }.frame(width: 54).mapGlass(radius: 25)
-    }
-    private func layerRail(horizontal: Bool, compact: Bool) -> some View {
-        let layout = horizontal ? AnyLayout(HStackLayout(spacing: 3)) : AnyLayout(VStackLayout(spacing: 3))
-        return layout {
-            ForEach(WeatherMapLayer.allCases) { item in
-                Button { layer = item } label: {
-                    VStack(spacing: 5) {
-                        Image(systemName: item.symbol).font(.system(size: 18))
-                        Text(item.title).font(.system(size: 10, weight: .medium))
-                    }
-                    .frame(width: horizontal ? 44 : 46, height: horizontal ? 52 : compact ? 44 : 57)
-                    .foregroundStyle(layer == item ? WeatherPalette.surface : WeatherPalette.secondary)
-                    .background(layer == item ? WeatherPalette.ink : .clear, in: RoundedRectangle(cornerRadius: 20))
-                }.accessibilityLabel("\(item.title)图层").accessibilityAddTraits(layer == item ? [.isSelected] : [])
-            }
-        }.padding(4).mapGlass(radius: 27)
+        if layer == .precipitation { return value < 0.1 ? "该小时预计无明显降水" : "该小时累计降水预报" }
+        if layer == .temperature { return "近地面气温 · 等温线间隔 5°C" }
+        if layer == .wind { return "10 米风速 · 等值线间隔 10 km/h" }
+        return "云覆盖比例 · 越浓表示云越多"
     }
     private func mapButton(_ title: String, symbol: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) { Image(systemName: symbol).font(.system(size: 18)).frame(width: 54, height: 48) }.accessibilityLabel(title)
+        Button(action: action) { Image(systemName: symbol).font(.system(size: 18)).frame(width: 54, height: 44) }.accessibilityLabel(title)
     }
-    private func bottomPanel(compact: Bool) -> some View {
-        VStack(spacing: compact ? 6 : 14) {
-            VStack(spacing: 7) {
+    private var bottomPanel: some View {
+        VStack(spacing: 4) {
+            VStack(spacing: 3) {
                 HStack {
                     Label(layer.title + " · " + layer.unit, systemImage: layer.symbol).font(.system(size: 11, weight: .medium))
                     Spacer()
-                    Text(forecast?.isDemo == true ? "示例图层" : "小时预报").font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
+                    Text(forecast?.isDemo == true ? "示例 · " + layer.scaleDescription : layer.scaleDescription).font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
                 }
-                RoundedRectangle(cornerRadius: 3).fill(LinearGradient(colors: layer.palette.map { Color(hex: $0) }, startPoint: .leading, endPoint: .trailing)).frame(height: 6)
+                RoundedRectangle(cornerRadius: 3).fill(LinearGradient(colors: layer.palette.map { Color(hex: $0) }, startPoint: .leading, endPoint: .trailing)).frame(height: 4)
                 HStack {
                     ForEach(Array(layer.ticks.enumerated()), id: \.offset) { offset, tick in
                         if offset > 0 { Spacer(minLength: 0) }
@@ -238,13 +251,13 @@ struct WeatherMapView: View {
                     durationPicker
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }
-            HStack(spacing: 13) {
+            HStack(spacing: 9) {
                 Button { playing.toggle() } label: {
-                    Image(systemName: playing ? "pause.fill" : "play.fill").font(.system(size: 15)).frame(width: 43, height: 43).foregroundStyle(WeatherPalette.surface).background(WeatherPalette.ink, in: Circle())
+                    Image(systemName: playing ? "pause.fill" : "play.fill").font(.system(size: 15)).frame(width: 32, height: 32).foregroundStyle(WeatherPalette.surface).background(WeatherPalette.ink, in: Circle()).frame(width: 44, height: 44)
                 }.accessibilityLabel(playing ? "暂停预报播放" : "播放预报").disabled(forecast == nil || store.loading)
                 VStack(spacing: 0) {
                     Slider(value: $hour, in: 0...Double(max(1, limit)), step: 1, onEditingChanged: { if $0 { playing = false } })
-                        .tint(WeatherPalette.ink).disabled(forecast == nil || store.loading)
+                        .tint(WeatherPalette.ink).frame(height: 26).disabled(forecast == nil || store.loading)
                         .accessibilityLabel("预报时间").accessibilityValue(index == 0 ? "当前小时" : "未来\(index)小时")
                     HStack { Text("现在"); Spacer(); Text("+\(limit / 3)h"); Spacer(); Text("+\(limit * 2 / 3)h"); Spacer(); Text("+\(limit)h") }.font(.system(size: 9, design: .monospaced)).foregroundStyle(WeatherPalette.secondary)
                 }
@@ -252,20 +265,20 @@ struct WeatherMapView: View {
             Button { information = true } label: {
                 HStack(spacing: 5) { Circle().fill(forecast?.isDemo == true ? WeatherPalette.accent : WeatherPalette.ink.opacity(0.5)).frame(width: 4, height: 4); Text(sourceText).font(.system(size: 9)); Spacer(minLength: 0); Image(systemName: "chevron.right").font(.system(size: 8)) }.foregroundStyle(WeatherPalette.secondary)
             }.accessibilityLabel("数据来源及更新说明，\(sourceText)")
-        }.padding(compact ? 12 : 17).mapGlass(radius: 27)
+        }.padding(.horizontal, 12).padding(.vertical, 9).mapGlass(radius: 22, translucent: true)
+        .accessibilityIdentifier("地图时间轴")
     }
     private var forecastTime: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(selectedTime).font(.system(size: 14, weight: .semibold)).monospacedDigit()
-            Text(index == 0 ? "当前小时预报" : "未来 \(index) 小时").font(.system(size: 10)).foregroundStyle(WeatherPalette.secondary)
-        }
+        Text(selectedTime).font(.system(size: 12, weight: .semibold)).monospacedDigit()
+            .accessibilityLabel("\(selectedTime)，\(index == 0 ? "当前小时预报" : "未来 \(index) 小时")")
     }
+
     private var durationPicker: some View {
         HStack(spacing: 2) {
             ForEach([12, 24, 66], id: \.self) { value in
                 Button { duration = value } label: {
                     Text("\(value)h").font(.system(size: 11, weight: .semibold))
-                        .frame(width: 38, height: 31)
+                        .frame(width: 35, height: 27)
                         .background(duration == value ? WeatherPalette.ink : .clear, in: Capsule())
                         .foregroundStyle(duration == value ? WeatherPalette.surface : WeatherPalette.secondary)
                 }.accessibilityLabel("未来\(value)小时").accessibilityAddTraits(duration == value ? [.isSelected] : [])
@@ -311,11 +324,16 @@ struct WeatherMapView: View {
     }
 }
 
+private struct MapTimelineHeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 150
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
+}
+
 private extension View {
-    func mapGlass(radius: CGFloat) -> some View {
-        background(.regularMaterial, in: RoundedRectangle(cornerRadius: radius))
-            .background(WeatherPalette.surface.opacity(0.8), in: RoundedRectangle(cornerRadius: radius))
-            .overlay(RoundedRectangle(cornerRadius: radius).stroke(.white.opacity(0.85), lineWidth: 1))
+    func mapGlass(radius: CGFloat, translucent: Bool = false) -> some View {
+        background(translucent ? .ultraThinMaterial : .regularMaterial, in: RoundedRectangle(cornerRadius: radius))
+            .background(WeatherPalette.surface.opacity(translucent ? 0.12 : 0.8), in: RoundedRectangle(cornerRadius: radius))
+            .overlay(RoundedRectangle(cornerRadius: radius).stroke(.white.opacity(translucent ? 0.5 : 0.85), lineWidth: 1))
             .shadow(color: WeatherPalette.ink.opacity(0.08), radius: 14, x: 0, y: 5)
     }
 }

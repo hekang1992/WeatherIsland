@@ -4,6 +4,26 @@ iOS 17.6+ / SwiftUI / 浅色模式，首页按 iPhone 15 Pro 的 393 × 852 点�
 
 App 包含品牌图标、系统启动页与一次性入场动画。正式入口为 `WeatherRootView → WeatherTabsView`，四个 Tab 分别独立维护导航：**天气、地图、我的、设置**。`WeatherHomeView` 为早期离线设计及共享绘制组件，实际多地区首页是 `RegionalWeatherHome`。
 
+## 桌面小组件
+
+提供三种独立的 WidgetKit 小组件，各支持小、中、大尺寸，共九个布局。扩展为 `WeatherWidgets`，随主 App 构建并嵌入安装。
+
+| 功能 | 小号 | 中号 | 大号 |
+| --- | --- | --- | --- |
+| 山水天气 | 当前气温、天气、当日高低温 | 当前天气、未来小时气温 | 小时趋势、三日预报 |
+| 带伞提醒 | 带伞建议、六小时最高降水概率 | 六小时降水概率图 | 概率图、最高概率、六小时预计雨量 |
+| 日出日落 | 下次日出或日落倒计时、时刻 | 倒计时、太阳轨迹、时刻 | 太阳轨迹、倒计时、白昼时长 |
+
+- **App 内检查**：设置 → 桌面小组件，切换三种功能，向下查看三个尺寸。没有实况时明确标注示例数据；Debug 参数 `--widget-gallery` 可直接打开独立预览。
+- **系统添加**：长按主屏幕空白处，添加小组件并搜索「气象岛」，选择功能和尺寸。三个功能共用 App 当前所选城市，不请求后台定位。
+- **数据同步**：主 App 通过 App Group `group.com.weather.app.ios` 保存所选城市与天气快照，并通知三个小组件更新。扩展可独立访问 Open-Meteo，通常申请 30 分钟后更新，失败时 15 分钟后重试；实际刷新由 WidgetKit 调度。日照倒计时使用每分钟的本地时间线条目。
+- **离线与缺失**：离线保留缓存和更新时间；超过两小时或当日预报缺失时标为缓存。无数据时展示引导，缺失降水显示「—」，极昼极夜或缺失日照时不伪造日出日落。
+- **口径**：降水是逐小时预报，使用后续完整预报小时，六小时雨量不混入当前 15 分钟观测值。50% 为带伞建议阈值；不是推送通知或分钟级停雨预测。时间按所选城市时区展示；轨迹是日照进度示意。
+- **点击跳转**：`weatherisland://widget/landscape`、`rain`、`daylight` 分别打开对应功能详情。
+- **共享实现**：`Shared/IslandWidgetData.swift` 与 `Shared/IslandWidgetViews.swift` 同时用于扩展和 App 预览。Xcode 中有九个 WidgetKit Preview。`Branding/ExportWidgetPreviews.swift` 可导出九张布局图和 `Previews/Widgets-Overview.png` 总览。
+- **签名**：主 App 和扩展均配置同一 App Group entitlement，扩展标识为 `com.weather.app.ios.widgets`，真机签名需包含对应能力。
+- **验证**：`bash Verification/run-checks.sh --live` 检查完整数据和真实接口；`bash Verification/run-widget-ui-checks.sh <已启动模拟器UDID>` 构建安装 App 并检查九个布局、设置入口和三种跳转。验证记录见 `Verification/RESULTS.md`。
+
 ## 本轮更新
 
 - 50 幅原创 Canvas 插画统一为 **宋韵画境**，每卷 5 幅：烟岚江渚、庭院清供、水墨行舟、青绿山水、荷风莲影、墨竹松风、远山秋霁、寒江晴雪、花鸟小景、田园清和。采用绢色底、淡墨与青绿、团扇小景、中文竖排题款和朱印，非历史古画复制。
@@ -88,6 +108,15 @@ Debug 启动参数 `--startup-connection-check` 使用独立缓存，先模拟�
 11 种天气包括晴、多云、阴、小雨、中雨、大雨、雷暴、冰雹、雪、雾和大风。天气剧场独立演示特效和示例生活建议，不修改首页真实天气。雷暴使用缓慢局部闪电，不做全屏频闪。
 
 `RegionalWeatherHome`、`SceneGalleryView`、`WeatherSettingsView` 等默认 Preview 使用 `WeatherApplication(live: false)`，不联网、不读取真实缓存。设置提供跟随系统／浅色／深色外观，选择立即生效并在本机保留；关于页读取实际版本与构建号，包含天气、空气质量和地图服务说明。服务协议与隐私政策为本地可读页面，隐私页提供系统权限管理入口。
+
+协议中的第三方条款、隐私说明及天气来源链接使用 App 内的 `WKWebView` 打开，支持返回、加载提示与失败重试；网页内的新窗口链接也在同一页面加载。仅「管理系统权限」进入 iOS 设置。
+
+公开协议托管于免费的 GitHub Pages：
+
+- 隐私政策：<https://hekang1992.github.io/WeatherIsland/privacy.html>
+- 服务协议：<https://hekang1992.github.io/WeatherIsland/terms.html>
+
+`LegalSite/` 保存静态网页，`python3 Scripts/build-legal-site.py` 从 App 协议正文生成网站，避免两份文本不一致。登录具有仓库管理权限的 GitHub 账号后，运行 `python3 Scripts/publish-legal-site.py` 发布到独立的 `gh-pages` 分支；GitHub Pages 使用该分支根目录。发布脚本仅上传协议网站文件，未修改的内容不会重复创建提交。
 
 插画按原始画纸比例绘制：宋韵画境为 360 × 248，小岛绘图为 360 × 230。不同大小的容器统一等比居中，首页、设置缩略图与城市卡片按横幅比例布局，避免窄卡片把画面拉长。深色外观下保留画作原有绢色。
 

@@ -4,22 +4,48 @@ import MapKit
 
 struct WeatherMapRaster {
     static func image(forecast: WeatherMapForecast, layer: WeatherMapLayer, hour: Int) -> CGImage? {
-        let side = 224
+        let side = 320
+        var values = [Double?](repeating: nil, count: side * side)
         var bytes = [UInt8](repeating: 0, count: side * side * 4)
+        func edgeOpacity(_ x: Double, _ y: Double) -> Double {
+            let edge = min(1, min(x, 1 - x, y, 1 - y) * (layer == .precipitation ? 28 : 10))
+            return layer == .precipitation ? edge : edge * edge * (3 - 2 * edge)
+        }
         for row in 0..<side {
             if Task.isCancelled { return nil }
             for column in 0..<side {
                 let x = Double(column) / Double(side - 1), y = Double(row) / Double(side - 1)
                 guard let value = forecast.value(layer: layer, hour: hour, x: x, y: y) else { continue }
+                values[row * side + column] = value
                 let (red, green, blue, alpha) = layer.rgba(value)
                 // Soften the sampled area's edge without suggesting coverage outside it.
-                let edge = min(1, min(x, 1 - x, y, 1 - y) * 28)
+                let edge = edgeOpacity(x, y)
                 let a = alpha * edge
                 let index = (row * side + column) * 4
                 bytes[index] = UInt8(red * a * 255)
                 bytes[index + 1] = UInt8(green * a * 255)
                 bytes[index + 2] = UInt8(blue * a * 255)
                 bytes[index + 3] = UInt8(a * 255)
+            }
+        }
+        // Trace only actual value crossings. Flat fields and missing cells stay unmarked.
+        if let interval = layer.contourInterval {
+            for row in 0..<(side - 1) {
+                if Task.isCancelled { return nil }
+                for column in 0..<(side - 1) {
+                    let cell = row * side + column
+                    guard let value = values[cell], let right = values[cell + 1], let below = values[cell + side] else { continue }
+                    let band = floor(value / interval)
+                    guard band != floor(right / interval) || band != floor(below / interval) else { continue }
+                    let x = Double(column) / Double(side - 1), y = Double(row) / Double(side - 1)
+                    let edge = edgeOpacity(x, y)
+                    let highlight = 0.48 * edge
+                    let pixel = cell * 4
+                    for channel in 0..<3 {
+                        bytes[pixel + channel] = UInt8(min(255, Double(bytes[pixel + channel]) * (1 - highlight) + 255 * highlight))
+                    }
+                    bytes[pixel + 3] = UInt8(min(255, Double(bytes[pixel + 3]) * (1 - highlight) + 255 * highlight))
+                }
             }
         }
         guard let provider = CGDataProvider(data: Data(bytes) as CFData) else { return nil }
@@ -68,13 +94,14 @@ struct WeatherMapCanvas: UIViewRepresentable {
     var raster: CGImage?
     var rasterID: UUID
     var area: WeatherMapArea
+    var bottomInset: CGFloat
     var onRegion: (MKCoordinateRegion) -> Void
     var onSelect: (CLLocationCoordinate2D) -> Void
 
     private var cityRegion: MKCoordinateRegion {
-        // Let MapKit expand longitude to the actual portrait aspect ratio.
+        // Frame the local forecast prominently, while MapKit accounts for the floating controls.
         MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude),
-                           span: MKCoordinateSpan(latitudeDelta: 7.6, longitudeDelta: 0.1))
+                           span: MKCoordinateSpan(latitudeDelta: 4.4, longitudeDelta: 0.1))
     }
     func makeCoordinator() -> Coordinator { Coordinator(self) }
     func makeUIView(context: Context) -> MKMapView {
@@ -87,7 +114,8 @@ struct WeatherMapCanvas: UIViewRepresentable {
         map.isPitchEnabled = false
         map.pointOfInterestFilter = .excludingAll
         map.register(ForecastPinView.self, forAnnotationViewWithReuseIdentifier: "forecast")
-        map.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 76)
+        // Leave room for the city readout, the raised annotation and the floating right toolbar.
+        map.layoutMargins = UIEdgeInsets(top: 144, left: 16, bottom: bottomInset, right: 84)
         map.initialRegion = cityRegion
         let tap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap(_:)))
         tap.delegate = context.coordinator
@@ -97,6 +125,8 @@ struct WeatherMapCanvas: UIViewRepresentable {
         return map
     }
     func updateUIView(_ map: MKMapView, context: Context) {
+        let margins = UIEdgeInsets(top: 144, left: 16, bottom: bottomInset, right: 84)
+        if map.layoutMargins != margins { map.layoutMargins = margins }
         let coordinator = context.coordinator
         coordinator.parent = self
         if coordinator.satellite != satellite {
@@ -109,7 +139,7 @@ struct WeatherMapCanvas: UIViewRepresentable {
             map.setRegion(cityRegion, animated: true)
         }
         if coordinator.pin.coordinate.latitude != selected.latitude || coordinator.pin.coordinate.longitude != selected.longitude { coordinator.pin.coordinate = selected }
-        if let view = map.view(for: coordinator.pin) as? ForecastPinView { view.configure(text: pinText, symbol: layer.symbol) }
+        if let view = map.view(for: coordinator.pin) as? ForecastPinView { view.configure(text: pinText, layer: layer) }
         if coordinator.rasterID != rasterID {
             coordinator.rasterID = rasterID
             map.removeOverlays(map.overlays)
@@ -147,7 +177,7 @@ struct WeatherMapCanvas: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
             guard annotation === pin else { return nil }
             let view = mapView.dequeueReusableAnnotationView(withIdentifier: "forecast", for: annotation) as! ForecastPinView
-            view.configure(text: parent.pinText, symbol: parent.layer.symbol)
+            view.configure(text: parent.pinText, layer: parent.layer)
             return view
         }
     }
@@ -164,24 +194,55 @@ private final class ForecastMapView: MKMapView {
 }
 
 private final class ForecastPinView: MKAnnotationView {
-    private let valueLabel = UILabel()
     private let icon = UIImageView()
+    private let valueLabel = UILabel()
+    private let unitLabel = UILabel()
+    private let disc = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialLight))
+    private let tip = UIView()
+
     override init(annotation: (any MKAnnotation)?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        frame = CGRect(x: 0, y: 0, width: 66, height: 74)
-        centerOffset = CGPoint(x: 0, y: -35)
-        let tip = UIView(frame: CGRect(x: 26, y: 56, width: 14, height: 14))
-        tip.backgroundColor = UIColor(WeatherPalette.ink); tip.transform = CGAffineTransform(rotationAngle: .pi / 4); addSubview(tip)
-        let disc = UIView(frame: CGRect(x: 1, y: 0, width: 64, height: 64))
-        disc.backgroundColor = UIColor(WeatherPalette.ink); disc.layer.cornerRadius = 32
-        disc.layer.borderColor = UIColor.white.cgColor; disc.layer.borderWidth = 3
-        disc.layer.shadowColor = UIColor.black.cgColor; disc.layer.shadowOpacity = 0.16; disc.layer.shadowRadius = 8; disc.layer.shadowOffset = CGSize(width: 0, height: 3)
+        frame = CGRect(x: 0, y: 0, width: 106, height: 58)
+        centerOffset = CGPoint(x: 0, y: -28)
+        tip.frame = CGRect(x: 48, y: 43, width: 10, height: 10)
+        tip.transform = CGAffineTransform(rotationAngle: .pi / 4)
+        addSubview(tip)
+        disc.frame = CGRect(x: 0, y: 0, width: 106, height: 48)
+        disc.layer.cornerRadius = 16
+        disc.clipsToBounds = true
+        disc.layer.borderWidth = 1
+        disc.layer.borderColor = UIColor.white.withAlphaComponent(0.9).cgColor
         addSubview(disc)
-        icon.frame = CGRect(x: 23, y: 10, width: 20, height: 17); icon.contentMode = .scaleAspectFit; icon.tintColor = UIColor(WeatherPalette.lime); addSubview(icon)
-        valueLabel.frame = CGRect(x: 3, y: 28, width: 60, height: 25); valueLabel.font = .systemFont(ofSize: 18, weight: .semibold); valueLabel.adjustsFontSizeToFitWidth = true; valueLabel.minimumScaleFactor = 0.6; valueLabel.textAlignment = .center; valueLabel.textColor = .white; addSubview(valueLabel)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.13
+        layer.shadowRadius = 6
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        icon.frame = CGRect(x: 10, y: 14, width: 18, height: 20)
+        icon.contentMode = .scaleAspectFit
+        addSubview(icon)
+        valueLabel.frame = CGRect(x: 35, y: 4, width: 65, height: 26)
+        valueLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .semibold)
+        valueLabel.adjustsFontSizeToFitWidth = true
+        valueLabel.minimumScaleFactor = 0.65
+        addSubview(valueLabel)
+        unitLabel.frame = CGRect(x: 36, y: 29, width: 66, height: 13)
+        unitLabel.font = .systemFont(ofSize: 10, weight: .medium)
+        unitLabel.textColor = UIColor(WeatherPalette.secondary)
+        addSubview(unitLabel)
         isAccessibilityElement = true
+        displayPriority = .required
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    func configure(text: String, symbol: String) { valueLabel.text = text; icon.image = UIImage(systemName: symbol); accessibilityLabel = "所选位置，\(text)" }
+    func configure(text: String, layer: WeatherMapLayer) {
+        let accent = UIColor(Color(hex: layer.accent))
+        valueLabel.text = text.replacingOccurrences(of: "°", with: "")
+        valueLabel.textColor = accent
+        unitLabel.text = layer.unit
+        icon.image = UIImage(systemName: layer.symbol)
+        icon.tintColor = accent
+        disc.contentView.backgroundColor = accent.withAlphaComponent(0.07)
+        tip.backgroundColor = .white.withAlphaComponent(0.92)
+        accessibilityLabel = "所选位置，\(layer.title)，\(text) \(layer.unit)"
+    }
 }
 #endif

@@ -4,6 +4,7 @@ import Foundation
     @MainActor static func main() async throws {
         let path = CommandLine.arguments[1]
         let fixture = try Data(contentsOf: URL(fileURLWithPath: path))
+        try checkWeatherWidgets(fixture: fixture)
         try await checkWeatherConnection(fixture: fixture)
         try checkWeatherLocationEntry()
         await checkWeatherLocationNaming()
@@ -183,6 +184,9 @@ import Foundation
         print("GLOBAL PASS: 24 hours, four timezone fixtures, coordinate queries, concurrent regional caches, cancellation, Shanghai-only migration, collection persistence, 50 unique scenes, partial AQI and daylight")
         try await WeatherMapChecks.run()
         if CommandLine.arguments.contains("--live") {
+            let widget = try await IslandWidgetClient.fetch(.init(name: "上海", latitude: 31.23, longitude: 121.47, timeZone: "Asia/Shanghai"))
+            precondition(widget.days.count == 3 && widget.upcoming(at: .now).count >= 6)
+            print("WIDGET LIVE PASS: independent extension request, three days, six future forecast hours and city timezone")
             let response = try await WeatherService.fetch()
             let live = try WeatherService.decode(response)
             precondition(live.hourly.count == 6 && live.daily.count == 7)

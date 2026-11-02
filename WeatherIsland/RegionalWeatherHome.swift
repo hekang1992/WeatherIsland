@@ -284,9 +284,9 @@ struct RegionalWeatherHome: View {
     private var sources:some View{
         VStack(alignment:.leading,spacing:7){
             Rectangle().fill(WeatherPalette.line).frame(height:0.8).padding(.bottom,6)
-            if snapshot {Text("天气 · Open-Meteo ↗")} else {Link("天气 · Open-Meteo ↗",destination:URL(string:"https://open-meteo.com/")!)}
+            if snapshot {Text("天气 · Open-Meteo ↗")} else {WeatherWebLink("天气 · Open-Meteo",destination:URL(string:"https://open-meteo.com/")!)}
             if let data{Text("\(weather.cached ? "缓存":"更新")于 \(local(data.fetchedAt,"M/d HH:mm")) · 当地时间")}
-            if snapshot {Text("空气质量 · Open-Meteo / CAMS ↗")} else {Link("空气质量 · Open-Meteo / CAMS ↗",destination:URL(string:"https://open-meteo.com/en/docs/air-quality-api")!)}
+            if snapshot {Text("空气质量 · Open-Meteo / CAMS ↗")} else {WeatherWebLink("空气质量 · Open-Meteo / CAMS",destination:URL(string:"https://open-meteo.com/en/docs/air-quality-api")!)}
             if let quality{Text("空气\(air.cached ? "缓存":"更新")于 \(local(quality.fetchedAt,"M/d HH:mm")) · 预报时刻 \(local(quality.time,"HH:mm"))")}
             Text("视觉 · 气象岛原创宋韵画境")
             Text(preview ? "离线设计示例 · Preview 不联网":"坐标对应模型预报，非气象站实测或官方预警。")

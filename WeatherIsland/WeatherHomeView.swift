@@ -172,7 +172,7 @@ struct WeatherHomeView: View {
                 .padding(.top, 18)
             HStack {
                 if useLiveData && demoKind == nil {
-                    Link(sourceLabel, destination: URL(string: "https://open-meteo.com/")!)
+                    WeatherWebLink(sourceLabel, destination: URL(string: "https://open-meteo.com/")!)
                 } else { Text(sourceLabel) }
                 Spacer()
                 Text("11 种天空")

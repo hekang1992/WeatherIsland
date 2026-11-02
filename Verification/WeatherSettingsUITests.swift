@@ -93,6 +93,62 @@ import XCTest
         back(app)
         app.terminate()
     }
+    func testLocalAgreementFullTextRemainsReadable() throws {
+        let app = launch()
+        for (kind, title) in [("terms", "服务协议"), ("privacy", "隐私政策")] {
+            let entry = app.buttons["settings.\(kind)"]
+            reveal(entry, in: app); entry.tap()
+            XCTAssertTrue(app.navigationBars[title].waitForExistence(timeout: 5))
+            let end = app.staticTexts["settings.\(kind).end"]
+            reveal(end, in: app)
+            XCTAssertTrue(end.isHittable)
+            back(app)
+        }
+        app.terminate()
+    }
+
+    func testPolicyWebLinksStayInsideApp() throws {
+        let app = launch()
+        let privacy = app.buttons["settings.privacy"]
+        reveal(privacy, in: app); privacy.tap()
+        XCTAssertTrue(app.navigationBars["隐私政策"].waitForExistence(timeout: 5))
+        for (resource, title) in [
+            ("dataPrivacy", "Open-Meteo · 隐私说明"),
+            ("mapsPrivacy", "Apple 地图 · 隐私说明"),
+            ("hostingPrivacy", "GitHub · 网站托管隐私声明")
+        ] {
+            let link = app.buttons["settings.source.\(resource)"]
+            reveal(link, in: app); link.tap()
+            XCTAssertTrue(app.navigationBars[title].waitForExistence(timeout: 5))
+            XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 10))
+            XCTAssertEqual(app.state, .runningForeground)
+            XCTAssertNotEqual(XCUIApplication(bundleIdentifier: "com.apple.mobilesafari").state, .runningForeground)
+            back(app)
+            XCTAssertTrue(app.navigationBars["隐私政策"].waitForExistence(timeout: 5))
+        }
+        let online = app.buttons["settings.privacy.online"]
+        reveal(online, in: app); online.tap()
+        XCTAssertTrue(app.navigationBars["在线查看隐私政策"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.webViews.firstMatch.staticTexts["8. 在线协议网站"].waitForExistence(timeout: 30))
+        try capture(app, "Privacy-Online")
+        // Following another agreement inside the web page also keeps the App in front.
+        let termsLink = app.webViews.firstMatch.links["服务协议"]
+        XCTAssertTrue(termsLink.waitForExistence(timeout: 5)); termsLink.tap()
+        XCTAssertTrue(app.webViews.firstMatch.staticTexts["1. 服务范围"].waitForExistence(timeout: 20))
+        XCTAssertEqual(app.state, .runningForeground)
+        back(app); back(app)
+        let terms = app.buttons["settings.terms"]
+        reveal(terms, in: app); terms.tap()
+        let dataTerms = app.buttons["settings.source.dataTerms"]
+        reveal(dataTerms, in: app); dataTerms.tap()
+        XCTAssertTrue(app.navigationBars["Open-Meteo · 数据许可与条款"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(app.state, .runningForeground)
+        back(app)
+        XCTAssertTrue(app.navigationBars["服务协议"].waitForExistence(timeout: 5))
+        app.terminate()
+    }
+
     func testLargeTypeThemeAndPrivacyRemainReachable() throws {
         let app = launch(largeType: true)
         let theme = app.buttons["settings.theme"]

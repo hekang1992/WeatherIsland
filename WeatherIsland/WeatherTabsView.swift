@@ -1,6 +1,7 @@
 import SwiftUI
 #if os(iOS)
 import UIKit
+import WebKit
 
 struct WeatherTabsView: View {
     var entryReady = true
@@ -13,6 +14,7 @@ struct WeatherTabsView: View {
     @State private var locationEntry = WeatherLocationEntry()
     @State private var pendingLocationAlert = false
     @State private var returningFromLocationSettings = false
+    @State private var widgetDestination: IslandWidgetStyle?
     @Environment(\.scenePhase) private var phase
     private var selectedWeather: WeatherStore { app.weather(for: app.selected) }
     private var waitingForFirstWeather: Bool {
@@ -83,6 +85,26 @@ struct WeatherTabsView: View {
                     NavigationStack { WeatherSettingsView(app: app) }
                         .tabItem { Label("设置", systemImage: "slider.horizontal.3") }.tag(WeatherApplication.Tab.settings)
                 }
+            }
+        }
+        .onChange(of: app.selected, initial: true) { _, place in
+            if !app.offline, app.usesManualCity || selectedWeather.dataset != nil || place.isCurrentLocation {
+                WeatherWidgetBridge.select(place)
+            }
+        }
+        .onChange(of: selectedWeather.dataset?.fetchedAt, initial: true) { _, _ in
+            if !app.offline, let dataset = selectedWeather.dataset {
+                WeatherWidgetBridge.publish(dataset, place: app.selected)
+            }
+        }
+        .onOpenURL { url in
+            guard url.scheme == "weatherisland", url.host == "widget" else { return }
+            app.tab = .weather
+            widgetDestination = IslandWidgetStyle(rawValue: url.lastPathComponent)
+        }
+        .sheet(item: $widgetDestination) { style in
+            NavigationStack {
+                WeatherWidgetDestination(app: app, style: style)
             }
         }
         .preferredColorScheme(app.theme.colorScheme)
@@ -394,6 +416,10 @@ struct WeatherSettingsView: View {
                     }.padding(20).background(RoundedRectangle(cornerRadius: 10).fill(WeatherPalette.lime.opacity(0.22)))
                 }.buttonStyle(.plain).accessibilityIdentifier("settings.scenes")
                 VStack(spacing: 0) {
+                    NavigationLink { WeatherWidgetGallery(app: app) } label: {
+                        row("桌面小组件", subtitle: "三种功能 · 小、中、大九个布局", symbol: "square.grid.2x2")
+                    }.accessibilityIdentifier("settings.widgets")
+                    Divider().overlay(WeatherPalette.line)
                     NavigationLink { WeatherThemeView(app: app) } label: {
                         row("界面主题", subtitle: app.theme.title, symbol: "paintpalette")
                     }.accessibilityIdentifier("settings.theme")
@@ -549,6 +575,8 @@ struct WeatherAboutView: View {
 /// Local documents describe the implemented app; no network is required to read them.
 enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
     case terms, privacy
+    static let updatedDate = "2026 年 11 月 2 日"
+    var publicURL: URL { URL(string: "https://hekang1992.github.io/WeatherIsland/\(rawValue).html")! }
     var id: String { rawValue }
     var title: String { self == .terms ? "服务协议" : "隐私政策" }
     var introduction: String {
@@ -575,7 +603,8 @@ enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
             ("4. 设备上的数据", "应用在设备偏好与缓存中保存收藏城市、默认城市、最近选择的地区及坐标、画境、主题、手动选城偏好，以及天气和空气质量数据与获取时间。地图预报另有运行期间的内存缓存；系统网络层也可能保留响应缓存。设备备份是否包含本地数据由系统及你的备份设置决定。"),
             ("5. 当前版本的其他数据处理", "当前版本无需注册账号，未接入广告、支付或第三方行为分析 SDK，也不读取通讯录、照片、麦克风或健康数据。应用没有自建的账号同步或位置上传后台；使用天气和地图时向上述服务发出的必要请求仍会包含对应坐标或区域信息。"),
             ("6. 管理你的选择", "你可以在“我的”中管理收藏，手动选择城市以停止使用当前位置，在设置中更改画境与主题。修改系统定位权限不会自动删除已保存的地区或历史缓存；停止使用当前位置后，新的城市天气请求使用手动选择的城市坐标。卸载应用或管理设备与备份可影响本地数据，已交由第三方处理的信息以其政策为准。"),
-            ("7. 第三方政策与更新", "你可以通过下方入口查看 Open-Meteo 与 Apple 地图的隐私说明。外部页面由相应服务方维护，并需要网络访问。本说明随应用功能变化更新，更新日期显示在本页顶部；阅读本页本身无需联网。")
+            ("7. 第三方政策与更新", "你可以通过下方入口查看 Open-Meteo 与 Apple 地图的隐私说明。外部页面由相应服务方维护，并需要网络访问。本说明随应用功能变化更新，更新日期显示在本页顶部；阅读本页本身无需联网。"),
+            ("8. 在线协议网站", "服务协议与隐私政策的在线版本托管在 GitHub Pages。访问在线版本时，GitHub 会为安全目的记录和保存访问者的 IP 地址；网站未添加广告或行为分析脚本。App 内的协议全文保存在应用中，可离线阅读。你可以通过下方入口查看 GitHub 的隐私声明。")
         ]
         }
     }
@@ -588,7 +617,7 @@ struct WeatherSettingsDocumentView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 Text(document.title).font(WeatherTypography.display(30))
-                Text("更新日期：2026 年 11 月 2 日 · 适用于当前版本")
+                Text("更新日期：\(WeatherSettingsDocument.updatedDate) · 适用于当前版本")
                     .font(.footnote).foregroundStyle(WeatherPalette.secondary)
                 Text(document.introduction).font(.body).lineSpacing(6)
                 ForEach(document.sections.indices, id: \.self) { index in
@@ -601,8 +630,10 @@ struct WeatherSettingsDocumentView: View {
                 }
                 VStack(alignment: .leading, spacing: 16) {
                     Text("相关服务说明").font(.headline)
-                    WeatherServiceLinks(resources: document == .privacy ? [.dataPrivacy, .mapsPrivacy] : [.dataTerms, .weather, .air])
+                    WeatherServiceLinks(resources: document == .privacy ? [.dataPrivacy, .mapsPrivacy, .hostingPrivacy] : [.dataTerms, .weather, .air])
                 }.settingsCard()
+                WeatherWebLink("在线查看\(document.title)", destination: document.publicURL)
+                    .accessibilityIdentifier("settings.\(document.rawValue).online")
                 if document == .privacy {
                     #if os(iOS)
                     Button {
@@ -625,7 +656,7 @@ struct WeatherSettingsDocumentView: View {
 }
 
 private enum WeatherServiceResource: String, Identifiable {
-    case weather, air, dataTerms, dataPrivacy, mapsPrivacy
+    case weather, air, dataTerms, dataPrivacy, mapsPrivacy, hostingPrivacy
     var id: String { rawValue }
     var title: String {
         switch self {
@@ -634,6 +665,7 @@ private enum WeatherServiceResource: String, Identifiable {
         case .dataTerms: "Open-Meteo · 数据许可与条款"
         case .dataPrivacy: "Open-Meteo · 隐私说明"
         case .mapsPrivacy: "Apple 地图 · 隐私说明"
+        case .hostingPrivacy: "GitHub · 网站托管隐私声明"
         }
     }
     var url: URL {
@@ -644,6 +676,7 @@ private enum WeatherServiceResource: String, Identifiable {
         case .dataTerms: address = "https://open-meteo.com/en/terms"
         case .dataPrivacy: address = "https://open-meteo.com/en/terms#privacy"
         case .mapsPrivacy: address = "https://www.apple.com/legal/privacy/data/en/apple-maps/"
+        case .hostingPrivacy: address = "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
         }
         return URL(string: address)!
     }
@@ -653,16 +686,136 @@ private struct WeatherServiceLinks: View {
     let resources: [WeatherServiceResource]
     var body: some View {
         ForEach(resources) { resource in
-            Link(destination: resource.url) {
+            WeatherWebLink(resource.title, destination: resource.url) {
                 HStack(alignment: .firstTextBaseline, spacing: 12) {
                     Text(resource.title).fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
-                    Image(systemName: "arrow.up.right").accessibilityHidden(true)
+                    Image(systemName: "chevron.right").accessibilityHidden(true)
                 }.font(.subheadline).frame(minHeight: 44).contentShape(Rectangle())
             }.accessibilityIdentifier("settings.source.\(resource.rawValue)")
         }
     }
 }
+
+/// Web resources stay in the current navigation stack, including links inside the page.
+struct WeatherWebLink<Label: View>: View {
+    let title: String
+    let destination: URL
+    @ViewBuilder let label: () -> Label
+
+    init(_ title: String, destination: URL, @ViewBuilder label: @escaping () -> Label) {
+        self.title = title
+        self.destination = destination
+        self.label = label
+    }
+
+    var body: some View {
+        NavigationLink { WeatherWebPage(title: title, url: destination) } label: { label() }
+    }
+}
+
+extension WeatherWebLink where Label == Text {
+    init(_ title: String, destination: URL) {
+        self.init(title, destination: destination) { Text(title) }
+    }
+}
+
+private struct WeatherWebPage: View {
+    let title: String
+    let url: URL
+    @State private var loading = true
+    @State private var failed = false
+    @State private var attempt = 0
+
+    var body: some View {
+        Group {
+            #if os(iOS)
+            ZStack {
+                WeatherEmbeddedWebView(url: url, loading: $loading, failed: $failed)
+                    .id(attempt).accessibilityIdentifier("web.content")
+                if failed {
+                    ContentUnavailableView {
+                        Label("网页暂时无法加载", systemImage: "wifi.exclamationmark")
+                    } description: {
+                        Text("请检查网络后重试。你也可以返回继续阅读 App 内的协议全文。")
+                    } actions: {
+                        Button("重新加载") {
+                            failed = false
+                            loading = true
+                            attempt += 1
+                        }.accessibilityIdentifier("web.retry")
+                    }.background(WeatherPalette.paper)
+                } else if loading {
+                    ProgressView("正在加载网页…").padding(20)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+                }
+            }
+            #else
+            Text(url.absoluteString).textSelection(.enabled)
+            #endif
+        }.weatherSettingsPage(title)
+    }
+}
+
+#if os(iOS)
+private struct WeatherEmbeddedWebView: UIViewRepresentable {
+    let url: URL
+    @Binding var loading: Bool
+    @Binding var failed: Bool
+
+    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+    func makeUIView(context: Context) -> WKWebView {
+        let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = .nonPersistent()
+        let view = WKWebView(frame: .zero, configuration: configuration)
+        view.navigationDelegate = context.coordinator
+        view.allowsBackForwardNavigationGestures = true
+        view.load(URLRequest(url: url, timeoutInterval: 30))
+        return view
+    }
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
+    static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) {
+        uiView.navigationDelegate = nil
+        uiView.stopLoading()
+    }
+
+    final class Coordinator: NSObject, WKNavigationDelegate {
+        let parent: WeatherEmbeddedWebView
+        init(parent: WeatherEmbeddedWebView) { self.parent = parent }
+
+        func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction) async -> WKNavigationActionPolicy {
+            guard let url = action.request.url,
+                  ["https", "http"].contains(url.scheme?.lowercased() ?? "") else {
+                return .cancel
+            }
+            // Load tapped links ourselves so universal links and new windows stay inside the App.
+            if action.targetFrame == nil || (action.navigationType == .linkActivated && action.targetFrame?.isMainFrame == true) {
+                webView.load(action.request)
+                return .cancel
+            }
+            return .allow
+        }
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            parent.loading = true
+            parent.failed = false
+        }
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            parent.loading = false
+        }
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            showFailure(error)
+        }
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            showFailure(error)
+        }
+        private func showFailure(_ error: Error) {
+            guard (error as NSError).code != NSURLErrorCancelled else { return }
+            parent.loading = false
+            parent.failed = true
+        }
+    }
+}
+#endif
 
 private extension View {
     func settingsCard() -> some View {

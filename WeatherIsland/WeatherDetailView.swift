@@ -93,7 +93,7 @@ struct WeatherDetailView: View {
             if let metrics = report.metrics {
                 Text("预报时段 · " + WeatherClock.string(metrics.time, metrics.daily ? "yyyy年M月d日" : "yyyy年M月d日 HH:mm", timeZone: report.timeZoneIdentifier))
                     .font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
-                Link("天气数据：Open-Meteo ↗", destination: URL(string: "https://open-meteo.com/")!)
+                WeatherWebLink("天气数据：Open-Meteo", destination: URL(string: "https://open-meteo.com/")!)
                     .font(.system(size: 12)).foregroundStyle(WeatherPalette.ink)
             }
             Text(report.isLive ? "数据来源 Open-Meteo · 模型天气与预报\n穿衣与出行建议由本地规则生成，仅供日常参考。\n紫外线与能见度采用相近小时预报；缺失值显示 —。" : "离线天气手记 / 所有天气与生活指数均为固定示例。\n天气剧场不代表当地实况；出行请结合当地预报与预警。")

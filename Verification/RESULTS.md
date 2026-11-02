@@ -3,6 +3,34 @@
 更新：2026-11-02（Asia/Shanghai）。工程位于 `/Users/hekang/Desktop/WeatherIsland`。
 
 
+## 地图布局、透明面板与图层效果（2026-11-02）
+
+- 右侧竖向排列区域刷新、降水／气温／风速／云量，以及底图切换与回到城市。缩短时间轴，地图延伸到时间轴和 Tab 栏背后；时间轴使用低透明度底色与超薄材质，保留地图可见性。按可用高度收紧工具栏，防止小屏遮挡。
+- 气温采用冷暖渐变及 5°C 等温线；风速采用青绿至蓝色渐变及 10 km/h 等值线；云量采用灰蓝色和随覆盖比例变化的透明度。风速数据不包含风向，因此没有绘制方向流线。缩小选点浮标，分离数字和单位，按钮／读数与图层强调色一致。提高图层栅格分辨率，柔化预报范围边缘并拉近默认视野。
+- 最终模拟器 Debug 构建通过：`/tmp/WeatherIsland-MapLayers-final-build.log`。离线回归 `bash Verification/run-checks.sh` 全部通过，日志 `/tmp/WeatherIsland-MapLayers-checks.log`。
+- iPhone 17 Pro / iOS 27.0 的两项地图 UI 测试通过：`testMapLayerPresentations` 与 `testMapRightRailAndCompactTimeline`。覆盖三种图层选中状态和单位、选点可见、七个右侧按钮对齐及可点击、时间轴高度与 Tab 间距、底图切换／回到城市、66 小时和播放／暂停。结果 `/tmp/WeatherIsland-MapLayers-QA.xcresult`；源码 `Verification/WeatherMapLayoutUITests.swift`。最后的视野和边缘柔化调整在测试后通过最终构建及截图复查。
+- 已人工检查最终气温／风速／云量截图和 iPhone SE（第 3 代）小屏云量截图：`Previews/Weather-Map-Temperature.png`、`Weather-Map-Wind.png`、`Weather-Map-Cloud.png`、`Weather-Map-Compact.png`。截图使用明确标注的离线示例天气与 MapKit 底图；小屏本轮为截图检查，未计入自动化通过结果，未进行真机验收。
+
+## 桌面小组件（2026-11-02）
+
+- 新增三个 WidgetKit 功能：山水天气、带伞提醒、日出日落；每个支持 systemSmall、systemMedium、systemLarge，共九个布局。App 内「设置 → 桌面小组件」与系统扩展共享绘制视图；预览无实况时明确标注示例数据。
+- 最终模拟器 Debug 构建通过，主 App 正确嵌入 `WeatherWidgets.appex`；日志 `/tmp/weather-widgets-build.log`。最终 iPhone arm64 Release 编译通过（关闭签名），日志 `/tmp/weather-widgets-device.log`。
+- 完整数据回归及 `--live` 真实接口检查通过，包含新小组件的 API 解析、夜间图标、Codable 快照、异常数组长度、缺失降水、极地日照缺失、缓存过期、小时滚动和城市时区；扩展独立接口实际取得当前天气、三日预报和六个后续小时。日志 `/tmp/weather-widgets-checks.log`。
+- iPhone 17 Pro / iOS 27.0 专用模拟器 `WeatherIsland-Widgets-QA` 上，两项 UI 测试通过：`testAllNineWidgetLayouts` 覆盖九个预览的可见性和屏幕边界并保存截图，`testSettingsGalleryAndWidgetLinks` 覆盖设置入口、三种 URL 跳转、标题和关闭。结果 `/tmp/WeatherIsland-Widgets-QA-Verified.xcresult`，日志 `/tmp/weather-widgets-ui-verified.log`。
+- 界面测试发现并修复预览页导航栏被全局样式隐藏，以及装饰圆形视图造成辅助功能边界越界；修复后重跑两项测试全部通过。已人工检查九张最终模拟器截图及导出总览，文字、概率图、日照弧线和底部时间标记均可见。
+- 设计总览 `Previews/Widgets-Overview.png`，独立布局 `Previews/Widget-{landscape,rain,daylight}-{small,medium,large}.png`；模拟器截图汇总 `Previews/Widgets-iOS-QA.jpg`。导出图为示例数据。
+- 可复现命令：`bash Verification/run-checks.sh --live`；已启动模拟器上的 UI 检查为 `bash Verification/run-widget-ui-checks.sh <UDID>`。本轮 UI 使用等效临时 XCTest 工程执行，仓库脚本已通过 shell 语法检查。
+- 验证边界：已完成扩展编译/嵌入与共享 UI 的模拟器验收；未进行系统主屏幕添加、WidgetKit 后台调度或真机运行验收。真机签名需为主 App 和扩展开通同一 App Group `group.com.weather.app.ios`。
+
+## 协议网站与 App 内阅读（2026-11-02）
+
+- 已将协议发布到 GitHub Pages，使用独立 `gh-pages` 分支；线上提交 `a4ec8b4e921008386eb8dce424e82622ee6d66fb`。隐私政策为 `https://hekang1992.github.io/WeatherIsland/privacy.html`，服务协议为 `https://hekang1992.github.io/WeatherIsland/terms.html`，根目录同样提供隐私政策。GitHub Pages 状态 `built`、`https_enforced=true`，两个正文地址实际 GET 均返回 HTTP 200。
+- `Scripts/build-legal-site.py` 从 `WeatherSettingsDocument` 生成 `LegalSite/`，校验线上 HTML 与当前生成结果逐字节一致；导航与样式的本地引用均可解析。`Scripts/publish-legal-site.py` 仅发布网站文件；重复运行保留原提交，验证未修改内容不重复提交。协议补充在线托管的 IP 地址处理及 GitHub 隐私声明入口。
+- App 保留两份离线协议全文；协议中的第三方条款、隐私说明、在线版本与天气来源入口统一使用内嵌 `WKWebView`。网页新窗口及用户点击的主页面链接由同一 WebView 加载，非 HTTP(S) 跳转被拦截。提供返回、加载提示和失败重试，浏览会话使用非持久化网站存储；系统权限按钮继续进入 iOS 设置。
+- `bash Verification/run-checks.sh` 全部通过（连接恢复、定位、偏好、数据解析、缓存与地图），日志 `/tmp/weather-legal-checks-complete.log`。
+- 最终 iPhone 17 Pro / iOS 27.0 的 2 项协议专项交互检查全部通过：本地服务协议与隐私政策全文可达，Open-Meteo / Apple / GitHub 隐私说明与数据条款在 App 内打开，在线隐私政策加载完成，网页内跳转服务协议仍保持 App 前台，并可返回本地协议。报告 `/tmp/WeatherIsland-LegalFinalQA.xcresult`，日志 `/tmp/weather-legal-ui-final.log`；已人工查看最终截图 `/tmp/WeatherIsland-Settings-Privacy-Online.png`。
+- 最终 Debug iOS Simulator 双架构编译通过，日志 `/tmp/weather-legal-build-final.log`；没有本次 WebKit 导航代理的签名警告。首轮协议网页专项通过；同组既有设置用例在从 iOS 设置重新激活 App 时超时，协议全文与网页入口步骤已通过，详细报告 `/tmp/WeatherIsland-LegalQA.xcresult`。
+
 ## 晴、多云、阴的视觉辨识度（2026-11-02）
 
 - 山水画新增完整暖阳、局部遮日浮云、连续灰青层云三种独立天空。晴天增加柔和暖光与水面金色反射，阴天降低环境亮度；小岛插画同步调整太阳大小、遮挡关系、云量及饱和度。
