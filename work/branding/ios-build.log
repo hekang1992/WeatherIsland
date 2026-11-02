@@ -1,0 +1,870 @@
+2026-10-30 17:19:14.806 xcodebuild[9089:189771]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-30 17:19:15.898 xcodebuild[9089:189760] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project WeatherIsland.xcodeproj -scheme WeatherIsland -sdk iphonesimulator -configuration Debug -destination "generic/platform=iOS Simulator" -derivedDataPath /tmp/WeatherIsland-Branding-DerivedData CODE_SIGNING_ALLOWED=NO "OTHER_SWIFT_FLAGS=-Xfrontend -disable-sandbox" build
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+    OTHER_SWIFT_FLAGS = -Xfrontend -disable-sandbox
+    SDKROOT = iphonesimulator27.1
+
+2026-10-30 17:19:17.846 xcodebuild[9089:190065] CoreSimulatorService connection became invalid.  Simulator services will no longer be available.
+2026-10-30 17:19:19.064 xcodebuild[9089:189760] [MT] DVTAssertions: Warning in DVTFrameworks/DVTFoundation/FileTypes/DVTFileDataTypeDetection.m:80
+Details:  detectedTypeIdentifier (com.apple.binary-property-list) does not conform to matchedTypeIdentifier in MagicFileDataTypeDetector extenson com.apple.property-list. When both are specified, this conformance is required unless overridden by setting allowNonInheritance. extension.identifier:Xcode.MagicFileDataTypeDetector.BinaryPlist
+Object:   <DVTFileDataTypeDetectionMagicCache: 0x7cc9728b70>
+Method:   -initWithExtension:
+Thread:   <_NSMainThread: 0x1013554b0>{number = 1, name = main}
+Please file a bug at https://feedbackassistant.apple.com with this warning message and any useful information you can provide.
+2026-10-30 17:19:19.081 xcodebuild[9089:189760] [MT] DVTAssertions: Warning in DVTFrameworks/DVTFoundation/FileTypes/DVTFileDataTypeDetection.m:80
+Details:  detectedTypeIdentifier (com.apple.xml-property-list) does not conform to matchedTypeIdentifier in MagicFileDataTypeDetector extenson com.apple.property-list. When both are specified, this conformance is required unless overridden by setting allowNonInheritance. extension.identifier:Xcode.MagicFileDataTypeDetector.XMLPlist
+Object:   <DVTFileDataTypeDetectionMagicCache: 0x7cc9cd5bc0>
+Method:   -initWithExtension:
+Thread:   <_NSMainThread: 0x1013554b0>{number = 1, name = main}
+Please file a bug at https://feedbackassistant.apple.com with this warning message and any useful information you can provide.
+2026-10-30 17:19:20.294 xcodebuild[9089:189770]  DVTProvisioningProfileManager: Failed to load profile "/Users/hekang/Library/Developer/Xcode/UserData/Provisioning Profiles/0c6e9c70-9342-49b4-b0ee-16a49040300a.mobileprovision" (Error Domain=DVTProvisioningProfileProviderErrorDomain Code=1 "Failed to load profile." UserInfo={NSLocalizedDescription=Failed to load profile., NSLocalizedRecoverySuggestion=Profile is missing the required UUID property.})
+2026-10-30 17:19:20.295 xcodebuild[9089:190066]  DVTProvisioningProfileManager: Failed to load profile "/Users/hekang/Library/Developer/Xcode/UserData/Provisioning Profiles/f247985b-b4cd-454c-b26d-60e150ddf636.mobileprovision" (Error Domain=DVTProvisioningProfileProviderErrorDomain Code=1 "Failed to load profile." UserInfo={NSLocalizedDescription=Failed to load profile., NSLocalizedRecoverySuggestion=Profile is missing the required UUID property.})
+2026-10-30 17:19:20.305 xcodebuild[9089:190091]  DVTProvisioningProfileManager: Failed to load profile "/Users/hekang/Library/Developer/Xcode/UserData/Provisioning Profiles/84db0c00-9499-4699-97f5-cac4213e3c59.mobileprovision" (Error Domain=DVTProvisioningProfileProviderErrorDomain Code=1 "Failed to load profile." UserInfo={NSLocalizedDescription=Failed to load profile., NSLocalizedRecoverySuggestion=Profile is missing the required UUID property.})
+2026-10-30 17:19:20.297 xcodebuild[9089:190068]  DVTProvisioningProfileManager: Failed to load profile "/Users/hekang/Library/Developer/Xcode/UserData/Provisioning Profiles/19b39160-d597-4ae7-9c94-164c72ca71e1.mobileprovision" (Error Domain=DVTProvisioningProfileProviderErrorDomain Code=1 "Failed to load profile." UserInfo={NSLocalizedDescription=Failed to load profile., NSLocalizedRecoverySuggestion=Profile is missing the required UUID property.})
+2026-10-30 17:19:20.305 xcodebuild[9089:189771]  DVTProvisioningProfileManager: Failed to load profile "/Users/hekang/Library/Developer/Xcode/UserData/Provisioning Profiles/6b46bba1-d074-4d5f-a2a6-b30559d21062.mobileprovision" (Error Domain=DVTProvisioningProfileProviderErrorDomain Code=1 "Failed to load profile." UserInfo={NSLocalizedDescription=Failed to load profile., NSLocalizedRecoverySuggestion=Profile is missing the required UUID property.})
+2026-10-30 17:19:20.439 xcodebuild[9089:190065] Logging connecton invalid: <OS_xpc_error: <dictionary: 0x1ed25e600> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x1ed25e740> { string cache = 0x0, length = 18, contents = "Connection invalid" }
+}>
+2026-10-30 17:19:20.439 xcodebuild[9089:189771] Error opening log file (/Users/hekang/Library/Logs/CoreSimulator/CoreSimulator.com.apple.dt.xcodebuild.log): Operation not permitted
+[-[SimServiceContext initWithDeveloperDir:connectionType:error:]:504] WARN  : Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode.app/Contents/Developer.
+[-[SimDiskImageManager init]:226] ERROR : Could not kickstart simdiskimaged; SimDiskImageManager services will not be available: Error Domain=NSPOSIXErrorDomain Code=53 "Software caused connection abort" UserInfo={NSLocalizedDescription=Error returned in reply from CoreSimulatorService: Connection invalid}
+[-[SimDiskImageManager _onQueue_checkConnection:]:290] ERROR : simdiskimaged returned error (invalid), marking disconnected.
+[-[SimDiskImageManager _onQueue_checkConnection:]:290] ERROR : simdiskimaged returned error (invalid), marking disconnected.
+[-[SimServiceContext initWithDeveloperDir:connectionType:error:]_block_invoke:561] ERROR : Could not get list of trusted mount directories: Error Domain=com.apple.CoreSimulator.SimError Code=410 "The service used to manage runtime disk images (simdiskimaged) crashed or is not responding" UserInfo={NSLocalizedDescription=The service used to manage runtime disk images (simdiskimaged) crashed or is not responding}
+[-[SimServiceContext sendRequest:reply:error:]:2152] ERROR : Unable to deliver request ({
+    request = "notification_subscription";
+    "set_path" = "/Users/hekang/Library/Developer/CoreSimulator/Devices";
+}) because we are not connected to CoreSimulatorService.
+2026-10-30 17:19:20.455 xcodebuild[9089:190050] Error Domain=NSPOSIXErrorDomain Code=61 "Connection refused" UserInfo={NSLocalizedDescription=CoreSimulatorService connection became invalid.  Simulator services will no longer be available.}
+2026-10-30 17:19:20.467 xcodebuild[9089:190050]  iOSSimulator: [SimServiceContext defaultDeviceSetWithError:] returned nil (Error Domain=NSPOSIXErrorDomain Code=61 "Connection refused" UserInfo={NSLocalizedFailureReason=Failed to subscribe to notifications from CoreSimulatorService., NSLocalizedDescription=Failed to initialize simulator device set., NSUnderlyingError=0x7cc97e0c90 {Error Domain=NSPOSIXErrorDomain Code=61 "Connection refused" UserInfo={NSLocalizedDescription=CoreSimulatorService connection became invalid.  Simulator services will no longer be available.}}}). Simulator device support disabled.
+2026-10-30 17:19:20.494 xcodebuild[9089:190055] Error Domain=NSPOSIXErrorDomain Code=61 "Connection refused" UserInfo={NSLocalizedDescription=CoreSimulatorService connection became invalid.  Simulator services will no longer be available.}
+[-[SimServiceContext sendRequest:reply:error:]:2152] ERROR : Unable to deliver request ({
+    request = "notification_subscription";
+    "set_path" = "/Users/hekang/Library/Developer/CoreSimulator/Devices";
+}) because we are not connected to CoreSimulatorService.
+2026-10-30 17:19:20.500 xcodebuild[9089:190055]  IDESimulatorAvailability: startObservingSimulatorUpdates() FAILED to register SimDeviceSet observer
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'WeatherIsland' in project 'WeatherIsland' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 810d42ddfb0d0cccc8f8d0cde2e6bb71
+Build description path: /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/XCBuildData/810d42ddfb0d0cccc8f8d0cde2e6bb71.xcbuilddata
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/CompilationCache.noindex
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/CompilationCache.noindex
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Products
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Products
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -o /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland-88557b054acfa75da5cfb542cc9734be-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland-88557b054acfa75da5cfb542cc9734be-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/PrecompiledHeaders
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/PrecompiledHeaders
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/hekang/Desktop/WeatherIsland/WeatherIsland.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyStaticMetadataFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyMetadataFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.hmap (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/empty-WeatherIsland.plist (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/empty-WeatherIsland.plist
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-non-framework-target-headers.hmap (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibPath-normal-x86_64.txt (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibPath-normal-x86_64.txt
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibInstallName-normal-x86_64.txt (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibInstallName-normal-x86_64.txt
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibPath-normal-arm64.txt (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibInstallName-normal-arm64.txt (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_const_extract_protocols.json (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftConstValuesFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.LinkFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.LinkFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-OutputFileMap.json (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_const_extract_protocols.json (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftConstValuesFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.LinkFileList (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.LinkFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-OutputFileMap.json (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    write-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-OutputFileMap.json
+
+MkDir /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /bin/mkdir -p /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app
+
+Ld /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/__preview.dylib normal arm64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.6-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -install_name @rpath/WeatherIsland.debug.dylib -Xlinker -dead_strip -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_dependency_info.dat -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/__preview.dylib
+
+Ld /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/__preview.dylib normal x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.6-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -install_name @rpath/WeatherIsland.debug.dylib -Xlinker -dead_strip -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_dependency_info.dat -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/__preview.dylib
+
+MkDir /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/thinned (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /bin/mkdir -p /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/thinned
+
+MkDir /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/unthinned (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /bin/mkdir -p /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/unthinned
+
+CompileStoryboard /Users/hekang/Desktop/WeatherIsland/WeatherIsland/LaunchScreen.storyboard (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module WeatherIsland --output-partial-info-plist /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/LaunchScreen-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --minimum-deployment-target 17.6 --output-format human-readable-text /Users/hekang/Desktop/WeatherIsland/WeatherIsland/LaunchScreen.storyboard --compilation-directory /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build
+2026-10-30 17:19:42.170 ibtoold[9145:191033] CoreSimulatorService connection became invalid.  Simulator services will no longer be available.
+2026-10-30 17:19:42.237 ibtoold[9145:191033] CoreSimulatorService connection became invalid.  Simulator services will no longer be available.
+2026-10-30 17:19:42.375 ibtoold[9145:190867] Logging connecton invalid: <OS_xpc_error: <dictionary: 0x1ed25e600> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x1ed25e740> { string cache = 0x0, length = 18, contents = "Connection invalid" }
+}>
+2026-10-30 17:19:42.381 ibtoold[9145:191034] Error opening log file (/Users/hekang/Library/Logs/CoreSimulator/CoreSimulator.com.apple.ibtool.log): Operation not permitted
+[-[SimServiceContext sendRequest:]:2131] ERROR : Unable to deliver request ({
+    "developer_dir" = "/Applications/Xcode.app/Contents/Developer";
+    request = "set_developer_dir";
+}) because we are not connected to CoreSimulatorService.
+[-[SimServiceContext initWithDeveloperDir:connectionType:error:]:504] WARN  : Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode.app/Contents/Developer.
+[-[SimDiskImageManager init]:226] ERROR : Could not kickstart simdiskimaged; SimDiskImageManager services will not be available: Error Domain=NSPOSIXErrorDomain Code=53 "Software caused connection abort" UserInfo={NSLocalizedDescription=Error returned in reply from CoreSimulatorService: Connection invalid}
+[-[SimDiskImageManager _onQueue_checkConnection:]:290] ERROR : simdiskimaged returned error (invalid), marking disconnected.
+[-[SimDiskImageManager _onQueue_checkConnection:]:290] ERROR : simdiskimaged returned error (invalid), marking disconnected.
+[-[SimServiceContext initWithDeveloperDir:connectionType:error:]_block_invoke:561] ERROR : Could not get list of trusted mount directories: Error Domain=com.apple.CoreSimulator.SimError Code=410 "The service used to manage runtime disk images (simdiskimaged) crashed or is not responding" UserInfo={NSLocalizedDescription=The service used to manage runtime disk images (simdiskimaged) crashed or is not responding}
+[-[SimServiceContext sendRequest:]:2131] ERROR : Unable to deliver request ({
+    path = "/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/Xcode/PrivatePlugIns/IDEInterfaceBuilderAppleTVIntegration.framework/Resources";
+    request = "add_profiles";
+}) because we are not connected to CoreSimulatorService.
+[-[SimServiceContext sendRequest:]:2131] ERROR : Unable to deliver request ({
+    path = "/Applications/Xcode.app/Contents/PlugIns/IDEInterfaceBuilderiOSIntegration.framework/Resources";
+    request = "add_profiles";
+}) because we are not connected to CoreSimulatorService.
+[-[SimServiceContext initWithDeveloperDir:connectionType:error:]:504] WARN  : Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode.app/Contents/Developer.
+[-[SimDiskImageManager _onQueue_checkConnection:]:270] ERROR : simdiskimaged connection is currently unavailable because connection became invalid
+[-[SimServiceContext initWithDeveloperDir:connectionType:error:]_block_invoke:561] ERROR : Could not get list of trusted mount directories: Error Domain=com.apple.CoreSimulator.SimError Code=409 "Cannot talk to the service used to manage runtime disk images (simdiskimaged) because its launchd job is not registered or was unloaded" UserInfo={NSLocalizedDescription=Cannot talk to the service used to manage runtime disk images (simdiskimaged) because its launchd job is not registered or was unloaded}
+[-[SimServiceContext sendRequest:reply:error:]:2152] ERROR : Unable to deliver request ({
+    request = "notification_subscription";
+    "set_path" = "/Users/hekang/Library/Developer/CoreSimulator/Devices";
+}) because we are not connected to CoreSimulatorService.
+2026-10-30 17:19:43.188 ibtoold[9145:191022] Error Domain=NSPOSIXErrorDomain Code=61 "Connection refused" UserInfo={NSLocalizedDescription=CoreSimulatorService connection became invalid.  Simulator services will no longer be available.}
+sandbox_extension_issue_file failed for /var/folders/3s/b7sff8z17tl7b1lckppgt5l40000gn/T/854E5DE0-0B39-4C72-8962-4289D6DBBABE.storyboard: 1 (Operation not permitted)
+sandbox_extension_issue_file failed for /var/folders/3s/b7sff8z17tl7b1lckppgt5l40000gn/T/854E5DE0-0B39-4C72-8962-4289D6DBBABE.storyboard: 1 (Operation not permitted)
+
+GenerateAssetSymbols /Users/hekang/Desktop/WeatherIsland/WeatherIsland/Assets.xcassets (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/hekang/Desktop/WeatherIsland/WeatherIsland/Assets.xcassets --compile /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_dependencies --output-partial-info-plist /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --minimum-deployment-target 17.6 --platform iphonesimulator --bundle-identifier com.weather.app.ios --generate-swift-asset-symbol-extensions NO --generate-swift-asset-symbols /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+2026-10-30 17:19:41.970 ibtoold[9146:190863] CoreSimulatorService connection became invalid.  Simulator services will no longer be available.
+2026-10-30 17:19:41.974 ibtoold[9146:191027] Logging connecton invalid: <OS_xpc_error: <dictionary: 0x1ed25e600> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x1ed25e740> { string cache = 0x0, length = 18, contents = "Connection invalid" }
+}>
+2026-10-30 17:19:41.977 ibtoold[9146:190863] Error opening log file (/Users/hekang/Library/Logs/CoreSimulator/CoreSimulator.com.apple.ibtool.log): Operation not permitted
+[-[SimServiceContext sendRequest:]:2131] ERROR : Unable to deliver request ({
+    "developer_dir" = "/Applications/Xcode.app/Contents/Developer";
+    request = "set_developer_dir";
+}) because we are not connected to CoreSimulatorService.
+/* com.apple.actool.compilation-results */
+/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.h
+/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CompileAssetCatalogVariant thinned /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app /Users/hekang/Desktop/WeatherIsland/WeatherIsland/Assets.xcassets (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/hekang/Desktop/WeatherIsland/WeatherIsland/Assets.xcassets --compile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_dependencies_thinned --output-partial-info-plist /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --minimum-deployment-target 17.6 --platform iphonesimulator
+2026-10-30 17:19:41.804 ibtoold[9149:191008] CoreSimulatorService connection became invalid.  Simulator services will no longer be available.
+/* com.apple.actool.compilation-results */
+/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist_thinned
+/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/thinned/Assets.car
+
+
+CreateUniversalBinary /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/__preview.dylib normal arm64\ x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/__preview.dylib /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/__preview.dylib -output /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/__preview.dylib
+
+SwiftDriver WeatherIsland normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WeatherIsland -Onone @/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftFileList -DDEBUG -Xfrontend -disable-sandbox -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target x86_64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/WeatherIsland-Branding-DerivedData/Index.noindex/DataStore -swift-version 6 -I /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources-normal/x86_64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/x86_64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-Swift.h -working-directory /Users/hekang/Desktop/WeatherIsland -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver WeatherIsland normal arm64 com.apple.xcode.tools.swift.compiler (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WeatherIsland -Onone @/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftFileList -DDEBUG -Xfrontend -disable-sandbox -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target arm64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/WeatherIsland-Branding-DerivedData/Index.noindex/DataStore -swift-version 6 -I /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources-normal/arm64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/arm64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-Swift.h -working-directory /Users/hekang/Desktop/WeatherIsland -experimental-emit-module-separately -disable-cmo
+
+LinkStoryboards (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module WeatherIsland --target-device iphone --minimum-deployment-target 17.6 --output-format human-readable-text --link /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/LaunchScreen.storyboardc
+2026-10-30 17:19:49.730 ibtoold[9165:191280] CoreSimulatorService connection became invalid.  Simulator services will no longer be available.
+2026-10-30 17:19:49.733 ibtoold[9165:191553] Logging connecton invalid: <OS_xpc_error: <dictionary: 0x1ed25e600> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x1ed25e740> { string cache = 0x0, length = 18, contents = "Connection invalid" }
+}>
+2026-10-30 17:19:49.736 ibtoold[9165:191281] Error opening log file (/Users/hekang/Library/Logs/CoreSimulator/CoreSimulator.com.apple.ibtool.log): Operation not permitted
+[-[SimServiceContext sendRequest:]:2131] ERROR : Unable to deliver request ({
+    "developer_dir" = "/Applications/Xcode.app/Contents/Developer";
+    request = "set_developer_dir";
+}) because we are not connected to CoreSimulatorService.
+
+LinkAssetCatalog /Users/hekang/Desktop/WeatherIsland/WeatherIsland/Assets.xcassets (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-linkAssetCatalog --thinned /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/thinned --thinned-dependencies /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist_thinned --unthinned /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_output/unthinned --unthinned-dependencies /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist_unthinned --output /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app --plist-output /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist
+note: Emplaced /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Assets.car (in target 'WeatherIsland' from project 'WeatherIsland')
+note: Emplaced /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/AppIcon60x60@2x.png (in target 'WeatherIsland' from project 'WeatherIsland')
+
+ProcessInfoPlistFile /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Info.plist /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/empty-WeatherIsland.plist (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-infoPlistUtility /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/empty-WeatherIsland.plist -producttype com.apple.product-type.application -genpkginfo /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/LaunchScreen-SBPartialInfo.plist -additionalcontentfile /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/assetcatalog_generated_info.plist -o /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Info.plist
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ptrcheck-A7P1T7HAHPZ7NK11D98GYVEIU.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/DeveloperToolsSupport-GTCCPUIRU4QYLUPI97HLFIH6.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/SwiftShims-9UO0CNM0KTTGDSXRNFIME7P0L.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ptrauth-A5HD2B2NH950CX2L607WWG821.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdbool-44ZG59TSH4EIXTOO2V8XMY0QC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_AvailabilityInternal-5PVEX88NGG5QXZTX8T87PR0A4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ptrauth-AEVE9NVDW4BH90VD68A9V3XVG.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-29I84ZAJCFKUBQHDMVWKUD6Z0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/DeveloperToolsSupport-6D7MK4PXHXLLTY1FQIUO9AAND.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ptrcheck-AXWTKH419FQLQYHE67PWTA1SB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/SwiftShims-7AD6UTCK0YKZ2XFQFEZHP0229.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_float-DX1XTV1OS6PYYY84N4OB3JSK4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_AvailabilityInternal-7ME7OUVRO5ATA2MQB73XTGDAJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-7HTH1SNG5KURHD94BYX83ZQXR.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdarg-1VH9ITC5C14AIPF16SDUZHPLU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_float-3XPQE0UMG6VLCRJA5HLVOQUM1.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stddef-CRVFV0X27R9LXQM2KHL3631TG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stddef-DKNA7G9SOJXN9NFFDC8RN7VE4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdarg-82E6EIWH6U0ORXNMZ488V2DD9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdbool-EOB2JKWBP51M9I3ZQQZIJG3C9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation1-7TUPCDEMERZGQQF7CE09IRFD4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation1-JB9XPRM2FTMD4C7BQ9YPVP87.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_limits-D4JU9SCD04NUC6O2ELHN4XH4M.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation2-21YOHBC4FIQ8H0S633QRR3JJF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_limits-4JOZD05FXB26TXR87MMKSVUYP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation2-CUJH0QGVSJG3K2BRI1X3HO12N.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdint-4XOPSF4WPVJ77GY3T6DS43DRM.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/string_h-2BWTB0046QKSK7WVMCM0PKPKG.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-3Z37HD63GBEU9938JNRPAT9KA.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/sys_types-C2ISSJ41GWBWYRIGMK16T2LRN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_tgmath-4N79SJZFS4XE2NVNYKOOVXYRQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/string_h-BRX6WSX57D8WOYUO7J343TTPK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/sys_types-8J8SN3FL18VO22K5R59QZY3AB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdint-1NE3MN6DMOXM3NZWUJVTIF5G4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation3-5Q1IC05GV3AV8V9Y94G9K7I8U.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-5K6ZKTQ28MF17C83KBUG3BQGB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-1J1Z0XH60NM4ITTDYMHKWQJKX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_DarwinFoundation3-3VT0B7FAE65IG9SXM9IAW6SSH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_stdatomic-BESW6M722K0GRIK23EXKAEOKK.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_inttypes-B74C47FBNJIT0WLUDOC9737BF.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_intrinsics-CTVYTSKCOJYNYMTN7ALGB2KGO.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Darwin-4PRKVOZ91O3DS0BTVSAQJWCC3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_Builtin_inttypes-CADQXFYNM8CZ5CP81YLL67XEG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Darwin-9T88P7XXUCTSGQU2GTIP5UYNU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/simd-EWQZSBS67EIOJBCNGAXCJ1YQ7.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/MachO-1VGZ995MK5OVULAKUY7AXERE0.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ObjectiveC-EMEIYJLJJ88IU10HAUIHJAQ33.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/simd-46L9HJ4JRMN9C80KYIURXSVSG.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/os_object-BLWLC14N7BFROSJY5O55RZC5P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ObjectiveC-AI225HTCXO6XTEJJK2XNGC8UJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/MachO-5S4VIFE10B0H0WP0RROCY91F0.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/os_workgroup-1JJZ7QKE9ER3GMXLUG4JUJ6OZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/os_object-5EGID5KI3K08EKRNLTO50716Z.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Dispatch-6ZBK0WTABZW3JK7645WA6VUEL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/os_workgroup-4U6TFW40XFO9A9D79R7C256VA.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/XPC-5O9UC2LKSS96BQAPBWMPTD0P0.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreFoundation-5FLVBE0B6MHU5K3MAXPKQPE9V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Spatial-5FL0D8I1WGFHB85NR3Y37VZMO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Dispatch-4PUV8IHPKU44QCEK61FQOXQME.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/os-AF9YMJ4M2T4SHWOETD8B9JXF6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreFoundation-1NKAAERCHKJX3RIB3JRB50UEB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/XPC-DHWFZ3GFNO5G0DP2BLR0SG7BN.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CFNetwork-EQPJCQJBDS24BYAZWEH0LIW6B.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Security-CE1I9YC9ZYJ83VZQX27H8F2GT.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-AB5RR9L4I773VDFR6E88NR54O.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreGraphics-CHD5BDZERQ8JY70WF607L598J.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/os-1NMJRGNWJ8R5C9T3R482IHYLR.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Spatial-9QKF4UYUNJV5NF3XMJY89EIOF.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreAudio-7EEGDWY5MANFEDSR2CJX6VW79.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Foundation-41MEZM81H1JEETF6ZK06VDD00.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Security-B7BP7M24NT6U6AWC1AFQG1GTN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CFNetwork-2ZNVECKAR4MIG7E6DUPIZCDSY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreAudioTypes-D1H9QNTCBMVXASGWR6WXP4WCY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreGraphics-DUMXJGH4W8YEIAGVKVUKD8C0Q.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreText-CORSSWOZYTNKI6DLUIMFPQ50V.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ImageIO-D7JCPHYJLMV11GPYKAM5C45PQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Foundation-H9323SLAU4TDHA503ZM4ZR2N.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreAudio-78YKL49RNW28KXE2P2EKETDUO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/ImageIO-5C0M0IUZRVB6Z2MYE1RO5MWJR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreText-28LAF3GPJZSBBYCBIY6EJDEE6.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UserNotifications-92FPKARYP97UJL2486MU12BPF.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_LocationEssentials-4KLPZ5VFV0J5LI4K50OJ6YG7U.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/IOSurface-49M16AD979FOXUUAJMNYML1UX.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/FileProvider-81H2XKCAO3IBXKLIWK1SLELDO.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreData-ONKHOTF7L7PW4WTWGGU4VVT4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UIUtilities-DVX8NWAKCLI6RJGY9T89YFGBV.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreTransferable-3LWBSYY565DKUXGDRBAYRVKBI.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/OpenGLES-3KG54NPWRID3GPN8HUAH5BJPI.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Symbols-4G4DOS65CLH1TX4HUURZ1QT8X.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/OSLog-7OT5720DLXSNCRQM0FG7BC0U1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/_LocationEssentials-1CJZ29YA4ZO8AW1C1602GSQIF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/OSLog-BM8DF2JYFDAT2NDZ4PG1952CK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreData-APKUOQ1OLIFZFJCYHT9FETKNC.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Metal-D42BAIRJKYG0YZ3NIT3B5T3PX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/OpenGLES-6QHO1FG3VWEZO79V4RKBNNBUH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreTransferable-58L3GY46GNOIW4HDTRKXDWGNM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Accessibility-1FY9MFIFBAZM0OPB1VRQ5R15M.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UserNotifications-2EB9L8HHPH4RB7WUMSHYVX21H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreLocation-8LTC3R4Z93406GZMHP5CEBGZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Symbols-7IEI2SZYHOS11T5ILEZJGH1EP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/FileProvider-7AO0EZOMZTAOT4BGG141X4Y8F.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Accessibility-1ARJI7QZAO11WOURG027T8ZMR.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-CLX49MRHGN9B7PK99DFUQ95.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/DataDetection-CFDF7MDWQ06867A5KGGVFV4P2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-2F2PXZNX242JNZ6H5TRKQNO3F.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/IOSurface-E5HKT06FEB6C7KRBT4G6CQWWB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreVideo-ACU5JX66JFOEKDET1TBQOTRGL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UIUtilities-1T3XBDAXBGZWVN3UIHI3981FG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreMotion-7HFYPLB3974DO9WOK65MYJ6YE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/DataDetection-BTR3JKO90GYJWDP28AG2KLBGP.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreLocation-BLX9NS8MSQV192Z10AAZJA7K6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/Metal-44DUM888CZ6PT8MO1JEFV4HYB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreMedia-4Z0BMRB3OJTD2LO48ZV3WTJIX.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreImage-9CPH3CI0HTIMPPYTVV1FNX0RJ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/QuartzCore-T64O94N3IHB0J1SSMVNUN6FQ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreMotion-EM9ON4R9RIULHRAS7VNU0K449.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/SwiftUICore-CXBKQE1G1Q3O0SOS0CNJ6TBGR.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UIKit-3XSHCXUWINJ9KDQVV7S5NSU0A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreVideo-9MPLV3050BTUMLMV0204P2D76.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreMedia-1ODFIDHQ0GG4IEN2GNGH0BEX7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/CoreImage-8ASFLHXYSDXE8FS40U40FUUVD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/QuartzCore-19ZUW7MGX2JL06CVLOSWVPQBH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/SwiftUICore-9X22SV9IG2ZKSH0AFYCJV5QX1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/UIKit-D4TSYEHP5AL0RTEAUBPZ8QP6G.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/SwiftUI-8XD8DY149R0QZOZHVE0OFMRAD.pcm
+
+SwiftEmitModule normal x86_64 Emitting\ module\ for\ WeatherIsland (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    
+
+SwiftCompile normal x86_64 Compiling\ WeatherBranding.swift,\ WeatherService.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherBranding.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherService.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherBranding.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherBranding.swift
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherService.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherService.swift
+
+SwiftCompile normal x86_64 Compiling\ WeatherDetailView.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherDetailView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherDetailView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherDetailView.swift
+
+SwiftCompile normal x86_64 Compiling\ WeatherExplorerView.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherExplorerView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherExplorerView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherExplorerView.swift
+
+SwiftCompile normal x86_64 Compiling\ WeatherHomeView.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherHomeView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherHomeView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherHomeView.swift
+
+SwiftCompile normal x86_64 Compiling\ WeatherEffects.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherEffects.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherEffects.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherEffects.swift
+
+SwiftCompile normal x86_64 Compiling\ GeneratedAssetSymbols.swift /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile GeneratedAssetSymbols.swift
+
+SwiftCompile normal x86_64 Compiling\ WeatherModels.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherModels.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherModels.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherModels.swift
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules/SwiftUI-F2B0ZHXV054QNDUWQ257C9YTG.pcm
+
+SwiftDriverJobDiscovery normal x86_64 Emitting module for WeatherIsland (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriver\ Compilation\ Requirements WeatherIsland normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WeatherIsland -Onone @/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftFileList -DDEBUG -Xfrontend -disable-sandbox -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target x86_64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/WeatherIsland-Branding-DerivedData/Index.noindex/DataStore -swift-version 6 -I /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources-normal/x86_64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/x86_64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-Swift.h -working-directory /Users/hekang/Desktop/WeatherIsland -experimental-emit-module-separately -disable-cmo
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ WeatherIsland (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/x86_64-apple-ios-simulator.swiftmodule /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftmodule (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftmodule /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/x86_64-apple-ios-simulator.swiftmodule
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for WeatherIsland (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriver\ Compilation\ Requirements WeatherIsland normal arm64 com.apple.xcode.tools.swift.compiler (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WeatherIsland -Onone @/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftFileList -DDEBUG -Xfrontend -disable-sandbox -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target arm64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/WeatherIsland-Branding-DerivedData/Index.noindex/DataStore -swift-version 6 -I /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources-normal/arm64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/arm64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-Swift.h -working-directory /Users/hekang/Desktop/WeatherIsland -experimental-emit-module-separately -disable-cmo
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/x86_64-apple-ios-simulator.swiftdoc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftdoc (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftdoc /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/x86_64-apple-ios-simulator.swiftdoc
+
+SwiftMergeGeneratedHeaders /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/WeatherIsland-Swift.h /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-Swift.h /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-Swift.h (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-swiftHeaderTool -arch arm64 /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-Swift.h -arch x86_64 /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-Swift.h -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/WeatherIsland-Swift.h
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/x86_64-apple-ios-simulator.abi.json /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.abi.json (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.abi.json /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/x86_64-apple-ios-simulator.abi.json
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftmodule (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftmodule /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftdoc (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftdoc /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.abi.json (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.abi.json /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftsourceinfo (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftsourceinfo /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo
+
+Copy /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftsourceinfo (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftsourceinfo /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftCompile normal arm64 Compiling\ WeatherBranding.swift,\ WeatherService.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherBranding.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherService.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherBranding.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherBranding.swift
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherService.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherService.swift
+
+SwiftCompile normal arm64 Compiling\ WeatherIslandApp.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherIslandApp.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherIslandApp.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherIslandApp.swift
+
+SwiftDriverJobDiscovery normal x86_64 Compiling GeneratedAssetSymbols.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 Compiling\ WeatherExplorerView.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherExplorerView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherExplorerView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherExplorerView.swift
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherBranding.swift, WeatherService.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherModels.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 Compiling\ WeatherHomeView.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherHomeView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherHomeView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherHomeView.swift
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile GeneratedAssetSymbols.swift
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherEffects.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 Compiling\ WeatherDetailView.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherDetailView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherDetailView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherDetailView.swift
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherExplorerView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 Compiling\ WeatherEffects.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherEffects.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherEffects.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherEffects.swift
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherDetailView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 Compiling\ WeatherModels.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherModels.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal arm64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherModels.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherModels.swift
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 Compiling\ WeatherIslandApp.swift /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherIslandApp.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftCompile normal x86_64 /Users/hekang/Desktop/WeatherIsland/WeatherIsland/WeatherIslandApp.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-SwiftPerFileCompile WeatherIslandApp.swift
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherHomeView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherIslandApp.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriver\ Compilation WeatherIsland normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WeatherIsland -Onone @/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftFileList -DDEBUG -Xfrontend -disable-sandbox -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target x86_64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/WeatherIsland-Branding-DerivedData/Index.noindex/DataStore -swift-version 6 -I /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources-normal/x86_64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/x86_64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland-Swift.h -working-directory /Users/hekang/Desktop/WeatherIsland -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland.debug.dylib normal x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.6-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -filelist /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.LinkFileList -install_name @rpath/WeatherIsland.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_lto.o -rdynamic -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland.debug.dylib
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherBranding.swift, WeatherService.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherIslandApp.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherModels.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherExplorerView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherEffects.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+ConstructStubExecutorLinkFileList /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-ExecutorLinkFileList-normal-x86_64.txt (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    construct-stub-executor-link-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-ExecutorLinkFileList-normal-x86_64.txt
+note: Using stub executor library with Swift entry point. (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherDetailView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherHomeView.swift (in target 'WeatherIsland' from project 'WeatherIsland')
+
+SwiftDriver\ Compilation WeatherIsland normal arm64 com.apple.xcode.tools.swift.compiler (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WeatherIsland -Onone @/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftFileList -DDEBUG -Xfrontend -disable-sandbox -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target arm64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/WeatherIsland-Branding-DerivedData/Index.noindex/DataStore -swift-version 6 -I /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-Branding-DerivedData/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-Branding-DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-generated-files.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-project-headers.hmap -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources-normal/arm64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources/arm64 -Xcc -I/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland-Swift.h -working-directory /Users/hekang/Desktop/WeatherIsland -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland.debug.dylib normal arm64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.6-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -filelist /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.LinkFileList -install_name @rpath/WeatherIsland.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_lto.o -rdynamic -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland.debug.dylib
+
+ConstructStubExecutorLinkFileList /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-ExecutorLinkFileList-normal-arm64.txt (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    construct-stub-executor-link-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'WeatherIsland' from project 'WeatherIsland')
+
+CreateUniversalBinary /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/WeatherIsland.debug.dylib normal arm64\ x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland.debug.dylib /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland.debug.dylib -output /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/WeatherIsland.debug.dylib
+
+Ld /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland normal x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.6-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -rdynamic -Xlinker -objc_abi_version -Xlinker 2 -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibPath-normal-x86_64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibInstallName-normal-x86_64.txt -Xlinker -filelist -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-ExecutorLinkFileList-normal-x86_64.txt /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland.debug.dylib -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland
+
+Ld /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland normal arm64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.6-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -F/tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -rdynamic -Xlinker -objc_abi_version -Xlinker 2 -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland-ExecutorLinkFileList-normal-arm64.txt /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland.debug.dylib -o /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland
+
+CreateUniversalBinary /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/WeatherIsland normal arm64\ x86_64 (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/Binary/WeatherIsland /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/Binary/WeatherIsland -output /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/WeatherIsland
+
+ExtractAppIntentsMetadata (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name WeatherIsland --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk --xcode-version 27A9275 --platform-family iOS --deployment-target 17.6 --bundle-identifier com.weather.app.ios --output /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app --target-triple arm64-apple-ios17.6-simulator --target-triple x86_64-apple-ios17.6-simulator --binary-file /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/WeatherIsland --dependency-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland_dependency_info.dat --dependency-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland_dependency_info.dat --stringsdata-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --stringsdata-file /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftFileList --source-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftFileList --metadata-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyMetadataFileList --static-metadata-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/arm64/WeatherIsland.SwiftConstValuesFileList --swift-const-vals-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/Objects-normal/x86_64/WeatherIsland.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-30 17:20:51.225 appintentsmetadataprocessor[9406:193473] Starting appintentsmetadataprocessor export
+2026-10-30 17:20:51.235 appintentsmetadataprocessor[9406:193473] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+CopySwiftLibs /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/WeatherIsland.debug.dylib --scan-folder /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Frameworks --scan-folder /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/PlugIns --scan-folder /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/SystemExtensions --scan-folder /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Info.plist --temp-dir-path /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/ssu --bundle-id com.weather.app.ios --product-path /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app --extracted-metadata-path /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Metadata.appintents --metadata-file-list /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/WeatherIsland.build/Debug-iphonesimulator/WeatherIsland.build/WeatherIsland.DependencyMetadataFileList --source-file /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app/Info.plist --archive-ssu-assets
+2026-10-30 17:20:51.353 appintentsnltrainingprocessor[9407:193490] Parsing options for appintentsnltrainingprocessor
+2026-10-30 17:20:51.354 appintentsnltrainingprocessor[9407:193490] Starting AppIntents SSU YAML Generation
+2026-10-30 17:20:51.358 appintentsnltrainingprocessor[9407:193490] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-RegisterExecutionPolicyException /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app
+
+Validate /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    builtin-validationUtility /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app (in target 'WeatherIsland' from project 'WeatherIsland')
+    cd /Users/hekang/Desktop/WeatherIsland
+    /usr/bin/touch -c /tmp/WeatherIsland-Branding-DerivedData/Build/Products/Debug-iphonesimulator/WeatherIsland.app
+
+PruneExplicitPrecompiledModules /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/WeatherIsland-Branding-DerivedData/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/WeatherIsland-Branding-DerivedData/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+** BUILD SUCCEEDED **
+

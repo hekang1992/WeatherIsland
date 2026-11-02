@@ -1,0 +1,8 @@
+气象岛 · 上海真实天气请求
+
+GET https://api.open-meteo.com/v1/forecast?latitude=31.2304&longitude=121.4737&timezone=Asia%2FShanghai&timeformat=unixtime&forecast_days=7&current=temperature_2m%2Crelative_humidity_2m%2Capparent_temperature%2Cis_day%2Cprecipitation%2Cweather_code%2Cwind_speed_10m%2Cwind_direction_10m&hourly=temperature_2m%2Crelative_humidity_2m%2Capparent_temperature%2Cprecipitation_probability%2Cprecipitation%2Cweather_code%2Cvisibility%2Cwind_speed_10m%2Cwind_direction_10m%2Cuv_index&daily=weather_code%2Ctemperature_2m_max%2Ctemperature_2m_min%2Capparent_temperature_max%2Csunrise%2Csunset%2Cuv_index_max%2Cprecipitation_sum%2Cprecipitation_probability_max%2Cwind_speed_10m_max%2Cwind_direction_10m_dominant&temperature_unit=celsius&wind_speed_unit=kmh&precipitation_unit=mm
+
+城市：上海（31.2304, 121.4737）
+时区：Asia/Shanghai
+完整构造逻辑：WeatherIsland/WeatherService.swift → WeatherService.endpoint
+该请求在本次验证中返回 HTTP 200。App 启动时会重新获取，不使用测试样本作为实况。
