@@ -81,7 +81,7 @@ import SwiftUI
     }
     func selectLocation(_ place:WeatherPlace) { select(place); locationRefreshID += 1 }
     func resolveLocation(_ place:WeatherPlace) {
-        guard selected.isCurrentLocation,selected.cacheID == place.cacheID else{return}
+        guard selected.isCurrentLocation,place.isCurrentLocation,place.valid,place.hasCityName,selected.cacheID == place.cacheID else{return}
         weather[place.cacheID]?.updateMetadata(place)
         collection.selected=place;save()
     }

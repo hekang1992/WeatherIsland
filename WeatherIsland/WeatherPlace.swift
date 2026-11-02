@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 
 struct WeatherPlace: Codable, Hashable, Identifiable, Sendable {
     var city: String
@@ -21,7 +22,8 @@ struct WeatherPlace: Codable, Hashable, Identifiable, Sendable {
         if isCurrentLocation { return String(format: "current|%.5f|%.5f", latitude, longitude) }
         return id + String(format: "|%.3f|%.3f", latitude, longitude)
     }
-    var title: String { [city.isEmpty ? "当前位置" : city, approximate ? "" : district].filter { !$0.isEmpty }.joined(separator: " · ") }
+    var hasCityName: Bool { !city.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    var title: String { [!hasCityName ? "当前位置" : city, approximate ? "" : district].filter { !$0.isEmpty }.joined(separator: " · ") }
     var subtitle: String { [region == city ? "" : region, country].filter { !$0.isEmpty }.joined(separator: " · ") }
     var valid: Bool { latitude.isFinite && longitude.isFinite && (-90...90).contains(latitude) && (-180...180).contains(longitude) }
     static let shanghai = WeatherPlace(city: "上海市", region: "上海市", country: "中国", countryCode: "CN", latitude: 31.2304, longitude: 121.4737, timeZoneIdentifier: "Asia/Shanghai")
@@ -57,5 +59,50 @@ struct CityCollection: Codable {
         places.removeAll { $0.id == id }
         if defaultID == id { defaultID = places[0].id }
         if !selected.isCurrentLocation && selected.id == id { selected = defaultPlace }
+    }
+}
+
+/// Naming is independent of GPS and weather. The foreground view owns this
+/// operation, so an unresolved coordinate can recover after network consent.
+@MainActor @Observable final class WeatherLocationNaming {
+    private(set) var resolving = false
+    private(set) var waiting = false
+    private var generation = 0
+
+    func cancel() {
+        generation += 1
+        resolving = false; waiting = false
+    }
+
+    func resolve(
+        _ place: WeatherPlace,
+        lookup: @MainActor (WeatherPlace) async throws -> WeatherPlace?,
+        sleep: @MainActor (Duration) async throws -> Void = { try await Task.sleep(for: $0) },
+        onResolved: @MainActor (WeatherPlace) -> Void
+    ) async {
+        guard !Task.isCancelled, place.valid, place.isCurrentLocation, !place.hasCityName else { return }
+        generation += 1
+        let token = generation
+        resolving = true; waiting = false
+        defer {
+            if token == generation { resolving = false; waiting = false }
+        }
+        while !Task.isCancelled, token == generation {
+            do {
+                if let named = try await lookup(place), !Task.isCancelled, token == generation,
+                   named.valid, named.isCurrentLocation, named.cacheID == place.cacheID, named.hasCityName {
+                    onResolved(named)
+                    return
+                }
+            } catch is CancellationError { return }
+            catch { /* Keep coordinate weather and retry naming independently. */ }
+            guard !Task.isCancelled, token == generation else { return }
+            resolving = false; waiting = true
+            // Geocoding is rate limited. Weather success or a foreground return
+            // can restart sooner; prolonged failures get at most one retry/minute.
+            do { try await sleep(.seconds(60)) } catch { return }
+            guard !Task.isCancelled, token == generation else { return }
+            waiting = false; resolving = true
+        }
     }
 }

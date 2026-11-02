@@ -6,6 +6,7 @@ struct WeatherTabsView: View {
     var entryReady = true
     @State private var app: WeatherApplication
     @State private var location = LocationController()
+    @State private var locationNaming = WeatherLocationNaming()
     @State private var locationAlert = false
     @State private var startupFinished = false
     @State private var retryID = 0
@@ -20,6 +21,13 @@ struct WeatherTabsView: View {
     private var loadID: String? {
         guard phase == .active, !app.offline, !locationEntry.blocksWeather else { return nil }
         return "\(app.selected.cacheID):\(retryID)"
+    }
+    private var nameID: String? {
+        guard phase == .active, !app.offline, !locationEntry.blocksWeather,
+              !location.locating, !app.searchPresented, app.selected.isCurrentLocation,
+              !app.selected.hasCityName else { return nil }
+        let weatherVersion = selectedWeather.dataset?.fetchedAt.timeIntervalSince1970 ?? 0
+        return "\(app.selected.cacheID):\(weatherVersion):\(app.citySelectionRevision)"
     }
     init(entryReady: Bool = true, app: WeatherApplication? = nil) {
         self.entryReady = entryReady
@@ -58,7 +66,7 @@ struct WeatherTabsView: View {
             } else {
                 TabView(selection: $binding.tab) {
                     NavigationStack {
-                        RegionalWeatherHome(app: app, preview: app.offline, active: app.tab == .weather, entryReady: entryReady, locate: locate, locating: location.locating, resolvingLocation: location.resolvingName).id(app.selected.cacheID)
+                        RegionalWeatherHome(app: app, preview: app.offline, active: app.tab == .weather, entryReady: entryReady, locate: locate, locating: location.locating, resolvingLocation: locationNaming.resolving, waitingLocationName: locationNaming.waiting).id(app.selected.cacheID)
                     }.tabItem { Label("天气", systemImage: "cloud.sun") }.tag(WeatherApplication.Tab.weather)
                     NavigationStack { WeatherMapView(app: app) }
                         .tabItem { Label("地图", systemImage: "map") }.tag(WeatherApplication.Tab.map)
@@ -76,6 +84,22 @@ struct WeatherTabsView: View {
         .task(id: loadID) {
             guard loadID != nil else { return }
             await app.loadSelectedWeather()
+        }
+        .task(id: nameID) {
+            guard nameID != nil else { locationNaming.cancel(); return }
+            let place = app.selected
+            let selectionRevision = app.citySelectionRevision
+            await locationNaming.resolve(place, lookup: WeatherLocationLookup.name, sleep: { delay in
+                #if DEBUG
+                if ProcessInfo.processInfo.arguments.contains("--location-name-recovery-check") {
+                    try await Task.sleep(for: .seconds(3)); return
+                }
+                #endif
+                try await Task.sleep(for: delay)
+            }) { named in
+                guard selectionRevision == app.citySelectionRevision else { return }
+                app.resolveLocation(named)
+            }
         }
         .onChange(of: entryReady, initial: true) { _, _ in startLocationIfNeeded() }
         .onChange(of: phase, initial: true) { _, value in
@@ -147,10 +171,6 @@ struct WeatherTabsView: View {
         location.onLocated = { place in
             guard selectionRevision == app.citySelectionRevision else { return }
             locationEntry.located(); app.searchPresented = false; app.selectLocation(place)
-        }
-        location.onResolved = { place in
-            guard selectionRevision == app.citySelectionRevision else { return }
-            app.resolveLocation(place)
         }
         location.request()
     }

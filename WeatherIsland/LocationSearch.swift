@@ -14,26 +14,21 @@ extension WeatherPlace {
 
 @MainActor @Observable final class LocationController:NSObject,@preconcurrency CLLocationManagerDelegate {
     private let manager=CLLocationManager()
-    private let geocoder=CLGeocoder()
     private var timeout:Task<Void,Never>?
-    private var geocoding:Task<Void,Never>?
     private var generation=0
     private var wantsLocation=false
     private var fixing=false
     private(set) var locating=false
-    private(set) var resolvingName=false
     private(set) var error:String?
     private(set) var canOpenSettings=false
     private(set) var authorization: CLAuthorizationStatus = .notDetermined
     var authorized: Bool { authorization == .authorizedAlways || authorization == .authorizedWhenInUse }
     var onLocated:((WeatherPlace)->Void)?
-    var onResolved:((WeatherPlace)->Void)?
     override init(){super.init();authorization=manager.authorizationStatus;manager.delegate=self;manager.desiredAccuracy=kCLLocationAccuracyHundredMeters}
     func request(){
         guard !locating else{return}
         generation += 1
-        timeout?.cancel();geocoding?.cancel();geocoder.cancelGeocode()
-        resolvingName=false;geocoding=nil;fixing=false
+        timeout?.cancel();fixing=false
         error=nil;canOpenSettings=false;wantsLocation=true;locating=true
         authorization = manager.authorizationStatus
         switch authorization {
@@ -69,9 +64,9 @@ extension WeatherPlace {
         error=message;canOpenSettings=settings
     }
     func cancel() {
-        generation += 1; timeout?.cancel(); timeout=nil; geocoding?.cancel(); geocoding=nil
-        geocoder.cancelGeocode(); manager.stopUpdatingLocation(); fixing=false
-        locating=false; resolvingName=false; wantsLocation=false
+        generation += 1; timeout?.cancel(); timeout=nil
+        manager.stopUpdatingLocation(); fixing=false
+        locating=false; wantsLocation=false
         error=nil; canOpenSettings=false
     }
     func refreshAuthorization() { authorization = manager.authorizationStatus }
@@ -101,22 +96,60 @@ extension WeatherPlace {
     private func accept(_ location:CLLocation){
         guard wantsLocation else{return}
         timeout?.cancel();manager.stopUpdatingLocation();wantsLocation=false;fixing=false
-        locating=false;resolvingName=true
-        let token=generation
+        locating=false
         let approximate=manager.accuracyAuthorization == .reducedAccuracy || location.horizontalAccuracy>1000
-        // Weather starts immediately from coordinates. Naming is a separate, nonblocking task.
         onLocated?(WeatherPlace.from(nil,coordinate:location.coordinate,current:true,approximate:approximate))
-        geocoding=Task{
-            let placemark=try? await geocoder.reverseGeocodeLocation(location,preferredLocale:Locale(identifier:"zh_CN")).first
-            guard !Task.isCancelled,token==generation else{return}
-            timeout?.cancel();resolvingName=false;geocoding=nil
-            if let placemark {onResolved?(WeatherPlace.from(placemark,coordinate:location.coordinate,current:true,approximate:approximate))}
+    }
+}
+
+/// One bounded lookup. Cancellation belongs to the foreground naming task;
+/// each attempt owns a geocoder so cancelling an old lookup cannot cancel a new one.
+@MainActor enum WeatherLocationLookup {
+    #if DEBUG
+    private static var checkAttempts = 0
+    #endif
+    static func name(for place: WeatherPlace) async throws -> WeatherPlace? {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--location-name-recovery-check") {
+            checkAttempts += 1
+            try await Task.sleep(for: .seconds(2))
+            if checkAttempts == 1 { throw URLError(.notConnectedToInternet) }
+            if checkAttempts == 2 { return place } // Country-only or nameless response is not success.
+            // Leave enough time for UI checks to observe populated coordinate
+            // weather before the simulated administrative name arrives.
+            try await Task.sleep(for: .seconds(8))
+            var named = place
+            named.city = "北京市"; named.district = place.approximate ? "" : "海淀区"
+            named.region = "北京市"; named.country = "中国"; named.countryCode = "CN"
+            named.timeZoneIdentifier = "Asia/Shanghai"
+            return named
         }
-        timeout=Task{
-            do {try await Task.sleep(for:.seconds(5))} catch {return}
-            guard token==generation,resolvingName else{return}
-            generation += 1;geocoding?.cancel();geocoder.cancelGeocode();geocoding=nil;resolvingName=false
-            // Keep coordinate weather. A missing administrative name must never discard a valid fix.
+        #endif
+        let request = Attempt()
+        let location = CLLocation(latitude: place.latitude, longitude: place.longitude)
+        let timeout = Task {
+            do { try await Task.sleep(for: .seconds(15)) } catch { return }
+            request.cancel()
+        }
+        defer { timeout.cancel() }
+        let placemarks = try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await request.lookup(location)
+        } onCancel: {
+            Task { @MainActor in request.cancel() }
+        }
+        try Task.checkCancellation()
+        guard let placemark = placemarks.first else { return nil }
+        return WeatherPlace.from(placemark, coordinate: location.coordinate, current: true, approximate: place.approximate)
+    }
+
+    // The actor-isolated owner can safely cross the cancellation handler's
+    // Sendable boundary; the non-Sendable geocoder stays on the main actor.
+    @MainActor private final class Attempt {
+        private let geocoder = CLGeocoder()
+        func cancel() { geocoder.cancelGeocode() }
+        func lookup(_ location: CLLocation) async throws -> [CLPlacemark] {
+            try await geocoder.reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "zh_CN"))
         }
     }
 }

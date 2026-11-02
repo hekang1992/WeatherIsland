@@ -11,12 +11,12 @@ import CoreLocation
         XCUIDevice.shared.location = nil
         super.tearDown()
     }
-    private func launchFresh(noFix: Bool = false) -> XCUIApplication {
+    private func launchFresh(noFix: Bool = false, namingRecovery: Bool = false) -> XCUIApplication {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "com.weather.app.ios")
         app.resetAuthorizationStatus(for: .location)
         supplyLocation()
-        app.launchArguments = ["--location-startup-check", "--reset-city-choice"] + (noFix ? ["--location-no-fix-check"] : [])
+        app.launchArguments = ["--location-startup-check", "--reset-city-choice"] + (noFix ? ["--location-no-fix-check"] : []) + (namingRecovery ? ["--location-name-recovery-check"] : [])
         app.launch()
         return app
     }
@@ -72,10 +72,61 @@ import CoreLocation
         let app = launchFresh()
         respondToLocation(true)
         enterHome(app)
-        let metadata = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '坐标天气' OR label CONTAINS '近似位置'")).firstMatch
+        let metadata = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '坐标天气' OR label CONTAINS '近似位置' OR label CONTAINS '解析地区' OR label CONTAINS '地区名称'")).firstMatch
         XCTAssertTrue(metadata.waitForExistence(timeout: 10), app.debugDescription)
         XCTAssertFalse(app.alerts.firstMatch.exists)
         capture(app, "Current location home")
+        app.terminate()
+    }
+    // The lookup fixture fails offline, returns no city, then supplies an
+    // administrative name. GPS authorization and coordinate weather remain real.
+    func testNameRecoversAfterNetworkFailureWithoutRelocating() throws {
+        let app = launchFresh(namingRecovery: true)
+        respondToLocation(true)
+        enterHome(app)
+        XCTAssertTrue(app.staticTexts["未来怎么变"].waitForExistence(timeout: 45))
+        let city = app.buttons["home.city"]
+        XCTAssertTrue(city.waitForExistence(timeout: 5))
+        XCTAssertEqual(city.label, "切换城市，当前当前位置", "The fixture must expose weather before its delayed name")
+        capture(app, "Naming recovery coordinate weather")
+        let named = NSPredicate(format: "label == %@", "切换城市，当前北京市 · 海淀区")
+        expectation(for: named, evaluatedWith: city)
+        waitForExpectations(timeout: 35)
+        XCTAssertTrue(app.staticTexts["未来怎么变"].exists)
+        XCTAssertFalse(app.alerts.firstMatch.exists)
+        capture(app, "Naming recovery completed")
+        app.terminate()
+    }
+    func testManualCityWinsDuringNameRecovery() throws {
+        let app = launchFresh(namingRecovery: true)
+        respondToLocation(true)
+        enterHome(app)
+        let city = app.buttons["home.city"]
+        XCTAssertTrue(city.waitForExistence(timeout: 5)); city.tap()
+        let savedCity = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "上海市")).firstMatch
+        XCTAssertTrue(savedCity.waitForExistence(timeout: 5)); savedCity.tap()
+        XCTAssertTrue(app.buttons["切换城市，当前上海市"].waitForExistence(timeout: 10))
+        XCUIDevice.shared.press(.home); app.activate()
+        XCTAssertTrue(app.buttons["切换城市，当前上海市"].waitForExistence(timeout: 5))
+        let stale = app.buttons["切换城市，当前北京市 · 海淀区"]
+        XCTAssertFalse(stale.waitForExistence(timeout: 8))
+        XCTAssertFalse(app.alerts.firstMatch.exists)
+        capture(app, "Manual city during naming recovery")
+        app.terminate()
+    }
+    func testNameRecoveryResumesAfterBackground() throws {
+        let app = launchFresh(namingRecovery: true)
+        respondToLocation(true)
+        enterHome(app)
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        let city = app.buttons["home.city"]
+        XCTAssertTrue(city.waitForExistence(timeout: 5))
+        expectation(for: NSPredicate(format: "label == %@", "切换城市，当前北京市 · 海淀区"), evaluatedWith: city)
+        waitForExpectations(timeout: 35)
+        XCTAssertTrue(app.staticTexts["未来怎么变"].exists)
+        XCTAssertFalse(app.alerts.firstMatch.exists)
+        capture(app, "Naming recovery after foreground")
         app.terminate()
     }
     func testTimeoutOffersManualCity() throws {
@@ -134,7 +185,7 @@ import CoreLocation
         supplyLocation()
         app.activate()
         enterHome(app)
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '坐标天气' OR label CONTAINS '近似位置'")).firstMatch.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '坐标天气' OR label CONTAINS '近似位置' OR label CONTAINS '解析地区' OR label CONTAINS '地区名称'")).firstMatch.waitForExistence(timeout: 10))
         XCTAssertFalse(app.alerts.firstMatch.exists)
         capture(app, "Settings granted home")
         app.terminate()

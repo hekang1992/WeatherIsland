@@ -11,6 +11,7 @@ struct RegionalWeatherHome: View {
     var locate: () -> Void = {}
     var locating = false
     var resolvingLocation = false
+    var waitingLocationName = false
     @State private var weather: WeatherStore
     @State private var air: AirQualityStore
     @State private var appeared = false
@@ -19,8 +20,8 @@ struct RegionalWeatherHome: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var phase
 
-    init(app:WeatherApplication,preview:Bool=false,snapshot:Bool=false,active:Bool=true,entryReady:Bool=true,locate:@escaping()->Void={},locating:Bool=false,resolvingLocation:Bool=false){
-        self.app=app;place=app.selected;self.preview=preview;self.snapshot=snapshot;self.active=active;self.entryReady=entryReady;self.locate=locate;self.locating=locating;self.resolvingLocation=resolvingLocation
+    init(app:WeatherApplication,preview:Bool=false,snapshot:Bool=false,active:Bool=true,entryReady:Bool=true,locate:@escaping()->Void={},locating:Bool=false,resolvingLocation:Bool=false,waitingLocationName:Bool=false){
+        self.app=app;place=app.selected;self.preview=preview;self.snapshot=snapshot;self.active=active;self.entryReady=entryReady;self.locate=locate;self.locating=locating;self.resolvingLocation=resolvingLocation;self.waitingLocationName=waitingLocationName
         _weather=State(initialValue:app.weather(for:app.selected));_air=State(initialValue:app.air(for:app.selected))
     }
     private var data:WeatherDataset? {preview ? RegionalPreview.dataset(place:place) : weather.dataset}
@@ -84,10 +85,10 @@ struct RegionalWeatherHome: View {
             Button {app.searchPresented=true} label:{
                 VStack(alignment:.leading,spacing:4){
                     HStack(spacing:5){Text(place.title).font(WeatherTypography.display(22)).lineLimit(2);Image(systemName:"chevron.down").font(.system(size:11,weight:.bold))}
-                    Text(place.isCurrentLocation ? (resolvingLocation ? "正在解析地区 · 天气同步加载" : place.city.isEmpty ? "地区名称暂缺 · 坐标天气" : place.approximate ? "近似位置 · 不展示区县" : "我的位置 · 坐标天气") : place.subtitle)
+                    Text(place.isCurrentLocation ? (resolvingLocation ? "正在解析地区 · 天气同步加载" : !place.hasCityName ? (waitingLocationName ? "地区名称待更新 · 自动重试中" : "正在获取地区名称 · 坐标天气") : place.approximate ? "近似位置 · 不展示区县" : "我的位置 · 坐标天气") : place.subtitle)
                         .font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).lineLimit(1)
                 }.multilineTextAlignment(.leading)
-            }.buttonStyle(.plain).accessibilityLabel("切换城市，当前\(place.title)")
+            }.buttonStyle(.plain).accessibilityLabel("切换城市，当前\(place.title)").accessibilityIdentifier("home.city")
             Spacer(minLength:2)
             Button(action:locate){Group{if locating{ProgressView().tint(WeatherPalette.ink)}else{Image(systemName:place.isCurrentLocation ? "location.fill":"location")}}.frame(width:40,height:44)}
                 .buttonStyle(.plain).disabled(locating).accessibilityLabel("定位我的位置")
