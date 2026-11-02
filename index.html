@@ -3,31 +3,91 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <meta name="description" content="气象岛 · 隐私政策。了解天气服务、定位权限、第三方服务与本地数据处理。">
-  <title>隐私政策 · 气象岛 WeatherIsland</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="theme-color" content="#f5f2e9">
+  <meta name="description" content="气象岛 WeatherIsland，将天气读成一卷山水。逐小时天气、多日预报、50 幅原创宋韵画境、天气地图与桌面小组件，让每次查看天气都多一分从容。">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:title" content="气象岛 · 把天气，读成一卷山水。">
+  <meta property="og:description" content="天气的清晰，山水的诗意。在气象岛，与每一天的晴雨好好相处。">
+  <meta property="og:url" content="https://hekang1992.github.io/WeatherIsland/">
+  <meta property="og:image" content="https://hekang1992.github.io/WeatherIsland/assets/social-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://hekang1992.github.io/WeatherIsland/">
+  <link rel="icon" type="image/webp" href="assets/app-icon.webp">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preload" as="image" href="assets/scene-mountains.webp">
+  <link rel="stylesheet" href="home.css">
+  <script src="home.js" defer></script>
+  <title>气象岛 WeatherIsland · 把天气，读成一卷山水。</title>
 </head>
 <body>
-  <a class="skip" href="#document">跳至正文</a>
-  <header><a class="brand" href="index.html"><span class="seal" aria-hidden="true">晴</span><span>气象岛<small>WEATHER ISLAND</small></span></a><nav aria-label="协议导航"><a href="privacy.html" aria-current="page">隐私政策</a><a href="terms.html">服务协议</a></nav></header>
-  <main id="document">
-    <p class="eyebrow">山水入怀，晴雨有时。</p>
-    <h1>隐私政策</h1>
-    <p class="date">更新日期：2026 年 11 月 2 日 · 适用于当前版本</p>
-    <p class="introduction">这份说明介绍气象岛在何时使用定位、向哪些服务发出请求，以及在设备上保存哪些内容。你可以拒绝定位并手动选择城市。</p>
-    <section><h2>1. 定位由你决定</h2><p>首次进入天气功能时，应用会申请使用期间定位权限，用于获取当前位置的天气和地区名称。你可以拒绝，改为手动选择城市；也可以在系统设置中更改权限。应用没有后台定位功能。使用近似位置时，首页不展示区县名称。</p></section>
-<section><h2>2. 天气与空气质量请求</h2><p>查询天气时，应用会将所选城市或当前位置的经纬度，以及所需气象字段发送至 Open-Meteo 天气接口；查询空气质量时会将经纬度发送至 Open-Meteo 空气质量接口。使用当前位置时，这些坐标可能来自系统授予的精确位置。请求通过 HTTPS 发出，服务方会接收建立网络连接所需的 IP 地址等信息，并按其自身政策处理。</p></section>
-<section><h2>3. 地图、城市搜索与地名解析</h2><p>加载底图、搜索城市、将位置转换成地区名称时，会使用 Apple MapKit、城市搜索和地名解析服务。输入的搜索文字、请求位置或浏览区域会按相关服务需要交给 Apple 处理。查看或刷新地图天气区域时，该区域的采样网格坐标会发送至 Open-Meteo，获取对应的气象预报。</p></section>
-<section><h2>4. 设备上的数据</h2><p>应用在设备偏好与缓存中保存收藏城市、默认城市、最近选择的地区及坐标、画境、主题、手动选城偏好，以及天气和空气质量数据与获取时间。地图预报另有运行期间的内存缓存；系统网络层也可能保留响应缓存。设备备份是否包含本地数据由系统及你的备份设置决定。</p></section>
-<section><h2>5. 当前版本的其他数据处理</h2><p>当前版本无需注册账号，未接入广告、支付或第三方行为分析 SDK，也不读取通讯录、照片、麦克风或健康数据。应用没有自建的账号同步或位置上传后台；使用天气和地图时向上述服务发出的必要请求仍会包含对应坐标或区域信息。</p></section>
-<section><h2>6. 管理你的选择</h2><p>你可以在“我的”中管理收藏，手动选择城市以停止使用当前位置，在设置中更改画境与主题。修改系统定位权限不会自动删除已保存的地区或历史缓存；停止使用当前位置后，新的城市天气请求使用手动选择的城市坐标。卸载应用或管理设备与备份可影响本地数据，已交由第三方处理的信息以其政策为准。</p></section>
-<section><h2>7. 第三方政策与更新</h2><p>你可以通过下方入口查看 Open-Meteo 与 Apple 地图的隐私说明。外部页面由相应服务方维护，并需要网络访问。本说明随应用功能变化更新，更新日期显示在本页顶部；阅读本页本身无需联网。</p></section>
-<section><h2>8. 在线协议网站</h2><p>服务协议与隐私政策的在线版本托管在 GitHub Pages。访问在线版本时，GitHub 会为安全目的记录和保存访问者的 IP 地址；网站未添加广告或行为分析脚本。App 内的协议全文保存在应用中，可离线阅读。你可以通过下方入口查看 GitHub 的隐私声明。</p></section>
-    <section class="resources"><h2>相关服务说明</h2><ul><li><a href="https://open-meteo.com/en/terms#privacy">Open-Meteo · 隐私说明<span aria-hidden="true"> ↗</span></a></li>
-<li><a href="https://www.apple.com/legal/privacy/data/en/apple-maps/">Apple 地图 · 隐私说明<span aria-hidden="true"> ↗</span></a></li>
-<li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub · 网站托管隐私声明<span aria-hidden="true"> ↗</span></a></li></ul></section>
+  <a class="skip" href="#main">跳至正文</a>
+  <header class="site-header wrap">
+    <a href="./" class="brand" aria-label="气象岛官网首页"><img src="assets/app-icon.webp" alt="" width="44" height="44"><span>气象岛<small>WEATHER ISLAND</small></span></a>
+    <nav aria-label="主导航"><a href="#experience">天气体验</a><a href="#gallery">宋韵画境</a><a href="#widgets">桌面小组件</a><a class="nav-privacy" href="privacy.html">隐私与安心 <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> 为日常，留一方晴空</p>
+        <h1 id="hero-title">把天气，<br>读成一卷<span class="last-word">山水<span class="small-seal" aria-hidden="true">晴雨</span></span>。</h1>
+        <p class="hero-description">窗外有晴雨，心中有山水。<br>清晰的天气预报，遇见东方画境的诗意，<br class="desktop-break">让每一天的出发，多一分从容。</p>
+        <div class="hero-actions"><a class="button" href="#experience">走进气象岛 <span aria-hidden="true">↘</span></a><span class="platform">为 iPhone 而作</span></div>
+        <p class="hero-footnote">山水入怀，晴雨有时。<span>WEATHER, WITH A LITTLE POETRY.</span></p>
+      </div>
+      <div class="hero-art">
+        <div class="art-mount"><img src="assets/scene-mountains.webp" alt="青绿山峦层叠，远处轻雾弥漫的原创画境《千里烟岚》" width="786" height="540" fetchpriority="high"><span class="art-label">一日一景 · 晴雨皆宜</span></div>
+        <div class="phone hero-phone"><img src="assets/app-home.webp" alt="气象岛首页界面：当前温度、天气状况、山水画境和未来天气" width="720" height="1565" fetchpriority="high"></div>
+        <span class="vertical-note" aria-hidden="true">在山水间，知晴雨。</span>
+        <div class="art-caption"><span class="caption-number">壹</span><span>山水有意，天气有时。<small>一座随身的气象小岛</small></span></div>
+      </div>
+    </section>
+    <div class="intro-strip wrap" aria-label="产品特色"><span>天气的清晰<span class="dot">·</span>山水的诗意</span><p>50 幅原创画境 <i>/</i> 逐小时与多日预报 <i>/</i> 三种桌面小组件</p><span class="tiny-seal" aria-hidden="true">气象岛</span></div>
+
+    <section class="experience wrap section-space" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading"><p class="eyebrow">01 / 日常有数</p><h2 id="experience-title">好天气，值得期待。<br>每种天气，都有准备。</h2><p>先看懂天气，再安排生活。<br>从眼前的温度，到接下来几天的晴雨，一眼明了。</p></div>
+      <div class="weather-features">
+        <article><span class="feature-symbol" aria-hidden="true">☼</span><span class="feature-number">01</span><h3>此刻冷暖，心中有数</h3><p>当前温度、体感与空气质量，连同日出日落和生活提示，把出门前关心的事放在一起。</p></article>
+        <article><span class="feature-symbol" aria-hidden="true">◷</span><span class="feature-number">02</span><h3>未来晴雨，提前一步</h3><p>沿时间查看逐小时变化，浏览多日预报。带不带伞、添不添衣，都多一份参考。</p></article>
+        <article><span class="feature-symbol" aria-hidden="true">⌁</span><span class="feature-number">03</span><h3>心之所向，皆可关心</h3><p>收藏不同城市，在日常居住的地方与牵挂的远方之间切换。天气变化，随时查看。</p></article>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="gallery" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <div class="gallery-top"><div><p class="eyebrow">02 / 山水可居</p><h2 id="gallery-title">五十幅画境，<br>装下一年的心情。</h2></div><p>取意宋韵，落笔日常。<br>从烟岚江渚到荷风莲影，<br>让一方屏幕，也有山水的呼吸。</p></div>
+        <div class="scene-tabs" role="tablist" aria-label="选择画境" aria-orientation="horizontal">
+          <button id="tab-river" role="tab" aria-controls="scene-panel" aria-selected="true" tabindex="0" data-scene="river">烟岚江渚</button>
+          <button id="tab-mountains" role="tab" aria-controls="scene-panel" aria-selected="false" tabindex="-1" data-scene="mountains">青绿山水</button>
+          <button id="tab-lotus" role="tab" aria-controls="scene-panel" aria-selected="false" tabindex="-1" data-scene="lotus">荷风莲影</button>
+          <button id="tab-autumn" role="tab" aria-controls="scene-panel" aria-selected="false" tabindex="-1" data-scene="autumn">远山秋霁</button>
+          <button id="tab-spring" role="tab" aria-controls="scene-panel" aria-selected="false" tabindex="-1" data-scene="spring">田园清和</button>
+        </div>
+        <div class="scene-display" id="scene-panel" role="tabpanel" aria-labelledby="tab-river" tabindex="0">
+          <div class="scene-frame"><img id="scene-image" src="assets/scene-river.webp" alt="江渚烟岚：岸边垂柳、江上一叶扁舟与远处淡淡山影" width="786" height="540" loading="lazy"></div>
+          <div class="scene-story"><span class="scene-count"><span id="scene-index">01</span> <i>/</i> 50</span><h3 id="scene-title">江渚烟岚</h3><p id="scene-poem">一叶轻舟，<br>驶入今日的好风景。</p><span class="scene-line"></span><p class="scene-note">十组主题 · 五十幅原创<br>把喜欢的风景，留在每天。</p></div>
+        </div>
+        <p class="gallery-footnote">此处精选五幅画境 · 更多风景，在 App 中慢慢相遇 <span aria-hidden="true">↗</span></p>
+      </div>
+    </section>
+
+    <section class="map-section wrap section-space" aria-labelledby="map-title">
+      <div class="map-copy"><p class="eyebrow">03 / 放眼远方</p><h2 id="map-title">把视野打开，<br>看天气如何流动。</h2><p>将天气铺在地图上。从一个地点，看到一片区域；沿着时间轴，了解接下来天气的变化。</p><div class="layer-list"><span>降水</span><span>气温</span><span>风速</span><span>云量</span></div><p class="map-note">地图展示预报数据；降水为小时累计预报，<br>不提供实时雷达或分钟级雨停判断。</p></div>
+      <div class="map-visual"><span class="map-orbit orbit-one" aria-hidden="true"></span><span class="map-orbit orbit-two" aria-hidden="true"></span><div class="phone map-phone"><img src="assets/weather-map.webp" alt="气象岛天气地图，展示区域温度图层、图层选择与预报时间轴；截图为界面演示" width="720" height="1565" loading="lazy"></div><span class="map-tag">一城之间 · 一览晴雨</span><span class="map-demo">App 界面演示</span></div>
+    </section>
+
+    <section class="widgets-section section-space" id="widgets" aria-labelledby="widgets-title"><div class="wrap">
+      <div class="widgets-heading"><div><p class="eyebrow">04 / 抬眼即见</p><h2 id="widgets-title">把一方天气，<br>放在桌面上。</h2></div><p>不必每次打开 App。<br>山水、带伞提醒与日光时刻，<br>在熟悉的桌面，轻轻陪伴。</p></div>
+      <div class="widget-grid">
+        <article><div class="widget-image"><img src="assets/widget-landscape.webp" alt="山水天气小组件：山水背景上的温度与逐小时天气" width="676" height="316" loading="lazy"></div><span class="widget-en">LANDSCAPE</span><h3>山水天气</h3><p>让温度，融入眼前的风景。</p></article>
+        <article><div class="widget-image rain"><img src="assets/widget-rain.webp" alt="带伞提醒小组件：降水概率与逐小时降雨趋势" width="676" height="316" loading="lazy"></div><span class="widget-en">RAIN CHANCE</span><h3>带伞提醒</h3><p>读懂降水趋势，从容安排出行。</p></article>
+        <article><div class="widget-image daylight"><img src="assets/widget-daylight.webp" alt="日出日落小组件：太阳轨迹、日落倒计时和日出日落时间" width="676" height="316" loading="lazy"></div><span class="widget-en">DAYLIGHT</span><h3>日出日落</h3><p>记住日光，也珍惜今日。</p></article>
+      </div><p class="widget-sizes">三种主题 <span>·</span> 小、中、大三种尺寸 <span>·</span> 随你的桌面，自在摆放</p>
+    </div></section>
+
+    <section class="privacy-section wrap" aria-labelledby="privacy-title"><span class="privacy-mark" aria-hidden="true">安</span><div><p class="eyebrow">让安心，也成为日常</p><h2 id="privacy-title">天气可以开阔，隐私值得珍视。</h2><p>定位按需授权，也可以手动选择城市。<br>关于数据如何使用、服务从何而来，我们写在清楚的说明里。</p><div class="legal-links"><a href="privacy.html">阅读隐私政策 <span aria-hidden="true">↗</span></a><a href="terms.html">查看服务协议 <span aria-hidden="true">↗</span></a></div></div></section>
+    <section class="closing wrap"><img src="assets/app-icon.webp" alt="" width="72" height="72" loading="lazy"><h2>愿你的每一天，<br>都有好风景。</h2><p>气象岛 <span>·</span> 山水入怀，晴雨有时。</p><a href="#main">回到晴空之下 <span aria-hidden="true">↑</span></a></section>
   </main>
-  <footer><p>气象岛 · 隐私政策全文完</p><p>同一份协议，也可在 App「设置」中离线阅读。</p></footer>
+  <footer class="site-footer wrap"><a class="footer-brand" href="./">气象岛 <span>WEATHER ISLAND</span></a><p>© 2026 WeatherIsland</p><nav aria-label="页脚导航"><a href="privacy.html">隐私政策</a><a href="terms.html">服务协议</a></nav></footer>
 </body>
 </html>
