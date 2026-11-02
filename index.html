@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="气象岛 · 隐私政策。了解天气服务、定位权限、第三方服务与本地数据处理。">
+  <title>隐私政策 · 气象岛 WeatherIsland</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#document">跳至正文</a>
+  <header><a class="brand" href="index.html"><span class="seal" aria-hidden="true">晴</span><span>气象岛<small>WEATHER ISLAND</small></span></a><nav aria-label="协议导航"><a href="privacy.html" aria-current="page">隐私政策</a><a href="terms.html">服务协议</a></nav></header>
+  <main id="document">
+    <p class="eyebrow">山水入怀，晴雨有时。</p>
+    <h1>隐私政策</h1>
+    <p class="date">更新日期：2026 年 11 月 2 日 · 适用于当前版本</p>
+    <p class="introduction">这份说明介绍气象岛在何时使用定位、向哪些服务发出请求，以及在设备上保存哪些内容。你可以拒绝定位并手动选择城市。</p>
+    <section><h2>1. 定位由你决定</h2><p>首次进入天气功能时，应用会申请使用期间定位权限，用于获取当前位置的天气和地区名称。你可以拒绝，改为手动选择城市；也可以在系统设置中更改权限。应用没有后台定位功能。使用近似位置时，首页不展示区县名称。</p></section>
+<section><h2>2. 天气与空气质量请求</h2><p>查询天气时，应用会将所选城市或当前位置的经纬度，以及所需气象字段发送至 Open-Meteo 天气接口；查询空气质量时会将经纬度发送至 Open-Meteo 空气质量接口。使用当前位置时，这些坐标可能来自系统授予的精确位置。请求通过 HTTPS 发出，服务方会接收建立网络连接所需的 IP 地址等信息，并按其自身政策处理。</p></section>
+<section><h2>3. 地图、城市搜索与地名解析</h2><p>加载底图、搜索城市、将位置转换成地区名称时，会使用 Apple MapKit、城市搜索和地名解析服务。输入的搜索文字、请求位置或浏览区域会按相关服务需要交给 Apple 处理。查看或刷新地图天气区域时，该区域的采样网格坐标会发送至 Open-Meteo，获取对应的气象预报。</p></section>
+<section><h2>4. 设备上的数据</h2><p>应用在设备偏好与缓存中保存收藏城市、默认城市、最近选择的地区及坐标、画境、主题、手动选城偏好，以及天气和空气质量数据与获取时间。地图预报另有运行期间的内存缓存；系统网络层也可能保留响应缓存。设备备份是否包含本地数据由系统及你的备份设置决定。</p></section>
+<section><h2>5. 当前版本的其他数据处理</h2><p>当前版本无需注册账号，未接入广告、支付或第三方行为分析 SDK，也不读取通讯录、照片、麦克风或健康数据。应用没有自建的账号同步或位置上传后台；使用天气和地图时向上述服务发出的必要请求仍会包含对应坐标或区域信息。</p></section>
+<section><h2>6. 管理你的选择</h2><p>你可以在“我的”中管理收藏，手动选择城市以停止使用当前位置，在设置中更改画境与主题。修改系统定位权限不会自动删除已保存的地区或历史缓存；停止使用当前位置后，新的城市天气请求使用手动选择的城市坐标。卸载应用或管理设备与备份可影响本地数据，已交由第三方处理的信息以其政策为准。</p></section>
+<section><h2>7. 第三方政策与更新</h2><p>你可以通过下方入口查看 Open-Meteo 与 Apple 地图的隐私说明。外部页面由相应服务方维护，并需要网络访问。本说明随应用功能变化更新，更新日期显示在本页顶部；阅读本页本身无需联网。</p></section>
+<section><h2>8. 在线协议网站</h2><p>服务协议与隐私政策的在线版本托管在 GitHub Pages。访问在线版本时，GitHub 会为安全目的记录和保存访问者的 IP 地址；网站未添加广告或行为分析脚本。App 内的协议全文保存在应用中，可离线阅读。你可以通过下方入口查看 GitHub 的隐私声明。</p></section>
+    <section class="resources"><h2>相关服务说明</h2><ul><li><a href="https://open-meteo.com/en/terms#privacy">Open-Meteo · 隐私说明<span aria-hidden="true"> ↗</span></a></li>
+<li><a href="https://www.apple.com/legal/privacy/data/en/apple-maps/">Apple 地图 · 隐私说明<span aria-hidden="true"> ↗</span></a></li>
+<li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub · 网站托管隐私声明<span aria-hidden="true"> ↗</span></a></li></ul></section>
+  </main>
+  <footer><p>气象岛 · 隐私政策全文完</p><p>同一份协议，也可在 App「设置」中离线阅读。</p></footer>
+</body>
+</html>
