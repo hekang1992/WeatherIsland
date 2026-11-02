@@ -1,0 +1,134 @@
+[
+  {
+    "file": "01-weather-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "把天气，读成一卷山水。",
+    "features": [
+      "天气首页",
+      "逐小时天气",
+      "多日预报",
+      "空气质量"
+    ],
+    "sourceAssets": [
+      "Weather-Artwork-Home.png",
+      "Scene-16.png"
+    ]
+  },
+  {
+    "file": "02-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "五十幅画境，每天都有新风景。",
+    "features": [
+      "50幅原创画境",
+      "10组宋韵主题",
+      "画境画廊"
+    ],
+    "sourceAssets": [
+      "Weather-Artwork-Gallery.png",
+      "Scene-21.png",
+      "Scene-16.png",
+      "Scene-46.png"
+    ]
+  },
+  {
+    "file": "03-maps-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "放眼晴雨，看见天气的走向。",
+    "features": [
+      "天气地图",
+      "四种预报图层",
+      "时间轴"
+    ],
+    "sourceAssets": [
+      "Weather-Map-Layout-Phone.png"
+    ]
+  },
+  {
+    "file": "04-widgets-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "抬眼之间，天气就在桌面。",
+    "features": [
+      "山水天气",
+      "带伞提醒",
+      "日出日落",
+      "三种尺寸"
+    ],
+    "sourceAssets": [
+      "Widget-landscape-large.png",
+      "Widget-rain-medium.png",
+      "Widget-daylight-medium.png"
+    ]
+  },
+  {
+    "file": "05-overview-2556x1179.png",
+    "size": [
+      2556,
+      1179
+    ],
+    "mode": "RGB",
+    "title": "气象岛：天气的清晰，山水的诗意。",
+    "features": [
+      "天气首页",
+      "原创画境",
+      "天气地图",
+      "桌面小组件"
+    ],
+    "sourceAssets": [
+      "Weather-Artwork-Gallery.png",
+      "Weather-Artwork-Home.png",
+      "Weather-Map-Layout-Phone.png"
+    ]
+  },
+  {
+    "file": "06-cities-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "关心的城市，都有一方晴空。",
+    "features": [
+      "城市收藏",
+      "城市切换",
+      "手动选城"
+    ],
+    "sourceAssets": [
+      "Weather-Artwork-Cities.png",
+      "Weather-Home-Manual-City.png"
+    ]
+  },
+  {
+    "file": "07-weather-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "晴雨更迭，山水各有意境。",
+    "features": [
+      "11种天气预览",
+      "画境详情",
+      "画境选择"
+    ],
+    "sourceAssets": [
+      "Weather-Artwork-Detail.png",
+      "Weather-Effects-Grid.png"
+    ]
+  }
+]

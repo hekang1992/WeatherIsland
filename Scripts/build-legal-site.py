@@ -38,7 +38,7 @@ for kind, title, resources in [
 </head>
 <body>
   <a class="skip" href="#document">跳至正文</a>
-  <header><a class="brand" href="index.html"><span class="seal" aria-hidden="true">晴</span><span>气象岛<small>WEATHER ISLAND</small></span></a><nav aria-label="协议导航">{navigation}</nav></header>
+  <header><a class="brand" href="index.html"><span class="seal" aria-hidden="true">晴</span><span>气象岛<small>WEATHER ISLAND</small></span></a><nav aria-label="协议导航"><a href="index.html">官网首页</a>{navigation}</nav></header>
   <main id="document">
     <p class="eyebrow">山水入怀，晴雨有时。</p>
     <h1>{title}</h1>
@@ -52,7 +52,5 @@ for kind, title, resources in [
 </html>
 '''
     (output / f'{kind}.html').write_text(html)
-    if kind == 'privacy':
-        (output / 'index.html').write_text(html)
 (output / '.nojekyll').touch()
-print('Generated LegalSite/index.html, privacy.html and terms.html from App documents.')
+print('Generated LegalSite/privacy.html and terms.html from App documents; homepage preserved.')

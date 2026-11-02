@@ -116,7 +116,13 @@ Debug 启动参数 `--startup-connection-check` 使用独立缓存，先模拟�
 - 隐私政策：<https://hekang1992.github.io/WeatherIsland/privacy.html>
 - 服务协议：<https://hekang1992.github.io/WeatherIsland/terms.html>
 
-`LegalSite/` 保存静态网页，`python3 Scripts/build-legal-site.py` 从 App 协议正文生成网站，避免两份文本不一致。登录具有仓库管理权限的 GitHub 账号后，运行 `python3 Scripts/publish-legal-site.py` 发布到独立的 `gh-pages` 分支；GitHub Pages 使用该分支根目录。发布脚本仅上传协议网站文件，未修改的内容不会重复创建提交。
+气象岛官网：<https://hekang1992.github.io/WeatherIsland/>。官网沿用绢纸、黛绿与宋韵山水，包含天气功能、可切换的原创画境、天气地图、桌面小组件和协议入口，适配手机与电脑。当前未配置 App Store 下载入口。
+
+`LegalSite/index.html`、`home.css`、`home.js` 为官网首页；`assets/` 保存经过 WebP 压缩的原创画作和实际 App 界面，页面没有第三方字体、分析脚本或追踪代码。地图截图仅展示产品界面，不提供官网实时天气查询。首页包含社交分享预览、站点地图、无障碍跳转入口和键盘画境切换。
+
+`python3 Scripts/build-legal-site.py` 仅从 App 协议正文更新 `privacy.html` 和 `terms.html`，保留官网首页，避免协议文本不一致。登录具有仓库管理权限的 GitHub 账号后，运行 `python3 Scripts/publish-legal-site.py` 发布完整网站到独立的 `gh-pages` 分支；GitHub Pages 使用该分支根目录。发布脚本限制上传文件类型和大小，支持二进制图片，按 Git 对象哈希复用未修改资源，网站未变化时不会重复创建提交。
+
+本地预览：`python3 -m http.server 8765 --directory LegalSite`，浏览器访问 `http://localhost:8765`。官网设计预览见 `Previews/Website-Desktop.jpg` 和 `Previews/Website-Mobile.jpg`。
 
 插画按原始画纸比例绘制：宋韵画境为 360 × 248，小岛绘图为 360 × 230。不同大小的容器统一等比居中，首页、设置缩略图与城市卡片按横幅比例布局，避免窄卡片把画面拉长。深色外观下保留画作原有绢色。
 

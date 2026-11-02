@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "images": [
+    {
+      "file": "01-weather-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 789770,
+      "sha256": "c8f1a26c5aafe98e239c9b88053c340c034572f2882e7c9a73426e2ac0e1e724"
+    },
+    {
+      "file": "02-scenes-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 806619,
+      "sha256": "3b7d545c223661cf3e6da6ac49d469f476dd5641c245dc3945b1a0ad62feacfb"
+    },
+    {
+      "file": "03-maps-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 975944,
+      "sha256": "9fbf88bde6cc9ebc653f7745b3a9cbe502997b6f61b0fd2a8051e2e7f28a3848"
+    },
+    {
+      "file": "04-widgets-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 899018,
+      "sha256": "21ff12d5aecedf852509f5999b354a5a4122ef8d6a33bf7778520a41f7df9d5e"
+    },
+    {
+      "file": "05-overview-2556x1179.png",
+      "dimensions": [
+        2556,
+        1179
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 888914,
+      "sha256": "03119eec2840820e706957b74f075cbd3144a2a7c79a4e11615299aaf2759de6"
+    },
+    {
+      "file": "06-cities-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 634262,
+      "sha256": "47069ad9a9773714d3b51d730237b16a21716cbd1eaf8da64af7baa13df66b25"
+    },
+    {
+      "file": "07-weather-scenes-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "alpha": false,
+      "sRGB_profile": true,
+      "bytes": 705218,
+      "sha256": "d8db23a33e93e852f795a7923fce73b2f6ed5db229fc71f02f4b1acbd455d18b"
+    }
+  ],
+  "archives": {
+    "WeatherIsland-AppStore-Additional-2-Images.zip": {
+      "passed": true,
+      "image_count": 2,
+      "bytes": 1320008
+    },
+    "WeatherIsland-AppStore-7-Images.zip": {
+      "passed": true,
+      "image_count": 7,
+      "bytes": 5642242
+    }
+  }
+}

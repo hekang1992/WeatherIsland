@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hekang1992.github.io/WeatherIsland/sitemap.xml

@@ -156,3 +156,13 @@
 - 完整数据回归通过，包含 LOCATION PASS、GLOBAL PASS、MAP PASS 和天气服务 PASS。验证用稳定源码副本，包含地图边缘浮点容差修正；没有再次发起真实天气或图片请求。
 
 - 桌面原工程的最终 iOS Simulator SDK Debug 构建通过（arm64 / x86_64，关闭签名），包含新 AppIcon、BrandMark 和宋体 LaunchScreen。日志：`/tmp/weather-song-build-final.log`。当时未进行 CoreSimulator 交互验收；2026-11-02 的地图验收结果见上。
+
+## 官网设计与 GitHub Pages 发布（2026-11-02）
+
+- 官网：<https://hekang1992.github.io/WeatherIsland/>；发布到 `gh-pages` 根目录，提交 `057cd267788bd57ea1d43e20164a26a190c83717`，GitHub Pages 构建状态 `built`、无构建错误。
+- 首页采用绢纸、黛绿与朱印风格，展示天气、五幅可切换原创画境、预报地图、三种桌面小组件与隐私入口。复用原有画作和 App 界面，图片转换为 WebP，整站约 334 KB；没有额外第三方字体或分析脚本。未配置 App Store 下载地址。
+- Chrome 实际浏览器验收：1440、1024、768、390、320 px，均无横向溢出、图片缺失、脚本错误或 HTTP 失败。通过画境点击、左右方向键、Home 键切换及标题同步；通过功能锚点、隐私政策、服务协议、协议返回官网链接。
+- HTML 静态检查通过所有本地链接、锚点、图片替代文本和重复 ID 检查；发布脚本语法检查、`git diff --check` 通过。重新生成协议后首页哈希不变。
+- 线上 21 个公开文件全部 HTTP 200，逐字节与本地文件一致；根目录返回官网首页。公开协议路径 `/privacy.html` 和 `/terms.html` 保留。
+- 官网与协议分开维护：协议继续从 App 正文生成；发布脚本支持二进制资源，限制发布范围，复用未修改的 Git blobs，不强制推送。
+- 完整页面预览：`Previews/Website-Desktop.jpg`、`Previews/Website-Mobile.jpg`；首页预览：`Previews/Website-Home.jpg`。本次仅修改静态网站、发布工具和说明，没有修改 iOS 源码。
