@@ -34,7 +34,7 @@ enum AirQualityService {
         return AirQualityReading(usAQI:clean(c.us_aqi),pm25:clean(c.pm2_5),pm10:clean(c.pm10),time:Date(timeIntervalSince1970:c.time),fetchedAt:fetchedAt)
     }
     static func fetch(_ place: WeatherPlace) async throws -> AirQualityReading {
-        let (data,response) = try await URLSession.shared.data(for:URLRequest(url:endpoint(for:place),timeoutInterval:15))
+        let (data,response) = try await WeatherConnection.session.data(for:URLRequest(url:endpoint(for:place),timeoutInterval:15))
         guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else { throw WeatherServiceError.invalidData }
         return try decode(data)
     }
@@ -43,20 +43,24 @@ enum AirQualityService {
 @MainActor @Observable final class AirQualityStore {
     private(set) var reading: AirQualityReading?
     private(set) var failed = false
+    private(set) var connectionFailed = false
     private(set) var loading = false
     private(set) var cached = false
     let place: WeatherPlace
     private let defaults: UserDefaults
+    private let loader: @Sendable () async throws -> AirQualityReading
     private var key: String { "WeatherIsland.Air.v1." + place.cacheID }
-    init(place:WeatherPlace,defaults:UserDefaults = .standard,live:Bool = true) {
+    init(place:WeatherPlace,defaults:UserDefaults = .standard,live:Bool = true,
+         loader: (@Sendable () async throws -> AirQualityReading)? = nil) {
         self.place=place;self.defaults=defaults
+        self.loader = loader ?? { try await AirQualityService.fetch(place) }
         if live, let data=defaults.data(forKey:key), let value=try? JSONDecoder().decode(AirQualityReading.self,from:data){reading=value;cached=true}
     }
     func refresh() async {
-        guard !loading else{return};loading=true;failed=false
+        guard !loading, !Task.isCancelled else{return};loading=true;failed=false
         defer{loading=false}
-        do {let value=try await AirQualityService.fetch(place);try Task.checkCancellation();reading=value;cached=false;defaults.set(try JSONEncoder().encode(value),forKey:key)}
-        catch is CancellationError {} catch let e as URLError where e.code == .cancelled {} catch {failed=true}
+        do {let value=try await loader();try Task.checkCancellation();reading=value;cached=false;connectionFailed=false;defaults.set(try JSONEncoder().encode(value),forKey:key)}
+        catch is CancellationError {} catch let e as URLError where e.code == .cancelled {} catch {failed=true;connectionFailed=WeatherConnection.canRetry(error)}
     }
 }
 

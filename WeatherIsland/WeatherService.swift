@@ -80,7 +80,7 @@ enum WeatherService {
     static func fetch(place: WeatherPlace = .shanghai) async throws -> Data {
         var request = URLRequest(url: endpoint(for: place), timeoutInterval: 20)
         request.cachePolicy = .reloadIgnoringLocalCacheData
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await WeatherConnection.session.data(for: request)
         guard let response = response as? HTTPURLResponse else { throw WeatherServiceError.invalidData }
         guard (200..<300).contains(response.statusCode) else { throw WeatherServiceError.response(response.statusCode) }
         return data
@@ -198,6 +198,7 @@ enum WeatherService {
     private(set) var loading = false
     private(set) var cached = false
     private(set) var error: String?
+    private(set) var connectionFailed = false
     private let cacheKey: String
     private(set) var place: WeatherPlace
     private let defaults: UserDefaults
@@ -232,7 +233,7 @@ enum WeatherService {
         dataset=WeatherDataset(current:updated(old.current),hourly:old.hourly.map(updated),daily:old.daily.map(updated),fetchedAt:old.fetchedAt,next24Hours:old.next24Hours.map(updated),timeZoneIdentifier:old.timeZoneIdentifier)
     }
     func refresh() async {
-        guard !loading else { return }
+        guard !loading, !Task.isCancelled else { return }
         loading = true
         error = nil
         defer { loading = false }
@@ -242,11 +243,13 @@ enum WeatherService {
             let fetched = Date.now
             dataset = try WeatherService.decode(data, fetchedAt: fetched, place: place)
             cached = false
+            connectionFailed = false
             defaults.set(data, forKey: cacheKey)
             defaults.set(fetched, forKey: cacheKey + ".date")
         } catch is CancellationError {
         } catch let e as URLError where e.code == .cancelled {
         } catch {
+            connectionFailed = WeatherConnection.canRetry(error)
             self.error = (error as? WeatherServiceError)?.localizedDescription ?? "暂时无法获取天气，请检查网络后重试。"
         }
     }

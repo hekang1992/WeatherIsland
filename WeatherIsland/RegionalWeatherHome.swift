@@ -14,7 +14,6 @@ struct RegionalWeatherHome: View {
     @State private var weather: WeatherStore
     @State private var air: AirQualityStore
     @State private var appeared = false
-    @State private var temperature = 0
     @State private var detail: WeatherReport?
     @State private var theatre = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -23,7 +22,6 @@ struct RegionalWeatherHome: View {
     init(app:WeatherApplication,preview:Bool=false,snapshot:Bool=false,active:Bool=true,entryReady:Bool=true,locate:@escaping()->Void={},locating:Bool=false,resolvingLocation:Bool=false){
         self.app=app;place=app.selected;self.preview=preview;self.snapshot=snapshot;self.active=active;self.entryReady=entryReady;self.locate=locate;self.locating=locating;self.resolvingLocation=resolvingLocation
         _weather=State(initialValue:app.weather(for:app.selected));_air=State(initialValue:app.air(for:app.selected))
-        _temperature=State(initialValue:snapshot ? 23 : 0)
     }
     private var data:WeatherDataset? {preview ? RegionalPreview.dataset(place:place) : weather.dataset}
     private var report:WeatherReport? {data?.current}
@@ -45,16 +43,10 @@ struct RegionalWeatherHome: View {
         .islandNavigationStyle()
         .navigationDestination(item:$detail){report in WeatherDetailView(report:report, sceneStyle:style, animate:active)}
         .sheet(isPresented:$theatre){WeatherExplorerView(selected:report?.kind ?? .partlyCloudy,sceneStyle:style,demoPlace:place){_ in}}
-        .task {guard !preview else{return};await weather.refresh()}
-        .task {guard !preview else{return};await air.refresh()}
-        .task(id:entryReady){guard entryReady else{return};withAnimation(reduceMotion ? nil : .easeOut(duration:0.55)){appeared=true;temperature=report?.temperature ?? 0}}
-        .onChange(of:report?.temperature){_,value in if entryReady{temperature=value ?? 0}}
+        .task(id:entryReady){guard entryReady else{return};withAnimation(reduceMotion ? nil : .easeOut(duration:0.55)){appeared=true}}
         .onChange(of:app.locationRefreshID){_,_ in if active,!preview{Task{await refresh()}}}
         .onChange(of:active){_,value in
             if value,!preview,Date.now.timeIntervalSince(data?.fetchedAt ?? .distantPast)>600{Task{await refresh()}}
-        }
-        .onChange(of:phase){_,value in
-            if value == .active,active,!preview,Date.now.timeIntervalSince(data?.fetchedAt ?? .distantPast)>600{Task{await refresh()}}
         }
     }
     private func refresh() async {
@@ -110,18 +102,8 @@ struct RegionalWeatherHome: View {
                 Spacer()
                 Text("观天 · 知时 / °C").font(.system(size:11,design:.monospaced))
             }.foregroundStyle(WeatherPalette.secondary)
-            HStack(alignment:.center,spacing:12){
-                Text("\(snapshot ? report.temperature : temperature)°")
-                    .font(.system(size:84,weight:.light,design:.serif)).tracking(-4)
-                    .contentTransition(.numericText()).animation(reduceMotion ? nil : .easeOut(duration:0.8),value:temperature)
-                    .accessibilityLabel("\(report.temperature)摄氏度")
-                Spacer()
-                VStack(alignment:.trailing,spacing:9){
-                    Label(report.kind.name,systemImage:report.kind.symbol).font(.system(size:17,weight:.medium))
-                    Text("体感 \(report.feelsLike)°").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
-                    Text("今天 \(report.low)° — \(report.high)°").font(.system(size:12,weight:.medium,design:.monospaced))
-                }
-            }.padding(.top,4)
+            WeatherTemperatureHeader(report: report)
+                .padding(.top, 14).padding(.bottom, 18)
             Button {detail=report} label:{
                 PaperCityScene(style:style,kind:report.kind,animate:motion)
                     .frame(height:264)
@@ -316,6 +298,63 @@ struct RegionalWeatherHome: View {
     }
 }
 
+/// Align the reading with the final detail baseline. Keep the unit separate so
+/// its font metrics cannot push the temperature or weather description sideways.
+struct WeatherTemperatureHeader: View {
+    let report: WeatherReport
+    @ScaledMetric(relativeTo: .largeTitle) private var readingSize = 84
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        Group {
+            if typeSize.isAccessibilitySize { stacked }
+            else {
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .lastTextBaseline, spacing: 20) {
+                        reading
+                        Spacer(minLength: 0)
+                        details(alignment: .trailing).fixedSize(horizontal: true, vertical: true)
+                    }
+                    stacked
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    private var reading: some View {
+        HStack(alignment: .top, spacing: 2) {
+            Text("\(report.temperature)")
+                .font(.system(size: min(readingSize, 112), weight: .light, design: .serif))
+                .tracking(-3).fixedSize()
+                .contentTransition(.numericText())
+                .animation(reduceMotion ? nil : .easeOut(duration: 0.4), value: report.temperature)
+            Text("°")
+                .font(.system(size: min(readingSize, 112) * 0.4, weight: .regular, design: .serif))
+                .padding(.top, min(readingSize, 112) * 0.13)
+        }
+        .fixedSize().accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(report.temperature)摄氏度")
+        .accessibilityIdentifier("home.temperature")
+    }
+    private var stacked: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            reading
+            details(alignment: .leading)
+        }
+    }
+    private func details(alignment: HorizontalAlignment) -> some View {
+        VStack(alignment: alignment, spacing: 8) {
+            Label(report.kind.name, systemImage: report.kind.symbol).font(.headline)
+                .accessibilityIdentifier("home.condition")
+            Text("体感 \(report.feelsLike)°").font(.subheadline).foregroundStyle(WeatherPalette.secondary)
+                .accessibilityIdentifier("home.feelsLike")
+            Text("今天 \(report.low)° — \(report.high)°").font(.caption.monospacedDigit())
+                .accessibilityIdentifier("home.temperatureRange")
+        }
+    }
+}
+
 struct RegionalTicketShape:Shape{
     func path(in r:CGRect)->Path{var p=Path(roundedRect:r,cornerRadius:14);p.addEllipse(in:CGRect(x:-4,y:r.height*0.58,width:8,height:8));p.addEllipse(in:CGRect(x:r.width-4,y:r.height*0.58,width:8,height:8));return p}
 }
@@ -329,7 +368,13 @@ enum RegionalPreview {
     static let date=Date(timeIntervalSince1970:1793325600)
     static func dataset(place:WeatherPlace = .shanghai)->WeatherDataset {
         func make(_ i:Int,daily:Bool=false)->WeatherReport{
-            let t=23+Int(sin(Double(i)*0.4)*3),time=date.addingTimeInterval(Double(i)*(daily ? 86400:3600))
+            var t=23+Int(sin(Double(i)*0.4)*3)
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("--home-layout-check"),
+               let value = ProcessInfo.processInfo.arguments.first(where: { $0.hasPrefix("--temperature=") })?.split(separator: "=").last,
+               let supplied = Int(value), (-100...100).contains(supplied) { t = supplied }
+            #endif
+            let time=date.addingTimeInterval(Double(i)*(daily ? 86400:3600))
             return WeatherReport(kind:i%7==5 ? .lightRain:.partlyCloudy,temperature:t,low:18,high:26,feelsLike:t-1,scope:place.title,isDemo:true,metrics:WeatherMetrics(time:time,uv:3.2,probability:daily ? Double([63,35,20,10,45,80,30][i%7]):Double((i*7)%70),precipitation:daily ? Double([1.2,0.5,0,0,0.7,4.1,0.3][i%7]):0.1,precipitationUnit:daily ? "mm/天":"mm/h",wind:12,windDirection:125,humidity:65,visibility:18,sunrise:date.addingTimeInterval(-4*3600),sunset:date.addingTimeInterval(7*3600),daily:daily,timeZoneIdentifier:place.timeZoneIdentifier),place:place)
         }
         let hours=(0..<24).map{make($0)}

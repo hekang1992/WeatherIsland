@@ -24,30 +24,39 @@ extension WeatherPlace {
     private(set) var resolvingName=false
     private(set) var error:String?
     private(set) var canOpenSettings=false
+    private(set) var authorization: CLAuthorizationStatus = .notDetermined
+    var authorized: Bool { authorization == .authorizedAlways || authorization == .authorizedWhenInUse }
     var onLocated:((WeatherPlace)->Void)?
     var onResolved:((WeatherPlace)->Void)?
-    override init(){super.init();manager.delegate=self;manager.desiredAccuracy=kCLLocationAccuracyHundredMeters}
+    override init(){super.init();authorization=manager.authorizationStatus;manager.delegate=self;manager.desiredAccuracy=kCLLocationAccuracyHundredMeters}
     func request(){
         guard !locating else{return}
         generation += 1
         timeout?.cancel();geocoding?.cancel();geocoder.cancelGeocode()
         resolvingName=false;geocoding=nil;fixing=false
         error=nil;canOpenSettings=false;wantsLocation=true;locating=true
-        switch manager.authorizationStatus {
+        authorization = manager.authorizationStatus
+        switch authorization {
         case .notDetermined:manager.requestWhenInUseAuthorization()
         case .authorizedAlways,.authorizedWhenInUse:startFix()
-        case .denied,.restricted:fail("定位权限未开启，你仍可以搜索城市。",settings:true)
+        case .denied:fail("定位权限未开启，请手动选择天气城市，也可以前往系统设置开启定位。",settings:true)
+        case .restricted:fail("此设备限制了定位权限，请手动选择天气城市。")
         @unknown default:fail("暂时无法使用定位，请搜索城市。")
         }
     }
     private func startFix(){
         guard wantsLocation,!fixing else{return}
         fixing=true
+        #if DEBUG
+        let suppressFix = ProcessInfo.processInfo.arguments.contains("--location-no-fix-check")
+        #else
+        let suppressFix = false
+        #endif
         // A recent system fix avoids waiting for another GPS acquisition on repeated taps.
-        if let recent=manager.location,recent.horizontalAccuracy>=0,abs(recent.timestamp.timeIntervalSinceNow)<60 {
+        if !suppressFix, let recent=manager.location,recent.horizontalAccuracy>=0,abs(recent.timestamp.timeIntervalSinceNow)<60 {
             accept(recent);return
         }
-        manager.startUpdatingLocation()
+        if !suppressFix { manager.startUpdatingLocation() }
         let token=generation
         timeout=Task{
             do {try await Task.sleep(for:.seconds(12))} catch {return}
@@ -56,16 +65,24 @@ extension WeatherPlace {
         }
     }
     private func fail(_ message:String,settings:Bool=false){
-        generation += 1;timeout?.cancel();geocoding?.cancel();geocoding=nil
-        geocoder.cancelGeocode();manager.stopUpdatingLocation();fixing=false
-        locating=false;resolvingName=false;wantsLocation=false;error=message;canOpenSettings=settings
+        cancel()
+        error=message;canOpenSettings=settings
     }
+    func cancel() {
+        generation += 1; timeout?.cancel(); timeout=nil; geocoding?.cancel(); geocoding=nil
+        geocoder.cancelGeocode(); manager.stopUpdatingLocation(); fixing=false
+        locating=false; resolvingName=false; wantsLocation=false
+        error=nil; canOpenSettings=false
+    }
+    func refreshAuthorization() { authorization = manager.authorizationStatus }
     func clearError(){error=nil}
     func locationManagerDidChangeAuthorization(_ manager:CLLocationManager){
+        authorization = manager.authorizationStatus
         guard wantsLocation else{return}
         switch manager.authorizationStatus {
         case .authorizedAlways,.authorizedWhenInUse:startFix()
-        case .denied,.restricted:fail("定位权限未开启，你仍可以搜索城市。",settings:true)
+        case .denied:fail("定位权限未开启，请手动选择天气城市，也可以前往系统设置开启定位。",settings:true)
+        case .restricted:fail("此设备限制了定位权限，请手动选择天气城市。")
         default:break
         }
     }

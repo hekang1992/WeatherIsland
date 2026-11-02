@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00000000000000000000028 /* WeatherConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000028 /* WeatherConnection.swift */; };
 		A00000000000000000000001 /* WeatherIslandApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* WeatherIslandApp.swift */; };
 		A00000000000000000000002 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* WeatherHomeView.swift */; };
 		B00000000000000000000014 /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* WeatherModels.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C00000000000000000000028 /* WeatherConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConnection.swift; sourceTree = "<group>"; };
 		A00000000000000000000003 /* WeatherIslandApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIslandApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000004 /* WeatherHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeView.swift; sourceTree = "<group>"; };
 		A00000000000000000000005 /* WeatherIsland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherIsland.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +88,7 @@
 				C00000000000000000000024 /* LocationSearch.swift */,
 				C00000000000000000000025 /* RegionalWeatherHome.swift */,
 				C00000000000000000000026 /* SceneGallery.swift */,
+				C00000000000000000000028 /* WeatherConnection.swift */,
 				C0000000000000000000001C /* WeatherMapData.swift */,
 				C0000000000000000000001D /* WeatherMapCanvas.swift */,
 				C0000000000000000000001E /* WeatherMapView.swift */,
@@ -194,6 +197,7 @@
 				D00000000000000000000024 /* LocationSearch.swift in Sources */,
 				D00000000000000000000025 /* RegionalWeatherHome.swift in Sources */,
 				D00000000000000000000026 /* SceneGallery.swift in Sources */,
+				D00000000000000000000028 /* WeatherConnection.swift in Sources */,
 				D0000000000000000000001C /* WeatherMapData.swift in Sources */,
 				D0000000000000000000001D /* WeatherMapCanvas.swift in Sources */,
 				D0000000000000000000001E /* WeatherMapView.swift in Sources */,
@@ -242,7 +246,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "气象岛";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "用于获取你所在城市和区县的天气，仅在点击定位时使用。";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "进入首页时用于获取你所在城市和区县的天气。你也可以拒绝定位并手动选择城市，不使用后台定位。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -271,7 +275,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "气象岛";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "用于获取你所在城市和区县的天气，仅在点击定位时使用。";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "进入首页时用于获取你所在城市和区县的天气。你也可以拒绝定位并手动选择城市，不使用后台定位。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

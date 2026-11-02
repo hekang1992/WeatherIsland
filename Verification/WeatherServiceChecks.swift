@@ -4,6 +4,8 @@ import Foundation
     @MainActor static func main() async throws {
         let path = CommandLine.arguments[1]
         let fixture = try Data(contentsOf: URL(fileURLWithPath: path))
+        try await checkWeatherConnection(fixture: fixture)
+        try checkWeatherLocationEntry()
         let data = try WeatherService.decode(fixture)
         precondition(data.hourly.count == 6 && data.daily.count == 7)
         precondition(data.hours.first?.time == "现在")

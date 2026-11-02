@@ -87,7 +87,7 @@ struct WeatherSplashView: View {
     }
 }
 
-/// Mount the Home once, so the weather request can start underneath the brief brand reveal.
+/// Mount the app container once so weather can load underneath the brief brand reveal.
 struct WeatherRootView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showingSplash = true

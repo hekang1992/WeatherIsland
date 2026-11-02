@@ -2,6 +2,30 @@
 
 更新：2026-11-02（Asia/Shanghai）。工程位于 `/Users/hekang/Desktop/WeatherIsland`。
 
+## 首页气温与启动定位验收（2026-11-02）
+
+- 修复首页气温数字、度数与天气说明的对齐；度数独立置顶，数字与说明按末行基线排列，宽度不足时改为上下排列。辅助功能大字号固定使用上下布局。取消首次从 0 起跳，直接显示天气读数；实际数值变化时保留动画并遵循减弱动态效果。
+- 新安装在品牌入场结束后自动请求使用期间定位，取得坐标或用户明确选择城市前不请求默认上海天气、不进入空首页。已有手动城市选择会持久化，后续启动直接使用；旧版有效手动城市可迁移，损坏收藏恢复为首次选择流程。
+- 拒绝／受限／超时提供手动选城；拒绝时还提供系统设置入口。首次城市选择不能直接滑掉，已收藏和常用城市可离线选择；已有可用城市时，后续定位失败可保留当前城市。进入后台取消未完成的定位，返回前台按状态恢复；手动选城取消定位、反向解析和超时，选择版本号同时拦截迟到回调。
+- `bash Verification/run-checks.sh` 全部通过，包含 CONNECTION PASS、LOCATION ENTRY PASS、LOCATION PASS、GLOBAL PASS、MAP PASS、Weather service PASS。新增用例覆盖首次选择、手动偏好保存／迁移、重复选择同城、非法坐标、取消与后台恢复、失败不破坏既有城市、迟到名称不覆盖手动城市、Preview 隔离。日志：`/tmp/weather-location-checks-final.log`。
+- 最终生产源码 iOS Simulator Debug 构建通过（arm64 / x86_64，关闭签名）：`/tmp/weather-location-build-final.log`。
+- iPhone 17 Pro / iOS 27.0：真实系统定位授权允许、拒绝后选 Tokyo 与重启／前后台保持选择、城市搜索弹层内重新定位失败后正确展示提示、定位等待期间手动选城取消后续超时、12 秒无坐标超时后选城均通过。无坐标用例通过 Debug 开关抑制位置更新，授权弹窗仍由系统实际显示。原有首次联网 3 项回归通过；气温 0、9、23、-28、-100、100 的边界与不重叠检查通过。合并报告：`/tmp/WeatherIsland-HomeQA-Final.xcresult`，日志：`/tmp/weather-home-ui-final.log`。该合并报告中的系统设置用例因自动化未匹配到 Settings 入口而失败，其补测单独记录。
+- 系统设置授权最终补测通过：真实拒绝 → 系统设置「使用 App 期间」→ 回到 App 自动恢复定位、取得真实天气并进入首页；同时重新验证首次直接允许定位，共 2 项、0 失败。报告 `/tmp/WeatherIsland-LocationAuthorizationQA.xcresult`，日志 `/tmp/weather-location-authorization-ui.log`。先前补测曾遇到 Settings 中文入口／记忆页面定位失败，以及模拟器未继续提供有效坐标而触发真实 12 秒超时；最终用例使用系统 Settings 权限项标识，并通过 `XCUIDevice.shared.location` 提供带当前时间的模拟坐标，测试后清理。补测未修改生产源码，没有放宽进入首页或当前坐标天气断言。
+- iPhone SE（第 3 代）/ iOS 27.0：同六种气温的边界与不重叠检查通过，报告 `/tmp/WeatherIsland-HomeSmallQA.xcresult`、日志 `/tmp/weather-home-small-ui.log`。最大辅助字号（accessibility-extra-extra-extra-large）下 -100° 和说明上下分开、均在屏幕内，检查通过，报告 `/tmp/WeatherIsland-HomeAccessibilityQA.xcresult`、日志 `/tmp/weather-home-accessibility-ui.log`。测试后已恢复模拟器标准字号。
+- 已人工检查并保存模拟器截图：`Previews/Weather-Home-Current-Location.png`（模拟海淀坐标，真实天气接口）、`Weather-Location-Denied.png`、`Weather-Home-Manual-City.png`、`Weather-Home-Settings-Granted.png`、`Weather-Home-Small.png` 和 `Weather-Home-Large-Type.png`。气温边界截图来自 Debug 离线数据，不能作为真实温度记录。
+- 未使用真机；模拟位置不验证硬件 GPS、国行系统首次联网弹窗、实际受限设备或近似定位的系统表现。既有联网恢复以 Debug 模拟阻断进行回归，未声称模拟器复现国行联网权限弹窗。
+
+## 首次联网与自动恢复验收（2026-11-02）
+
+- 修复首次无缓存、系统联网权限尚未放行时提前进入空首页的问题。品牌入场结束后显示独立连接等待页；获取当前地区天气后自动创建首页与四个 Tab。有缓存时立即进入首页，空气质量请求独立进行。
+- 天气与空气质量使用 `waitsForConnectivity` 会话，资源等待上限 30 秒。网络连接类错误在前台按 1 / 2 / 4 / 8 / 15 秒间隔重试，之后保持 15 秒；离开前台或切换城市会取消原恢复任务，回到前台重新检查。HTTP / 数据错误不作为联网权限错误持续重试。
+- 12 秒后或首次错误时保留「重新连接」「检查网络设置」「稍后进入」操作，自动重试期间按钮不会反复消失。首次连接等待期间不创建首页或系统 Tab 栏。「稍后进入」允许继续使用其他页面，同时保留前台恢复任务。
+- `bash Verification/run-checks.sh` 最终通过：新增 CONNECTION PASS，原有 LOCATION / GLOBAL / MAP / 天气服务回归通过。确定性测试覆盖连续 7 次模拟权限未放行后自动恢复、退避上限、非联网错误停止重试、取消退避、天气与空气独立恢复、请求中取消后恢复同城市、缓存启动及离线 Preview 不请求网络。日志：`/tmp/weather-network-checks-final.log`。
+- 最终 iOS Simulator Debug 构建通过（arm64 / x86_64，关闭签名），日志：`/tmp/weather-network-build-final.log`。只有既有 AppIntents 元数据跳过警告。
+- iPhone 17 Pro / iOS 27.0 模拟器的 3 项 XCUITest 全部通过：联网前无首页及 Tab 栏、模拟两次 `dataNotAllowed` 后自动加载真实天气并进入首页、稍后进入和设置访问、自动恢复期间点击手动重试、进入首页后往返地图。最终报告：`/tmp/WeatherIsland-StartupQA-Verified.xcresult`，日志：`/tmp/weather-startup-ui-verified.log`。UI 用例源码保存在 `Verification/WeatherStartupUITests.swift`，本次由 `/tmp/WeatherIslandMapQA` 的独立 UI 测试目标执行。
+- 已查看最终模拟器截图：`Previews/Weather-Startup-Connecting.png`、`Previews/Weather-Startup-Waiting.png`、`Previews/Weather-Startup-Recovered.png`，包括重试按钮文字对比度。前两张的权限延迟来自 Debug 模拟，恢复后的天气来自真实接口。
+- 本次未使用国行真机，也没有复现系统自身的联网权限弹窗；模拟器使用 `--startup-connection-check` 复现请求被阻止和稍后恢复。仍需国行设备实际确认「首次弹窗稍后允许」「拒绝后进入设置放行」「已有缓存且离线启动」的系统行为。不将蜂窝网络状态或本地网络权限当作该联网授权的准确状态。
+
 ## 晴雨地图验收（2026-11-02）
 
 - 底部新增「地图」Tab；实装 Apple 地图、降水 / 气温 / 风速 / 云量热力层、选点读数、城市选择、标准 / 卫星切换、回到所选城市，以及 12 / 24 / 66 小时时间轴与播放。
@@ -36,12 +60,12 @@
 - 设置 → 宋韵画境 → 画境小赏明确显示系统导航栏和返回入口；实际点击返回尚待设备验收。
 - 首页按当前天气、未来趋势、当前环境、日照和生活建议组织。温度与降水概率使用明确单位，缺失降水概率显示暂无预报。
 - 定位接受有效坐标后立即发起天气请求；行政区解析独立进行，上限 5 秒，失败保留坐标天气。坐标获取上限 12 秒，复用 60 秒内有效位置，短暂 locationUnknown 不立即中止。重复定位触发刷新。
-- 近似位置不展示区县；权限失败保留原地区并提供搜索或系统设置入口。系统授权和硬件定位分支尚未自动化模拟。
+- 近似位置不展示区县；权限失败保留原地区并提供搜索或系统设置入口。系统授权弹窗已在 2026-11-02 的首页回测中覆盖允许／拒绝，硬件 GPS 和系统受限分支仍未实机验证。
 - 天气剧场可以切换 11 种特效，并打开明确标注的离线详情；真实天气不受演示选择影响。
 
 ## 早期验收限制（2026-10-30）
 
-2026-10-30 执行时 CoreSimulator 服务连接失败、无法发现可用运行时，因此当时完成 SDK 编译与离屏静态视觉检查，未完成模拟器或真机交互验收。2026-11-02 已恢复模拟器并完成上述地图交互验收。定位权限弹窗、真实海淀区/近似定位、GPS 获取速度、真实全球搜索、导航返回、Tab 状态、图表点击、动画流畅度和系统减弱动态效果仍需设备验证。12 秒与 5 秒为代码中的超时界限，不是实测定位耗时。
+2026-10-30 执行时 CoreSimulator 服务连接失败、无法发现可用运行时，因此当时完成 SDK 编译与离屏静态视觉检查，未完成模拟器或真机交互验收。2026-11-02 已恢复模拟器并完成上述地图交互验收。当时未完成的系统定位弹窗允许／拒绝和模拟海淀坐标、定位 12 秒超时，已在 2026-11-02 的首页回测中补测；真实 GPS 与近似定位、真实全球搜索、导航返回、图表点击、动画流畅度和系统减弱动态效果仍需设备验证。12 秒与 5 秒为代码中的超时界限，不是实测 GPS 获取耗时。
 
 此前轮次已记录真实天气及空气质量接口返回成功；不据此声称本轮或所有地区当前都可访问。可使用 `bash Verification/run-checks.sh --live` 额外检查真实天气请求。
 
