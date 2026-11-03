@@ -4,6 +4,7 @@ import Foundation
     @MainActor static func main() async throws {
         let path = CommandLine.arguments[1]
         let fixture = try Data(contentsOf: URL(fileURLWithPath: path))
+        checkHomeWeatherInsights()
         try checkWeatherWidgets(fixture: fixture)
         try await checkWeatherConnection(fixture: fixture)
         try checkWeatherLocationEntry()

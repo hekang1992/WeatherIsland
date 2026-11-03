@@ -166,3 +166,24 @@
 - 线上 21 个公开文件全部 HTTP 200，逐字节与本地文件一致；根目录返回官网首页。公开协议路径 `/privacy.html` 和 `/terms.html` 保留。
 - 官网与协议分开维护：协议继续从 App 正文生成；发布脚本支持二进制资源，限制发布范围，复用未修改的 Git blobs，不强制推送。
 - 完整页面预览：`Previews/Website-Desktop.jpg`、`Previews/Website-Mobile.jpg`；首页预览：`Previews/Website-Home.jpg`。本次仅修改静态网站、发布工具和说明，没有修改 iOS 源码。
+
+
+## 首页交互与天气手记（2026-11-03）
+
+- 首页增加降水、今日最高紫外线和空气质量快捷入口；今日手记、户外时间参考、逐时／每日卡片、6 项环境指标、日出日落、4 项生活建议均可进入对应手记。画境保留完整天气详情入口。
+- 手记使用半屏／全屏两档，支持拖动、关闭和进入完整天气后返回；打开时暂停首页画境动画。雨量、概率、UV 与空气质量均解释统计口径，独立显示空气质量更新时间及缓存状态。
+- 新增雨具／衣物／随身用品的本机清单；按地区和当地预报日期重置，关闭重开后保留勾选。
+- 户外参考要求连续两小时且处于日照范围，排除缺失数据、雨雪雾、强风和剧烈天气；实时模式排除过期缓存时段。它是本地规则生成的日常参考。
+- 最大辅助字号下，手记默认全屏，环境指标单列，标题与说明分行，空气污染物分行，降水时间与概率分行，避免挤断。
+
+验证结果：
+
+- 最终 iOS Simulator Debug 构建成功（arm64，关闭签名），构建日志无编译 warning／error：`/tmp/weather-home-final-build.log`。
+- 最终 `bash Verification/run-checks.sh` 全部通过，含新增 HOME INSIGHTS（缺值、6 小时边界、连续时段、天气排除、日照边界、城市时区、过期缓存），以及原天气、定位、连接、设置、地图、小组件回归。日志：`/tmp/weather-home-checks.log`。本轮未调用真实天气接口。
+- iPhone 17 Pro 模拟器：4 类流程均已通过——快捷入口与下拉关闭；清单记忆和完整详情往返；逐时／每日、空气、6 项环境、日照、4 项生活建议；最大辅助字号。首次下拉关闭测试起点在弹窗外，改为从弹窗顶部拖动后通过。逐项结果保留在 `Home.xcresult`、`Phone-Retest.xcresult`。
+- 同一大屏模拟器的系统深色外观：快捷入口／关闭和最大辅助字号共 2 项通过，报告 `Phone-Dark-Final.xcresult`。其后仅调整降水大字号行的排列，最终小屏回测覆盖该调整。
+- iPhone SE（第 3 代）模拟器：最终快捷入口／关闭与最大辅助字号共 2 项全部通过，报告 `Compact-Verified.xcresult`。早期测试误把底栏遮挡的卡片中心判定为可点击，已改为先滚动到安全区域再点，同时改善实际大字号排版。
+- iPhone 继续仅支持竖屏。早期测试曾请求横向旋转，但实际界面仍是竖屏，因此不计作横屏验证。未进行真机验收。
+- XCTest 报告目录：`/tmp/WeatherIsland-HomeQA.mvnvte/`。可复现：`bash Verification/run-home-ui-checks.sh SIMULATOR_UDID`；最终脚本语法检查与 `git diff --check` 通过。
+
+预览均为离线设计示例，日期和数值不代表当前实况：`Previews/Home-Overview.png`、`Home-Refined.png`、`Home-Sheet-Rain.png`、`Home-Sheet-Hour.png`、`Home-Sheet-Day.png`、`Home-Checklist.png`、`Home-Dark.png`、`Home-Sheet-Dark.png`、`Home-Compact.png`、`Home-Rain-Large-Type.png`、`Home-Air-Large-Type.png`。

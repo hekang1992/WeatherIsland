@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000000000000000000002 /* WeatherHomeInsights.swift */; };
 		A00000000000000000000001 /* WeatherIslandApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* WeatherIslandApp.swift */; };
 		A00000000000000000000002 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* WeatherHomeView.swift */; };
 		B00000000000000000000014 /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* WeatherModels.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+        F30000000000000000000002 /* WeatherHomeInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeInsights.swift; sourceTree = "<group>"; };
 		A00000000000000000000003 /* WeatherIslandApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIslandApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000004 /* WeatherHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeView.swift; sourceTree = "<group>"; };
 		A00000000000000000000005 /* WeatherIsland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherIsland.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +140,7 @@
 				C00000000000000000000023 /* WeatherApplication.swift */,
 				C00000000000000000000024 /* LocationSearch.swift */,
 				C00000000000000000000025 /* RegionalWeatherHome.swift */,
+                F30000000000000000000002 /* WeatherHomeInsights.swift */,
 				C00000000000000000000026 /* SceneGallery.swift */,
 				C00000000000000000000028 /* WeatherConnection.swift */,
 				C0000000000000000000001C /* WeatherMapData.swift */,
@@ -311,6 +314,7 @@
 				D00000000000000000000023 /* WeatherApplication.swift in Sources */,
 				D00000000000000000000024 /* LocationSearch.swift in Sources */,
 				D00000000000000000000025 /* RegionalWeatherHome.swift in Sources */,
+                F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */,
 				D00000000000000000000026 /* SceneGallery.swift in Sources */,
 				D00000000000000000000028 /* WeatherConnection.swift in Sources */,
 				D0000000000000000000001C /* WeatherMapData.swift in Sources */,
