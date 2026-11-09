@@ -2,11 +2,28 @@ import Foundation
 
 @main struct WeatherServiceChecks {
     @MainActor static func main() async throws {
+        try await checkCitySearch()
+        if CommandLine.arguments.contains("--city-search-live") { try await checkLiveCitySearch() }
         let path = CommandLine.arguments[1]
         let fixture = try Data(contentsOf: URL(fileURLWithPath: path))
+        let clockWinter = ISO8601DateFormatter().date(from: "2026-11-03T16:30:00Z")!
+        let clockSummer = ISO8601DateFormatter().date(from: "2026-07-01T12:00:00Z")!
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Asia/Tokyo", at: clockWinter) == "比参照城市快 1小时")
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Asia/Kolkata", at: clockWinter) == "比参照城市慢 2小时30分钟")
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Asia/Shanghai", at: clockWinter) == "与参照城市同一时间")
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Europe/London", at: clockWinter) == "比参照城市慢 8小时")
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Europe/London", at: clockSummer) == "比参照城市慢 7小时")
+        precondition(WeatherClock.difference(from: "invalid", to: "Asia/Tokyo", at: clockWinter) == "时区未知")
+        precondition(WeatherClock.string(clockWinter, "yyyy-MM-dd HH:mm", timeZone: "Asia/Shanghai") == "2026-11-04 00:30")
+        precondition(WeatherClock.string(clockWinter, "yyyy-MM-dd HH:mm", timeZone: "Europe/London") == "2026-11-03 16:30")
+        let dstBefore = ISO8601DateFormatter().date(from: "2026-10-25T00:30:00Z")!
+        let dstAfter = ISO8601DateFormatter().date(from: "2026-10-25T01:30:00Z")!
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Europe/London", at: dstBefore) == "比参照城市慢 7小时")
+        precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Europe/London", at: dstAfter) == "比参照城市慢 8小时")
         checkHomeWeatherInsights()
         try checkWeatherWidgets(fixture: fixture)
         try await checkWeatherConnection(fixture: fixture)
+        checkSavedCityManagement()
         try checkWeatherLocationEntry()
         await checkWeatherLocationNaming()
         try checkWeatherSettings()

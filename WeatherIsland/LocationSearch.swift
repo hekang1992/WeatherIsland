@@ -154,43 +154,137 @@ extension WeatherPlace {
     }
 }
 
-@MainActor @Observable final class CitySearchController:NSObject,@preconcurrency MKLocalSearchCompleterDelegate {
-    private(set) var results:[MKLocalSearchCompletion]=[]
-    private(set) var loading=false
-    private(set) var resolving=false
-    private(set) var error:String?
-    private var debounce:Task<Void,Never>?
-    private var completer:MKLocalSearchCompleter?
-    private var localSearch:MKLocalSearch?
-    private var resolveTask:Task<Void,Never>?
-    func update(_ query:String){
-        debounce?.cancel();completer?.cancel();completer?.delegate=nil;completer=nil
-        localSearch?.cancel();localSearch=nil;resolveTask?.cancel();resolving=false;results=[];error=nil
-        let text=query.trimmingCharacters(in:.whitespacesAndNewlines)
-        guard !text.isEmpty else{loading=false;return};loading=true
-        debounce=Task{
-            do{try await Task.sleep(for:.milliseconds(350))}catch{return}
-            let next=MKLocalSearchCompleter();next.resultTypes = [.address];next.delegate=self
-            completer=next;next.queryFragment=text
+@MainActor @Observable final class CitySearchController: NSObject, @preconcurrency MKLocalSearchCompleterDelegate {
+    private(set) var results: [MKLocalSearchCompletion] = []
+    private(set) var cities: [GeocodedCity] = []
+    private(set) var resolving = false
+    private(set) var error: String?
+    private(set) var globalLoading = false
+    private var localLoading = false
+    var loading: Bool { globalLoading || localLoading }
+    private var globalFailed = false
+    private var localFailed = false
+    private var generation = 0
+    private var debounce: Task<Void, Never>?
+    private var globalTask: Task<Void, Never>?
+    private var localTimeout: Task<Void, Never>?
+    private var completer: MKLocalSearchCompleter?
+    private var localSearch: MKLocalSearch?
+    private var resolveTask: Task<Void, Never>?
+
+    func update(_ query: String) {
+        cancel()
+        results = []; cities = []; error = nil
+        globalFailed = false; localFailed = false
+        let text = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard text.count >= 2 else { return }
+        globalLoading = true; localLoading = true
+        let token = generation
+        debounce = Task {
+            do { try await Task.sleep(for: .milliseconds(350)) } catch { return }
+            guard token == generation else { return }
+            globalTask = Task {
+                do {
+                    let matches = try await lookup(text)
+                    try Task.checkCancellation()
+                    guard token == generation else { return }
+                    cities = matches; globalLoading = false; updateError()
+                } catch {
+                    guard !Task.isCancelled, token == generation else { return }
+                    globalFailed = true; globalLoading = false; updateError()
+                }
+            }
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("--city-search-check") {
+                localLoading = false
+                return
+            }
+            #endif
+            let next = MKLocalSearchCompleter()
+            next.resultTypes = [.address]; next.delegate = self
+            completer = next; next.queryFragment = text
+            localTimeout = Task {
+                do { try await Task.sleep(for: .seconds(10)) } catch { return }
+                guard token == generation, localLoading else { return }
+                next.cancel(); next.delegate = nil
+                localLoading = false; localFailed = true; updateError()
+            }
         }
     }
-    func completerDidUpdateResults(_ completer:MKLocalSearchCompleter){guard completer===self.completer else{return};results=completer.results;loading=false}
-    func completer(_ completer:MKLocalSearchCompleter,didFailWithError error:Error){guard completer===self.completer else{return};loading=false;self.error="搜索暂时不可用，请检查网络后再试。"}
-    func choose(_ result:MKLocalSearchCompletion,onSelect:@escaping(WeatherPlace)->Void){
-        guard !resolving else{return};resolving=true;error=nil
-        let search=MKLocalSearch(request:MKLocalSearch.Request(completion:result));localSearch=search
-        resolveTask=Task{
-            defer{if localSearch === search {resolving=false;localSearch=nil}}
+
+    private func lookup(_ query: String) async throws -> [GeocodedCity] {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--city-search-check") {
+            // Isolated UI checks exercise the same alias mapping and decoder.
+            let name = CityGeocodingService.queryNames(for: query).first ?? ""
+            try await Task.sleep(for: .milliseconds(name == "Tokyo" ? 1400 : 100))
+            if query == "networkerror" { throw URLError(.notConnectedToInternet) }
+            let matches = CityGeocodingService.checkCities.filter {
+                $0.english.caseInsensitiveCompare(name) == .orderedSame
+            }.map { $0.json }
+            let data = Data(("{\"results\":[" + matches.joined(separator: ",") + "]}").utf8)
+            return try CityGeocodingService.decode(data)
+        }
+        #endif
+        return try await CityGeocodingService.search(query)
+    }
+
+    private func updateError() {
+        guard !loading else { return }
+        if globalFailed {
+            error = "全球城市搜索暂时不可用，请检查网络后重试。"
+        } else if localFailed && cities.isEmpty && results.isEmpty {
+            error = "部分地区搜索暂时不可用，请稍后重试。"
+        } else { error = nil }
+    }
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        guard completer === self.completer else { return }
+        localTimeout?.cancel(); results = completer.results; localLoading = false; updateError()
+    }
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        guard completer === self.completer else { return }
+        localTimeout?.cancel(); localLoading = false; localFailed = true; updateError()
+    }
+    func choose(_ city: GeocodedCity, onSelect: (WeatherPlace) -> Void) {
+        guard !resolving else { return }
+        cancel()
+        onSelect(city.place)
+    }
+    func choose(_ result: MKLocalSearchCompletion, onSelect: @escaping (WeatherPlace) -> Void) {
+        guard !resolving else { return }
+        resolving = true; error = nil
+        let token = generation
+        let search = MKLocalSearch(request: MKLocalSearch.Request(completion: result)); localSearch = search
+        resolveTask = Task {
+            defer { if localSearch === search { resolving = false; localSearch = nil } }
             do {
-                let response=try await search.start();try Task.checkCancellation();guard localSearch === search else{return}
-                guard let item=response.mapItems.first else{error="没有找到可用的城市坐标。";return}
-                let placemark=item.placemark
-                let place=WeatherPlace.from(placemark,coordinate:placemark.coordinate)
-                guard place.valid,!place.city.isEmpty else{error="请选择包含城市或区县名称的地区。";return}
+                let response = try await search.start(); try Task.checkCancellation()
+                guard token == generation, localSearch === search else { return }
+                guard let item = response.mapItems.first else { error = "没有找到可用的城市坐标。"; return }
+                let place = WeatherPlace.from(item.placemark, coordinate: item.placemark.coordinate)
+                guard place.valid, !place.city.isEmpty else { error = "请选择包含城市或区县名称的地区。"; return }
                 onSelect(place)
-            }catch is CancellationError{}catch{if !Task.isCancelled{self.error="无法取得地区信息，请重新选择。"}}
+            } catch {
+                if !Task.isCancelled, token == generation { self.error = "无法取得地区信息，请重新选择。" }
+            }
         }
     }
-    func cancel(){debounce?.cancel();completer?.cancel();completer?.delegate=nil;localSearch?.cancel();resolveTask?.cancel()}
+    func cancel() {
+        generation += 1
+        debounce?.cancel(); globalTask?.cancel(); localTimeout?.cancel()
+        completer?.cancel(); completer?.delegate = nil; completer = nil
+        localSearch?.cancel(); localSearch = nil; resolveTask?.cancel()
+        globalLoading = false; localLoading = false; resolving = false
+    }
 }
+
+#if DEBUG
+extension CityGeocodingService {
+    static let checkCities: [(english: String, json: String)] = [
+        ("Tokyo", #"{"id":1850147,"name":"東京","latitude":35.6895,"longitude":139.6917,"feature_code":"PPLC","country_code":"JP","country":"日本","admin1":"东京都","timezone":"Asia/Tokyo","population":8336599}"#),
+        ("New York", #"{"id":5128581,"name":"紐約市","latitude":40.71427,"longitude":-74.00597,"feature_code":"PPL","country_code":"US","country":"美国","admin1":"纽约州","timezone":"America/New_York","population":8804190}"#),
+        ("Los Angeles", #"{"id":5368361,"name":"洛杉矶","latitude":34.05223,"longitude":-118.24368,"feature_code":"PPLA2","country_code":"US","country":"美国","admin1":"加州","timezone":"America/Los_Angeles","population":3898747}"#)
+    ]
+}
+#endif
 #endif

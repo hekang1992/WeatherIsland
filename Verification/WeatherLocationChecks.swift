@@ -176,3 +176,56 @@ import Foundation
     }
     preconditionFailure("Naming operation did not reach the expected state")
 }
+
+
+/// Favorites management must not silently replace the weather/location selection.
+@MainActor func checkSavedCityManagement() {
+    let suite = "WeatherIsland.CitiesChecks." + UUID().uuidString
+    let defaults = UserDefaults(suiteName: suite)!
+    defer { defaults.removePersistentDomain(forName: suite) }
+    let app = WeatherApplication(defaults: defaults)
+    app.add(.tokyo)
+    app.tab = .cities
+    let revision = app.citySelectionRevision
+    app.presentCitySearch(.save)
+    app.add(.london, selecting: false)
+    precondition(app.selected == .tokyo && app.tab == .cities && app.usesManualCity)
+    precondition(!app.searchPresented && app.citySelectionRevision == revision)
+    precondition(app.collection.defaultID == WeatherPlace.shanghai.id && app.places.count == 3)
+    app.add(.london, selecting: false)
+    precondition(app.places.count == 3 && app.selected == .tokyo && app.citySelectionRevision == revision)
+    let restored = WeatherApplication(defaults: defaults)
+    precondition(restored.selected == .tokyo && restored.places == app.places && restored.usesManualCity)
+    app.setDefault(WeatherPlace.london.id)
+    precondition(app.selected == .tokyo && app.tab == .cities && app.citySelectionRevision == revision)
+    app.remove(WeatherPlace.tokyo.id)
+    precondition(app.selected == .london && app.tab == .cities && app.usesManualCity)
+    precondition(app.citySelectionRevision == revision + 1)
+    precondition(WeatherApplication(defaults: defaults).selected == .london)
+    app.move(from: IndexSet(integer: 1), to: 0)
+    precondition(WeatherApplication(defaults: defaults).places.first == .london)
+    var current = WeatherPlace.beijing; current.isCurrentLocation = true
+    app.selectLocation(current); app.tab = .cities
+    let locationRevision = app.citySelectionRevision
+    app.add(.beijing, selecting: false)
+    precondition(app.selected == current && !app.usesManualCity && app.tab == .cities)
+    precondition(app.citySelectionRevision == locationRevision && !app.places.last!.isCurrentLocation)
+    let locatedRestore = WeatherApplication(defaults: defaults)
+    precondition(locatedRestore.selected == current && !locatedRestore.usesManualCity)
+    app.remove(WeatherPlace.beijing.id)
+    app.remove(WeatherPlace.london.id)
+    precondition(app.selected == current && !app.usesManualCity && app.citySelectionRevision == locationRevision)
+    precondition(app.collection.defaultID == WeatherPlace.shanghai.id)
+    app.remove(WeatherPlace.shanghai.id)
+    precondition(app.places == [.shanghai] && app.selected == current)
+    var invalid = WeatherPlace.tokyo; invalid.latitude = .nan
+    app.add(invalid, selecting: false)
+    precondition(app.places == [.shanghai] && app.selected == current && app.tab == .cities)
+    app.add(.tokyo)
+    precondition(app.selected == .tokyo && app.tab == .weather && app.usesManualCity)
+    app.presentCitySearch()
+    precondition(app.citySearchPurpose == .choose && app.searchPresented)
+    app.tab = .cities; app.select(.shanghai)
+    precondition(app.selected == .shanghai && app.tab == .weather)
+    print("SAVED CITIES PASS: save-only selection/location isolation, duplicate/invalid guards, default fallback, deletion revision, reorder, persistence and choose-mode navigation")
+}

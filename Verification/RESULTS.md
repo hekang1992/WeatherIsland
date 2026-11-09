@@ -1,6 +1,6 @@
 # WeatherIsland 验证记录
 
-更新：2026-11-02（Asia/Shanghai）。工程位于 `/Users/hekang/Desktop/WeatherIsland`。
+更新：2026-11-03（Asia/Shanghai）。工程位于 `/Users/hekang/Desktop/WeatherIsland`。
 
 
 ## 地图布局、透明面板与图层效果（2026-11-02）
@@ -187,3 +187,50 @@
 - XCTest 报告目录：`/tmp/WeatherIsland-HomeQA.mvnvte/`。可复现：`bash Verification/run-home-ui-checks.sh SIMULATOR_UDID`；最终脚本语法检查与 `git diff --check` 通过。
 
 预览均为离线设计示例，日期和数值不代表当前实况：`Previews/Home-Overview.png`、`Home-Refined.png`、`Home-Sheet-Rain.png`、`Home-Sheet-Hour.png`、`Home-Sheet-Day.png`、`Home-Checklist.png`、`Home-Dark.png`、`Home-Sheet-Dark.png`、`Home-Compact.png`、`Home-Rain-Large-Type.png`、`Home-Air-Large-Type.png`。
+
+## 「我的」收藏管理逻辑（2026-11-03）
+
+- 拆分“收藏城市”和“选中城市”：从「我的」添加只保存收藏，留在原 Tab，保留当前天气地区、默认城市和定位偏好；首页选城仍会进入对应城市天气。重复收藏不新增条目。
+- 分别显示“正在查看”和“默认”，当前位置独立显示；默认城市用于删除当前收藏后的回退，下次启动仍恢复上次查看地区。删除导致地区变化时更新选择版本，防止过期定位回调覆盖它。
+- 编辑状态移除城市跳转按钮，只保留原生删除与排序，隐藏添加并禁用定位，至少保留一城；完成或离开 Tab 后恢复普通交互。大字号采用文字布局，城市名随系统字号缩放。
+- 城市卡片显示无天气、缓存、更新失败或离线示例状态；预览不再永远显示加载中。已有新鲜天气在回到 Tab 时不重复请求。
+- 模拟器 Debug 构建通过：`/tmp/weather-cities-build-final.log`。完整数据回归通过：`/tmp/weather-cities-data-checks.log`，新增收藏隔离、定位偏好、重复／无效地区、默认回退、删除版本、顺序与重启持久化检查。
+- iPhone 17 Pro / iOS 27.0 的五项 UI 用例最终通过：添加与重启、当前位置保护、默认与删除回退、大字号选城、编辑删除及恢复跳转。前四项报告为 `/tmp/WeatherIsland-CitiesQA/Final.xcresult`；编辑用例最初把原生减号按普通按钮查找而失败，按实际可见减号定位后通过，补测报告 `/tmp/WeatherIsland-CitiesQA/EditFinal.xcresult`。源码 `Verification/WeatherSavedCitiesUITests.swift`。
+- 截图：`Previews/Weather-My-Overview.png`、`Weather-My-Editing.png`、`Weather-My-Add.png`。专项使用独立测试偏好和受控断网载入器，不覆盖用户收藏；截图中的暂无天气是该断网场景。没有新增真机 GPS 或 MapKit 在线搜索验收。
+- iPhone SE（第 3 代）/ iOS 27.0 最大辅助字号补测通过，覆盖滚动到城市、添加 London、进入天气和返回「我的」；报告 `/tmp/WeatherIsland-CitiesQA/CompactScroll.xcresult`，日志 `/tmp/weather-cities-compact-scroll.log`。最初的整页滑动会跳过卡片，改为短距离双向滚动后通过；截图 `Previews/Weather-My-Large-Type-Small.png` 已人工查看。
+
+
+## 「我的」可见管理入口与日常内容（2026-11-03）
+
+- 确认原限制来自最后一座收藏保护，默认城市本身没有禁止删除。每座城市增加独立「···」管理按钮，打开支持中／大高度的半屏：查看天气、设为默认、删除；删除默认城市前说明第一座剩余城市将接替默认，删除当前城市前说明切换目标。仅剩一座时明确解释原因，并可关闭管理半屏后直接打开添加城市，避免两个弹窗同时争抢展示。
+- 「晴雨日常」加入可用的出行清单和桌面小组件入口；「我的画境」展示真实的当前画境选择，提供画境图库与外观入口。清单复用首页勾选记录，缺少天气时给通用物品建议；在线按当前当地日期记录，避免沿用旧缓存日期。清单标题、天气与地区记录绑定同一个天气 Store，避免迟到定位结果造成地区混用。没有新增账户、虚构统计或无响应入口。
+- 保留纸色、黛绿与印泥朱，画境保持 360:248 比例；去掉列表重复的导航箭头，删除操作使用强调色；大字号半屏默认展开，内容可滚动。
+- 最终模拟器构建通过：`/tmp/weather-my-enrichment-final-build.log`。数据回归通过：`/tmp/weather-my-enrichment-data.log`，涵盖既有收藏、定位、缓存、地图、画境、设置和天气数据规则。
+- iPhone 17 Pro / iOS 27.0 首轮添加收藏与重启、编辑删除、新工具入口与清单记忆通过；默认删除专项最初因断言遗漏「海淀区」而失败，修正城市全称断言后通过。首轮报告：`/tmp/WeatherIsland-MyEnrichment-First.xcresult`；修正后的管理与工具两项及首页清单／详情返回回归均通过：`/tmp/WeatherIsland-MyFinal/Pro.xcresult`。
+- 最终按钮样式与清单地区一致性修整后，iPhone 17 Pro 的两项补测全部通过：管理半屏设默认不改变正在查看地区、清单重新打开保留勾选、画境／主题／小组件跳转、删除默认城市接替、删除当前城市回退、最后一城转添加、重启持久化。报告：`/tmp/WeatherIsland-MyFinal/Polished.xcresult`，日志：`/tmp/weather-my-enrichment-polished.log`。
+- iPhone SE（第 3 代）/ iOS 27.0 最大辅助字号的收藏添加／选城／返回、管理删除／清单勾选两项通过：`/tmp/WeatherIsland-MyFinal/Compact.xcresult`；最终样式的管理删除与清单补测通过：`/tmp/WeatherIsland-MyFinal/CompactPolished.xcresult`，日志：`/tmp/weather-my-enrichment-compact-polished.log`。
+- 预览已保存并查看：`Previews/` 中的 `Weather-My-Overview.png`、`Weather-My-Management.png`、`Weather-My-Last-City.png`、`Weather-My-Daily.png`、`Weather-My-Personal.png`、`Weather-My-Packing.png` 及大小字号截图。专项仍使用隔离的城市测试偏好和受控断网载入器，暂无天气属于验收场景；清单复用现有本机勾选存储。没有新增真机或在线定位验收。
+
+## 「我的」与「设置」功能分工（2026-11-03）
+
+- 本轮替换上一节中的重复入口：「我的」仅保留城市管理和出行工具；画境、小组件、界面外观继续由「设置」提供。
+- 保留共用本机记录的出行清单；新增双城天气对比（独立选择两地、记录温差、衣物建议、更新时间、更新与缺失状态）和城市时钟（未来 24 小时调时、恢复现在、当地日期、相对参照城市的时差）。两个工具均不修改首页选城或默认城市。仅有一城时，可先关闭对比半屏再打开添加城市。
+- 新工具支持中／大半屏；对比默认展开，大辅助字号自动展开并改为单列。时差按指定时刻计算，数据检查覆盖同区、正负时差、半小时时区、跨日期、夏令时切换及未知时区。
+- 最终模拟器构建通过：`/tmp/weather-my-distinct-final-build.log`。数据回归通过：`/tmp/weather-my-distinct-data-final.log`，包含上述时区边界检查及既有收藏、定位、天气缓存、设置、地图和小组件规则。
+- 专用 iPhone SE（第 3 代）/ iOS 27.0 的 4 项界面用例全部通过（0 失败）：有天气的离线对比预览；最大辅助字号的管理删除、清单勾选、对比单列及城市时钟调时／恢复；普通字号的清单记忆、去重入口、独立换城、时钟调时及当前城市保持；单城对比转添加后保留当前城市并恢复双城对比。报告：`/tmp/WeatherIsland-MyDistinct-Dedicated.xcresult`，日志：`/tmp/weather-my-distinct-dedicated.log`。
+- 初轮共用模拟器受到其他应用测试干扰，出现启动超时，已中止；离线预览夹具初次未载入多城也已修正。以上结论以最终专用设备的 4 项通过记录为准。天气界面覆盖受控无网络及明确标注的离线示例，没有新增真机、在线天气服务或 GPS 验收。
+- 最终截图已查看并保存在 `Previews/Weather-My-Personal.png`、`Weather-My-Comparison.png`、`Weather-My-Comparison-Unavailable.png`、`Weather-My-Comparison-Add.png`、`Weather-My-Clocks.png` 和两项新工具的 `Large-Type` 预览中；替换了此前仍展示重复入口的日常工具截图。
+
+## 2026-11-09 海外城市搜索
+
+- 原实现只调用 `MKLocalSearchCompleter` 地址联想，界面直接依赖其结果；缺少独立的全球地名查询。实际接口调查另发现 GeoNames 简体别名也有缺口：原词「东京」返回国内同名地，「纽约」「大阪」为空，而对应英文名称可返回目标城市。因此采用全球接口并增加常见海外城市的中英文／繁简体别名映射，其他名字仍直接请求全球库并合并繁体变体，不将城市结果硬编码到正式搜索中。
+- 新增 `CityGeocodingService.swift`：查询 Open-Meteo / GeoNames，按人口优先展示，保留同名城市的国家与行政区信息，排除山峰等非行政地点、非法坐标和未知时区；直接使用返回坐标和 IANA 时区。重复拼写结果按地名 ID 合并；部分拼写请求失败时保留另一拼写的成功结果。
+- 首页／「我的」选城以及地图选城均接入全球结果；国内区县仍保留 Apple 地址补全。350ms 防抖、改词及关闭时取消两路请求，通过请求代次隔离旧响应；网络故障与空结果分开显示并支持重试。已有 Tokyo／London／New York 快捷收藏用名称别名、国家和邻近坐标识别，避免跨语言重复收藏。
+- 更新来源署名、App 隐私说明和本地网站协议源码，说明城市名称及匹配别名发送给地名服务；未发布线上网站。
+- `bash Verification/run-checks.sh` 全部通过，新增固定响应检查包含别名、URL 编码、行政地名过滤、坐标／时区验证、拼写合并、部分失败、HTTP 错误、空结果及已有收藏识别。日志：`/tmp/weather-city-search-checks.log`。
+- `bash Verification/run-checks.sh --city-search-live` 全部通过。10 组真实 Swift URLSession 查询：东京／Tokyo（JP、Asia/Tokyo）、纽约／New York（US、America/New_York）、洛杉矶／Los Angeles（US、America/Los_Angeles），以及伦敦、大阪、Sydney、北京；均校验首项所属国家及 IANA 时区。日志：`/tmp/weather-city-search-live-checks.log`。
+- iPhone 17 Pro / iOS 27.0 Debug 构建成功，日志：`/tmp/weather-city-search-build.log`。
+- 最终名称规范化进一步识别「上海／上海市」；全量数据回归再次通过：`/tmp/weather-city-search-checks-final.log`。最终构建成功：`/tmp/weather-city-search-build-final.log`。
+- 专用 iPhone 17 Pro / iOS 27.0 上首批 4 项 UI 测试全部通过（0 失败）：六组中英文结果及国家、洛杉矶收藏与重启恢复、保持当前 Tokyo 和默认上海、改词取消／无结果／网络错误／重试、六组真实联网搜索和地图选中纽约后首页地区保持。报告：`/tmp/WeatherIsland-SearchQA/Search.xcresult`；日志：`/tmp/weather-city-search-ui.log`。
+- 在最终版本补测「已有 Tokyo，搜索繁体『東京』再添加」通过，收藏仍为 3 城、正在查看保持 Tokyo、不新增东京条目。报告：`/tmp/WeatherIsland-SearchQA/Dedup.xcresult`；日志：`/tmp/weather-city-search-dedup-ui.log`。合计 5 项 UI 测试通过。
+- 已导出并人工查看真实接口截图 `Previews/Weather-Search-Global-Live.png`：搜索 Los Angeles，美国洛杉矶排首项，其他国家同名地点分别标注国家、行政区。`git diff --check` 通过。以上覆盖模拟器与真实地名接口；未作本轮真机／不同运营商网络验收。

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        F50000000000000000000001 /* CityGeocodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000000000000000000002 /* CityGeocodingService.swift */; };
+        F40000000000000000000001 /* WeatherPersonalTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000000000000000000002 /* WeatherPersonalTools.swift */; };
         F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000000000000000000002 /* WeatherHomeInsights.swift */; };
 		A00000000000000000000001 /* WeatherIslandApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* WeatherIslandApp.swift */; };
 		A00000000000000000000002 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* WeatherHomeView.swift */; };
@@ -65,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+        F50000000000000000000002 /* CityGeocodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGeocodingService.swift; sourceTree = "<group>"; };
+        F40000000000000000000002 /* WeatherPersonalTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPersonalTools.swift; sourceTree = "<group>"; };
         F30000000000000000000002 /* WeatherHomeInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeInsights.swift; sourceTree = "<group>"; };
 		A00000000000000000000003 /* WeatherIslandApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIslandApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000004 /* WeatherHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeView.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				C00000000000000000000022 /* WeatherExtras.swift */,
 				C00000000000000000000023 /* WeatherApplication.swift */,
 				C00000000000000000000024 /* LocationSearch.swift */,
+                F50000000000000000000002 /* CityGeocodingService.swift */,
 				C00000000000000000000025 /* RegionalWeatherHome.swift */,
                 F30000000000000000000002 /* WeatherHomeInsights.swift */,
 				C00000000000000000000026 /* SceneGallery.swift */,
@@ -147,6 +152,7 @@
 				C0000000000000000000001D /* WeatherMapCanvas.swift */,
 				C0000000000000000000001E /* WeatherMapView.swift */,
 				C00000000000000000000027 /* WeatherTabsView.swift */,
+                F40000000000000000000002 /* WeatherPersonalTools.swift */,
 				A00000000000000000000019 /* WeatherBranding.swift */,
 				A00000000000000000000018 /* WeatherService.swift */,
 				A00000000000000000000014 /* WeatherModels.swift */,
@@ -313,6 +319,7 @@
 				D00000000000000000000022 /* WeatherExtras.swift in Sources */,
 				D00000000000000000000023 /* WeatherApplication.swift in Sources */,
 				D00000000000000000000024 /* LocationSearch.swift in Sources */,
+                F50000000000000000000001 /* CityGeocodingService.swift in Sources */,
 				D00000000000000000000025 /* RegionalWeatherHome.swift in Sources */,
                 F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */,
 				D00000000000000000000026 /* SceneGallery.swift in Sources */,
@@ -321,6 +328,7 @@
 				D0000000000000000000001D /* WeatherMapCanvas.swift in Sources */,
 				D0000000000000000000001E /* WeatherMapView.swift in Sources */,
 				D00000000000000000000027 /* WeatherTabsView.swift in Sources */,
+                F40000000000000000000001 /* WeatherPersonalTools.swift in Sources */,
 				A00000000000000000000002 /* WeatherHomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

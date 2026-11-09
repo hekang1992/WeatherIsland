@@ -2,13 +2,15 @@
 set -euo pipefail
 project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 home_device="${1:?Usage: bash Verification/run-home-ui-checks.sh SIMULATOR_UDID}"
+ui_source="${2:-WeatherHomeInsightsUITests.swift}"
 home_qa_dir="$(mktemp -d /tmp/WeatherIsland-HomeQA.XXXXXX)"
-python3 - "$project_dir" "$home_qa_dir" <<'PY'
+python3 - "$project_dir" "$home_qa_dir" "$ui_source" <<'PY'
 import pathlib, sys
-root, work = map(pathlib.Path, sys.argv[1:])
+root, work = map(pathlib.Path, sys.argv[1:3])
 project = work / 'HomeQA.xcodeproj'
 (project / 'xcshareddata/xcschemes').mkdir(parents=True)
-source = root / 'Verification/WeatherHomeInsightsUITests.swift'
+source = root / 'Verification' / sys.argv[3]
+if not source.is_file(): raise SystemExit(f'Missing UI test source: {source}')
 (project / 'project.pbxproj').write_text('''// !$*UTF8*$!
 { archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
 A00000000000000000000001 = {isa = PBXProject; buildConfigurationList = A00000000000000000000010; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; knownRegions = (en, Base); mainGroup = A00000000000000000000002; productRefGroup = A00000000000000000000003; projectDirPath = ""; targets = (A00000000000000000000004); };

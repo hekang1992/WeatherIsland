@@ -2,10 +2,12 @@ import SwiftUI
 
 @MainActor @Observable final class WeatherApplication {
     enum Tab: Hashable { case weather, map, cities, settings }
+    enum CitySearchPurpose { case choose, save }
     var tab: Tab = .weather
     private(set) var theme: WeatherTheme
     private(set) var collection: CityCollection
     var searchPresented = false
+    private(set) var citySearchPurpose: CitySearchPurpose = .choose
     private(set) var locationRefreshID = 0
     private(set) var citySelectionRevision = 0
     private(set) var usesManualCity: Bool
@@ -87,12 +89,28 @@ import SwiftUI
         weather[place.cacheID]?.updateMetadata(place)
         collection.selected=place;save()
     }
-    func add(_ place: WeatherPlace) {
-        guard place.valid else { return }
-        collection.add(place); usesManualCity = true; citySelectionRevision += 1
-        tab = .weather; searchPresented = false; save()
+    func presentCitySearch(_ purpose: CitySearchPurpose = .choose) {
+        citySearchPurpose = purpose
+        searchPresented = true
     }
-    func remove(_ id:String) {collection.remove(id);save()}
+    func add(_ place: WeatherPlace, selecting: Bool = true) {
+        guard place.valid else { return }
+        collection.add(place, selecting: selecting)
+        if selecting {
+            usesManualCity = true; citySelectionRevision += 1
+            tab = .weather
+        }
+        searchPresented = false; save()
+    }
+    func remove(_ id: String) {
+        let previous = selected
+        collection.remove(id)
+        if selected != previous {
+            usesManualCity = !selected.isCurrentLocation
+            citySelectionRevision += 1
+        }
+        save()
+    }
     func setDefault(_ id:String) {guard places.contains(where:{$0.id==id})else{return};collection.defaultID=id;save()}
     func move(from:IndexSet,to:Int) {collection.places.move(fromOffsets:from,toOffset:to);save()}
     func setTheme(_ value: WeatherTheme) {

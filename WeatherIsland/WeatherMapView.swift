@@ -349,7 +349,7 @@ private struct WeatherMapPlacePicker: View {
         NavigationStack {
             List {
                 Section {
-                    HStack { Image(systemName: "magnifyingglass"); TextField("搜索城市或区县", text: $query).autocorrectionDisabled(); if search.loading || search.resolving { ProgressView() } }.padding(.vertical, 7)
+                    HStack { Image(systemName: "magnifyingglass"); TextField("搜索城市、区县 · 支持中英文", text: $query).autocorrectionDisabled().textInputAutocapitalization(.never).submitLabel(.search).onSubmit { search.update(query) }.accessibilityIdentifier("map.search.query"); if search.loading || search.resolving { ProgressView() } }.padding(.vertical, 7)
                 }
                 if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     Section("我的城市") {
@@ -360,13 +360,32 @@ private struct WeatherMapPlacePicker: View {
                         }
                     }
                 } else {
+                    if !search.cities.isEmpty {
+                        Section("城市与地区") {
+                            ForEach(search.cities) { city in
+                                Button { search.choose(city) { place in onSelect(place); dismiss() } } label: {
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(city.place.city)
+                                        Text(city.subtitle).font(.caption).foregroundStyle(WeatherPalette.secondary)
+                                    }.padding(.vertical, 5)
+                                }.disabled(search.resolving).accessibilityIdentifier("map.search.global.\(city.id)")
+                            }
+                        }
+                    }
                     ForEach(search.results, id: \.self) { result in
                         Button { search.choose(result) { place in onSelect(place); dismiss() } } label: {
                             VStack(alignment: .leading, spacing: 5) { Text(result.title); Text(result.subtitle).font(.caption).foregroundStyle(WeatherPalette.secondary) }.padding(.vertical, 5)
                         }.disabled(search.resolving)
                     }
-                    if let error = search.error { Text(error).font(.caption) }
-                    else if !search.loading && !search.resolving && search.results.isEmpty { Text("没有找到地区，试试城市全名。").font(.caption) }
+                    if let error = search.error {
+                        Text(error).font(.caption)
+                        if !search.resolving { Button("重试搜索") { search.update(query) } }
+                    } else if !search.loading && !search.resolving && search.results.isEmpty && search.cities.isEmpty {
+                        Text(query.trimmingCharacters(in: .whitespacesAndNewlines).count < 2 ? "请输入至少两个字或字母。" : "没有找到地区，试试城市全名或英文名称。").font(.caption)
+                    }
+                    if !search.cities.isEmpty {
+                        Text("全球地名：Open-Meteo · GeoNames").font(.caption2).foregroundStyle(WeatherPalette.secondary)
+                    }
                 }
             }.scrollContentBackground(.hidden).background(WeatherPalette.paper).navigationTitle("寻找一片天空").navigationBarTitleDisplayMode(.inline)
                 .toolbar { ToolbarItem(placement: .confirmationAction) { Button("完成") { dismiss() } } }

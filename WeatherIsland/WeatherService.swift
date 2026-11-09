@@ -39,6 +39,16 @@ struct WeatherDataset {
 }
 
 enum WeatherClock {
+    /// Offset at the requested instant, so daylight saving and fractional time zones stay correct.
+    static func difference(from reference: String, to destination: String, at date: Date) -> String {
+        guard let origin = TimeZone(identifier: reference), let target = TimeZone(identifier: destination) else { return "时区未知" }
+        let minutes = (target.secondsFromGMT(for: date) - origin.secondsFromGMT(for: date)) / 60
+        guard minutes != 0 else { return "与参照城市同一时间" }
+        let hours = abs(minutes) / 60, remainder = abs(minutes) % 60
+        let duration = (hours > 0 ? "\(hours)小时" : "") + (remainder > 0 ? "\(remainder)分钟" : "")
+        return "比参照城市" + (minutes > 0 ? "快 " : "慢 ") + duration
+    }
+
     static func string(_ date: Date, _ format: String, timeZone: String = "Asia/Shanghai") -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "zh_CN")

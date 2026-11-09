@@ -48,11 +48,12 @@ struct CityCollection: Codable {
         if !selected.valid || (!selected.isCurrentLocation && !places.contains(where: { $0.id == selected.id })) { selected = defaultPlace }
     }
     var defaultPlace: WeatherPlace { places.first { $0.id == defaultID } ?? places[0] }
-    mutating func add(_ place: WeatherPlace) {
+    mutating func add(_ place: WeatherPlace, selecting: Bool = true) {
         guard place.valid else { return }
         var saved = place; saved.isCurrentLocation = false
-        if let existing = places.first(where: { $0.id == saved.id }) { selected = existing }
-        else { places.append(saved); selected = saved }
+        let city = places.first(where: { $0.id == saved.id }) ?? saved
+        if !places.contains(where: { $0.id == saved.id }) { places.append(saved) }
+        if selecting { selected = city }
     }
     mutating func remove(_ id: String) {
         guard places.count > 1, places.contains(where: { $0.id == id }) else { return }

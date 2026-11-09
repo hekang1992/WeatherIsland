@@ -50,6 +50,29 @@ struct WeatherTabsView: View {
             application.select(.shanghai)
             application.tab = .settings
             _startupFinished = State(initialValue: true)
+        } else if app == nil, arguments.contains("--cities-check") {
+            let defaults = UserDefaults(suiteName: "WeatherIsland.CitiesCheck")!
+            if arguments.contains("--reset-cities-check") {
+                defaults.removePersistentDomain(forName: "WeatherIsland.CitiesCheck")
+                var cities = CityCollection()
+                cities.add(.beijing); cities.add(.tokyo)
+                if arguments.contains("--cities-current-location") {
+                    var current = WeatherPlace.shanghai; current.isCurrentLocation = true
+                    cities.selected = current
+                }
+                if let saved = try? JSONEncoder().encode(cities) {
+                    defaults.set(saved, forKey: "WeatherIsland.CityCollection.v1")
+                }
+                defaults.set(!cities.selected.isCurrentLocation, forKey: "WeatherIsland.ManualCity.v1")
+            }
+            application = WeatherApplication(defaults: defaults, live: !arguments.contains("--cities-preview"), weatherLoader: { _ in
+                throw URLError(.notConnectedToInternet)
+            }, airLoader: { _ in throw URLError(.notConnectedToInternet) })
+            if arguments.contains("--cities-preview") {
+                application.add(.beijing); application.add(.tokyo)
+            }
+            application.tab = .cities
+            _startupFinished = State(initialValue: true)
         } else if app == nil, arguments.contains("--location-startup-check") {
             let suite = "WeatherIsland.LocationCheck"
             let defaults = UserDefaults(suiteName: suite)!
@@ -165,7 +188,7 @@ struct WeatherTabsView: View {
             if pendingLocationAlert { pendingLocationAlert = false; locationAlert = true }
         }) {
             CitySearchView(app: app, locate: locate, locating: location.locating,
-                           requiresSelection: locationEntry.blocksWeather)
+                           requiresSelection: locationEntry.blocksWeather, purpose: app.citySearchPurpose)
         }
         .onChange(of: location.error) { _, error in
             guard error != nil else { return }
@@ -193,7 +216,7 @@ struct WeatherTabsView: View {
     }
     private func showCitySelection() {
         location.cancel(); locationEntry.failed()
-        app.searchPresented = true
+        app.presentCitySearch()
     }
     private func locate() {
         guard !app.offline else { return }
@@ -304,26 +327,238 @@ private struct WeatherStartupView: View {
     }
 }
 
+private enum MyPersonalTool: String, Identifiable {
+    case trip, comparison, clocks
+    var id: String { rawValue }
+}
+
 struct SavedCitiesView: View {
     let app: WeatherApplication
     var locate: () -> Void
     var locating: Bool
-    @Environment(\.editMode) private var editMode
+    @State private var editMode: EditMode = .inactive
+    @State private var managedCity: WeatherPlace?
+    @State private var personalTool: MyPersonalTool?
+    @State private var addAfterManagement = false
+    @Environment(\.dynamicTypeSize) private var typeSize
+
     var body: some View {
         List {
             Section {
-                Button(action: locate) { HStack { Image(systemName: "location"); VStack(alignment: .leading, spacing: 5) { Text(locating ? "正在寻找我的位置…" : "我的位置"); Text("定位到所在行政区 · 不自动加入收藏").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary) }; Spacer(); if locating { ProgressView() } else { Image(systemName: "arrow.up.right") } }.padding(.vertical, 9) }.listRowBackground(WeatherPalette.surface)
+                Button(action: locate) {
+                    HStack {
+                        Image(systemName: "location").font(.system(size: 20))
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(locating ? "正在寻找我的位置…" : "我的位置")
+                            Text(app.selected.isCurrentLocation ? "正在查看 · \(app.selected.title)" : "定位到所在行政区 · 不自动加入收藏")
+                                .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                        }
+                        Spacer()
+                        if locating { ProgressView() } else { Image(systemName: "arrow.up.right").font(.system(size: 16)) }
+                    }.padding(.vertical, 9)
+                }.disabled(locating || editMode.isEditing || app.offline)
+                    .accessibilityIdentifier("cities.location").listRowBackground(WeatherPalette.surface)
             }
             Section {
                 ForEach(app.places) { place in
-                    CityWeatherRow(app: app, place: place, active: app.tab == .cities)
-                        .listRowBackground(WeatherPalette.surface)
-                        .deleteDisabled(app.places.count == 1)
-                        .contextMenu { Button("设为默认城市", systemImage: "star") { app.setDefault(place.id) }; if app.places.count > 1 { Button("删除城市", systemImage: "trash", role: .destructive) { app.remove(place.id) } } }
-                }.onDelete { indices in let ids = indices.map { app.places[$0].id }; for id in ids { app.remove(id) } }.onMove { app.move(from: $0, to: $1) }
-            } header: { Text("我的天气来信 · \(app.places.count)") } footer: { Text("长按卡片可设为默认城市；点编辑可删除或拖动排序。至少保留一座收藏城市。") }
-            Button { app.searchPresented = true } label: { Label("添加城市", systemImage: "plus").frame(maxWidth: .infinity).padding(8) }.listRowBackground(WeatherPalette.lime.opacity(0.35))
-        }.scrollContentBackground(.hidden).background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink).navigationTitle("我的小岛").toolbar { EditButton() }
+                    HStack(spacing: 8) {
+                        CityWeatherRow(app: app, place: place, active: app.tab == .cities, editing: editMode.isEditing)
+                        if !editMode.isEditing {
+                            Button { managedCity = place } label: {
+                                Image(systemName: "ellipsis").font(.body.weight(.semibold))
+                                    .frame(width: 44, height: 44).contentShape(Rectangle())
+                            }.buttonStyle(.plain).foregroundStyle(WeatherPalette.secondary)
+                                .accessibilityLabel("管理" + place.title)
+                                .accessibilityIdentifier("cities.manage.\(place.city)")
+                        }
+                    }
+                    .listRowBackground(WeatherPalette.surface)
+                    .deleteDisabled(app.places.count == 1)
+                    .contextMenu {
+                        if !editMode.isEditing {
+                            Button("管理城市", systemImage: "slider.horizontal.3") { managedCity = place }
+                            if app.collection.defaultID != place.id {
+                                Button("设为默认城市", systemImage: "star") { app.setDefault(place.id) }
+                            }
+                            if app.places.count > 1 {
+                                Button("删除城市", systemImage: "trash", role: .destructive) { app.remove(place.id) }
+                            }
+                        }
+                    }
+                }.onDelete { indices in
+                    let ids = indices.map { app.places[$0].id }
+                    for id in ids { app.remove(id) }
+                }.onMove { app.move(from: $0, to: $1) }
+            } header: {
+                Text("收藏城市 · \(app.places.count)").accessibilityIdentifier("cities.count")
+            } footer: {
+                Text(app.places.count == 1
+                     ? "当前只有一座收藏城市。先添加另一座，就可以删除这座，包括默认城市。"
+                     : (editMode.isEditing ? "删除或拖动排序。默认城市也可删除，列表中第一座剩余城市将接替默认。" : "点城市看天气，点右侧 ··· 管理。默认城市也可删除；下次启动沿用上次查看的地区。"))
+            }
+            if !editMode.isEditing {
+                Button { app.presentCitySearch(.save) } label: {
+                    Label("添加城市", systemImage: "plus").frame(maxWidth: .infinity).padding(8)
+                }.accessibilityIdentifier("cities.add").listRowBackground(WeatherPalette.lime.opacity(0.35))
+                Section {
+                    Button { personalTool = .trip } label: {
+                        personalRow("出行清单", subtitle: app.selected.title + " · 雨具、衣物与随身物品", symbol: "checklist", showsArrow: true)
+                    }.accessibilityIdentifier("my.trip")
+                    Button { personalTool = .comparison } label: {
+                        personalRow("双城天气对比", subtitle: "看看两地温差，为下一程添减衣物", symbol: "arrow.left.arrow.right", showsArrow: true)
+                    }.accessibilityIdentifier("my.compare")
+                    Button { personalTool = .clocks } label: {
+                        personalRow("城市时钟", subtitle: "当地时间与时差，约一个合适的时刻", symbol: "clock", showsArrow: true)
+                    }.accessibilityIdentifier("my.clocks")
+                } header: { Text("出行工具") } footer: {
+                    Text("清单勾选保存在本机。对比与时钟使用收藏城市，可随时添加。")
+                }
+                .buttonStyle(.plain).listRowBackground(WeatherPalette.surface)
+            }
+        }
+        .environment(\.editMode, $editMode)
+        .scrollContentBackground(.hidden).background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink)
+        .navigationTitle("我的小岛")
+        .navigationBarTitleDisplayMode(typeSize.isAccessibilitySize ? .inline : .large)
+        .toolbar {
+            Button(editMode.isEditing ? "完成" : "编辑") {
+                withAnimation { editMode = editMode.isEditing ? .inactive : .active }
+            }.accessibilityIdentifier("cities.edit")
+        }
+        .sheet(item: $managedCity, onDismiss: {
+            if addAfterManagement { addAfterManagement = false; app.presentCitySearch(.save) }
+        }) { place in
+            CityManagementSheet(app: app, place: place) { addAfterManagement = true }
+        }
+        .sheet(item: $personalTool, onDismiss: {
+            if addAfterManagement { addAfterManagement = false; app.presentCitySearch(.save) }
+        }) { tool in
+            switch tool {
+            case .trip: MyTripSheet(app: app)
+            case .comparison: MyCityComparisonSheet(app: app) { addAfterManagement = true }
+            case .clocks: MyCityClocksSheet(app: app)
+            }
+        }
+        .onChange(of: app.tab) { _, tab in if tab != .cities { editMode = .inactive } }
+    }
+
+    private func personalRow(_ title: String, subtitle: String, symbol: String, showsArrow: Bool = false) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: symbol).font(.title3).frame(width: 28).foregroundStyle(WeatherPalette.accent)
+            VStack(alignment: .leading, spacing: 5) {
+                Text(title).font(.body.weight(.medium))
+                Text(subtitle).font(.caption).foregroundStyle(WeatherPalette.secondary)
+            }.fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
+            if showsArrow { Image(systemName: "chevron.right").font(.caption).foregroundStyle(WeatherPalette.secondary) }
+        }.padding(.vertical, 10).contentShape(Rectangle())
+    }
+}
+
+private struct CityManagementSheet: View {
+    let app: WeatherApplication
+    let place: WeatherPlace
+    var addCity: () -> Void
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @State private var detent: PresentationDetent = .medium
+    private var isDefault: Bool { app.collection.defaultID == place.id }
+    private var replacement: WeatherPlace? { app.places.first { $0.id != place.id } }
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    Label(isDefault ? "默认城市" : "收藏城市", systemImage: isDefault ? "star.fill" : "mappin.and.ellipse")
+                        .font(.caption).foregroundStyle(WeatherPalette.accent)
+                    Text(place.title).font(WeatherTypography.display(30)).accessibilityIdentifier("cities.management.title")
+                    Text(explanation).font(.subheadline).foregroundStyle(WeatherPalette.secondary)
+                        .fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("cities.management.explanation")
+                    Button { dismiss(); app.select(place) } label: {
+                        action("查看天气", symbol: "cloud.sun")
+                    }.accessibilityIdentifier("cities.management.view")
+                    if !isDefault {
+                        Button { app.setDefault(place.id) } label: {
+                            action("设为默认城市", symbol: "star", showsArrow: false)
+                        }.accessibilityIdentifier("cities.management.default")
+                    }
+                    if replacement != nil {
+                        Button(role: .destructive) { app.remove(place.id); dismiss() } label: {
+                            action("删除这座城市", symbol: "trash", showsArrow: false)
+                        }.foregroundStyle(WeatherPalette.accent).accessibilityIdentifier("cities.management.delete")
+                    } else {
+                        Button { addCity(); dismiss() } label: {
+                            action("先添加另一座城市", symbol: "plus")
+                        }.accessibilityIdentifier("cities.management.add")
+                    }
+                }.buttonStyle(.plain).padding(24).frame(maxWidth: 640, alignment: .leading).frame(maxWidth: .infinity)
+            }.background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink)
+                .navigationTitle("管理城市").navigationBarTitleDisplayMode(.inline)
+                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("完成") { dismiss() } } }
+        }
+        .presentationDetents([.medium, .large], selection: $detent)
+        .presentationDragIndicator(.visible).presentationCornerRadius(28).presentationBackground(WeatherPalette.paper)
+        .onAppear { if typeSize.isAccessibilitySize { detent = .large } }
+    }
+    private var explanation: String {
+        guard let replacement else { return "这是最后一座收藏城市。为保留天气入口，请先添加另一座，再删除这座。默认标记不会限制删除。" }
+        var text = isDefault ? "默认城市可以删除。删除后，\(replacement.title)将接替默认城市。" : "删除只会移出收藏，之后仍可重新添加。"
+        if !app.selected.isCurrentLocation && app.selected.id == place.id {
+            let fallback = isDefault ? replacement : app.collection.defaultPlace
+            text += "当前正在查看这座城市，删除后将切换到\(fallback.title)。"
+        }
+        return text
+    }
+    private func action(_ title: String, symbol: String, showsArrow: Bool = true) -> some View {
+        HStack {
+            Label(title, systemImage: symbol); Spacer()
+            if showsArrow { Image(systemName: "arrow.up.right").font(.caption) }
+        }
+            .padding(16).background(RoundedRectangle(cornerRadius: 15).fill(WeatherPalette.surface))
+    }
+}
+
+private struct MyTripSheet: View {
+    let app: WeatherApplication
+    @State private var weather: WeatherStore
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @State private var detent: PresentationDetent = .medium
+    init(app: WeatherApplication) {
+        self.app = app
+        _weather = State(initialValue: app.weather(for: app.selected))
+    }
+    private var data: WeatherDataset? { app.offline ? RegionalPreview.dataset(place: weather.place) : weather.dataset }
+    private var context: String {
+        let report = data?.current
+        let date = app.offline ? (report?.metrics?.time ?? data?.fetchedAt ?? .now) : .now
+        return weather.place.cacheID + WeatherClock.string(date, "yyyy-MM-dd", timeZone: data?.timeZoneIdentifier ?? weather.place.timeZoneIdentifier)
+    }
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 22) {
+                    Label(weather.place.title, systemImage: "mappin.and.ellipse").font(.subheadline).foregroundStyle(WeatherPalette.accent)
+                    if let data {
+                        Text("\(data.current.kind.name) · \(data.current.temperature)°")
+                            .font(WeatherTypography.display(28))
+                        Text(app.offline ? "离线示例 · 出行前请查看实时天气" : (weather.cached || weather.error != nil ? "使用上次天气 · \(WeatherClock.string(data.fetchedAt, "M/d HH:mm", timeZone: data.timeZoneIdentifier))" : "根据当前天气整理，出门前再看一眼。"))
+                            .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                    } else {
+                        Text("收拾妥当，从容出门。").font(WeatherTypography.display(26))
+                        Text(weather.loading ? "天气更新中，先整理随身物品。" : "暂无天气，先使用通用清单；天气更新后会补充衣物与雨具建议。")
+                            .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                    }
+                    HomePackingList(report: data?.current, context: context)
+                }.padding(24).frame(maxWidth: 640, alignment: .leading).frame(maxWidth: .infinity)
+            }.background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink)
+                .navigationTitle("出行清单").navigationBarTitleDisplayMode(.inline)
+                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("完成") { dismiss() } } }
+        }.presentationDetents([.medium, .large], selection: $detent)
+            .presentationDragIndicator(.visible).presentationCornerRadius(28).presentationBackground(WeatherPalette.paper)
+            .onAppear { if typeSize.isAccessibilitySize { detent = .large } }
+            .task {
+                guard !app.offline else { return }
+                if weather.dataset == nil || weather.cached || weather.error != nil || Date.now.timeIntervalSince(weather.dataset?.fetchedAt ?? .distantPast) > 600 { await weather.refresh() }
+            }
     }
 }
 
@@ -331,26 +566,76 @@ private struct CityWeatherRow: View {
     let app: WeatherApplication
     let place: WeatherPlace
     var active: Bool
+    var editing: Bool
     @State private var weather: WeatherStore
-    init(app: WeatherApplication, place: WeatherPlace, active: Bool) { self.app = app; self.place = place; self.active = active; _weather = State(initialValue: app.weather(for: place)) }
+    private var data: WeatherDataset? { app.offline ? RegionalPreview.dataset(place: place) : weather.dataset }
+    private var viewing: Bool { !app.selected.isCurrentLocation && app.selected.id == place.id }
+    init(app: WeatherApplication, place: WeatherPlace, active: Bool, editing: Bool) {
+        self.app = app; self.place = place; self.active = active; self.editing = editing
+        _weather = State(initialValue: app.weather(for: place))
+    }
+    @Environment(\.dynamicTypeSize) private var typeSize
     var body: some View {
-        Button { app.select(place) } label: {
-            HStack(spacing: 12) {
-                PaperCityScene(style: .automatic(for: place), kind: weather.dataset?.current.kind ?? .partlyCloudy, animate: false).aspectRatio(360.0 / 248, contentMode: .fit).frame(width: 85).clipped()
-                VStack(alignment: .leading, spacing: 7) {
-                    HStack(spacing: 4) { Text(place.title).font(.system(size: 16, weight: .medium)); if app.collection.defaultID == place.id { Image(systemName: "star.fill").font(.system(size: 12)).foregroundStyle(WeatherPalette.accent) } }
-                    TimelineView(.periodic(from: .now, by: 60)) { context in
-                        let zone = weather.dataset?.timeZoneIdentifier ?? (place.timeZoneIdentifier == "UTC" ? nil : place.timeZoneIdentifier)
-                        Text((zone.map { WeatherClock.string(context.date, "HH:mm", timeZone: $0) } ?? "当地时间待更新") + " · " + place.country)
-                            .font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
-                    }
-                    if let data = weather.dataset { Text("\(data.current.kind.name) · \(data.current.low)° / \(data.current.high)°").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary); if weather.cached { Text("缓存 · " + WeatherClock.string(data.fetchedAt, "M/d HH:mm", timeZone: data.timeZoneIdentifier)).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary) } }
-                    else { Text(weather.error == nil ? "正在接收天气…" : "暂无天气，点开重试").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary) }
+        Group {
+            if editing {
+                content.accessibilityElement(children: .combine)
+            } else {
+                Button { app.select(place) } label: { content }.buttonStyle(.plain)
+            }
+        }
+        .accessibilityIdentifier("cities.row.\(place.city)")
+        .accessibilityValue([viewing ? "正在查看" : "", app.collection.defaultID == place.id ? "默认城市" : ""].filter { !$0.isEmpty }.joined(separator: "，"))
+        .task(id: active) {
+            guard active, !app.offline else { return }
+            if weather.dataset == nil || weather.cached || weather.error != nil ||
+                Date.now.timeIntervalSince(weather.dataset?.fetchedAt ?? .distantPast) > 600 { await weather.refresh() }
+        }
+    }
+    private var content: some View {
+        HStack(spacing: 12) {
+            if !typeSize.isAccessibilitySize {
+                PaperCityScene(style: .automatic(for: place), kind: data?.current.kind ?? .partlyCloudy, animate: false)
+                    .aspectRatio(360.0 / 248, contentMode: .fit).frame(width: 74).clipped()
+                    .accessibilityHidden(true)
+            }
+            VStack(alignment: .leading, spacing: 7) {
+                Text(place.title).font(.headline)
+                if typeSize.isAccessibilitySize, let data {
+                    Text("\(data.current.temperature)°").font(.title2)
                 }
-                Spacer(minLength: 0)
-                if let data = weather.dataset { Text("\(data.current.temperature)°").font(.system(size: 34, weight: .light)) }
-            }.padding(.vertical, 7).contentShape(Rectangle())
-        }.buttonStyle(.plain).task(id: active) { if active && !app.offline { await weather.refresh() } }
+                if viewing || app.collection.defaultID == place.id {
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: 8) { badges }
+                        VStack(alignment: .leading, spacing: 5) { badges }
+                    }.font(.caption2).foregroundStyle(WeatherPalette.accent)
+                }
+                TimelineView(.periodic(from: .now, by: 60)) { context in
+                    let zone = data?.timeZoneIdentifier ?? (place.timeZoneIdentifier == "UTC" ? nil : place.timeZoneIdentifier)
+                    Text((zone.map { WeatherClock.string(context.date, "HH:mm", timeZone: $0) } ?? "当地时间待更新") + " · " + place.country)
+                        .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                }
+                if let data {
+                    Text("\(data.current.kind.name) · \(data.current.low)° / \(data.current.high)°")
+                        .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                    if app.offline { Text("离线示例").font(.caption).foregroundStyle(WeatherPalette.secondary) }
+                    else if weather.error != nil { Text("更新失败 · 点开重试").font(.caption).foregroundStyle(WeatherPalette.accent) }
+                    else if weather.cached {
+                        Text("缓存 · " + WeatherClock.string(data.fetchedAt, "M/d HH:mm", timeZone: data.timeZoneIdentifier))
+                            .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                    }
+                } else {
+                    Text(weather.loading ? "正在接收天气…" : "暂无天气，点开重试")
+                        .font(.caption).foregroundStyle(WeatherPalette.secondary)
+                }
+            }.fixedSize(horizontal: false, vertical: true).frame(maxWidth: .infinity, alignment: .leading)
+            if !typeSize.isAccessibilitySize, let data {
+                Text("\(data.current.temperature)°").font(.system(size: 30, weight: .light))
+            }
+        }.padding(.vertical, 7).contentShape(Rectangle())
+    }
+    @ViewBuilder private var badges: some View {
+        if viewing { Label("正在查看", systemImage: "checkmark.circle.fill") }
+        if app.collection.defaultID == place.id { Label("默认", systemImage: "star.fill") }
     }
 }
 
@@ -359,31 +644,90 @@ struct CitySearchView: View {
     var locate: () -> Void
     var locating: Bool
     var requiresSelection = false
+    var purpose: WeatherApplication.CitySearchPurpose = .choose
+    private var saving: Bool { purpose == .save && !requiresSelection }
+    private func choose(_ place: WeatherPlace) { app.add(place, selecting: !saving) }
     @State private var query = ""
     @State private var search = CitySearchController()
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationStack {
             List {
-                Section { HStack { Image(systemName: "magnifyingglass"); TextField("搜索城市、区县 · 支持中英文", text: $query).autocorrectionDisabled(); if search.loading || search.resolving { ProgressView() } }.padding(.vertical, 6) }
+                Section { HStack { Image(systemName: "magnifyingglass"); TextField("搜索城市、区县 · 支持中英文", text: $query).autocorrectionDisabled().textInputAutocapitalization(.never).submitLabel(.search).onSubmit { search.update(query) }.accessibilityIdentifier("cities.search.query"); if search.loading || search.resolving { ProgressView() } }.padding(.vertical, 6) }
                 if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    Button(action: locate) { Label(locating ? "正在定位…" : "使用我的位置", systemImage: "location") }
+                    if !saving {
+                        Button(action: locate) { Label(locating ? "正在定位…" : "使用我的位置", systemImage: "location") }.disabled(locating)
+                    } else {
+                        Text("添加到收藏后留在“我的”，首页继续显示当前地区。")
+                            .font(.subheadline).foregroundStyle(WeatherPalette.secondary)
+                    }
                     if requiresSelection {
                         Text("选择天气城市后进入首页；无需开启定位。")
                             .font(.subheadline).foregroundStyle(WeatherPalette.secondary)
+                    }
+                    if requiresSelection || saving {
                         Section("常用城市") {
-                            ForEach([WeatherPlace.beijing, .tokyo, .london, .newYork]) { place in
-                                Button(place.title) { app.add(place) }
+                            ForEach([WeatherPlace.beijing, .tokyo, .london, .newYork].filter { place in !saving || !app.places.contains(where: { $0.id == place.id }) }) { place in
+                                Button { choose(place) } label: {
+                                    HStack { Text(place.title); Spacer(); if saving { Image(systemName: "plus") } }
+                                }.accessibilityIdentifier("cities.search.add.\(place.city)")
                             }
                         }
                     }
-                    Section("已收藏") { ForEach(app.places) { place in Button { app.select(place); app.searchPresented = false } label: { VStack(alignment: .leading, spacing: 5) { Text(place.title); Text(place.subtitle).font(.caption).foregroundStyle(WeatherPalette.secondary) } } } }
+                    Section("已收藏") {
+                        ForEach(app.places) { place in
+                            Button {
+                                app.select(place); app.searchPresented = false
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 5) { Text(place.title); Text(place.subtitle).font(.caption).foregroundStyle(WeatherPalette.secondary) }
+                                    Spacer()
+                                    if saving { Image(systemName: "checkmark").accessibilityLabel("已收藏") }
+                                }
+                            }.disabled(saving).accessibilityIdentifier("cities.search.saved.\(place.city)")
+                        }
+                    }
                 } else {
-                    ForEach(search.results, id: \.self) { result in Button { search.choose(result) { place in app.add(place) } } label: { VStack(alignment: .leading, spacing: 5) { Text(result.title).font(.system(size: 15, weight: .medium)); Text(result.subtitle).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary) }.padding(.vertical, 5) }.disabled(search.resolving) }
-                    if let error = search.error { Text(error).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary) }
-                    if !search.loading && !search.resolving && search.results.isEmpty && search.error == nil { Text("没有找到结果，试试城市全名或加上国家。").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary) }
+                    if !search.cities.isEmpty {
+                        Section("城市与地区") {
+                            ForEach(search.cities) { city in
+                                Button { search.choose(city) { _ in choose(city.savedPlace(in: app.places)) } } label: {
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(city.place.city).font(.system(size: 15, weight: .medium))
+                                        Text(city.subtitle).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
+                                    }.padding(.vertical, 5)
+                                }.disabled(search.resolving).accessibilityIdentifier("cities.search.global.\(city.id)")
+                            }
+                        }
+                    }
+                    if !search.results.isEmpty {
+                        Section(search.cities.isEmpty ? "地区与地址" : "更多地区与地址") {
+                            ForEach(search.results, id: \.self) { result in
+                                Button { search.choose(result) { choose($0) } } label: {
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(result.title).font(.system(size: 15, weight: .medium))
+                                        Text(result.subtitle).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
+                                    }.padding(.vertical, 5)
+                                }.disabled(search.resolving)
+                            }
+                        }
+                    }
+                    if let error = search.error {
+                        Section {
+                            Text(error).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary).accessibilityIdentifier("cities.search.error")
+                            if !search.resolving { Button("重试搜索") { search.update(query) }.accessibilityIdentifier("cities.search.retry") }
+                        }
+                    }
+                    if !search.loading && !search.resolving && search.cities.isEmpty && search.results.isEmpty && search.error == nil {
+                        Text(query.trimmingCharacters(in: .whitespacesAndNewlines).count < 2 ? "请输入至少两个字或字母。" : "没有找到结果，试试城市全名或英文名称。")
+                            .font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary).accessibilityIdentifier("cities.search.empty")
+                    }
+                    if !search.cities.isEmpty {
+                        Text("全球地名：Open-Meteo · GeoNames")
+                            .font(.caption2).foregroundStyle(WeatherPalette.secondary)
+                    }
                 }
-            }.scrollContentBackground(.hidden).background(WeatherPalette.paper).navigationTitle("寻找一座小岛").navigationBarTitleDisplayMode(.inline).toolbar { ToolbarItem(placement: .confirmationAction) { if !requiresSelection { Button("完成") { dismiss() } } } }
+            }.scrollContentBackground(.hidden).background(WeatherPalette.paper).navigationTitle(saving ? "添加收藏城市" : "寻找一座小岛").navigationBarTitleDisplayMode(.inline).toolbar { ToolbarItem(placement: .confirmationAction) { if !requiresSelection { Button("完成") { dismiss() } } } }
         }.tint(WeatherPalette.ink).interactiveDismissDisabled(requiresSelection).onChange(of: query) { _, value in search.update(value) }.onDisappear { search.cancel() }
     }
 }
@@ -545,7 +889,7 @@ struct WeatherAboutView: View {
                 settingsTextCard("读懂晴雨地图", text: "地图上的降水、气温、风速和云量来自预报网格，经过插值后显示。它们不是实时雷达或实地观测；请结合所选时间、数据更新时间和当地官方预警判断。天气剧场中的天气为离线演示。")
                 VStack(alignment: .leading, spacing: 16) {
                     Text("数据与服务").font(WeatherTypography.display(22))
-                    Text("天气由 Open-Meteo 提供；空气质量由 Open-Meteo 空气质量接口提供，包含 CAMS 数据。底图、城市搜索与地名解析使用 Apple 的地图和定位服务。")
+                    Text("天气由 Open-Meteo 提供；空气质量由 Open-Meteo 空气质量接口提供，包含 CAMS 数据。全球城市地名由 Open-Meteo 提供，数据来自 GeoNames；地区与地址补全、底图和位置名称解析使用 Apple 的地图和定位服务。")
                         .font(.subheadline).lineSpacing(5)
                     WeatherServiceLinks(resources: [.weather, .air, .dataTerms, .mapsPrivacy])
                 }.settingsCard()
@@ -575,7 +919,7 @@ struct WeatherAboutView: View {
 /// Local documents describe the implemented app; no network is required to read them.
 enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
     case terms, privacy
-    static let updatedDate = "2026 年 11 月 2 日"
+    static let updatedDate = "2026 年 11 月 9 日"
     var publicURL: URL { URL(string: "https://hekang1992.github.io/WeatherIsland/\(rawValue).html")! }
     var id: String { rawValue }
     var title: String { self == .terms ? "服务协议" : "隐私政策" }
@@ -599,7 +943,7 @@ enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
         case .privacy: [
             ("1. 定位由你决定", "首次进入天气功能时，应用会申请使用期间定位权限，用于获取当前位置的天气和地区名称。你可以拒绝，改为手动选择城市；也可以在系统设置中更改权限。应用没有后台定位功能。使用近似位置时，首页不展示区县名称。"),
             ("2. 天气与空气质量请求", "查询天气时，应用会将所选城市或当前位置的经纬度，以及所需气象字段发送至 Open-Meteo 天气接口；查询空气质量时会将经纬度发送至 Open-Meteo 空气质量接口。使用当前位置时，这些坐标可能来自系统授予的精确位置。请求通过 HTTPS 发出，服务方会接收建立网络连接所需的 IP 地址等信息，并按其自身政策处理。"),
-            ("3. 地图、城市搜索与地名解析", "加载底图、搜索城市、将位置转换成地区名称时，会使用 Apple MapKit、城市搜索和地名解析服务。输入的搜索文字、请求位置或浏览区域会按相关服务需要交给 Apple 处理。查看或刷新地图天气区域时，该区域的采样网格坐标会发送至 Open-Meteo，获取对应的气象预报。"),
+            ("3. 地图、城市搜索与地名解析", "城市搜索会将输入的城市名称及用于匹配的中英文别名发送至 Open-Meteo 全球地名接口，地名数据来自 GeoNames；请求不附带设备当前位置。地区与地址补全、底图和位置名称解析使用 Apple MapKit 与定位服务，输入的搜索文字、请求位置或浏览区域会按相关服务需要交给 Apple 处理。查看或刷新地图天气区域时，该区域的采样网格坐标会发送至 Open-Meteo，获取对应的气象预报。"),
             ("4. 设备上的数据", "应用在设备偏好与缓存中保存收藏城市、默认城市、最近选择的地区及坐标、画境、主题、手动选城偏好，以及天气和空气质量数据与获取时间。地图预报另有运行期间的内存缓存；系统网络层也可能保留响应缓存。设备备份是否包含本地数据由系统及你的备份设置决定。"),
             ("5. 当前版本的其他数据处理", "当前版本无需注册账号，未接入广告、支付或第三方行为分析 SDK，也不读取通讯录、照片、麦克风或健康数据。应用没有自建的账号同步或位置上传后台；使用天气和地图时向上述服务发出的必要请求仍会包含对应坐标或区域信息。"),
             ("6. 管理你的选择", "你可以在“我的”中管理收藏，手动选择城市以停止使用当前位置，在设置中更改画境与主题。修改系统定位权限不会自动删除已保存的地区或历史缓存；停止使用当前位置后，新的城市天气请求使用手动选择的城市坐标。卸载应用或管理设备与备份可影响本地数据，已交由第三方处理的信息以其政策为准。"),

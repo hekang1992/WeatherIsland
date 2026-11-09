@@ -92,7 +92,7 @@ struct RegionalWeatherHome: View {
     private var header:some View {
         HStack(alignment:.center,spacing:10){
             WeatherBrandMark().frame(width:34,height:34)
-            Button {app.searchPresented=true} label:{
+            Button {app.presentCitySearch()} label:{
                 VStack(alignment:.leading,spacing:4){
                     HStack(spacing:5){Text(place.title).font(WeatherTypography.display(22)).lineLimit(2);Image(systemName:"chevron.down").font(.system(size:11,weight:.bold))}
                     Text(place.isCurrentLocation ? (resolvingLocation ? "正在解析地区 · 天气同步加载" : !place.hasCityName ? (waitingLocationName ? "地区名称待更新 · 自动重试中" : "正在获取地区名称 · 坐标天气") : place.approximate ? "近似位置 · 不展示区县" : "我的位置 · 坐标天气") : place.subtitle)
@@ -391,7 +391,7 @@ struct RegionalWeatherHome: View {
     }
     private var status:some View{HStack(alignment:.top){Text(weather.error != nil ? "更新失败，显示 \(place.title) 的上次天气":"正在更新上次缓存…").font(.system(size:12));Spacer();Button("重试"){Task{await refresh()}}.font(.system(size:12,weight:.medium))}.padding(12).background(RoundedRectangle(cornerRadius:13).fill(WeatherPalette.lime.opacity(0.35)))}
     private var loadingState:some View{
-        VStack(spacing:20){PaperCityScene(style:style,animate:motion).frame(height:240);Text(weather.error == nil ? "正在接通\(place.title)的天空…":"暂时没收到天气来信").font(.system(size:18,weight:.medium));if let error=weather.error{Text(error).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary);Button("重新连接"){Task{await refresh()}}.buttonStyle(.bordered);Button("搜索其他城市"){app.searchPresented=true}.buttonStyle(.plain)}else{ProgressView().tint(WeatherPalette.ink)}}.multilineTextAlignment(.center).frame(maxWidth:.infinity).padding(.vertical,40)
+        VStack(spacing:20){PaperCityScene(style:style,animate:motion).frame(height:240);Text(weather.error == nil ? "正在接通\(place.title)的天空…":"暂时没收到天气来信").font(.system(size:18,weight:.medium));if let error=weather.error{Text(error).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary);Button("重新连接"){Task{await refresh()}}.buttonStyle(.bordered);Button("搜索其他城市"){app.presentCitySearch()}.buttonStyle(.plain)}else{ProgressView().tint(WeatherPalette.ink)}}.multilineTextAlignment(.center).frame(maxWidth:.infinity).padding(.vertical,40)
     }
 }
 

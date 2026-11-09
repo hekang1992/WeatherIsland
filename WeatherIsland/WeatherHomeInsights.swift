@@ -131,7 +131,7 @@ struct HomeWeatherInsightSheet: View {
                     introduction
                     detailContent
                     if topic == .briefing || topic == .commute || topic == .outfit {
-                        HomePackingList(report: report, context: report.place.cacheID + local(report.metrics?.time ?? data.fetchedAt, "yyyy-MM-dd"))
+                        HomePackingList(report: report, context: report.place.cacheID + local(preview ? (report.metrics?.time ?? data.fetchedAt) : .now, "yyyy-MM-dd"))
                     }
                     Button {
                         #if os(iOS)
@@ -302,15 +302,15 @@ struct HomeWeatherInsightSheet: View {
     }
 }
 
-private struct HomePackingList: View {
-    let report: WeatherReport
+struct HomePackingList: View {
+    let report: WeatherReport?
     let context: String
     // One bounded record, reset for another city or local forecast day.
     @AppStorage("WeatherIsland.Packing.context") private var savedContext = ""
     @AppStorage("WeatherIsland.Packing.items") private var checked = 0
     private var items: [(String, String)] {
-        [("雨具", report.kind.wet ? "雨伞或防水外套" : "折叠伞，随手备用"),
-         ("衣物", report.temperature <= 5 ? "围巾与保暖外层" : "方便增减的外搭"),
+        [("雨具", report?.kind.wet == true ? "雨伞或防水外套" : "折叠伞，随手备用"),
+         ("衣物", (report?.temperature ?? 20) <= 5 ? "围巾与保暖外层" : "方便增减的外搭"),
          ("随身", "水杯、钥匙与手机")]
     }
     var body: some View {
