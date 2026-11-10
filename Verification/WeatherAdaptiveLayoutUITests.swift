@@ -1,6 +1,6 @@
 import XCTest
 
-/// Run on Duo and a compact iPhone. Uses explicit demo data, with no network or location prompts.
+
 @MainActor final class WeatherAdaptiveLayoutQA: XCTestCase {
     override func tearDown() {
         XCUIDevice.shared.orientation = .portrait

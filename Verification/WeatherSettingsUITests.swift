@@ -131,7 +131,7 @@ import XCTest
         XCTAssertTrue(app.navigationBars["在线查看隐私政策"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.webViews.firstMatch.staticTexts["8. 在线协议网站"].waitForExistence(timeout: 30))
         try capture(app, "Privacy-Online")
-        // Following another agreement inside the web page also keeps the App in front.
+
         let termsLink = app.webViews.firstMatch.links["服务协议"]
         XCTAssertTrue(termsLink.waitForExistence(timeout: 5)); termsLink.tap()
         XCTAssertTrue(app.webViews.firstMatch.staticTexts["1. 服务范围"].waitForExistence(timeout: 20))
@@ -182,7 +182,7 @@ import XCTest
         XCTAssertTrue(gallery.waitForExistence(timeout: 5)); gallery.tap()
         XCTAssertTrue(app.navigationBars["宋韵画境"].waitForExistence(timeout: 5))
         try capture(app, "Artwork-Gallery")
-        // The first painting opens the full-width preview of the same composition.
+
         app.buttons.containing(.staticText, identifier: "江渚烟岚").firstMatch.tap()
         XCTAssertTrue(app.staticTexts["试试不同的天空"].waitForExistence(timeout: 5))
         try capture(app, "Artwork-Detail")
@@ -190,7 +190,7 @@ import XCTest
         app.terminate()
     }
 
-    // Run with the simulator's system appearance set to dark.
+
     func testSystemAppearanceRestoredAfterExplicitLight() throws {
         let app = launch()
         app.buttons["settings.theme"].tap()

@@ -34,7 +34,7 @@ struct WeatherPlace: Codable, Hashable, Identifiable, Sendable {
     static let newYork = WeatherPlace(city: "New York", region: "New York", country: "美国", countryCode: "US", latitude: 40.7128, longitude: -74.006, timeZoneIdentifier: "America/New_York")
 }
 
-/// All collection edits keep a valid selected/default city and at least one saved place.
+
 struct CityCollection: Codable {
     var places: [WeatherPlace] = [.shanghai]
     var defaultID: String = WeatherPlace.shanghai.id
@@ -64,8 +64,8 @@ struct CityCollection: Codable {
     }
 }
 
-/// Naming is independent of GPS and weather. The foreground view owns this
-/// operation, so an unresolved coordinate can recover after network consent.
+
+
 @MainActor @Observable final class WeatherLocationNaming {
     private(set) var resolving = false
     private(set) var waiting = false
@@ -97,11 +97,11 @@ struct CityCollection: Codable {
                     return
                 }
             } catch is CancellationError { return }
-            catch { /* Keep coordinate weather and retry naming independently. */ }
+            catch {   }
             guard !Task.isCancelled, token == generation else { return }
             resolving = false; waiting = true
-            // Geocoding is rate limited. Weather success or a foreground return
-            // can restart sooner; prolonged failures get at most one retry/minute.
+
+
             do { try await sleep(.seconds(60)) } catch { return }
             guard !Task.isCancelled, token == generation else { return }
             waiting = false; resolving = true
@@ -109,7 +109,7 @@ struct CityCollection: Codable {
     }
 }
 
-/// Locale-specific display data never participates in Codable place identities or weather cache keys.
+
 enum WeatherPlaceNames {
     struct Name: Codable, Sendable { let city: String; let district: String; let region: String }
     static func key(_ place: WeatherPlace, language: AppLanguage) -> String {

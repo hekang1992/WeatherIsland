@@ -12,7 +12,7 @@ project = work / 'HomeQA.xcodeproj'
 (project / 'xcshareddata/xcschemes').mkdir(parents=True)
 source = root / 'Verification' / sys.argv[3]
 if not source.is_file(): raise SystemExit(f'Missing UI test source: {source}')
-# Keep each device/run's captures with its result bundle.
+
 local_source = work / source.name
 local_source.write_text(source.read_text().replace('/tmp/WeatherIsland-Localization/', str(work / 'Captures') + '/'))
 source = local_source

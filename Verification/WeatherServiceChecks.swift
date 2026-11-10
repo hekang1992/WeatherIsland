@@ -71,7 +71,7 @@ import Foundation
         }
         do { _ = try WeatherService.decode(broken); preconditionFailure("Incomplete response accepted") }
         catch WeatherServiceError.invalidData { }
-        // Cross midnight: the current point belongs to today, the next point to tomorrow.
+
         let midnight = try modified { object in
             let hourly = object["hourly"] as! [String: Any]
             let time = (hourly["time"] as! [Double])[23] + 2700
@@ -82,7 +82,7 @@ import Foundation
         let midnightData = try WeatherService.decode(midnight)
         precondition(WeatherClock.string(midnightData.hourly[1].metrics!.time, "HH") == "00")
         precondition(midnightData.hourly[1].low == midnightData.daily[1].low)
-        // Refresh success saves cache; a failed refresh preserves it and exposes an error.
+
         let suite = "WeatherIsland.Checks." + UUID().uuidString
         let defaults = UserDefaults(suiteName: suite)!
         defer { defaults.removePersistentDomain(forName: suite) }
@@ -101,7 +101,7 @@ import Foundation
         let firstFailure = WeatherStore(live: true, defaults: emptyDefaults, loader: { throw URLError(.timedOut) })
         await firstFailure.refresh()
         precondition(firstFailure.dataset == nil && firstFailure.error != nil)
-        // Regions preserve their own timezone, request coordinates, and independent cache.
+
         precondition(data.next24Hours.count == 24)
         func regionalFixture(_ place:WeatherPlace)throws->Data {
             try modified { object in
@@ -122,7 +122,7 @@ import Foundation
             let query=URLComponents(url:WeatherService.endpoint(for:place),resolvingAgainstBaseURL:false)!.queryItems!
             precondition(query.contains(.init(name:"latitude",value:String(place.latitude))))
             precondition(query.contains(.init(name:"timezone",value:"auto")))
-            // The same unix instant must use the region's civil date, including midnight boundaries.
+
             let instant=Date(timeIntervalSince1970:1793403000)
             let expected=DateFormatter();expected.dateFormat="yyyy-MM-dd HH:mm";expected.timeZone=TimeZone(identifier:place.timeZoneIdentifier)
             precondition(WeatherClock.string(instant,"yyyy-MM-dd HH:mm",timeZone:region.timeZoneIdentifier)==expected.string(from:instant))
@@ -155,14 +155,14 @@ import Foundation
         var missing=WeatherPlace.beijing;missing.city="";missing.district=""
         precondition(missing.title=="当前位置")
         let app=WeatherApplication(defaults:defaults);app.add(.beijing);app.setDefault(WeatherPlace.beijing.id);app.move(from:IndexSet(integer:1),to:0);app.apply(PaperSceneStyle.all[49]);app.select(.tokyo)
-        // select normally targets saved places or the independent current-location entry.
+
         app.add(.tokyo)
         let restored=WeatherApplication(defaults:defaults)
         precondition(restored.places.first == .beijing && restored.selected == .tokyo && restored.style == PaperSceneStyle.all[49])
         restored.apply(nil);precondition(restored.automaticScene)
         precondition(PaperSceneStyle.all.count==50 && Set(PaperSceneStyle.all.map(\.id)).count==50)
         for family in PaperSceneStyle.Family.allCases {precondition(PaperSceneStyle.all.filter{$0.family==family}.count==5)}
-        // Reverse-geocoding must rename a coordinate store without changing identity or refetching.
+
         var unnamed=WeatherPlace.beijing;unnamed.isCurrentLocation=true;unnamed.city="";unnamed.region="";unnamed.district="";unnamed.country="";unnamed.countryCode=""
         var named=WeatherPlace.beijing;named.isCurrentLocation=true
         precondition(unnamed.cacheID == named.cacheID)
@@ -187,7 +187,7 @@ import Foundation
         precondition(locationApp.weather(for:named) === initialStore && locationApp.selected == named)
         locationApp.select(.london)
         locationApp.resolveLocation(named)
-        precondition(locationApp.selected == .london) // Late administrative names must not change a manually chosen city.
+        precondition(locationApp.selected == .london)
         precondition(Set(PaperSceneStyle.all.map(\.artDirection)).count == 10)
         var texas=WeatherPlace(city:"Paris",region:"Texas",country:"美国",countryCode:"US",latitude:33.66,longitude:-95.55)
         precondition(PaperSceneStyle.automatic(for:texas) != PaperSceneStyle.all[3])

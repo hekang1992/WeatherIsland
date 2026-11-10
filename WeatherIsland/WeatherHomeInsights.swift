@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// All summaries use the same forecast and local clock as the home screen.
-/// A missing probability is never treated as a zero percent chance of rain.
+
+
 struct HomeWeatherInsights {
     let data: WeatherDataset
     var referenceTime: Date? = nil
@@ -305,7 +305,7 @@ struct HomeWeatherInsightSheet: View {
 struct HomePackingList: View {
     let report: WeatherReport?
     let context: String
-    // One bounded record, reset for another city or local forecast day.
+
     @AppStorage("WeatherIsland.Packing.context") private var savedContext = ""
     @AppStorage("WeatherIsland.Packing.items") private var checked = 0
     private var items: [(String, String)] {

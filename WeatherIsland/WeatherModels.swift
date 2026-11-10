@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Weather art direction. Values on WeatherKind are used only by offline previews and the weather theatre.
+
 enum WeatherKind: String, CaseIterable, Identifiable, Hashable {
     case clear, partlyCloudy, overcast, lightRain, moderateRain, heavyRain
     case thunderstorm, hail, snow, fog, windy
@@ -122,7 +122,7 @@ enum WeatherKind: String, CaseIterable, Identifiable, Hashable {
         case .heavyRain: 12.0
         case .thunderstorm: 8.5
         case .hail: 4.0
-        case .snow: 0.8 // Water equivalent, explicitly labeled in the detail view.
+        case .snow: 0.8
         default: 0
         }
     }

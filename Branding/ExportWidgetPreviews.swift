@@ -1,7 +1,7 @@
 import SwiftUI
 import AppKit
 
-/// Render the production widget views at their real layout sizes.
+
 @main struct ExportWidgetPreviews {
     @MainActor static func main() throws {
         let destination = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "Previews"

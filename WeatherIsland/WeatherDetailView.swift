@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// A forecast keeps its selected time context when opening the life guide.
+
 struct WeatherDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -359,7 +359,7 @@ struct WeatherDetailView: View {
 }
 
 extension View {
-    /// Limit reading line lengths while keeping the page background edge to edge.
+
     func weatherReadingWidth(_ width: CGFloat = 720) -> some View {
         frame(maxWidth: width).frame(maxWidth: .infinity)
     }

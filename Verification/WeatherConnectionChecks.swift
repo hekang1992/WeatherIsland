@@ -28,8 +28,8 @@ private actor InterruptedFixture {
     let defaults = UserDefaults(suiteName: suite)!
     defer { defaults.removePersistentDomain(forName: suite) }
 
-    // Pending per-app access may fail despite an available route. Even a long
-    // wait recovers, without the user refreshing and without inventing weather.
+
+
     let permission = PermissionFixture(data: fixture, failures: 7)
     let store = WeatherStore(live: true, defaults: defaults, loader: { try await permission.fetch() })
     var delays: [Duration] = []
@@ -44,7 +44,7 @@ private actor InterruptedFixture {
     precondition(calls == 8 && store.dataset != nil && store.error == nil && !store.connectionFailed)
     precondition(delays == [1, 2, 4, 8, 15, 15, 15].map { .seconds($0) })
 
-    // Service/decoding failures are not permission failures and must not poll.
+
     let malformed = WeatherStore(live: true, place: .london, defaults: defaults, loader: { Data() })
     var unexpectedRetry = false
     await WeatherConnection.recover(sleep: { _ in unexpectedRetry = true }) {
@@ -55,7 +55,7 @@ private actor InterruptedFixture {
     precondition(!WeatherConnection.canRetry(URLError(.cancelled)))
     precondition(!WeatherConnection.canRetry(WeatherServiceError.response(403)))
 
-    // Background/city change cancels a pending backoff without one more attempt.
+
     var sleeping = false
     var attempts = 0
     let pending = Task { @MainActor in
@@ -69,15 +69,15 @@ private actor InterruptedFixture {
     await pending.value
     precondition(attempts == 1)
 
-    // Exercise the same coordinator used by the Tab container. Weather and air
-    // recover independently; an air failure must not hold up the home page.
+
+
     let airData = Data(#"{"current":{"time":1793325600,"us_aqi":37,"pm2_5":8,"pm10":12}}"#.utf8)
     let forecastSource = PermissionFixture(data: fixture, failures: 1)
     let airSource = PermissionFixture(data: airData, failures: 2)
     let app = WeatherApplication(defaults: defaults,
         weatherLoader: { _ in try await forecastSource.fetch() },
         airLoader: { _ in try AirQualityService.decode(await airSource.fetch()) })
-    // Use another place to avoid the successful cache created above.
+
     app.select(.tokyo)
     let load = Task { await app.loadSelectedWeather() }
     let weather = app.weather(for: app.selected)
@@ -92,8 +92,8 @@ private actor InterruptedFixture {
     let cached = WeatherApplication(defaults: defaults)
     precondition(cached.weather(for: .tokyo).dataset != nil)
 
-    // Cancel an actual suspended request, then resume the same city's stores.
-    // This models leaving the app to grant network access in Settings.
+
+
     let interrupted = InterruptedFixture(data: fixture)
     let resumeApp = WeatherApplication(defaults: defaults,
         weatherLoader: { _ in try await interrupted.fetch() },
@@ -109,7 +109,7 @@ private actor InterruptedFixture {
     let resumedCalls = await interrupted.calls
     precondition(resumedCalls == 2 && resumedWeather.dataset != nil)
 
-    // Offline previews must never run injected network providers.
+
     let offline = WeatherApplication(defaults: defaults, live: false,
         weatherLoader: { _ in preconditionFailure("Offline preview fetched weather") },
         airLoader: { _ in preconditionFailure("Offline preview fetched air") })

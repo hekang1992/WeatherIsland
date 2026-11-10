@@ -29,11 +29,11 @@ struct IslandWeatherProvider: TimelineProvider {
             var failed = false
             do {
                 let fresh = try await IslandWidgetClient.fetch(place)
-                // A city switch during a request must not restore the previous city.
+
                 if IslandWidgetCache.place == place { IslandWidgetCache.save(fresh); weather = fresh }
             } catch { failed = true }
             if let selected = IslandWidgetCache.place, selected != place { weather = IslandWidgetCache.read(for: selected) }
-            // Entries update countdowns without requesting the network every minute.
+
             let minutes = failed ? 15 : 30
             let entries = (0..<minutes).map { minute in
                 IslandWeatherEntry(date: now.addingTimeInterval(Double(minute) * 60), weather: weather)

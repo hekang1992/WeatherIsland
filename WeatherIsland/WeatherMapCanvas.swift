@@ -18,7 +18,7 @@ struct WeatherMapRaster {
                 guard let value = forecast.value(layer: layer, hour: hour, x: x, y: y) else { continue }
                 values[row * side + column] = value
                 let (red, green, blue, alpha) = layer.rgba(value)
-                // Soften the sampled area's edge without suggesting coverage outside it.
+
                 let edge = edgeOpacity(x, y)
                 let a = alpha * edge
                 let index = (row * side + column) * 4
@@ -28,7 +28,7 @@ struct WeatherMapRaster {
                 bytes[index + 3] = UInt8(a * 255)
             }
         }
-        // Trace only actual value crossings. Flat fields and missing cells stay unmarked.
+
         if let interval = layer.contourInterval {
             for row in 0..<(side - 1) {
                 if Task.isCancelled { return nil }
@@ -99,7 +99,7 @@ struct WeatherMapCanvas: UIViewRepresentable {
     var onSelect: (CLLocationCoordinate2D) -> Void
 
     private var cityRegion: MKCoordinateRegion {
-        // Frame the local forecast prominently, while MapKit accounts for the floating controls.
+
         MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude),
                            span: MKCoordinateSpan(latitudeDelta: 4.4, longitudeDelta: 0.1))
     }
@@ -114,7 +114,7 @@ struct WeatherMapCanvas: UIViewRepresentable {
         map.isPitchEnabled = false
         map.pointOfInterestFilter = .excludingAll
         map.register(ForecastPinView.self, forAnnotationViewWithReuseIdentifier: "forecast")
-        // Leave room for the city readout, the raised annotation and the floating right toolbar.
+
         map.layoutMargins = UIEdgeInsets(top: 144, left: 16, bottom: bottomInset, right: 84)
         map.initialRegion = cityRegion
         let tap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.tap(_:)))

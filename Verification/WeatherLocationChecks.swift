@@ -32,7 +32,7 @@ import Foundation
     nextLaunch.failed()
     precondition(!nextLaunch.blocksWeather, "A later location error keeps the chosen city's home usable")
 
-    // Selecting even the same city invalidates a pending location request.
+
     let revision = fresh.citySelectionRevision
     fresh.select(.tokyo)
     precondition(fresh.citySelectionRevision > revision)
@@ -56,7 +56,7 @@ import Foundation
     fresh.resolveLocation(resolved)
     precondition(fresh.selected == .tokyo, "Late reverse geocoding cannot replace a manual city")
 
-    // Legacy users with a saved manual city are migrated without re-prompting.
+
     defaults.removePersistentDomain(forName: suite)
     var legacy = CityCollection(); legacy.add(.london)
     defaults.set(try JSONEncoder().encode(legacy), forKey: "WeatherIsland.CityCollection.v1")
@@ -74,7 +74,7 @@ import Foundation
 }
 
 
-/// Exercises the production naming state machine with controlled lookup results.
+
 @MainActor func checkWeatherLocationNaming() async {
     var coordinate = WeatherPlace.beijing
     coordinate.isCurrentLocation = true
@@ -103,7 +103,7 @@ import Foundation
     precondition(!resolver.resolving && !resolver.waiting)
     precondition(!whitespace.hasCityName && whitespace.title == "当前位置")
 
-    // Both the network request and the retry delay must end promptly on cancellation.
+
     let waitingTask = Task { @MainActor in
         await resolver.resolve(coordinate, lookup: { _ in nil }, onResolved: { _ in
             preconditionFailure("Cancelled retry may not deliver a city")
@@ -124,7 +124,7 @@ import Foundation
     await lookupTask.value
     precondition(!resolver.waiting && !resolver.resolving)
 
-    // A late, non-cooperative lookup cannot complete or reset a newer operation.
+
     var oldContinuation: CheckedContinuation<WeatherPlace?, Never>?
     let oldTask = Task { @MainActor in
         await resolver.resolve(coordinate, lookup: { _ in
@@ -148,7 +148,7 @@ import Foundation
     await newTask.value
     precondition(recovered == named && !resolver.resolving)
 
-    // Application-level checks reject unusable or stale administrative metadata.
+
     let suite = "WeatherIsland.NamingChecks." + UUID().uuidString
     let defaults = UserDefaults(suiteName: suite)!
     defer { defaults.removePersistentDomain(forName: suite) }
@@ -178,7 +178,7 @@ import Foundation
 }
 
 
-/// Favorites management must not silently replace the weather/location selection.
+
 @MainActor func checkSavedCityManagement() {
     let suite = "WeatherIsland.CitiesChecks." + UUID().uuidString
     let defaults = UserDefaults(suiteName: suite)!

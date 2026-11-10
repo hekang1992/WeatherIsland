@@ -60,7 +60,7 @@ def rounded(im, box, radius, fill, outline=None, width=1):
 
 def canvas(w, h, palette='paper'):
     base = Image.new('RGB', (w*S, h*S), PAPER)
-    # A subtle, deterministic paper grain with a broad color wash.
+
     noise = Image.effect_noise((w*S,h*S), 5).convert('RGB')
     base = Image.blend(base, noise, .022)
     if palette == 'sage': wash = '#e2e8d7'
@@ -75,7 +75,7 @@ def canvas(w, h, palette='paper'):
 
 def shadow_paste(im, source, xy, blur=28, offset=(0,18), opacity=.17):
     rgba=source.convert('RGBA')
-    # Separate the shadow from its artwork so the screenshot stays crisp.
+
     layer=Image.new('RGBA',im.size)
     mask=rgba.getchannel('A').point(lambda p:round(p*opacity))
     silhouette=Image.new('RGBA',rgba.size,'#263c2f');silhouette.putalpha(mask)
@@ -87,7 +87,7 @@ def shadow_paste(im, source, xy, blur=28, offset=(0,18), opacity=.17):
 
 def asset_path(name):
     path = ASSETS/name
-    # Chinese marketing keeps the original paintings and effect demo artwork.
+
     if not path.exists() and ASSETS.name == 'zh-Hans' and name in {
         'Scene-16.png', 'Scene-21.png', 'Scene-46.png', 'Weather-Effects-Grid.png'
     }:
@@ -184,12 +184,12 @@ def save(im,name,title,features,sources):
 
 
 def render_original(legacy_package=True):
-    # 01 — Clear, readable weather in an original landscape.
+
     im=canvas(1179,2556)
     brand(im,1179,'01 / 日常晴雨')
     headline(im,'把天气，','读成一卷山水。','逐小时天气 · 多日预报 · 空气质量','山水入怀，晴雨有时')
     mountains(im,1790,.75)
-    # An oversize landscape circle echoes the actual brand mark.
+
     art=asset('Scene-16.png').resize((1250*S,860*S),Image.Resampling.LANCZOS)
     mask=Image.new('L',art.size);ImageDraw.Draw(mask).ellipse((0,-200*S,1250*S,1050*S),fill=110)
     im.paste(art,(-40*S,1370*S),mask)
@@ -199,7 +199,7 @@ def render_original(legacy_package=True):
     save(im,'01-weather-1179x2556.png','把天气，读成一卷山水。',['天气首页','逐小时天气','多日预报','空气质量'],['Weather-Artwork-Home.png','Scene-16.png'])
     del im
 
-    # 02 — Gallery UI, supported by the original landscape works.
+
     im=canvas(1179,2556,'sage')
     brand(im,1179,'02 / 宋韵画境')
     headline(im,'五十幅画境，','每天都有新风景。','十组宋韵主题 · 自由选择心仪画境','山水可居，晴雨可赏')
@@ -213,11 +213,11 @@ def render_original(legacy_package=True):
     save(im,'02-scenes-1179x2556.png','五十幅画境，每天都有新风景。',['50幅原创画境','10组宋韵主题','画境画廊'],['Weather-Artwork-Gallery.png','Scene-21.png','Scene-16.png','Scene-46.png'])
     del im
 
-    # 03 — Forecast-map UI. No radar or real-time rain-stop claims.
+
     im=canvas(1179,2556,'blue')
     brand(im,1179,'03 / 晴雨地图')
     headline(im,'放眼晴雨，','看见天气的走向。','降水 · 气温 · 风速 · 云量','一城之间，一览晴雨')
-    # Quiet contour rings suggest a wider field of view without imitating app UI.
+
     d=ImageDraw.Draw(im)
     for r in [470,650,840]:
      d.ellipse(((589-r)*S,(1630-r)*S,(589+r)*S,(1630+r)*S),outline='#cad7c9',width=S)
@@ -227,13 +227,13 @@ def render_original(legacy_package=True):
     save(im,'03-maps-1179x2556.png','放眼晴雨，看见天气的走向。',['天气地图','四种预报图层','时间轴'],['Weather-Map-Layout-Phone.png'])
     del im
 
-    # 04 — Genuine exported widgets in their original aspect ratios.
+
     im=canvas(1179,2556,'sage')
     brand(im,1179,'04 / 桌面天气')
     headline(im,'抬眼之间，','天气就在桌面。','山水天气 · 带伞提醒 · 日出日落','日常所需，抬眼即见')
     mountains(im,1690,.6)
     shadow_paste(im,card('Widget-landscape-large.png',700,45),(87,790),blur=28,opacity=.13)
-    # A vertical editorial caption makes room for the large widget without covering it.
+
     for i,c in enumerate('一方山水常伴左右'):
      text(im,(970,900+i*49),c,30,anchor='mt',fill='#698064')
     seal(im,949,1350,'日常')
@@ -245,7 +245,7 @@ def render_original(legacy_package=True):
     save(im,'04-widgets-1179x2556.png','抬眼之间，天气就在桌面。',['山水天气','带伞提醒','日出日落','三种尺寸'],['Widget-landscape-large.png','Widget-rain-medium.png','Widget-daylight-medium.png'])
     del im
 
-    # Landscape — Brand and product overview, composed for its own aspect ratio.
+
     im=canvas(2556,1179)
     brand(im,2556)
     text(im,(2395,95),'山水入怀，晴雨有时。',18,kind='sans',anchor='rt',fill=MUTED,tracking=3)
@@ -259,7 +259,7 @@ def render_original(legacy_package=True):
      text(im,(x,780),label,25,kind='sans',fill='#52684e',tracking=2)
     text(im,(94,1011),'山水入怀，晴雨有时。',29,tracking=4,fill='#5b7056')
     text(im,(96,1065),'WEATHER, WITH A LITTLE POETRY.',13,kind='latin',fill=MUTED,tracking=2.3)
-    # Three actual UI screens form a balanced device composition on the right.
+
     shadow_paste(im,phone('Weather-Artwork-Gallery.png',336,5),(1258,265),blur=22,opacity=.17)
     shadow_paste(im,phone('Weather-Map-Layout-Phone.png',346,-5),(2117,245),blur=22,opacity=.17)
     shadow_paste(im,phone('Weather-Artwork-Home.png',416),(1660,212),blur=28,opacity=.20)
@@ -270,7 +270,7 @@ def render_original(legacy_package=True):
     if not legacy_package:
         return
     (OUT/'manifest.json').write_text(json.dumps(MANIFEST,ensure_ascii=False,indent=2)+'\n')
-    # Review contact sheet stays separate from the five full-resolution upload images.
+
     thumbs=Image.new('RGB',(1600,1210),'#e3e6db')
     d=ImageDraw.Draw(thumbs)
     label_font=ImageFont.truetype(SANS,20,index=1)
@@ -287,7 +287,7 @@ def render_original(legacy_package=True):
 
 
 def render_additional():
-    # Two genuine city screens; no fabricated city cards or weather values.
+
     im=canvas(1179,2556,'blue')
     brand(im,1179,'06 / 城市天气')
     headline(im,'关心的城市，','都有一方晴空。','收藏城市 · 自由切换 · 手动选城','身边的日常，远方的牵挂')
@@ -307,7 +307,7 @@ def render_additional():
     headline(im,'晴雨更迭，','山水各有意境。','十一种天气预览 · 选一幅心仪画境','一江山水，不同的天空')
     mountains(im,1770,.70)
     shadow_paste(im,phone('Weather-Artwork-Detail.png',650),(78,825),blur=34,opacity=.18)
-    # Crop the actual app-exported effect previews, preserving their rendering.
+
     grid=asset('Weather-Effects-Grid.png')
     for crop,xy,label,number in [
         ((36,107,486,417),(765,1040),'晴天','01'),
@@ -386,7 +386,7 @@ def localized_footer(im, value):
 
 
 def art_mark(im,x,y):
-    # An abstract vermilion mountain seal echoes the original without new text.
+
     rounded(im,(x,y,x+44,y+55),4,None,RED,1.7)
     line(im,(x+8,y+39,x+21,y+15,x+35,y+39),RED,2)
     line(im,(x+8,y+45,x+35,y+45),RED,2)
@@ -424,7 +424,7 @@ def render_localized(copy):
 
     im=start(3,'sage');mountains(im,1690,.6)
     shadow_paste(im,card('Widget-landscape-large.png',680,45),(87,790),blur=28,opacity=.13)
-    # Horizontal captions leave natural word spacing and room for Vietnamese marks.
+
     fitted(im,(87,1520),pages[3]['captions'][0],27,1000,fill=MUTED)
     shadow_paste(im,card('Widget-rain-medium.png',850,62),(227,1595),blur=25,opacity=.12)
     fitted(im,(227,2010),pages[3]['captions'][1],26,860,fill='#5f7b7b')
@@ -492,7 +492,7 @@ def package_localized(copy):
         labels = dict(zip(fields, ['App 名称', '副标题', '推广文本', '关键词', '完整介绍']))
     (OUT/'metadata.txt').write_text('\n\n'.join(labels[k]+'\n'+copy[k] for k in fields)+'\n')
     (OUT/'manifest.json').write_text(json.dumps(MANIFEST,ensure_ascii=False,indent=2)+'\n')
-    # All seven images on one contact sheet, six portraits above the panorama.
+
     preview=Image.new('RGB',(1800,1060),'#e3e6db');draw=ImageDraw.Draw(preview)
     for i,item in enumerate([item for item in MANIFEST if not item['file'].startswith('05-')]):
         picture=Image.open(OUT/item['file']);picture.thumbnail((280,610),Image.Resampling.LANCZOS)

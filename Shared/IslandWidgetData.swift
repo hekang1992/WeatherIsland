@@ -56,7 +56,7 @@ struct IslandWidgetWeather: Codable, Sendable {
         return days.first { calendar.isDate($0.date, inSameDayAs: date) }
     }
     func upcoming(at date: Date) -> [IslandWidgetHour] {
-        // Use complete future forecast hours; do not sum current 15-minute observations.
+
         hours.filter { $0.date > date }
     }
     func stale(at date: Date) -> Bool { date.timeIntervalSince(fetchedAt) > 7200 || today(at: date) == nil }
@@ -100,7 +100,7 @@ enum IslandWidgetCache {
     }
 }
 
-/// A compact independent client: the extension can refresh while the app is closed.
+
 enum IslandWidgetClient {
     struct Response: Decodable {
         struct Current: Decodable {

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Weather motion is confined to the illustration, with a deterministic still frame for Preview exports.
+
 struct IslandScene: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
@@ -116,7 +116,7 @@ struct IslandScene: View {
     }
 }
 
-/// Pure drawing function: repeatable particle paths, no random state or network assets.
+
 enum WeatherParticles {
     static func draw(kind: WeatherKind, time: Double, context base: inout GraphicsContext, onDark: Bool = false, subtle: Bool = false) {
         var c = base
@@ -164,7 +164,7 @@ enum WeatherParticles {
             }
         }
         if kind == .thunderstorm {
-            // One slow glow every six seconds. No full-screen flashes or strobing.
+
             let pulse = pow(max(0, sin(time.truncatingRemainder(dividingBy: 6) / 6 * .pi)), 8)
             var bolt = Path()
             bolt.addLines([.init(x:260,y:61), .init(x:243,y:90), .init(x:256,y:88), .init(x:246,y:112), .init(x:275,y:78), .init(x:260,y:80)])

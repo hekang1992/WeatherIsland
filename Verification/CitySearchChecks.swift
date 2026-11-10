@@ -67,7 +67,7 @@ func checkCitySearch() async throws {
     precondition(chinese.map(\.id) == english.map(\.id))
     precondition(chinese.map(\.place) == english.map(\.place))
     CitySearchProtocol.respond = { _ in (200, data) }
-    // Both spellings return the same IDs: merge them, retaining distinct places.
+
     let variants = try await CityGeocodingService.search("苏州", session: session)
     precondition(variants.count == 2)
     CitySearchProtocol.respond = { request in

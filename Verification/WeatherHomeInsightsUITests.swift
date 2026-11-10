@@ -13,7 +13,7 @@ import XCTest
     }
     private func reveal(_ element: XCUIElement, in app: XCUIApplication, limit: Int = 22) {
         for _ in 0..<limit {
-            // Hittable may include a card whose center is behind the floating tabs.
+
             if element.exists && element.isHittable,
                element.frame.midY > app.frame.minY + 64,
                element.frame.midY < app.frame.maxY - 115 { return }
@@ -48,7 +48,7 @@ import XCTest
             try capture(app, "Sheet-\(topic)")
             close(app)
         }
-        // Swipe-to-dismiss follows the same path as the close button.
+
         open("home.glance.rain", in: app)
         let closeButton = app.buttons["home.sheet.close"]
         let origin = app.coordinate(withNormalizedOffset: .zero)
@@ -105,7 +105,7 @@ import XCTest
         reveal(app.buttons["home.sheet.fullDetail"], in: app)
         try capture(app, "LargeType-Outdoor")
         close(app)
-        // iPhone supports portrait only; inspect the scrolled card at the supported orientation.
+
         open("home.air", in: app)
         XCTAssertTrue(app.buttons["home.sheet.close"].isHittable)
         try capture(app, "LargeType-Air")

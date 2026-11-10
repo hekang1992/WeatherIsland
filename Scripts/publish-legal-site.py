@@ -57,7 +57,7 @@ for path in files:
             raise RuntimeError(f'Git blob mismatch for {path.name}')
         known_blobs.add(sha)
     entries.append({'path': path.relative_to(SITE).as_posix(), 'mode': '100644', 'type': 'blob', 'sha': sha})
-# A complete tree keeps removed website assets from accumulating on the published branch.
+
 tree = api('git/trees', 'POST', {'tree': entries})
 if previous and base_tree == tree['sha']:
     commit = {'sha': previous}

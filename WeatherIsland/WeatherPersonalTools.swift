@@ -1,7 +1,7 @@
 import SwiftUI
 
 #if os(iOS)
-/// Personal travel tools share the city's existing stores without selecting a weather region.
+
 struct MyCityComparisonSheet: View {
     let app: WeatherApplication
     let addCity: () -> Void

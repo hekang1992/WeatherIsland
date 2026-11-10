@@ -1,5 +1,5 @@
 #!/bin/bash
-# Exercise Xcode's compiled catalog (.strings + .stringsdict), not the source fallback.
+
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 app_bundle="${1:-$root/work/LocalizationBuild/Build/Products/Debug-iphonesimulator/WeatherIsland.app}"

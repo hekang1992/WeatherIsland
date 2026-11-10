@@ -53,7 +53,7 @@ struct PaperSceneStyle: Identifiable, Hashable, Sendable {
             let country:[Int:String]=[0:"CN",1:"JP",2:"GB",3:"FR",4:"US",5:"CN",6:"CN",8:"CN",9:"CN",14:"CN",16:"CN",20:"CN",36:"CN",40:"CN"]
             if country[match.1] == place.countryCode.uppercased() {return all[match.1]}
         }
-        // A suggested art scene, never presented as a factual local landscape.
+
         if abs(place.latitude) > 58 { return all[35 + stableIndex(place.city, count: 5)] }
         if abs(place.latitude) < 23 { return all[40 + stableIndex(place.city, count: 5)] }
         let families = [10,15,20,25,30,45]
@@ -64,7 +64,7 @@ struct PaperSceneStyle: Identifiable, Hashable, Sendable {
     }
 }
 
-/// Fifty original Song-inspired landscape and flower-and-bird compositions.
+
 struct PaperCityScene: View {
     let style: PaperSceneStyle
     var kind: WeatherKind = .partlyCloudy
@@ -77,8 +77,8 @@ struct PaperCityScene: View {
         TimelineView(.animation(minimumInterval: 1 / 24.0, paused: !animate || reduceMotion || phase != .active)) { timeline in
             let time = animate && !reduceMotion && phase == .active ? timeline.date.timeIntervalSince(epoch) : 2.8
             Canvas { context, size in
-                // Every painting is composed on the same 360 × 248 sheet. Keep
-                // a single scale so circles, birds and architecture retain their shape.
+
+
                 let scale = min(size.width / 360, size.height / 248)
                 context.translateBy(x: (size.width - 360 * scale) / 2,
                                     y: (size.height - 248 * scale) / 2)
@@ -111,8 +111,8 @@ extension PaperSceneStyle.Family {
     }
 }
 
-/// Original programmatic paintings, not reproductions of historical artworks.
-/// All shapes are static except a very slight movement of mist and weather.
+
+
 enum SongPainting {
     private static let ink = Color(hex:0x39483E)
     private static let moss = Color(hex:0x647E69)
@@ -235,7 +235,7 @@ enum SongPainting {
             for i in 0..<6 {curve([(99+Double(i)*13,206),(128+Double(i)*15,222),(141+Double(i)*18,247)],ink.opacity(0.12),0.5,&scene)}
         }
         if kind == .clear {
-            // Warm reflected light follows the weather, while the original brushwork stays visible.
+
             c.fill(Path(CGRect(x:0,y:0,width:360,height:248)),with:.radialGradient(
                 Gradient(colors:[Color(hex:0xE7BE70).opacity(0.16),Color(hex:0xE7BE70).opacity(0)]),
                 center:point(245,48),startRadius:20,endRadius:215))
@@ -254,8 +254,8 @@ enum SongPainting {
         if kind == .fog {mist(110+sin(time*0.12)*5,&c);mist(180-sin(time*0.12)*3,&c)}
         inscription(s,&c)
     }
-    /// Weather cues remain legible in still frames and in small city thumbnails.
-    /// Draw the sky before the landscape so clouds stay behind mountains and trees.
+
+
     private static func weatherSky(_ kind: WeatherKind, time: Double, _ c: inout GraphicsContext) {
         let sky = Path(CGRect(x: 0, y: 0, width: 360, height: 190))
         switch kind {
@@ -272,7 +272,7 @@ enum SongPainting {
             let drift = sin(time * 0.22) * 7
             paintedCloud(x: 28 + drift, y: 19, width: 108, height: 33,
                          top: 0xF9F5E9, base: 0xB3C0B8, opacity: 0.88, &c)
-            // This cloud overlaps the sun even when motion is disabled.
+
             paintedCloud(x: 201 + drift, y: 39, width: 91, height: 35,
                          top: 0xFBF7EC, base: 0xA7B8B1, opacity: 0.96, &c)
         case .overcast:
@@ -491,7 +491,7 @@ enum SongPainting {
             let side=i%2 == 0 ? -1.0:1.0,fx=px+side*14*s,fy=py-(18+noise(i,seed)*13)*s
             curve([(px,py),(fx-4*s,fy+10*s),(fx,fy)],ink.opacity(0.65),0.7*s,&c)
             if seed == 0 {
-                // Magnolia: large, upright ivory petals with fine warm outlines.
+
                 for j in 0..<6 {petal(fx,fy,(15+noise(i,j)*7)*s,Double(j)*0.35-2.4,blossom,&c)}
             } else {
                 for j in 0..<5 {let a=Double(j)*2 * .pi/5;petal(fx,fy,(7+noise(i,seed)*5)*s,a,blossom,&c)}
@@ -518,7 +518,7 @@ enum SongPainting {
         for i in 0..<2 {let xx=x+Double(i)*6*s;curve([(xx,y-6*s),(xx+1*s,y+3*s),(xx-1*s,y+11*s)],ink.opacity(0.65),0.65*s,&c)}
     }
     private static func inscription(_ s:PaperSceneStyle,_ c:inout GraphicsContext) {
-        // Inscriptions belong to the fixed painting composition, not the UI text scale.
+
         let font=Font.custom("STSongti-SC-Regular",fixedSize:15)
         for (i,ch) in s.name.enumerated() {c.draw(Text(String(ch)).font(font).foregroundStyle(ink.opacity(0.85)),at:point(329,33+Double(i)*19))}
         let words="风来有信"

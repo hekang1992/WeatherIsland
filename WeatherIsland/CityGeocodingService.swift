@@ -1,12 +1,12 @@
 import Foundation
 
-/// Global administrative places, independent of MapKit address autocomplete coverage.
+
 struct GeocodedCity: Identifiable, Sendable {
     let id: Int
     let place: WeatherPlace
     let administrativeArea: String
     let population: Int
-    /// Preserve existing shortcut identities when the same city is found in another language.
+
     func savedPlace(in places: [WeatherPlace]) -> WeatherPlace {
         func canonical(_ city: String) -> String {
             let simplified = CityGeocodingService.simplified(city)
@@ -33,8 +33,8 @@ struct GeocodedCity: Identifiable, Sendable {
 enum CityGeocodingService {
     enum SearchError: Error { case invalidResponse, http(Int) }
 
-    /// GeoNames' alternate-name index has gaps for simplified Chinese. Translate
-    /// common aliases to indexed names; all other names still use the global API.
+
+
     private static let aliases: [String: String] = [
         "东京": "Tokyo", "东京都": "Tokyo", "纽约": "New York", "纽约市": "New York",
         "洛杉矶": "Los Angeles", "伦敦": "London", "巴黎": "Paris", "大阪": "Osaka",
@@ -54,7 +54,7 @@ enum CityGeocodingService {
     ]
 
     static func simplified(_ value: String) -> String {
-        // ICU maps the Japanese proper name 大阪 to 大坂; retain its current spelling.
+
         (value.applyingTransform(.init("Hant-Hans"), reverse: false) ?? value)
             .replacingOccurrences(of: "大坂", with: "大阪")
     }
@@ -94,7 +94,7 @@ enum CityGeocodingService {
             }
             var cities: [GeocodedCity] = []
             var failure: Error?
-            // A successful alternate spelling can still be used if another fails.
+
             while let result = await group.nextResult() {
                 switch result {
                 case .success(let matches): cities += matches
@@ -115,7 +115,7 @@ enum CityGeocodingService {
         let response = try JSONDecoder().decode(Response.self, from: data)
         guard response.error != true else { throw SearchError.invalidResponse }
         return (response.results ?? []).compactMap { item in
-            // Exclude POIs, mountains and country centroids from weather cities.
+
             guard item.feature_code.hasPrefix("PPL") || ["ADM1", "ADM2", "ADM3", "ADM4"].contains(item.feature_code),
                   let zone = item.timezone, TimeZone(identifier: zone) != nil,
                   let code = item.country_code, !code.isEmpty,

@@ -1,12 +1,12 @@
 import Foundation
 import Observation
 
-/// Coordinates are evenly spaced in Web Mercator so the forecast grid aligns with the map.
+
 struct WeatherMapArea: Hashable, Sendable {
     var north: Double
     var south: Double
     var west: Double
-    var east: Double // May exceed 180 when the region crosses the date line.
+    var east: Double
     static let side = 7
 
     static func around(latitude: Double, longitude: Double, span: Double = 8) -> Self {
@@ -86,7 +86,7 @@ struct WeatherMapForecast: Sendable {
     var times: [Date] { points.first?.hourly.time.map { Date(timeIntervalSince1970: $0) } ?? [] }
     var lastHour: Int { max(0, min(66, times.count - 1)) }
 
-    /// Missing cells stay transparent; no extrapolation beyond the downloaded area.
+
     func value(layer: WeatherMapLayer, hour: Int, x: Double, y: Double) -> Double? {
         guard (0...1).contains(x), (0...1).contains(y), points.count == WeatherMapArea.side * WeatherMapArea.side else { return nil }
         let gx = x * Double(WeatherMapArea.side - 1), gy = y * Double(WeatherMapArea.side - 1)
@@ -134,7 +134,7 @@ enum WeatherMapService {
         try Task.checkCancellation()
         return try decode(data, area: area)
     }
-    /// Only used by explicitly offline previews. Production errors never substitute demo cells.
+
     static func demo(area: WeatherMapArea, now: Date = Date()) -> WeatherMapForecast {
         let start = floor(now.timeIntervalSince1970 / 3600) * 3600
         let times = (0...66).map { start + Double($0) * 3600 }
@@ -164,7 +164,7 @@ enum WeatherMapService {
         if !force, let forecast, forecast.area == area, Date().timeIntervalSince(forecast.fetchedAt) < 900 { return }
         let id = UUID(); requestID = id
         loading = true; failed = false
-        // Never show an old region's heatmap under a new place name.
+
         if forecast?.area != area { forecast = nil }
         defer { if id == requestID { loading = false } }
         do {

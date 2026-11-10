@@ -3,8 +3,8 @@ import SwiftUI
 import UIKit
 import WebKit
 
-// The floating tab bar sits over light artwork even in the app's night theme.
-// Give its material and labels a matching light appearance in both themes.
+
+
 private struct WeatherTabContrast: ViewModifier {
     func body(content: Content) -> some View {
         content.toolbarColorScheme(.light, for: .tabBar)
@@ -49,7 +49,7 @@ struct WeatherTabsView: View {
             let defaults = UserDefaults(suiteName: "WeatherIsland.StartupCheck." + UUID().uuidString)!
             application = WeatherApplication(defaults: defaults,
                 weatherLoader: { place in try await source.fetch(place) })
-            application.select(.shanghai) // This check isolates networking from location onboarding.
+            application.select(.shanghai)
         } else if app == nil, arguments.contains("--settings-check") {
             let suite = "WeatherIsland.SettingsCheck"
             let defaults = UserDefaults(suiteName: suite)!
@@ -251,8 +251,8 @@ struct WeatherTabsView: View {
 
 
 #if DEBUG
-/// Reproduce the first-launch permission delay on a simulator without changing
-/// system networking. Real weather is fetched only after two simulated failures.
+
+
 private actor StartupConnectionCheck {
     private var attempts = 0
     func fetch(_ place: WeatherPlace) async throws -> Data {
@@ -264,7 +264,7 @@ private actor StartupConnectionCheck {
 }
 #endif
 
-/// Location and city choice are resolved before starting the first weather request.
+
 private struct WeatherLocationEntryView: View {
     var choosingCity: Bool
     var locate: () -> Void
@@ -290,7 +290,7 @@ private struct WeatherLocationEntryView: View {
     }
 }
 
-/// The first weather response gates entry; cached launches skip this screen.
+
 private struct WeatherStartupView: View {
     let weather: WeatherStore
     let retry: () -> Void
@@ -942,7 +942,7 @@ struct WeatherAboutView: View {
     }.settingsCard()
 }
 
-/// Local documents describe the implemented app; no network is required to read them.
+
 enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
     case terms, privacy
     static let updatedDate = "2026 年 11 月 9 日"
@@ -1068,7 +1068,7 @@ private struct WeatherServiceLinks: View {
     }
 }
 
-/// Web resources stay in the current navigation stack, including links inside the page.
+
 struct WeatherWebLink<Label: View>: View {
     let title: String
     let destination: URL
@@ -1159,7 +1159,7 @@ private struct WeatherEmbeddedWebView: UIViewRepresentable {
                   ["https", "http"].contains(url.scheme?.lowercased() ?? "") else {
                 return .cancel
             }
-            // Load tapped links ourselves so universal links and new windows stay inside the App.
+
             if action.targetFrame == nil || (action.navigationType == .linkActivated && action.targetFrame?.isMainFrame == true) {
                 webView.load(action.request)
                 return .cancel

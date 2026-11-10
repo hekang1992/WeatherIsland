@@ -41,8 +41,8 @@ import SwiftUI
         } : nil
         var restored = saved ?? CityCollection()
         restored.validate(); collection = restored
-        // Existing installations retain their chosen city. The built-in Shanghai
-        // fallback on a fresh install is not an explicit user choice.
+
+
         usesManualCity = live && ((defaults.object(forKey: Self.manualCityKey) as? Bool)
             ?? (saved != nil && !restored.selected.isCurrentLocation))
     }
@@ -65,8 +65,8 @@ import SwiftUI
         }
         let store=AirQualityStore(place:place,defaults:defaults,live:live,loader:loader);air[place.cacheID]=store;return store
     }
-    /// Owned by the foreground Tab container, so startup waits and retries survive
-    /// tab changes but stop when backgrounded or when another city is selected.
+
+
     func loadSelectedWeather() async {
         guard live else { return }
         let forecast = weather(for: selected)
@@ -153,8 +153,8 @@ import SwiftUI
     private func save() {guard live else{return};defaults.set(usesManualCity, forKey:Self.manualCityKey);if let data=try? JSONEncoder().encode(collection){defaults.set(data,forKey:Self.collectionKey)}}
 }
 
-/// Startup never loads the fallback city's weather before location or an explicit
-/// city choice. Once ready, later location failures leave the existing home usable.
+
+
 struct WeatherLocationEntry {
     enum Phase { case pending, locating, needsCity, ready }
     private(set) var phase: Phase = .pending
@@ -171,7 +171,7 @@ struct WeatherLocationEntry {
     mutating func backgrounded() { if phase == .locating { phase = .pending } }
 }
 
-/// Stored independently of cities so appearance changes do not restart weather or GPS.
+
 enum WeatherTheme: String, CaseIterable, Identifiable {
     case system, light, dark
     static let storageKey = "WeatherIsland.Theme.v1"

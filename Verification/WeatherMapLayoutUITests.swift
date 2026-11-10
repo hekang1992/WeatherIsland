@@ -1,6 +1,6 @@
 import XCTest
 
-/// Offline geometry and interaction checks for the map's floating controls.
+
 @MainActor final class WeatherMapLayoutQA: XCTestCase {
     override func tearDown() {
         XCUIDevice.shared.orientation = .portrait

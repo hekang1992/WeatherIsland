@@ -6,7 +6,7 @@ import SwiftUI
     let defaults = UserDefaults(suiteName: suite)!
     defer { defaults.removePersistentDomain(forName: suite) }
 
-    // A corrupt/future preference falls back to system and never damages saved cities.
+
     defaults.set("unknown-future-theme", forKey: WeatherTheme.storageKey)
     let app = WeatherApplication(defaults: defaults)
     precondition(app.theme == .system && !app.usesManualCity)
@@ -28,7 +28,7 @@ import SwiftUI
     app.setTheme(.system)
     precondition(WeatherApplication(defaults: defaults).theme.colorScheme == nil)
 
-    // Preview changes are local to their model and cannot overwrite the user's theme.
+
     app.setTheme(.dark)
     let preview = WeatherApplication(defaults: defaults, live: false)
     precondition(preview.theme == .system)

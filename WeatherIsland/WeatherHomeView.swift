@@ -5,7 +5,7 @@ import UIKit
 import AppKit
 #endif
 
-/// A miniature Shanghai whose sky changes when an hour or forecast ticket is selected.
+
 struct WeatherHomeView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -526,7 +526,7 @@ private struct TicketShape: Shape {
     }
 }
 
-/// Deterministic, scalable isometric Shanghai illustration. No image downloads or assets.
+
 enum IslandDrawing {
     static func draw(in c: inout GraphicsContext) {
         let ink = Color(hex: 0x40574C)
@@ -556,12 +556,12 @@ enum IslandDrawing {
                 }
             }
         }
-        // Soft ground shadow and a pale circular sky.
+
         ellipse(67, 199, 228, 14, color: ink.opacity(0.055))
         var orbit = Path(ellipseIn: CGRect(x: 12, y: 79, width: 336, height: 107))
         orbit = orbit.applying(CGAffineTransform(translationX: -180, y: -132).concatenating(CGAffineTransform(rotationAngle: -.pi / 13)).concatenating(CGAffineTransform(translationX: 180, y: 132)))
         c.stroke(orbit, with: .color(ink.opacity(0.24)), style: StrokeStyle(lineWidth: 0.7, dash: [3,4]))
-        // Island sides.
+
         var side = Path()
         side.move(to: .init(x:40,y:141))
         side.addCurve(to: .init(x:283,y:116), control1: .init(x:69,y:91), control2: .init(x:228,y:86))
@@ -570,7 +570,7 @@ enum IslandDrawing {
         side.addCurve(to: .init(x:40,y:163), control1: .init(x:107,y:207), control2: .init(x:58,y:186))
         side.closeSubpath()
         c.fill(side, with: .linearGradient(Gradient(colors:[Color(hex:0xB4C6A4),Color(hex:0x809F8F)]), startPoint:.init(x:80,y:145), endPoint:.init(x:260,y:220)))
-        // Island top surface.
+
         var top = Path()
         top.move(to:.init(x:40,y:141))
         top.addCurve(to:.init(x:139,y:106),control1:.init(x:54,y:115),control2:.init(x:107,y:106))
@@ -581,7 +581,7 @@ enum IslandDrawing {
         top.closeSubpath()
         c.fill(top, with:.color(Color(hex:0xE0E5B9)))
         c.stroke(top, with:.color(Color(hex:0xF8F9D6)),lineWidth:1.3)
-        // The Huangpu river, a cream embankment and tiny wake.
+
         var river = Path()
         river.move(to:.init(x:282,y:118))
         river.addCurve(to:.init(x:117,y:177),control1:.init(x:232,y:143),control2:.init(x:177,y:136))
@@ -589,16 +589,16 @@ enum IslandDrawing {
         c.stroke(river,with:.color(Color(hex:0xA2CAC7)),style:StrokeStyle(lineWidth:22,lineCap:.butt))
         line([.init(x:201,y:147),.init(x:187,y:152),.init(x:173,y:158)],color:.white.opacity(0.8),width:1)
         polygon([.init(x:184,y:145),.init(x:192,y:145),.init(x:187,y:150)],color:Color(hex:0xFFF9EB))
-        // Back city blocks.
+
         building(109,130,19,29,color:Color(hex:0xD9B9A7))
         building(134,126,16,39,color:Color(hex:0xC2C6D8))
         building(156,124,15,24,color:Color(hex:0xE7D5A7))
         building(270,139,17,38,color:Color(hex:0xB7C3B6))
-        // World Financial Center silhouette.
+
         polygon([.init(x:205,y:134),.init(x:206,y:64),.init(x:224,y:58),.init(x:227,y:130)],color:Color(hex:0xA8B6CE))
         polygon([.init(x:211,y:68),.init(x:219,y:65),.init(x:220,y:77),.init(x:211,y:78)],color:WeatherPalette.paper)
         line([.init(x:211,y:86),.init(x:212,y:123)],color:.white.opacity(0.6))
-        // Shanghai Tower: a tapered, twisting profile.
+
         var tower = Path()
         tower.move(to:.init(x:237,y:137))
         tower.addLine(to:.init(x:235,y:74))
@@ -607,7 +607,7 @@ enum IslandDrawing {
         tower.closeSubpath()
         c.fill(tower,with:.linearGradient(Gradient(colors:[Color(hex:0xD5D9EA),Color(hex:0x9CAEC2)]),startPoint:.init(x:237,y:85),endPoint:.init(x:256,y:85)))
         line([.init(x:249,y:50),.init(x:244,y:85),.init(x:250,y:128)],color:.white.opacity(0.7),width:1)
-        // Oriental Pearl Tower, coral spheres and tripod.
+
         line([.init(x:171,y:148),.init(x:183,y:92),.init(x:196,y:143)],color:Color(hex:0xB77264),width:4)
         line([.init(x:184,y:23),.init(x:184,y:141)],color:Color(hex:0xB77264),width:3)
         ellipse(173,58,22,22,color:WeatherPalette.accent)
@@ -616,7 +616,7 @@ enum IslandDrawing {
         ellipse(176,61,7,5,color:Color(hex:0xFFCEB1).opacity(0.75))
         ellipse(172,107,10,7,color:Color(hex:0xF5B9A0).opacity(0.8))
         line([.init(x:172,y:119),.init(x:194,y:119)],color:ink.opacity(0.3),width:1)
-        // Small Bund blocks, terrace and greenery in front.
+
         building(91,154,17,17,color:Color(hex:0xF2D6AA))
         building(114,161,19,22,color:Color(hex:0xDBBAA0))
         building(139,157,16,16,color:Color(hex:0xEEE1BF))
@@ -628,7 +628,7 @@ enum IslandDrawing {
         }
         line([.init(x:124,y:194),.init(x:125,y:203),.init(x:129,y:207)],color:Color(hex:0x547963),width:1.5)
         line([.init(x:265,y:189),.init(x:264,y:198)],color:Color(hex:0x547963),width:1.5)
-        // An orbital marker and a tiny four-point star.
+
         ellipse(319,117,6,6,color:WeatherPalette.accent)
         line([.init(x:40,y:69),.init(x:48,y:69)],color:ink.opacity(0.5),width:0.8)
         line([.init(x:44,y:65),.init(x:44,y:73)],color:ink.opacity(0.5),width:0.8)
@@ -761,7 +761,7 @@ struct WeatherHomeView_Previews: PreviewProvider {
 }
 #endif
 
-/// Songti for display titles; measurement labels retain the system font for legibility.
+
 enum WeatherTypography {
     static func display(_ size:CGFloat)->Font { WeatherLocalization.isChinese ? .custom("STSongti-SC-Regular",size:size,relativeTo:.title) : .system(size: size, weight: .regular, design: .default) }
 }

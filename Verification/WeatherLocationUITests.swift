@@ -31,7 +31,7 @@ import CoreLocation
     }
     private func enterHome(_ app: XCUIApplication) {
         let home = app.tabBars.buttons["天气"]
-        // Network refusal remains usable through the existing explicit skip.
+
         if !home.waitForExistence(timeout: 20), app.buttons["稍后进入"].exists { app.buttons["稍后进入"].tap() }
         XCTAssertTrue(home.waitForExistence(timeout: 45))
     }
@@ -58,8 +58,8 @@ import CoreLocation
         XCUIDevice.shared.press(.home); app.activate()
         XCTAssertTrue(app.buttons["切换城市，当前Tokyo"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.alerts.firstMatch.exists)
-        // Requesting location inside an already open search sheet must dismiss
-        // the sheet before showing the error, then keep the chosen city usable.
+
+
         app.buttons["切换城市，当前Tokyo"].tap()
         app.buttons["使用我的位置"].tap()
         let laterAlert = app.alerts["暂时无法定位"]
@@ -78,8 +78,8 @@ import CoreLocation
         capture(app, "Current location home")
         app.terminate()
     }
-    // The lookup fixture fails offline, returns no city, then supplies an
-    // administrative name. GPS authorization and coordinate weather remain real.
+
+
     func testNameRecoversAfterNetworkFailureWithoutRelocating() throws {
         let app = launchFresh(namingRecovery: true)
         respondToLocation(true)
@@ -162,8 +162,8 @@ import CoreLocation
         let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
         XCTAssertTrue(settings.wait(for: .runningForeground, timeout: 5))
         let whileUsing = settings.cells["LOCATION_SERVICES_AUTH_WHEN_IN_USE"]
-        // Settings preserves its last page on the simulator. It may already be
-        // showing this permission, app details, or the Settings root.
+
+
         if !whileUsing.waitForExistence(timeout: 2) {
             let location = settings.staticTexts.matching(NSPredicate(format: "label IN %@", ["Location", "位置", "定位"])).firstMatch
             if location.exists {
@@ -222,8 +222,8 @@ import CoreLocation
     }
 }
 
-/// Run with simulator content_size accessibility-extra-extra-extra-large as well
-/// as the launch preference, so the system accessibility category is exercised.
+
+
 @MainActor final class AccessibilityTemperatureQA: XCTestCase {
     func testLargestTypeKeepsTemperatureAndDetailsSeparate() throws {
         continueAfterFailure = false

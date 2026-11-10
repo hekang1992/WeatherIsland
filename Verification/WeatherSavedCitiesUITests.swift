@@ -65,7 +65,7 @@ import XCTest
         XCTAssertFalse(app.buttons["cities.location"].isEnabled)
         XCTAssertFalse(app.buttons["cities.add"].exists)
         try capture(app, "Editing")
-        // List editing must retain native delete controls while the row has no navigation button.
+
         let delete = app.images.matching(identifier: "minus.circle.fill").firstMatch
         XCTAssertTrue(delete.exists, app.debugDescription)
         let reorder = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Reorder ' OR label BEGINSWITH '重新排序'")).firstMatch
@@ -169,7 +169,7 @@ import XCTest
         trip.tap()
         let item = app.buttons["home.packing.0"]
         XCTAssertTrue(item.waitForExistence(timeout: 5))
-        // Open the sheet fully before interacting with its lower content.
+
         app.swipeUp()
         let wasSelected = item.isSelected
         item.tap()

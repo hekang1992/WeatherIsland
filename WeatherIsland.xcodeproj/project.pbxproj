@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F70000000000000000000001 /* BusinessEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70000000000000000000002 /* BusinessEntry.swift */; };
 		A00000000000000000000001 /* WeatherIslandApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* WeatherIslandApp.swift */; };
 		A00000000000000000000002 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* WeatherHomeView.swift */; };
 		B00000000000000000000014 /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* WeatherModels.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F70000000000000000000002 /* BusinessEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessEntry.swift; sourceTree = "<group>"; };
 		A00000000000000000000003 /* WeatherIslandApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIslandApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000004 /* WeatherHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeView.swift; sourceTree = "<group>"; };
 		A00000000000000000000005 /* WeatherIsland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherIsland.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 				A00000000000000000000016 /* WeatherDetailView.swift */,
 				A00000000000000000000015 /* WeatherEffects.swift */,
 				A00000000000000000000003 /* WeatherIslandApp.swift */,
+				F70000000000000000000002 /* BusinessEntry.swift */,
 				A00000000000000000000004 /* WeatherHomeView.swift */,
 			);
 			path = WeatherIsland;
@@ -347,6 +350,7 @@ A0000000000000000000001B /* LaunchScreen.storyboard */ = {isa = PBXVariantGroup;
 				E10000000000000000000016 /* WeatherWidgetGallery.swift in Sources */,
 				E10000000000000000000017 /* WeatherWidgetBridge.swift in Sources */,
 				A00000000000000000000001 /* WeatherIslandApp.swift in Sources */,
+				F70000000000000000000001 /* BusinessEntry.swift in Sources */,
 				D00000000000000000000020 /* WeatherPlace.swift in Sources */,
 				D00000000000000000000021 /* PaperScenes.swift in Sources */,
 				D00000000000000000000022 /* WeatherExtras.swift in Sources */,

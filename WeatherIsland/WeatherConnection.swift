@@ -1,7 +1,7 @@
 import Foundation
 
-/// A route can exist while per-app network access is still pending. Let URLSession
-/// wait for usable connectivity, and retry connection failures while the app is active.
+
+
 enum WeatherConnection {
     static let session: URLSession = {
         let configuration = URLSessionConfiguration.default
@@ -22,8 +22,8 @@ enum WeatherConnection {
         }
     }
 
-    /// No retry limit: someone may leave the system permission prompt open for a
-    /// while. Back off to one attempt per 15 seconds; view lifecycle cancels us.
+
+
     @MainActor static func recover(
         sleep: @MainActor (Duration) async throws -> Void = { try await Task.sleep(for: $0) },
         attempt: @MainActor () async -> Bool

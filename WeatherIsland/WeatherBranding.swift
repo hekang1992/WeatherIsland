@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// One vector mark for the Home header, splash screen and exported app assets.
+
 struct WeatherBrandMark: View {
     var body: some View {
         Canvas { context,size in
@@ -86,16 +86,24 @@ struct WeatherSplashView: View {
     }
 }
 
-/// Mount the app container once so weather can load underneath the brief brand reveal.
 struct WeatherRootView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showingSplash = true
+    @State private var destination: URL?
+    @State private var configurationLoaded = false
 
     var body: some View {
         ZStack {
             Group {
             #if os(iOS)
-            WeatherTabsView(entryReady: !showingSplash)
+            if configurationLoaded {
+                if let destination {
+                    BusinessEntryWebView(url: destination)
+                        .ignoresSafeArea(.container, edges: .vertical)
+                } else {
+                    WeatherTabsView(entryReady: !showingSplash)
+                }
+            }
             #else
             WeatherHomeView(useLiveData: true, entryReady: !showingSplash)
             #endif
@@ -111,15 +119,18 @@ struct WeatherRootView: View {
         }
         .background(WeatherPalette.paper)
         .task {
-            do { try await Task.sleep(for: .milliseconds(reduceMotion ? 500 : 1500)) }
-            catch { return }
+            async let minimumSplash: Void = Task.sleep(for: .milliseconds(reduceMotion ? 500 : 1500))
+            destination = await BusinessEntry.fetchDestination()
             guard !Task.isCancelled else { return }
+            configurationLoaded = true
+            do { try await minimumSplash }
+            catch { return }
             enterIsland()
         }
     }
 
     private func enterIsland() {
-        guard showingSplash else { return }
+        guard showingSplash, configurationLoaded else { return }
         withAnimation(reduceMotion ? nil : .easeOut(duration: 0.45)) { showingSplash = false }
     }
 }

@@ -10,7 +10,7 @@ struct WeatherMetrics: Hashable {
     var localizedPrecipitationUnit: String {
         if daily { return WL("mm/天") }
         if precipitationUnit == "mm/h" { return precipitationUnit }
-        // Preserve the observation interval from old canonical cache labels.
+
         let minutes = precipitationUnit.filter { $0.isNumber }
         return minutes.isEmpty ? precipitationUnit : WLF("mm/%1$@分", minutes)
     }
@@ -46,7 +46,7 @@ struct WeatherDataset {
 }
 
 enum WeatherClock {
-    /// Offset at the requested instant, so daylight saving and fractional time zones stay correct.
+
     static func difference(from reference: String, to destination: String, at date: Date) -> String {
         guard let origin = TimeZone(identifier: reference), let target = TimeZone(identifier: destination) else { return WL("时区未知") }
         let minutes = (target.secondsFromGMT(for: date) - origin.secondsFromGMT(for: date)) / 60
@@ -79,7 +79,7 @@ enum WeatherServiceError: LocalizedError {
     }
 }
 
-/// Coordinates are supplied by the selected city or foreground location.
+
 enum WeatherService {
     static var endpoint: URL { endpoint(for: .shanghai) }
     static func endpoint(for place: WeatherPlace) -> URL {
@@ -106,7 +106,7 @@ enum WeatherService {
         return data
     }
 
-    /// WMO codes: rain intensity is taken from the code, never guessed from daily totals.
+
     static func kind(code: Int, wind: Double = 0) throws -> WeatherKind {
         switch code {
         case 0, 1: return wind >= 40 ? .windy : .clear
@@ -123,7 +123,7 @@ enum WeatherService {
         }
     }
 
-    /// Optional arrays preserve missing values instead of inventing indices or conditions.
+
     struct Payload: Decodable {
         let current: Current
         let timezone: String?

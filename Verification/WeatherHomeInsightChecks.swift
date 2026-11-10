@@ -33,7 +33,7 @@ func checkHomeWeatherInsights() {
         precondition(insights([unsuitable, hour(2)]).outdoorWindow == nil)
     }
     precondition(insights([hour(-2), hour(-1)]).outdoorWindow == nil)
-    // The label follows the selected city's date, including a window on its next local day.
+
     let tomorrow = insights([hour(14, sunrise: time.addingTimeInterval(12 * 3600), sunset: time.addingTimeInterval(20 * 3600)), hour(15)], zone: "Asia/Shanghai")
     precondition(tomorrow.windowLabel.hasPrefix("明天"))
     let la = insights([hour(1), hour(2)], zone: "America/Los_Angeles")

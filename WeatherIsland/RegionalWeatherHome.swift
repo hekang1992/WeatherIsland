@@ -395,8 +395,8 @@ struct RegionalWeatherHome: View {
     }
 }
 
-/// Align the reading with the final detail baseline. Keep the unit separate so
-/// its font metrics cannot push the temperature or weather description sideways.
+
+
 struct WeatherTemperatureHeader: View {
     let report: WeatherReport
     @ScaledMetric(relativeTo: .largeTitle) private var readingSize = 84

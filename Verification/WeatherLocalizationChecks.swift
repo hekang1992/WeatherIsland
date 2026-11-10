@@ -21,7 +21,7 @@ import Foundation
     precondition(WeatherLocalization.count("duration.minutes", 2, language: .vietnamese) == "2 phút")
     let injected = WeatherLocalization.format("比参照城市快 %1$@", ["A %2$@"], language: .english)
     precondition(injected == "A %2$@ ahead of the reference city")
-    // A pre-localization widget cache without conditionID remains readable.
+
     let encoded = try JSONEncoder().encode(IslandWidgetWeather.sample)
     var object = try JSONSerialization.jsonObject(with: encoded) as! [String: Any]
     object.removeValue(forKey: "conditionID")
@@ -39,7 +39,7 @@ import Foundation
     }
     precondition(IslandWidgetClient.conditionID(2) == WeatherKind.partlyCloudy.rawValue)
     precondition(IslandWidgetClient.conditionID(65) == WeatherKind.heavyRain.rawValue)
-    // Language preferences must never replace the selected city, scene or store/cache.
+
     let suite = "WeatherIsland.LocalizationChecks." + UUID().uuidString
     let defaults = UserDefaults(suiteName: suite)!
     let shared = UserDefaults(suiteName: AppLanguage.group)!
@@ -64,7 +64,7 @@ import Foundation
         precondition(app.weather(for: selected) === store && store.dataset?.fetchedAt == fetchedAt)
         precondition(defaults.data(forKey: cacheKey) == fixture)
     }
-    // Known native names in an old display cache still have an offline translation.
+
     let englishNameKey = WeatherPlaceNames.key(.shanghai, language: .english)
     let oldName = UserDefaults.standard.object(forKey: englishNameKey)
     defer {

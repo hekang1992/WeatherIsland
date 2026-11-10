@@ -1,6 +1,6 @@
 import Foundation
 
-/// A preference is distinct from the language it currently resolves to.
+
 enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
     case system, chinese = "zh-Hans", english = "en", vietnamese = "vi"
     static let storageKey = "WeatherIsland.Language.v1"
@@ -29,8 +29,8 @@ enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-/// Shared by the app, extension and the standalone preview/verification tools.
-/// There is no mutable process-global locale or Bundle swizzling.
+
+
 enum WeatherLocalization {
     static var preference: AppLanguage {
         #if os(macOS)
@@ -52,8 +52,8 @@ enum WeatherLocalization {
            let bundle = Bundle(path: path) {
             return bundle.localizedString(forKey: key, value: key, table: "Localizable")
         }
-        // swiftc tools do not have an app bundle. Read the same source catalog,
-        // never a second hand-maintained translation table.
+
+
         #if os(macOS)
         return sourceStrings[key]?.localizations?[selected.rawValue]?.stringUnit?.value ?? key
         #else
@@ -62,7 +62,7 @@ enum WeatherLocalization {
     }
     static func format(_ key: String, _ arguments: [String], language: AppLanguage? = nil) -> String {
         let template = text(key, language: language)
-        // Substitute in one pass: a city containing "%2$@" is user data.
+
         let pattern = try! NSRegularExpression(pattern: "%([0-9]+)\\$@")
         let matches = pattern.matches(in: template, range: NSRange(template.startIndex..., in: template))
         var result = template
@@ -92,7 +92,7 @@ enum WeatherLocalization {
         let formatter = DateFormatter()
         formatter.locale = locale
         formatter.timeZone = TimeZone(identifier: timeZone) ?? .gmt
-        // Hour cycle belongs to the device, independently of app language.
+
         let deviceHours = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: .current) ?? "HH"
         let hour12 = deviceHours.contains("a") || deviceHours.contains("h")
         switch format {

@@ -132,7 +132,7 @@ struct WeatherMapView: View {
         .onChange(of: area) { _, _ in raster = nil; rasterID = UUID() }
     }
 
-    // Keep the timeline above the system tab bar; float tools over the map's right edge.
+
     private func mapCanvas(bottomInset: CGFloat = 16) -> some View {
         WeatherMapCanvas(place: place, selected: selected, pinText: valueText, layer: layer, recenter: recenter,
             satellite: satellite, raster: raster, rasterID: rasterID, area: area, bottomInset: bottomInset,

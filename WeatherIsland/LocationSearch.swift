@@ -48,7 +48,7 @@ extension WeatherPlace {
         #else
         let suppressFix = false
         #endif
-        // A recent system fix avoids waiting for another GPS acquisition on repeated taps.
+
         if !suppressFix, let recent=manager.location,recent.horizontalAccuracy>=0,abs(recent.timestamp.timeIntervalSinceNow)<60 {
             accept(recent);return
         }
@@ -85,7 +85,7 @@ extension WeatherPlace {
     func locationManager(_ manager:CLLocationManager,didFailWithError error:Error){
         guard wantsLocation else{return}
         if let locationError=error as? CLError {
-            if locationError.code == .locationUnknown {return} // Transient; retain the bounded acquisition window.
+            if locationError.code == .locationUnknown {return}
             if locationError.code == .denied {fail("定位服务已关闭，请在系统设置中开启，或搜索城市。",settings:true);return}
         }
         fail("暂时无法取得位置，请稍后重试或搜索城市。")
@@ -103,8 +103,8 @@ extension WeatherPlace {
     }
 }
 
-/// One bounded lookup. Cancellation belongs to the foreground naming task;
-/// each attempt owns a geocoder so cancelling an old lookup cannot cancel a new one.
+
+
 @MainActor enum WeatherLocationLookup {
     static func displayName(_ place: WeatherPlace, language: AppLanguage) async throws -> WeatherPlaceNames.Name? {
         let geocoder = CLGeocoder()
@@ -124,9 +124,9 @@ extension WeatherPlace {
             checkAttempts += 1
             try await Task.sleep(for: .seconds(2))
             if checkAttempts == 1 { throw URLError(.notConnectedToInternet) }
-            if checkAttempts == 2 { return place } // Country-only or nameless response is not success.
-            // Leave enough time for UI checks to observe populated coordinate
-            // weather before the simulated administrative name arrives.
+            if checkAttempts == 2 { return place }
+
+
             try await Task.sleep(for: .seconds(8))
             var named = place
             named.city = WL("北京市"); named.district = place.approximate ? "" : WL("海淀区")
@@ -153,8 +153,8 @@ extension WeatherPlace {
         return WeatherPlace.from(placemark, coordinate: location.coordinate, current: true, approximate: place.approximate)
     }
 
-    // The actor-isolated owner can safely cross the cancellation handler's
-    // Sendable boundary; the non-Sendable geocoder stays on the main actor.
+
+
     @MainActor private final class Attempt {
         private let geocoder = CLGeocoder()
         func cancel() { geocoder.cancelGeocode() }
@@ -226,7 +226,7 @@ extension WeatherPlace {
     private func lookup(_ query: String) async throws -> [GeocodedCity] {
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("--city-search-check") {
-            // Isolated UI checks exercise the same alias mapping and decoder.
+
             let name = CityGeocodingService.queryNames(for: query).first ?? ""
             try await Task.sleep(for: .milliseconds(name == "Tokyo" ? 1400 : 100))
             if query == "networkerror" { throw URLError(.notConnectedToInternet) }
