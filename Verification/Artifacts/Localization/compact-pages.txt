@@ -1,0 +1,894 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj -scheme HomeQA -destination "platform=iOS Simulator,id=12147C9B-472E-425D-808C-1E6544321953" -parallel-testing-enabled NO -derivedDataPath /tmp/WeatherIsland-HomeQA.TUihch/TestBuild -resultBundlePath /tmp/WeatherIsland-HomeQA.TUihch/Home.xcresult CODE_SIGNING_ALLOWED=NO "-only-testing:HomeQA/LocalizationQA/testLocalizedStoreCaptures" test
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+Writing result bundle at path:
+	/tmp/WeatherIsland-HomeQA.TUihch/Home.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'HomeQA' in project 'HomeQA' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: a1b0905eba350ebba09377fc5d0430e7
+Build description path: /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/XCBuildData/a1b0905eba350ebba09377fc5d0430e7.xcbuilddata
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/CompilationCache.noindex
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/CompilationCache.noindex
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -o /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/PrecompiledHeaders
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/PrecompiledHeaders
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA-f0590ddb944cae46abfa65a6e8fa1847-VFS-iphonesimulator/all-product-headers.yaml
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA-f0590ddb944cae46abfa65a6e8fa1847-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator
+    cd /tmp/WeatherIsland-HomeQA.TUihch/HomeQA.xcodeproj
+    builtin-create-build-directory /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/empty-HomeQA.plist (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/empty-HomeQA.plist
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/ProductTypeInfoPlistAdditions.plist (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/ProductTypeInfoPlistAdditions.plist
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_const_extract_protocols.json (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftConstValuesFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.LinkFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.LinkFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-OutputFileMap.json (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_const_extract_protocols.json (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftConstValuesFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.LinkFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.LinkFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-OutputFileMap.json (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.hmap (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyStaticMetadataFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyMetadataFileList (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-non-framework-target-headers.hmap (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    write-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-non-framework-target-headers.hmap
+
+MkDir /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /bin/mkdir -p /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest
+
+ProcessInfoPlistFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Info.plist /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/empty-HomeQA.plist (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-infoPlistUtility /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/empty-HomeQA.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/ProductTypeInfoPlistAdditions.plist -o /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Info.plist
+
+SwiftDriver HomeQA normal arm64 com.apple.xcode.tools.swift.compiler (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name HomeQA -O @/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftFileList -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target arm64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources-normal/arm64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/arm64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-Swift.h -working-directory /tmp/WeatherIsland-HomeQA.TUihch -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver HomeQA normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name HomeQA -O @/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftFileList -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target x86_64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources-normal/x86_64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/x86_64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-Swift.h -working-directory /tmp/WeatherIsland-HomeQA.TUihch -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdarg-ADA2VI57K92I62IHHE3SA26NK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/DeveloperToolsSupport-2MCWB1W0NX7L9J68AFTAUPGIR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_float-A2DY6LRZFH6MWOT2XRO0EV71H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ptrauth-1LZIGYKNGOQPCDMHN34LZHWPP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/SwiftShims-8H8DL9IZP2PM319KJ7CYRKQFD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stddef-F3W3EY3LTJR6S48WA63RNDOZB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdbool-8P95EMS1M6C3HASZ9VJA2TE05.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ptrcheck-9XPVITTNO4IHTCUQLD989RZIR.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_AvailabilityInternal-RLOLI9UD0QW06705M4FRDYCX.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdbool-85DMND6LAZM96AEV8HN8Q8PBO.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ptrauth-DCDTTGJBVDPBAQU4YNCB5QPRL.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_float-23KIPXL02YT8GJG2XHB4AETL7.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdarg-DB354LW0LJYRHHPCYY4I2DLMS.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/DeveloperToolsSupport-65LLCN24R50CIRTEOIZ4UH8ZB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/SwiftShims-7GJTDECEIPJ53913EXM9DYVAM.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ptrcheck-A82ARXGRUQ32YP3XPUEQ7UBX6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-3XSWA9C265JWW44T85ZOXAV0P.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stddef-6RP9CSGMP4VKCCVBXIPFBWSZZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_AvailabilityInternal-21XQIKLMRX6AJ2GQ1U4GCIIM0.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-63ON8GMFHFDEAEDOP7QA2K6XF.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_DarwinFoundation1-58MIX5WW0FXM7ZISY63JIDAZ5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_DarwinFoundation1-BYUHXLIKE5CUSA7V8FBRQOL12.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_limits-1JGXJ302GQKTQUZ1HGA0HADGP.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_DarwinFoundation2-CJBQ5I8QA46W6Q3GHZ7FU2DND.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_DarwinFoundation2-1IZJDYJVTTXTRAJKDP8HOS2BS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_limits-EID3PJID2WLMMLQMJ4MFGXMMP.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/sys_types-55UUKNS3670YYAQXYIJ353JXU.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/string_h-7GGGEERE7KDZV0H8CJP7BY7KF.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdint-CHMNDOIGAFDFF2C40FFI40V5S.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_tgmath-F368DOBISQJYSO5KLY5TL2TM8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/string_h-31X1AQRRUPMJVLP6WG9R8A5A8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_tgmath-4GP0A6RJUG3DO6HH41K5EOAV3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/sys_types-57QG88CQTEZ4BPIN2FKV6PYI8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdint-6ETKTINCOBRIVSTJTEA55CTIB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_DarwinFoundation3-D8FCZ4YPTMEXFO5WH2ZE6JFWN.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdatomic-DRQ8Q0I47UNS2OGWM0A2411A3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_intrinsics-3EXJNJTW6ICB4OE871LSGWH3X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_DarwinFoundation3-BA9QLA6SY9AXYZA9I6TRU7N30.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_stdatomic-F4L9PXP1Z4G28Y8ZPK8FH60L9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_inttypes-4IDF0SCDL83XXQXYJ7JHTP6AK.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_intrinsics-AHI3SGJVVSV7HE3UAIOZAKU11.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_Builtin_inttypes-EU9LW0TMCXGSBGGLVGH3E0MAU.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Darwin-1Q4DOIE2Z7JYG2385DW733SFZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Darwin-5JBURKR1M60K6V6518773FK9Y.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/simd-TXJ30845IRU9BEXJEXSN77Z2.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ObjectiveC-N55J4EF00JA9ILDTVQ8FZQSB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/MachO-9ZLPD5DXQKWHTYYP8J5GH78CK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ObjectiveC-813CT1E3Q878DEKNYTYEOK6X.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/MachO-99D10GBXWXU754Y4MM7B6PN18.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/simd-57Q9LBF29PO19V97HUDSNL2AI.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/os_object-C6H2S3KB6UX3KUFD81K0YXIO6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/os_object-KWZ98W2IIYCEZMVL9CC4K4RQ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/os_workgroup-DBX95WISN02G1095PNTYCGO2G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/os_workgroup-B5WHXMCZP09WLB4BVFLLTJ8BN.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Dispatch-E5NFAOWAQYXRQW99LG467D89Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Dispatch-2Q1TW5ZUB7YYWDW2Y0ISTUUO2.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreFoundation-AKCLLQQ23JXVQH5UKE4FSNY1C.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/XPC-6M66OK9SPSOYKPIMKRJRWOUNN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Spatial-6AHBS49L4R8BNS9D0FYMND0V5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreFoundation-8LOR3QG0IG7A5PRTK7GWOHKRS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/XPC-C3JUG6V0H7IA9BRG4TH9UBRT9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/os-E3WEI7C7LT0KVKEB70OWJNBGZ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CFNetwork-BQ3RW6J1N03ETMVGW7UH7RT7.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreGraphics-EB699L6DP18A7T5VCIK10PY74.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Security-5S4KQS1YLT7S3HQLDFBAQWYOW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/os-2AX7R3RNBS2SC0PKJ1N0M4DTK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Security-65G4V1Y4R5DFREDWFIJF8WSQC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreGraphics-AML4Z3XYW8NK32A0E0G4ALWKR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CFNetwork-4DOS5HOBQOR92YJTZV1VNXBS9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Foundation-J1QMP6BTL00OATEQQ5QC0YAX.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreText-930IN8BGZH0SO86LCQZVXYRW2.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ImageIO-AMGQ1CAIEVAOFDPR5WN6K8KBK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Foundation-2PZGTZR91DO4HHQWXBCZ0X1T8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/ImageIO-AZ0BP0V0Q7WYVQDS91WBPSMNL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreText-30T0RG6RQH906ZG4JMB6X6VS1.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Spatial-708XQHAOID2F9Q9ALPGHLCUTG.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreTransferable-BLVWOKLRJBE5QKJIH236FODV7.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_LocationEssentials-BDKHD1BTQU0Y45O04ZW1T24JZ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/DataDetection-7L4XDKKNV0ZNAJ9XHLQCXXJZU.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/OpenGLES-AOS78626HQ080ENRTK60UKDL3.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-1GF9Z7K6SBNJHAJYEYAIQIRGX.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UIUtilities-9XK0CNDOGOZIISGZ32OOZF8SE.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/FileProvider-CS3Y82O52RV15NE86V7S5Y6T.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/IOSurface-9E5U83DY86HZVSXGYA4HTQDUQ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UserNotifications-5RAFXN20KMTWKM708E50TB6NV.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/OSLog-974UO36RFHMYIY8SMNTQYP2LB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Accessibility-328VZZQ99A7TQ99I49YBWB1EC.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreLocation-977ZKRS8QWR6QNYVDKEYWKKN8.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Symbols-9KHKZPMQX4ORZM9ITBF6NV9K5.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Metal-5FD1LB7VNPTTIN2TDUNV9TTB7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreTransferable-1073Y8GDUHZXLDB1T8B419YQQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-2UDVB7S6UDCBZ872S8WBCA1G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/OpenGLES-19G6RSKCOQU9VX0PMV9WWZXV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/IOSurface-CF78ASE3H027LVOX1WLVNNSSC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Symbols-C7VSR7PT2IZOZ4JQZR7S1T3GM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Accessibility-CRBYVZK0W375HN66WFADMCO1W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/FileProvider-5GV61T7UAL1H9ACF1A0EXUF23.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreMotion-39TNAFSL6BC4L46GD7VN8NGYL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UIUtilities-594B241AVGGGO19777APB3COC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UserNotifications-Y2EPI0W1EHH0MZDF7JQ1ZKDQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/Metal-5R8SIHWV1UIW1CA3UL34GD0A3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/DataDetection-7N21HXPVGS0IUGQH85Z46HRDH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/OSLog-47LPX92QAJ12TUFU79O32F480.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/_LocationEssentials-SB3SC57S7W49WLAMH0CQJJPK.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreVideo-5ZSA5ZKI2TIXS547DQD4KM8D5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreLocation-7H0IU4NKK7WNTJR8TFZH3ATZG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreVideo-2MLE5Z92BQ3YMBJ36UCQJ85WG.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreImage-8OGNMTWAXRRP9IYHAUN9PM0X3.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/QuartzCore-BGACTRCB0MELW0LK0UOGF9Z3H.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreMotion-4IIK414SNEIX1S11LICIZE5DT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/QuartzCore-3R7AAZJ0GJN32SPLRRA59Q6Q6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/CoreImage-F5HPGJ4SJTYN7U236EVE0OZW0.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/SwiftUICore-D1C82Q6XMZXUA4KBKQB1K6CQD.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UIKit-AS20UJWQYB5VN5GQ7JCSCTZM5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/SwiftUICore-9ACZ11M1HMC9ZN87AKWGFO4UN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules/UIKit-CUWVHSIAJQGK7MWS01D8XZG86.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-F567O3EGQT4IMPY89DI9TW81.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-C439O7A4EOFEBYU3ZSXVJAQ4A.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-59HVI9Y5OHZ1BBFWS7NS44QV4.pcm
+
+SwiftExplicitDependencyCompileModuleFromInterface x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-1W23U1U4FBI21.swiftmodule
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-EIT7V78TONPQSOSZV7MQYQYKS.pcm
+
+SwiftExplicitDependencyCompileModuleFromInterface arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-9OYXTTQCRO6B.swiftmodule
+
+SwiftExplicitDependencyCompileModuleFromInterface x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-1QSNCCLV04MK6.swiftmodule
+
+SwiftExplicitDependencyCompileModuleFromInterface arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-23UU9MYR5GJC6.swiftmodule
+
+SwiftEmitModule normal x86_64 Emitting\ module\ for\ HomeQA (in target 'HomeQA' from project 'HomeQA')
+
+SwiftCompile normal x86_64 (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    
+
+SwiftCompile normal x86_64 Compiling\ WeatherLocalizationUITests.swift /tmp/WeatherIsland-HomeQA.TUihch/WeatherLocalizationUITests.swift (in target 'HomeQA' from project 'HomeQA')
+
+SwiftCompile normal x86_64 /tmp/WeatherIsland-HomeQA.TUihch/WeatherLocalizationUITests.swift (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-SwiftPerFileCompile WeatherLocalizationUITests.swift
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ HomeQA (in target 'HomeQA' from project 'HomeQA')
+
+SwiftCompile normal arm64 (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    
+
+SwiftCompile normal arm64 Compiling\ WeatherLocalizationUITests.swift /tmp/WeatherIsland-HomeQA.TUihch/WeatherLocalizationUITests.swift (in target 'HomeQA' from project 'HomeQA')
+
+SwiftCompile normal arm64 /tmp/WeatherIsland-HomeQA.TUihch/WeatherLocalizationUITests.swift (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-SwiftPerFileCompile WeatherLocalizationUITests.swift
+
+SwiftDriverJobDiscovery normal x86_64 Emitting module for HomeQA (in target 'HomeQA' from project 'HomeQA')
+
+SwiftDriver\ Compilation\ Requirements HomeQA normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name HomeQA -O @/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftFileList -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target x86_64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources-normal/x86_64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/x86_64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-Swift.h -working-directory /tmp/WeatherIsland-HomeQA.TUihch -experimental-emit-module-separately -disable-cmo
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/x86_64-apple-ios-simulator.swiftmodule /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftmodule (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftmodule /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/x86_64-apple-ios-simulator.swiftmodule
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/x86_64-apple-ios-simulator.swiftdoc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftdoc (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftdoc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/x86_64-apple-ios-simulator.swiftdoc
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/x86_64-apple-ios-simulator.abi.json /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.abi.json (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.abi.json /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/x86_64-apple-ios-simulator.abi.json
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftsourceinfo (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftsourceinfo /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for HomeQA (in target 'HomeQA' from project 'HomeQA')
+
+SwiftDriver\ Compilation\ Requirements HomeQA normal arm64 com.apple.xcode.tools.swift.compiler (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name HomeQA -O @/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftFileList -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target arm64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources-normal/arm64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/arm64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-Swift.h -working-directory /tmp/WeatherIsland-HomeQA.TUihch -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/HomeQA-Swift.h /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-Swift.h /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-Swift.h (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-swiftHeaderTool -arch arm64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-Swift.h -arch x86_64 /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-Swift.h -o /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/HomeQA-Swift.h
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftmodule (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftmodule /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftdoc (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftdoc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.abi.json (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.abi.json /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftsourceinfo (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftsourceinfo /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal x86_64 Compiling WeatherLocalizationUITests.swift (in target 'HomeQA' from project 'HomeQA')
+
+SwiftDriver\ Compilation HomeQA normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name HomeQA -O @/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftFileList -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target x86_64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources-normal/x86_64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/x86_64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA-Swift.h -working-directory /tmp/WeatherIsland-HomeQA.TUihch -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/Binary/HomeQA normal x86_64 (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-ios17.6-simulator -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -filelist /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_lto.o -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport -o /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/Binary/HomeQA
+
+SwiftDriverJobDiscovery normal arm64 Compiling WeatherLocalizationUITests.swift (in target 'HomeQA' from project 'HomeQA')
+
+SwiftDriver\ Compilation HomeQA normal arm64 com.apple.xcode.tools.swift.compiler (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name HomeQA -O @/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftFileList -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -target arm64-apple-ios17.6-simulator -g -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 6 -I /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -parse-as-library -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKStatCaches.noindex/iphonesimulator27.1-24A94232-35d3147121984ba087c28d913653d626.sdkstatcache -output-file-map /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex -sdk-module-cache-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-generated-files.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-own-target-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA-project-headers.hmap -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources-normal/arm64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources/arm64 -Xcc -I/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA-Swift.h -working-directory /tmp/WeatherIsland-HomeQA.TUihch -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/Binary/HomeQA normal arm64 (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.6-simulator -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk/Developer/Library/Frameworks -filelist /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_lto.o -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport -o /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/Binary/HomeQA
+
+CreateUniversalBinary /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/HomeQA normal arm64\ x86_64 (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/Binary/HomeQA /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/Binary/HomeQA -output /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/HomeQA
+
+GenerateDSYMFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest.dSYM /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/HomeQA (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/Users/hekang/Documents/flutter/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/opt/homebrew/bin:/Users/hekang/.codex/tmp/arg0-macos/codex-arg09FtHbs:/Users/hekang/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/hekang/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/HomeQA -o /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest.dSYM
+
+ExtractAppIntentsMetadata (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name HomeQA --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk --xcode-version 27A9275 --platform-family iOS --deployment-target 17.6 --bundle-identifier com.weather.app.homeqa --output /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest --target-triple arm64-apple-ios17.6-simulator --target-triple x86_64-apple-ios17.6-simulator --binary-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/HomeQA --dependency-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA_dependency_info.dat --dependency-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA_dependency_info.dat --stringsdata-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --stringsdata-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftFileList --source-file-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftFileList --metadata-file-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyMetadataFileList --static-metadata-file-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/arm64/HomeQA.SwiftConstValuesFileList --swift-const-vals-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/Objects-normal/x86_64/HomeQA.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-11-10 13:47:54.595 appintentsmetadataprocessor[16965:322551] Starting appintentsmetadataprocessor export
+2026-11-10 13:47:54.623 appintentsmetadataprocessor[16965:322551] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+CopySwiftLibs /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/HomeQA --scan-folder /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Frameworks --scan-folder /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/PlugIns --scan-folder /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/SystemExtensions --scan-folder /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Info.plist --temp-dir-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/ssu --bundle-id com.weather.app.homeqa --product-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest --extracted-metadata-path /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Metadata.appintents --metadata-file-list /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/HomeQA.build/Debug-iphonesimulator/HomeQA.build/HomeQA.DependencyMetadataFileList --source-file /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Info.plist --archive-ssu-assets
+2026-11-10 13:47:54.761 appintentsnltrainingprocessor[16967:322573] Parsing options for appintentsnltrainingprocessor
+2026-11-10 13:47:54.762 appintentsnltrainingprocessor[16967:322573] Starting AppIntents SSU YAML Generation
+2026-11-10 13:47:54.767 appintentsnltrainingprocessor[16967:322573] No AppShortcuts found - Skipping.
+
+MkDir /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /bin/mkdir -p /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app
+
+CopyPlistFile /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/Info.plist /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copyPlist --validate --convert xml1 --macro-expansion WRAPPEDPRODUCTNAME HomeQA-Runner --macro-expansion WRAPPEDPRODUCTBUNDLEIDENTIFIER com.weather.app.homeqa.xctrunner --macro-expansion TESTPRODUCTNAME HomeQA --macro-expansion TESTPRODUCTBUNDLEIDENTIFIER com.weather.app.homeqa --copy-value UIDeviceFamily /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest/Info.plist --outdir /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app -- /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist
+
+CopyAndPreserveArchs /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/HomeQA-Runner (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/XCTRunner -output /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/HomeQA-Runner -extract arm64 -extract x86_64
+
+Copy /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PkgInfo /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app
+
+RegisterExecutionPolicyException /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    builtin-RegisterExecutionPolicyException /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest
+
+Touch /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest (in target 'HomeQA' from project 'HomeQA')
+    cd /tmp/WeatherIsland-HomeQA.TUihch
+    /usr/bin/touch -c /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Products/Debug-iphonesimulator/HomeQA-Runner.app/PlugIns/HomeQA.xctest
+
+PruneExplicitPrecompiledModules /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/WeatherIsland-HomeQA.TUihch/TestBuild/SDKExplicitPrecompiledModules
+
+2026-11-10 13:47:55.581 xcodebuild[16719:321043] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+2026-11-10 13:48:06.713607+0800 HomeQA-Runner[16994:322886] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'Selected tests' started at 2026-11-10 13:48:23.505.
+Test Suite 'HomeQA.xctest' started at 2026-11-10 13:48:23.525.
+Test Suite 'LocalizationQA' started at 2026-11-10 13:48:23.525.
+Test Case '-[HomeQA.LocalizationQA testLocalizedStoreCaptures]' started.
+    t =     0.06s Start Test at 2026-11-10 13:48:23.583
+    t =     0.24s Set Up
+    t =     0.24s Setting device orientation to Portrait
+    t =     0.30s     Wait for com.apple.springboard to idle
+    t =     0.39s Open com.weather.app.ios
+    t =     0.39s     Launch com.weather.app.ios
+    t =     0.83s         Setting up automation session
+objc[16994]: Class UIAccessibilityLoaderWebShared is implemented in both /private/var/run/com.apple.security.cryptexd/mnt/com.apple.iPhoneOS.SimulatorRuntime-v24.1.434.0.sfj0p6/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 27.0.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x10677c398) and /private/var/run/com.apple.security.cryptexd/mnt/com.apple.iPhoneOS.SimulatorRuntime-v24.1.434.0.sfj0p6/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 27.0.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x109c78310). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+    t =     9.38s         Wait for com.weather.app.ios to idle
+    t =    19.69s Waiting 20.0s for TabBar (First Match) to exist
+    t =    20.73s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    20.73s         Checking existence of `TabBar (First Match)`
+    t =    20.86s Waiting 15.0s for "home.city" Button to exist
+    t =    21.89s     Checking `Expect predicate `existsNoRetry == 1` for object "home.city" Button`
+    t =    21.89s         Checking existence of `"home.city" Button`
+    t =    22.95s Find the Application 'com.weather.app.ios'
+    t =    23.96s Find the Application 'com.weather.app.ios'
+    t =    24.78s Added attachment named 'en-US-Weather-Artwork-Home'
+    t =    24.78s Tap "Settings" Button
+    t =    24.78s     Wait for com.weather.app.ios to idle
+    t =    24.79s     Find the "Settings" Button
+    t =    25.74s     Check for interrupting elements affecting "Settings" Button
+    t =    26.23s     Synthesize event
+    t =    26.59s     Wait for com.weather.app.ios to idle
+    t =    29.17s Waiting 5.0s for "settings.scenes" Button to exist
+    t =    30.20s     Checking `Expect predicate `existsNoRetry == 1` for object "settings.scenes" Button`
+    t =    30.20s         Checking existence of `"settings.scenes" Button`
+    t =    30.28s Tap "settings.scenes" Button
+    t =    30.28s     Wait for com.weather.app.ios to idle
+    t =    30.29s     Find the "settings.scenes" Button
+    t =    30.35s     Check for interrupting elements affecting "settings.scenes" Button
+    t =    30.40s     Synthesize event
+    t =    30.70s     Wait for com.weather.app.ios to idle
+    t =    32.46s Waiting 8.0s for "scene.0" Button to exist
+    t =    33.49s     Checking `Expect predicate `existsNoRetry == 1` for object "scene.0" Button`
+    t =    33.49s         Checking existence of `"scene.0" Button`
+    t =    33.73s Find the Application 'com.weather.app.ios'
+    t =    33.93s Find the Application 'com.weather.app.ios'
+    t =    34.20s Added attachment named 'en-US-Weather-Artwork-Gallery'
+    t =    34.20s Tap "scene.0" Button
+    t =    34.20s     Wait for com.weather.app.ios to idle
+    t =    34.20s     Find the "scene.0" Button
+    t =    34.40s     Check for interrupting elements affecting "scene.0" Button
+    t =    34.59s     Synthesize event
+    t =    34.92s     Wait for com.weather.app.ios to idle
+    t =    35.59s Waiting 5.0s for "scene.apply" Button to exist
+    t =    36.61s     Checking `Expect predicate `existsNoRetry == 1` for object "scene.apply" Button`
+    t =    36.61s         Checking existence of `"scene.apply" Button`
+    t =    36.74s Find the Application 'com.weather.app.ios'
+    t =    37.03s Find the Application 'com.weather.app.ios'
+    t =    37.34s Added attachment named 'en-US-Weather-Artwork-Detail'
+    t =    37.34s Terminate com.weather.app.ios:17142
+    t =    38.41s Setting device orientation to Portrait
+    t =    38.43s     Wait for com.apple.springboard to idle
+    t =    38.43s Open com.weather.app.ios
+    t =    38.43s     Launch com.weather.app.ios
+    t =    38.48s         Setting up automation session
+    t =    42.80s         Wait for com.weather.app.ios to idle
+    t =    48.67s Waiting 20.0s for TabBar (First Match) to exist
+    t =    49.70s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    49.70s         Checking existence of `TabBar (First Match)`
+    t =    49.83s Checking existence of `TabBar (First Match)`
+    t =    49.84s Find the Application 'com.weather.app.ios'
+    t =    50.18s Find the Application 'com.weather.app.ios'
+    t =    50.58s Added attachment named 'en-US-Weather-Map-Layout-Phone'
+    t =    50.58s Terminate com.weather.app.ios:17303
+    t =    51.64s Setting device orientation to Portrait
+    t =    51.64s     Wait for com.apple.springboard to idle
+    t =    51.65s Open com.weather.app.ios
+    t =    51.65s     Launch com.weather.app.ios
+    t =    51.68s         Setting up automation session
+    t =    55.15s         Wait for com.weather.app.ios to idle
+    t =    58.81s Waiting 20.0s for TabBar (First Match) to exist
+    t =    59.84s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    59.84s         Checking existence of `TabBar (First Match)`
+    t =    59.93s Waiting 10.0s for "cities.edit" Button to exist
+    t =    60.95s     Checking `Expect predicate `existsNoRetry == 1` for object "cities.edit" Button`
+    t =    60.95s         Checking existence of `"cities.edit" Button`
+    t =    61.40s Find the Application 'com.weather.app.ios'
+    t =    61.85s Find the Application 'com.weather.app.ios'
+    t =    62.25s Added attachment named 'en-US-Weather-Artwork-Cities'
+    t =    62.25s Terminate com.weather.app.ios:17360
+    t =    63.30s Setting device orientation to Portrait
+    t =    63.31s     Wait for com.apple.springboard to idle
+    t =    63.32s Open com.weather.app.ios
+    t =    63.32s     Launch com.weather.app.ios
+    t =    63.36s         Setting up automation session
+    t =    67.80s         Wait for com.weather.app.ios to idle
+    t =    74.62s Waiting 20.0s for TabBar (First Match) to exist
+    t =    75.66s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    75.66s         Checking existence of `TabBar (First Match)`
+    t =    75.72s Waiting 15.0s for "home.city" Button to exist
+    t =    76.76s     Checking `Expect predicate `existsNoRetry == 1` for object "home.city" Button`
+    t =    76.76s         Checking existence of `"home.city" Button`
+    t =    77.28s Find the Application 'com.weather.app.ios'
+    t =    77.68s Find the Application 'com.weather.app.ios'
+    t =    78.08s Added attachment named 'en-US-Weather-Home-Manual-City'
+    t =    78.08s Terminate com.weather.app.ios:17395
+    t =    79.13s Setting device orientation to Portrait
+    t =    79.14s     Wait for com.apple.springboard to idle
+    t =    79.15s Open com.weather.app.ios
+    t =    79.15s     Launch com.weather.app.ios
+    t =    79.20s         Setting up automation session
+    t =    81.22s         Wait for com.weather.app.ios to idle
+    t =    85.80s Waiting 20.0s for TabBar (First Match) to exist
+    t =    86.83s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =    86.83s         Checking existence of `TabBar (First Match)`
+    t =    86.88s Waiting 15.0s for "home.city" Button to exist
+    t =    87.91s     Checking `Expect predicate `existsNoRetry == 1` for object "home.city" Button`
+    t =    87.91s         Checking existence of `"home.city" Button`
+    t =    88.50s Find the Application 'com.weather.app.ios'
+    t =    88.97s Find the Application 'com.weather.app.ios'
+    t =    89.44s Added attachment named 'vi-Weather-Artwork-Home'
+    t =    89.44s Tap "Cài đặt" Button
+    t =    89.44s     Wait for com.weather.app.ios to idle
+    t =    89.44s     Find the "Cài đặt" Button
+    t =    89.94s     Check for interrupting elements affecting "Cài đặt" Button
+    t =    90.26s     Synthesize event
+    t =    90.60s     Wait for com.weather.app.ios to idle
+    t =    92.73s Waiting 5.0s for "settings.scenes" Button to exist
+    t =    93.76s     Checking `Expect predicate `existsNoRetry == 1` for object "settings.scenes" Button`
+    t =    93.76s         Checking existence of `"settings.scenes" Button`
+    t =    93.82s Tap "settings.scenes" Button
+    t =    93.82s     Wait for com.weather.app.ios to idle
+    t =    93.82s     Find the "settings.scenes" Button
+    t =    93.87s     Check for interrupting elements affecting "settings.scenes" Button
+    t =    93.91s     Synthesize event
+    t =    94.20s     Wait for com.weather.app.ios to idle
+    t =    94.32s Waiting 8.0s for "scene.0" Button to exist
+    t =    95.35s     Checking `Expect predicate `existsNoRetry == 1` for object "scene.0" Button`
+    t =    95.35s         Checking existence of `"scene.0" Button`
+    t =    95.68s Find the Application 'com.weather.app.ios'
+    t =    96.01s Find the Application 'com.weather.app.ios'
+    t =    96.33s Added attachment named 'vi-Weather-Artwork-Gallery'
+    t =    96.33s Tap "scene.0" Button
+    t =    96.33s     Wait for com.weather.app.ios to idle
+    t =    96.33s     Find the "scene.0" Button
+    t =    96.48s     Check for interrupting elements affecting "scene.0" Button
+    t =    96.64s     Synthesize event
+    t =    96.95s     Wait for com.weather.app.ios to idle
+    t =    97.45s Waiting 5.0s for "scene.apply" Button to exist
+    t =    98.48s     Checking `Expect predicate `existsNoRetry == 1` for object "scene.apply" Button`
+    t =    98.48s         Checking existence of `"scene.apply" Button`
+    t =    98.58s Find the Application 'com.weather.app.ios'
+    t =    98.75s Find the Application 'com.weather.app.ios'
+    t =    98.90s Added attachment named 'vi-Weather-Artwork-Detail'
+    t =    98.90s Terminate com.weather.app.ios:17411
+    t =    99.95s Setting device orientation to Portrait
+    t =    99.97s     Wait for com.apple.springboard to idle
+    t =    99.97s Open com.weather.app.ios
+    t =    99.98s     Launch com.weather.app.ios
+    t =   100.02s         Setting up automation session
+    t =   102.92s         Wait for com.weather.app.ios to idle
+    t =   106.99s Waiting 20.0s for TabBar (First Match) to exist
+    t =   108.01s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   108.01s         Checking existence of `TabBar (First Match)`
+    t =   108.10s Checking existence of `TabBar (First Match)`
+    t =   108.11s Find the Application 'com.weather.app.ios'
+    t =   108.37s Find the Application 'com.weather.app.ios'
+    t =   108.59s Added attachment named 'vi-Weather-Map-Layout-Phone'
+    t =   108.59s Terminate com.weather.app.ios:17437
+    t =   109.63s Setting device orientation to Portrait
+    t =   109.65s     Wait for com.apple.springboard to idle
+    t =   109.66s Open com.weather.app.ios
+    t =   109.66s     Launch com.weather.app.ios
+    t =   109.71s         Setting up automation session
+    t =   111.90s         Wait for com.weather.app.ios to idle
+    t =   114.58s Waiting 20.0s for TabBar (First Match) to exist
+    t =   115.61s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   115.61s         Checking existence of `TabBar (First Match)`
+    t =   115.69s Waiting 10.0s for "cities.edit" Button to exist
+    t =   116.73s     Checking `Expect predicate `existsNoRetry == 1` for object "cities.edit" Button`
+    t =   116.73s         Checking existence of `"cities.edit" Button`
+    t =   116.91s Find the Application 'com.weather.app.ios'
+    t =   117.06s Find the Application 'com.weather.app.ios'
+    t =   117.22s Added attachment named 'vi-Weather-Artwork-Cities'
+    t =   117.22s Terminate com.weather.app.ios:17456
+    t =   118.26s Setting device orientation to Portrait
+    t =   118.27s     Wait for com.apple.springboard to idle
+    t =   118.27s Open com.weather.app.ios
+    t =   118.27s     Launch com.weather.app.ios
+    t =   118.30s         Setting up automation session
+    t =   120.57s         Wait for com.weather.app.ios to idle
+    t =   124.89s Waiting 20.0s for TabBar (First Match) to exist
+    t =   125.92s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   125.92s         Checking existence of `TabBar (First Match)`
+    t =   126.00s Waiting 15.0s for "home.city" Button to exist
+    t =   127.01s     Checking `Expect predicate `existsNoRetry == 1` for object "home.city" Button`
+    t =   127.01s         Checking existence of `"home.city" Button`
+    t =   127.55s Find the Application 'com.weather.app.ios'
+    t =   127.95s Find the Application 'com.weather.app.ios'
+    t =   128.35s Added attachment named 'vi-Weather-Home-Manual-City'
+    t =   128.35s Terminate com.weather.app.ios:17470
+    t =   129.38s Setting device orientation to Portrait
+    t =   129.39s     Wait for com.apple.springboard to idle
+    t =   129.40s Open com.weather.app.ios
+    t =   129.40s     Launch com.weather.app.ios
+    t =   129.44s         Setting up automation session
+    t =   131.56s         Wait for com.weather.app.ios to idle
+    t =   136.48s Waiting 20.0s for TabBar (First Match) to exist
+    t =   137.51s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   137.51s         Checking existence of `TabBar (First Match)`
+    t =   137.60s Waiting 15.0s for "home.city" Button to exist
+    t =   138.61s     Checking `Expect predicate `existsNoRetry == 1` for object "home.city" Button`
+    t =   138.62s         Checking existence of `"home.city" Button`
+    t =   138.81s Find the Application 'com.weather.app.ios'
+    t =   139.02s Find the Application 'com.weather.app.ios'
+    t =   139.24s Added attachment named 'zh-Hans-Weather-Artwork-Home'
+    t =   139.24s Tap "设置" Button
+    t =   139.24s     Wait for com.weather.app.ios to idle
+    t =   139.25s     Find the "设置" Button
+    t =   139.38s     Check for interrupting elements affecting "设置" Button
+    t =   139.51s     Synthesize event
+    t =   139.85s     Wait for com.weather.app.ios to idle
+    t =   142.12s Waiting 5.0s for "settings.scenes" Button to exist
+    t =   143.15s     Checking `Expect predicate `existsNoRetry == 1` for object "settings.scenes" Button`
+    t =   143.15s         Checking existence of `"settings.scenes" Button`
+    t =   143.21s Tap "settings.scenes" Button
+    t =   143.21s     Wait for com.weather.app.ios to idle
+    t =   143.21s     Find the "settings.scenes" Button
+    t =   143.23s     Check for interrupting elements affecting "settings.scenes" Button
+    t =   143.26s     Synthesize event
+    t =   143.55s     Wait for com.weather.app.ios to idle
+    t =   143.74s Waiting 8.0s for "scene.0" Button to exist
+    t =   144.75s     Checking `Expect predicate `existsNoRetry == 1` for object "scene.0" Button`
+    t =   144.90s         Checking existence of `"scene.0" Button`
+    t =   146.35s Find the Application 'com.weather.app.ios'
+    t =   146.74s Find the Application 'com.weather.app.ios'
+    t =   147.12s Added attachment named 'zh-Hans-Weather-Artwork-Gallery'
+    t =   147.12s Tap "scene.0" Button
+    t =   147.12s     Wait for com.weather.app.ios to idle
+    t =   147.13s     Find the "scene.0" Button
+    t =   147.23s     Check for interrupting elements affecting "scene.0" Button
+    t =   147.46s     Synthesize event
+    t =   147.81s     Wait for com.weather.app.ios to idle
+    t =   148.92s Waiting 5.0s for "scene.apply" Button to exist
+    t =   150.00s     Checking `Expect predicate `existsNoRetry == 1` for object "scene.apply" Button`
+    t =   150.01s         Checking existence of `"scene.apply" Button`
+    t =   150.70s Find the Application 'com.weather.app.ios'
+    t =   151.19s Find the Application 'com.weather.app.ios'
+    t =   151.72s Added attachment named 'zh-Hans-Weather-Artwork-Detail'
+    t =   151.73s Terminate com.weather.app.ios:17484
+    t =   152.80s Setting device orientation to Portrait
+    t =   154.54s     Wait for com.apple.springboard to idle
+    t =   154.61s Open com.weather.app.ios
+    t =   154.62s     Launch com.weather.app.ios
+    t =   154.99s         Setting up automation session
+    t =   160.81s         Wait for com.weather.app.ios to idle
+    t =   167.96s Waiting 20.0s for TabBar (First Match) to exist
+    t =   168.99s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   168.99s         Checking existence of `TabBar (First Match)`
+    t =   169.30s Checking existence of `TabBar (First Match)`
+    t =   169.30s Find the Application 'com.weather.app.ios'
+    t =   169.64s Find the Application 'com.weather.app.ios'
+    t =   170.01s Added attachment named 'zh-Hans-Weather-Map-Layout-Phone'
+    t =   170.01s Terminate com.weather.app.ios:17577
+    t =   171.07s Setting device orientation to Portrait
+    t =   171.10s     Wait for com.apple.springboard to idle
+    t =   171.10s Open com.weather.app.ios
+    t =   171.10s     Launch com.weather.app.ios
+    t =   171.15s         Setting up automation session
+    t =   174.05s         Wait for com.weather.app.ios to idle
+    t =   176.98s Waiting 20.0s for TabBar (First Match) to exist
+    t =   177.99s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   177.99s         Checking existence of `TabBar (First Match)`
+    t =   178.08s Waiting 10.0s for "cities.edit" Button to exist
+    t =   179.11s     Checking `Expect predicate `existsNoRetry == 1` for object "cities.edit" Button`
+    t =   179.11s         Checking existence of `"cities.edit" Button`
+    t =   179.29s Find the Application 'com.weather.app.ios'
+    t =   179.42s Find the Application 'com.weather.app.ios'
+    t =   179.55s Added attachment named 'zh-Hans-Weather-Artwork-Cities'
+    t =   179.55s Terminate com.weather.app.ios:17620
+    t =   180.59s Setting device orientation to Portrait
+    t =   180.60s     Wait for com.apple.springboard to idle
+    t =   180.61s Open com.weather.app.ios
+    t =   180.61s     Launch com.weather.app.ios
+    t =   180.66s         Setting up automation session
+    t =   183.20s         Wait for com.weather.app.ios to idle
+    t =   188.96s Waiting 20.0s for TabBar (First Match) to exist
+    t =   189.98s     Checking `Expect predicate `existsNoRetry == 1` for object TabBar (First Match)`
+    t =   189.98s         Checking existence of `TabBar (First Match)`
+    t =   190.03s Waiting 15.0s for "home.city" Button to exist
+    t =   191.06s     Checking `Expect predicate `existsNoRetry == 1` for object "home.city" Button`
+    t =   191.06s         Checking existence of `"home.city" Button`
+    t =   191.28s Find the Application 'com.weather.app.ios'
+    t =   191.49s Find the Application 'com.weather.app.ios'
+    t =   191.69s Added attachment named 'zh-Hans-Weather-Home-Manual-City'
+    t =   191.70s Terminate com.weather.app.ios:17639
+    t =   192.75s Tear Down
+Test Case '-[HomeQA.LocalizationQA testLocalizedStoreCaptures]' passed (193.040 seconds).
+Test Suite 'LocalizationQA' passed at 2026-11-10 13:51:36.613.
+	 Executed 1 test, with 0 failures (0 unexpected) in 193.040 (193.088) seconds
+Test Suite 'HomeQA.xctest' passed at 2026-11-10 13:51:36.618.
+	 Executed 1 test, with 0 failures (0 unexpected) in 193.040 (193.093) seconds
+Test Suite 'Selected tests' passed at 2026-11-10 13:51:36.619.
+	 Executed 1 test, with 0 failures (0 unexpected) in 193.040 (193.114) seconds
+2026-11-10 13:51:36.719 xcodebuild[16719:321043] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+2026-11-10 13:51:36.725 xcodebuild[16719:321043] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+2026-11-10 13:51:36.732 xcodebuild[16719:321043] [MT] IDESchemeActionSDKRecord: operatingSystemBuild = <DVTBuildVersion 24A94232>, error = invalidDigitCount(94232).
+2026-11-10 13:51:37.004 xcodebuild[16719:321043] [MT] IDETestOperationsObserverDebug: 222.001 elapsed -- Testing started completed.
+2026-11-10 13:51:37.004 xcodebuild[16719:321043] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-10 13:51:37.004 xcodebuild[16719:321043] [MT] IDETestOperationsObserverDebug: 222.001 sec, +222.000 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/WeatherIsland-HomeQA.TUihch/Home.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started
+Home QA output: /tmp/WeatherIsland-HomeQA.TUihch

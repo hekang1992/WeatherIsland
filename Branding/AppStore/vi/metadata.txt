@@ -1,0 +1,38 @@
+App name
+Đảo Thời Tiết
+
+Subtitle
+Dự báo, sơn thủy và tiện ích
+
+Promotional text
+Đón ngày mới giữa cảnh sơn thủy. Xem dự báo từng giờ, chất lượng không khí, bản đồ thời tiết và 50 bức họa gốc, cùng tiện ích ngay trên màn hình chính.
+
+Keywords
+thời tiết,dự báo,nhiệt độ,không khí,tiện ích,bình minh,hoàng hôn,sơn thủy
+
+Description
+Thời tiết, thêm một chút thi vị.
+
+Đảo Thời Tiết mang dự báo rõ ràng vào thế giới yên ả của nét mực, núi non và bầu trời rộng mở. Xem thời tiết nơi bạn ở, dõi theo những thành phố xa và chọn một cảnh sơn thủy để mỗi ngày thêm thư thái.
+
+HIỂU THỜI TIẾT TRONG NGÀY
+Xem thời tiết hiện tại, nhiệt độ cảm nhận, dự báo từng giờ và nhiều ngày, khả năng mưa, độ ẩm, gió, chỉ số UV và tầm nhìn. Theo dõi chất lượng không khí, giờ bình minh và hoàng hôn tại thành phố đã chọn. Thời gian hiển thị theo múi giờ của thành phố; nhiệt độ dùng độ C và các đơn vị hệ mét.
+
+50 BỨC HỌA NGUYÊN BẢN
+Khám phá 50 cảnh vẽ thuộc mười chủ đề lấy cảm hứng từ mỹ học thời Tống. Để ứng dụng chọn cảnh theo khu vực hoặc dùng một bức yêu thích cho mọi thành phố. Xem nắng, mây, mưa, tuyết và các hiệu ứng thời tiết đổi sắc cảnh vật. Đây là sáng tác nghệ thuật, không phải ảnh chụp hay cảnh thực tế của địa điểm đã chọn.
+
+NHÌN RỘNG HƠN QUA BẢN ĐỒ
+Khám phá bản đồ dự báo lượng mưa, nhiệt độ gần mặt đất, tốc độ gió và độ che phủ mây. Chọn giờ dự báo và tải khu vực bạn quan tâm. Bản đồ dùng dự báo mô hình, không phải radar trực tiếp và không dự đoán thời điểm tạnh mưa theo từng phút.
+
+GIỮ GẦN NHỮNG THÀNH PHỐ THÂN QUEN
+Tìm thành phố hoặc quận huyện, lưu nơi yêu thích, chuyển địa điểm và chọn thành phố mặc định. So sánh thời tiết và giờ địa phương giữa các thành phố, hoặc dùng vị trí khi đang mở ứng dụng để xem thời tiết gần bạn.
+
+THỜI TIẾT TRÊN MÀN HÌNH CHÍNH
+Chọn tiện ích thời tiết sơn thủy, nhắc mang ô hoặc bình minh và hoàng hôn. Mỗi loại có kích thước nhỏ, vừa và lớn. Gợi ý mang ô dựa trên dự báo từng giờ trong sáu giờ tới. Tiện ích hiển thị dữ liệu đã lưu và thời gian cập nhật để bạn biết khi nào cần làm mới.
+
+NGÔN NGỮ VÀ NHỊP ĐIỆU CỦA BẠN
+Dùng tiếng Việt, tiếng Anh hoặc tiếng Trung giản thể. Theo ngôn ngữ ưu tiên của điện thoại hoặc tự chọn trong Cài đặt. Có giao diện sáng, tối và kiểu chữ phù hợp với từng ngôn ngữ.
+
+Dự báo và chất lượng không khí được cung cấp qua Open-Meteo cùng các nguồn dữ liệu liên quan. Khả năng cung cấp dữ liệu và thời gian cập nhật tùy địa điểm và kết nối. Dự báo là ước tính từ mô hình, không phải số đo trạm tại chỗ hay cảnh báo thời tiết nguy hiểm chính thức.
+
+Nội dung thỏa thuận dịch vụ, chính sách quyền riêng tư và đề tự trong tranh được giữ bằng tiếng Trung.

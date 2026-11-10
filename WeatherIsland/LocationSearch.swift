@@ -19,7 +19,8 @@ extension WeatherPlace {
     private var wantsLocation=false
     private var fixing=false
     private(set) var locating=false
-    private(set) var error:String?
+    private var errorKey:String?
+    var error:String? { errorKey.map(WL) }
     private(set) var canOpenSettings=false
     private(set) var authorization: CLAuthorizationStatus = .notDetermined
     var authorized: Bool { authorization == .authorizedAlways || authorization == .authorizedWhenInUse }
@@ -29,7 +30,7 @@ extension WeatherPlace {
         guard !locating else{return}
         generation += 1
         timeout?.cancel();fixing=false
-        error=nil;canOpenSettings=false;wantsLocation=true;locating=true
+        errorKey = nil;canOpenSettings=false;wantsLocation=true;locating=true
         authorization = manager.authorizationStatus
         switch authorization {
         case .notDetermined:manager.requestWhenInUseAuthorization()
@@ -61,16 +62,16 @@ extension WeatherPlace {
     }
     private func fail(_ message:String,settings:Bool=false){
         cancel()
-        error=message;canOpenSettings=settings
+        errorKey=message;canOpenSettings=settings
     }
     func cancel() {
         generation += 1; timeout?.cancel(); timeout=nil
         manager.stopUpdatingLocation(); fixing=false
         locating=false; wantsLocation=false
-        error=nil; canOpenSettings=false
+        errorKey = nil; canOpenSettings=false
     }
     func refreshAuthorization() { authorization = manager.authorizationStatus }
-    func clearError(){error=nil}
+    func clearError(){errorKey = nil}
     func locationManagerDidChangeAuthorization(_ manager:CLLocationManager){
         authorization = manager.authorizationStatus
         guard wantsLocation else{return}
@@ -105,6 +106,15 @@ extension WeatherPlace {
 /// One bounded lookup. Cancellation belongs to the foreground naming task;
 /// each attempt owns a geocoder so cancelling an old lookup cannot cancel a new one.
 @MainActor enum WeatherLocationLookup {
+    static func displayName(_ place: WeatherPlace, language: AppLanguage) async throws -> WeatherPlaceNames.Name? {
+        let geocoder = CLGeocoder()
+        let results = try await geocoder.reverseGeocodeLocation(CLLocation(latitude: place.latitude, longitude: place.longitude), preferredLocale: language.locale)
+        guard !Task.isCancelled, let result = results.first else { return nil }
+        return .init(city: result.locality ?? result.administrativeArea ?? place.city,
+                     district: place.district.isEmpty ? "" : result.subLocality ?? result.subAdministrativeArea ?? place.district,
+                     region: result.administrativeArea ?? place.region)
+    }
+
     #if DEBUG
     private static var checkAttempts = 0
     #endif
@@ -119,8 +129,8 @@ extension WeatherPlace {
             // weather before the simulated administrative name arrives.
             try await Task.sleep(for: .seconds(8))
             var named = place
-            named.city = "北京市"; named.district = place.approximate ? "" : "海淀区"
-            named.region = "北京市"; named.country = "中国"; named.countryCode = "CN"
+            named.city = WL("北京市"); named.district = place.approximate ? "" : WL("海淀区")
+            named.region = WL("北京市"); named.country = WL("中国"); named.countryCode = "CN"
             named.timeZoneIdentifier = "Asia/Shanghai"
             return named
         }
@@ -149,7 +159,7 @@ extension WeatherPlace {
         private let geocoder = CLGeocoder()
         func cancel() { geocoder.cancelGeocode() }
         func lookup(_ location: CLLocation) async throws -> [CLPlacemark] {
-            try await geocoder.reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "zh_CN"))
+            try await geocoder.reverseGeocodeLocation(location, preferredLocale: WeatherLocalization.locale)
         }
     }
 }
@@ -158,7 +168,8 @@ extension WeatherPlace {
     private(set) var results: [MKLocalSearchCompletion] = []
     private(set) var cities: [GeocodedCity] = []
     private(set) var resolving = false
-    private(set) var error: String?
+    private var errorKey: String?
+    var error: String? { errorKey.map(WL) }
     private(set) var globalLoading = false
     private var localLoading = false
     var loading: Bool { globalLoading || localLoading }
@@ -174,7 +185,7 @@ extension WeatherPlace {
 
     func update(_ query: String) {
         cancel()
-        results = []; cities = []; error = nil
+        results = []; cities = []; errorKey = nil
         globalFailed = false; localFailed = false
         let text = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard text.count >= 2 else { return }
@@ -232,10 +243,10 @@ extension WeatherPlace {
     private func updateError() {
         guard !loading else { return }
         if globalFailed {
-            error = "全球城市搜索暂时不可用，请检查网络后重试。"
+            errorKey = "全球城市搜索暂时不可用，请检查网络后重试。"
         } else if localFailed && cities.isEmpty && results.isEmpty {
-            error = "部分地区搜索暂时不可用，请稍后重试。"
-        } else { error = nil }
+            errorKey = "部分地区搜索暂时不可用，请稍后重试。"
+        } else { errorKey = nil }
     }
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         guard completer === self.completer else { return }
@@ -252,7 +263,7 @@ extension WeatherPlace {
     }
     func choose(_ result: MKLocalSearchCompletion, onSelect: @escaping (WeatherPlace) -> Void) {
         guard !resolving else { return }
-        resolving = true; error = nil
+        resolving = true; errorKey = nil
         let token = generation
         let search = MKLocalSearch(request: MKLocalSearch.Request(completion: result)); localSearch = search
         resolveTask = Task {
@@ -260,12 +271,12 @@ extension WeatherPlace {
             do {
                 let response = try await search.start(); try Task.checkCancellation()
                 guard token == generation, localSearch === search else { return }
-                guard let item = response.mapItems.first else { error = "没有找到可用的城市坐标。"; return }
+                guard let item = response.mapItems.first else { errorKey = "没有找到可用的城市坐标。"; return }
                 let place = WeatherPlace.from(item.placemark, coordinate: item.placemark.coordinate)
-                guard place.valid, !place.city.isEmpty else { error = "请选择包含城市或区县名称的地区。"; return }
+                guard place.valid, !place.city.isEmpty else { errorKey = "请选择包含城市或区县名称的地区。"; return }
                 onSelect(place)
             } catch {
-                if !Task.isCancelled, token == generation { self.error = "无法取得地区信息，请重新选择。" }
+                if !Task.isCancelled, token == generation { self.errorKey = "无法取得地区信息，请重新选择。" }
             }
         }
     }

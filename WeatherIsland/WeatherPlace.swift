@@ -23,8 +23,9 @@ struct WeatherPlace: Codable, Hashable, Identifiable, Sendable {
         return id + String(format: "|%.3f|%.3f", latitude, longitude)
     }
     var hasCityName: Bool { !city.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-    var title: String { [!hasCityName ? "当前位置" : city, approximate ? "" : district].filter { !$0.isEmpty }.joined(separator: " · ") }
-    var subtitle: String { [region == city ? "" : region, country].filter { !$0.isEmpty }.joined(separator: " · ") }
+    var title: String { [!hasCityName ? WL("当前位置") : WeatherPlaceNames.display(self).city, approximate ? "" : WeatherPlaceNames.display(self).district].filter { !$0.isEmpty }.joined(separator: " · ") }
+    var subtitle: String { [region == city ? "" : WeatherPlaceNames.display(self).region, WeatherLocalization.locale.localizedString(forRegionCode: countryCode) ?? country].filter { !$0.isEmpty }.joined(separator: " · ") }
+    var localizedCountry: String { WeatherLocalization.locale.localizedString(forRegionCode: countryCode) ?? WL(country) }
     var valid: Bool { latitude.isFinite && longitude.isFinite && (-90...90).contains(latitude) && (-180...180).contains(longitude) }
     static let shanghai = WeatherPlace(city: "上海市", region: "上海市", country: "中国", countryCode: "CN", latitude: 31.2304, longitude: 121.4737, timeZoneIdentifier: "Asia/Shanghai")
     static let beijing = WeatherPlace(city: "北京市", district: "海淀区", region: "北京市", country: "中国", countryCode: "CN", latitude: 39.96, longitude: 116.30, timeZoneIdentifier: "Asia/Shanghai")
@@ -105,5 +106,27 @@ struct CityCollection: Codable {
             guard !Task.isCancelled, token == generation else { return }
             waiting = false; resolving = true
         }
+    }
+}
+
+/// Locale-specific display data never participates in Codable place identities or weather cache keys.
+enum WeatherPlaceNames {
+    struct Name: Codable, Sendable { let city: String; let district: String; let region: String }
+    static func key(_ place: WeatherPlace, language: AppLanguage) -> String {
+        "WeatherIsland.PlaceName.v1.\(language.rawValue).\(place.latitude),\(place.longitude)"
+    }
+    static func save(_ name: Name, for place: WeatherPlace, language: AppLanguage) {
+        guard let data = try? JSONEncoder().encode(name) else { return }
+        UserDefaults.standard.set(data, forKey: key(place, language: language))
+        let title = name.district.isEmpty || name.district == name.city ? name.city : name.city + " · " + name.district
+        UserDefaults(suiteName: AppLanguage.group)?.set(title, forKey: "widget.place.name.\(language.rawValue).\(place.latitude),\(place.longitude)")
+    }
+    static func display(_ place: WeatherPlace, language: AppLanguage = WeatherLocalization.language) -> Name {
+        func translated(_ value: String) -> String { WeatherLocalization.text(value, language: language) }
+        if let data = UserDefaults.standard.data(forKey: key(place, language: language)),
+           let name = try? JSONDecoder().decode(Name.self, from: data) {
+            return Name(city: translated(name.city), district: translated(name.district), region: translated(name.region))
+        }
+        return Name(city: translated(place.city), district: translated(place.district), region: translated(place.region))
     }
 }

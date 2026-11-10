@@ -1,0 +1,2 @@
+"CFBundleDisplayName" = "气象岛";
+"NSLocationWhenInUseUsageDescription" = "用于获取当前位置的天气和地区名称。也可以手动选择城市。";

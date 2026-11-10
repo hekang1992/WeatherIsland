@@ -5,6 +5,10 @@ struct IslandWidgetPlace: Codable, Equatable, Sendable {
     let latitude: Double
     let longitude: Double
     let timeZone: String
+    var localizedName: String {
+        (UserDefaults(suiteName: AppLanguage.group)?.string(forKey: "widget.place.name.\(WeatherLocalization.language.rawValue).\(key)") ?? name)
+            .components(separatedBy: " · ").map(WL).joined(separator: " · ")
+    }
     var key: String { "\(latitude),\(longitude)" }
 }
 
@@ -34,16 +38,17 @@ struct IslandWidgetWeather: Codable, Sendable {
     let temperature: Int
     let feelsLike: Int
     let condition: String
+    var conditionID: String? = nil
+    var localizedCondition: String {
+        let names = ["clear":"晴天", "partlyCloudy":"多云", "overcast":"阴天", "lightRain":"小雨", "moderateRain":"中雨", "heavyRain":"大雨", "thunderstorm":"雷暴", "hail":"冰雹", "snow":"下雪", "fog":"雾天", "windy":"大风"]
+        return WL(conditionID.flatMap { names[$0] } ?? condition)
+    }
     let symbol: String
     let hours: [IslandWidgetHour]
     let days: [IslandWidgetDay]
 
     func clock(_ date: Date, _ format: String = "HH:mm") -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "zh_CN")
-        formatter.timeZone = TimeZone(identifier: place.timeZone) ?? .gmt
-        formatter.dateFormat = format
-        return formatter.string(from: date)
+        WeatherLocalization.date(date, format: format, timeZone: place.timeZone)
     }
     func today(at date: Date) -> IslandWidgetDay? {
         var calendar = Calendar(identifier: .gregorian)
@@ -56,13 +61,13 @@ struct IslandWidgetWeather: Codable, Sendable {
     }
     func stale(at date: Date) -> Bool { date.timeIntervalSince(fetchedAt) > 7200 || today(at: date) == nil }
 
-    static let sample: IslandWidgetWeather = {
+    static var sample: IslandWidgetWeather {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "Asia/Shanghai")!
         let base = calendar.date(from: DateComponents(year: 2026, month: 11, day: 2, hour: 14))!
         let symbols = ["cloud.sun.fill", "cloud.fill", "cloud.drizzle.fill", "cloud.rain.fill", "cloud.rain.fill", "cloud.fill"]
         let rain = [10.0, 20, 65, 85, 70, 25]
-        return IslandWidgetWeather(place: .init(name: "上海", latitude: 31.23, longitude: 121.47, timeZone: "Asia/Shanghai"),
+        return IslandWidgetWeather(place: .init(name: WL("上海"), latitude: 31.23, longitude: 121.47, timeZone: "Asia/Shanghai"),
             fetchedAt: base, observedAt: base, temperature: 22, feelsLike: 21, condition: "多云", symbol: "cloud.sun.fill",
             hours: (0..<24).map { i in .init(date: base.addingTimeInterval(Double(i) * 3600), temperature: [22, 23, 22, 21, 20, 19][i % 6], symbol: symbols[i % 6], probability: rain[i % 6], precipitation: [0, 0, 0.4, 1.6, 0.8, 0][i % 6]) },
             days: (0..<3).map { i in
@@ -70,7 +75,7 @@ struct IslandWidgetWeather: Codable, Sendable {
                 return .init(date: day, low: 16 + i, high: 24 - i, symbol: symbols[i],
                     sunrise: day.addingTimeInterval(6 * 3600 + 12 * 60), sunset: day.addingTimeInterval(17 * 3600 + 8 * 60))
             })
-    }()
+    }
 }
 
 enum IslandWidgetCache {
@@ -162,7 +167,21 @@ enum IslandWidgetClient {
         let current = condition(r.current.weather_code, night: r.current.is_day == 0)
         return .init(place: .init(name: place.name, latitude: place.latitude, longitude: place.longitude, timeZone: r.timezone),
             fetchedAt: fetchedAt, observedAt: Date(timeIntervalSince1970: r.current.time), temperature: Int(r.current.temperature_2m.rounded()),
-            feelsLike: Int(r.current.apparent_temperature.rounded()), condition: current.0, symbol: current.1, hours: hours, days: days)
+            feelsLike: Int(r.current.apparent_temperature.rounded()), condition: current.0, conditionID: conditionID(r.current.weather_code), symbol: current.1, hours: hours, days: days)
+    }
+    static func conditionID(_ code: Int) -> String? {
+        switch code {
+        case 0, 1: "clear"
+        case 2: "partlyCloudy"
+        case 3: "overcast"
+        case 45, 48: "fog"
+        case 51, 53, 55: "lightRain"
+        case 61, 63, 80, 81: "moderateRain"
+        case 65, 82: "heavyRain"
+        case 71, 73, 75, 77, 85, 86: "snow"
+        case 95, 96, 99: "thunderstorm"
+        default: nil
+        }
     }
     static func condition(_ code: Int, night: Bool = false) -> (String, String) {
         switch code {

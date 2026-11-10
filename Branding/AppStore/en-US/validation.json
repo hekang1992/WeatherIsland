@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "locale": "en-US",
+  "images": [
+    {
+      "file": "01-weather-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "cf719cce24dfdb30ed94ca39e4afb2f312af68d00a3c9b459b5052e02c174ede"
+    },
+    {
+      "file": "02-scenes-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "9bf0f914dabb063bde02b775c59c92d6c6a276c68e81eeccc7b2a09615679d81"
+    },
+    {
+      "file": "03-maps-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "193b1219d2f25f07a64e6eec8027cee9c6a2c6503af125285ebd3d2002c6c1fa"
+    },
+    {
+      "file": "04-widgets-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "c88dd413198261eda9cbe3c515ed714ae210c1de90775753046089228c9b404e"
+    },
+    {
+      "file": "05-overview-2556x1179.png",
+      "dimensions": [
+        2556,
+        1179
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "adea8e92053b72a9f0ac31eac124668fd144ddc70a58ab671c58f811ba82dca8"
+    },
+    {
+      "file": "06-cities-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "de678ecc689a5dbc64962eecf636acdc7cfc1a726d9d4f4b2d5b0143157b62eb"
+    },
+    {
+      "file": "07-weather-scenes-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "1852d829faa3c92b580edbd28897cbc6383be9a1fd10207e1854b4157b9c1eda"
+    }
+  ],
+  "metadataLengths": {
+    "name": 14,
+    "subtitle": 30,
+    "promotionalText": 151,
+    "keywords": 97,
+    "description": 2220,
+    "keywordsUTF8Bytes": 97
+  },
+  "archive": {
+    "file": "WeatherIsland-AppStore-en-US-7-Images.zip",
+    "imageCount": 7,
+    "integrityPassed": true
+  }
+}

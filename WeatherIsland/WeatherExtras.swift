@@ -8,15 +8,15 @@ struct AirQualityReading: Codable, Sendable {
     let time: Date
     let fetchedAt: Date
     var label: String {
-        guard let usAQI else { return "暂无数据" }
-        switch usAQI { case ...50: return "优"; case ...100: return "良"; case ...150: return "敏感人群需留意"; case ...200: return "不健康"; case ...300: return "很不健康"; default: return "危险" }
+        guard let usAQI else { return WL("暂无数据") }
+        switch usAQI { case ...50: return WL("优"); case ...100: return WL("良"); case ...150: return WL("敏感人群需留意"); case ...200: return WL("不健康"); case ...300: return WL("很不健康"); default: return WL("危险") }
     }
     var tint: Color { guard let usAQI else { return WeatherPalette.secondary }; return usAQI <= 50 ? Color(hex:0x769777) : usAQI <= 100 ? Color(hex:0xAC985D) : WeatherPalette.accent }
     var advice: String {
-        guard let usAQI else { return "空气质量数据暂缺。" }
-        if usAQI > 150 { return "减少长时间户外活动，敏感人群优先安排室内活动。" }
-        if usAQI > 100 { return "敏感人群减少长时间户外活动，运动时留意身体感受。" }
-        return "根据自身情况安排户外活动，出门前再看一眼天气。"
+        guard let usAQI else { return WL("空气质量数据暂缺。") }
+        if usAQI > 150 { return WL("减少长时间户外活动，敏感人群优先安排室内活动。") }
+        if usAQI > 100 { return WL("敏感人群减少长时间户外活动，运动时留意身体感受。") }
+        return WL("根据自身情况安排户外活动，出门前再看一眼天气。")
     }
 }
 

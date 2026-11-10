@@ -27,44 +27,44 @@ struct MyCityComparisonSheet: View {
     }
 
     var body: some View {
-        MyTravelSheet(title: "双城天气对比", initiallyExpanded: true) {
+        MyTravelSheet(title: WL("双城天气对比"), initiallyExpanded: true) {
             VStack(alignment: .leading, spacing: 20) {
-                Text("下一程，穿得刚刚好。口袋里的两座城市，一起看看。")
+                Text(WL("下一程，穿得刚刚好。口袋里的两座城市，一起看看。"))
                     .font(.subheadline).foregroundStyle(WeatherPalette.secondary)
                 if let second {
                     LazyVGrid(columns: typeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.flexible()), GridItem(.flexible())], alignment: .leading, spacing: 16) {
-                        comparisonColumn(place: first, selection: $firstID, excluding: second.id, label: "城市一", identifier: "my.compare.first")
-                        comparisonColumn(place: second, selection: $secondID, excluding: first.id, label: "城市二", identifier: "my.compare.second")
+                        comparisonColumn(place: first, selection: $firstID, excluding: second.id, label: WL("城市一"), identifier: "my.compare.first")
+                        comparisonColumn(place: second, selection: $secondID, excluding: first.id, label: WL("城市二"), identifier: "my.compare.second")
                     }
                     if let a = dataset(first), let b = dataset(second) {
                         let difference = abs(a.current.temperature - b.current.temperature)
                         VStack(alignment: .leading, spacing: 8) {
-                            Label(difference == 0 ? "两地记录气温相同" : "两地记录温差 \(difference)°", systemImage: "thermometer.medium")
+                            Label(difference == 0 ? WL("两地记录气温相同") : WLF("两地记录温差 %1$@°", String(describing: difference)), systemImage: "thermometer.medium")
                                 .font(.headline)
                             Text("\(first.title)：\(a.current.outfitTitle)\n\(second.title)：\(b.current.outfitTitle)")
                                 .font(.subheadline).fixedSize(horizontal: false, vertical: true)
                         }.padding(18).frame(maxWidth: .infinity, alignment: .leading)
                             .background(WeatherPalette.lime.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
-                        Text(app.offline ? "离线示例，仅供体验。" : "按两地各自的观测记录比较，请留意更新时间；跨时区城市的当地日期可能不同。")
+                        Text(app.offline ? WL("离线示例，仅供体验。") : WL("按两地各自的观测记录比较，请留意更新时间；跨时区城市的当地日期可能不同。"))
                             .font(.caption).foregroundStyle(WeatherPalette.secondary)
                     } else {
-                        Text("两地天气齐备后，会显示记录温差与衣物建议。暂无数据的城市可以重试更新。")
+                        Text(WL("两地天气齐备后，会显示记录温差与衣物建议。暂无数据的城市可以重试更新。"))
                             .font(.subheadline).foregroundStyle(WeatherPalette.secondary)
                             .accessibilityIdentifier("my.compare.unavailable")
                     }
                     if !app.offline {
                         Button { reload += 1 } label: {
-                            Label(updating ? "正在更新…" : "更新两地天气", systemImage: "arrow.clockwise")
+                            Label(updating ? WL("正在更新…") : WL("更新两地天气"), systemImage: "arrow.clockwise")
                                 .frame(maxWidth: .infinity).padding(.vertical, 8)
                         }.buttonStyle(.bordered).tint(WeatherPalette.accent).disabled(updating)
                             .accessibilityIdentifier("my.compare.refresh")
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 16) {
-                        Label("再收藏一座城市", systemImage: "mappin.and.ellipse").font(.headline)
-                        Text("已有 \(first.title)。添加目的地后，就能比较两地天气；添加时会保留正在查看的地区。")
+                        Label(WL("再收藏一座城市"), systemImage: "mappin.and.ellipse").font(.headline)
+                        Text(WLF("已有 %1$@。添加目的地后，就能比较两地天气；添加时会保留正在查看的地区。", String(describing: first.title)))
                             .font(.subheadline).foregroundStyle(WeatherPalette.secondary)
-                        Button("添加城市", systemImage: "plus") { addCity(); dismiss() }
+                        Button(WL("添加城市"), systemImage: "plus") { addCity(); dismiss() }
                             .buttonStyle(.borderedProminent).tint(WeatherPalette.accent)
                             .accessibilityIdentifier("my.compare.add")
                     }.padding(20).frame(maxWidth: .infinity, alignment: .leading)
@@ -104,20 +104,20 @@ private struct MyComparisonWeatherCard: View {
                 Image(systemName: data.current.kind.symbol).font(.title2).foregroundStyle(WeatherPalette.accent).accessibilityHidden(true)
                 Text("\(data.current.temperature)°").font(WeatherTypography.display(38))
                 Text(data.current.kind.name).font(.headline)
-                Text("体感 \(data.current.feelsLike)°\n最低 \(data.current.low)° / 最高 \(data.current.high)°")
+                Text(WLF("体感 %1$@°\n最低 %2$@° / 最高 %3$@°", String(describing: data.current.feelsLike), String(describing: data.current.low), String(describing: data.current.high)))
                     .font(.subheadline).fixedSize(horizontal: false, vertical: true)
                 Divider()
-                Text(app.offline ? "离线示例" : (weather.cached || weather.error != nil ? "上次天气" : "最近更新"))
+                Text(app.offline ? WL("离线示例") : (weather.cached || weather.error != nil ? WL("上次天气") : WL("最近更新")))
                     .font(.caption.weight(.medium))
                 Text(WeatherClock.string(data.fetchedAt, "M/d HH:mm", timeZone: data.timeZoneIdentifier))
                     .font(.caption.monospacedDigit())
                 if weather.error != nil && !app.offline {
-                    Text("更新失败，保留记录").font(.caption).foregroundStyle(WeatherPalette.secondary)
+                    Text(WL("更新失败，保留记录")).font(.caption).foregroundStyle(WeatherPalette.secondary)
                 }
             } else {
                 Image(systemName: "cloud").font(.title2).accessibilityHidden(true)
-                Text(weather.loading ? "更新中…" : "暂无天气").font(.headline)
-                Text(weather.loading ? "正在获取这座城市的天气。" : "未取得天气记录，请稍后重试。")
+                Text(weather.loading ? WL("更新中…") : WL("暂无天气")).font(.headline)
+                Text(weather.loading ? WL("正在获取这座城市的天气。") : WL("未取得天气记录，请稍后重试。"))
                     .font(.caption).foregroundStyle(WeatherPalette.secondary)
             }
         }.frame(maxWidth: .infinity, alignment: .leading).padding(16)
@@ -144,32 +144,32 @@ struct MyCityClocksSheet: View {
         [reference] + app.places.filter { $0.id != reference.id }
     }
     var body: some View {
-        MyTravelSheet(title: "城市时钟") {
+        MyTravelSheet(title: WL("城市时钟")) {
             TimelineView(.periodic(from: .now, by: 60)) { context in
                 let date = context.date.addingTimeInterval(hoursAhead * 3600)
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 12) {
-                        Label(hoursAhead == 0 ? "此刻，同一片天空下" : "\(Int(hoursAhead)) 小时后，各地是几点？", systemImage: "globe.asia.australia")
+                        Label(hoursAhead == 0 ? WL("此刻，同一片天空下") : WLF("%1$@ 小时后，各地是几点？", String(describing: Int(hoursAhead))), systemImage: "globe.asia.australia")
                             .font(.headline).accessibilityIdentifier("my.clocks.heading")
-                        Text("以 \(reference.title) 为参照，按各地时区换算。")
+                        Text(WLF("以 %1$@ 为参照，按各地时区换算。", String(describing: reference.title)))
                             .font(.subheadline).foregroundStyle(WeatherPalette.secondary)
                         Slider(value: $hoursAhead, in: 0...24, step: 1)
-                            .tint(WeatherPalette.accent).accessibilityLabel("查看未来时间")
-                            .accessibilityValue(hoursAhead == 0 ? "现在" : "\(Int(hoursAhead))小时后")
+                            .tint(WeatherPalette.accent).accessibilityLabel(WL("查看未来时间"))
+                            .accessibilityValue(hoursAhead == 0 ? WL("现在") : WLF("%1$@小时后", String(describing: Int(hoursAhead))))
                             .accessibilityIdentifier("my.clocks.slider")
                         HStack {
-                            Text("现在")
+                            Text(WL("现在"))
                             Spacer()
-                            Button("回到现在") { hoursAhead = 0 }
+                            Button(WL("回到现在")) { hoursAhead = 0 }
                                 .accessibilityIdentifier("my.clocks.now").disabled(hoursAhead == 0)
                             Spacer()
-                            Text("24小时后")
+                            Text(WL("24小时后"))
                         }.font(.caption).foregroundStyle(WeatherPalette.secondary)
                     }.padding(18).background(WeatherPalette.lime.opacity(0.25), in: RoundedRectangle(cornerRadius: 20))
                     ForEach(cities) { city in
                         clockRow(city, date: date)
                     }
-                    Text("时差按所查看时刻计算，包含夏令时变化。时间换算不依赖天气网络；未知时区会单独标注。")
+                    Text(WL("时差按所查看时刻计算，包含夏令时变化。时间换算不依赖天气网络；未知时区会单独标注。"))
                         .font(.caption).foregroundStyle(WeatherPalette.secondary)
                 }
             }
@@ -180,7 +180,7 @@ struct MyCityClocksSheet: View {
             HStack(alignment: .firstTextBaseline) {
                 Text(city.title).font(.headline)
                 if city.id == reference.id {
-                    Text("参照").font(.caption).foregroundStyle(WeatherPalette.accent)
+                    Text(WL("参照")).font(.caption).foregroundStyle(WeatherPalette.accent)
                 }
             }
             if TimeZone(identifier: city.timeZoneIdentifier) != nil {
@@ -198,7 +198,7 @@ struct MyCityClocksSheet: View {
                 Text(WeatherClock.difference(from: reference.timeZoneIdentifier, to: city.timeZoneIdentifier, at: date))
                     .font(.subheadline).foregroundStyle(WeatherPalette.accent)
             } else {
-                Text("时区未知，暂不能换算当地时间。").font(.subheadline).foregroundStyle(WeatherPalette.secondary)
+                Text(WL("时区未知，暂不能换算当地时间。")).font(.subheadline).foregroundStyle(WeatherPalette.secondary)
             }
         }.frame(maxWidth: .infinity, alignment: .leading).padding(18)
             .background(WeatherPalette.surface, in: RoundedRectangle(cornerRadius: 18))
@@ -227,7 +227,7 @@ private struct MyTravelSheet<Content: View>: View {
                 content().padding(22).frame(maxWidth: 640, alignment: .leading).frame(maxWidth: .infinity)
             }.background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink)
                 .navigationTitle(title).navigationBarTitleDisplayMode(.inline)
-                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("完成") { dismiss() } } }
+                .toolbar { ToolbarItem(placement: .confirmationAction) { Button(WL("完成")) { dismiss() } } }
         }.presentationDetents([.medium, .large], selection: $detent)
             .presentationDragIndicator(.visible).presentationCornerRadius(28).presentationBackground(WeatherPalette.paper)
             .onAppear { if initiallyExpanded || typeSize.isAccessibilitySize { detent = .large } }

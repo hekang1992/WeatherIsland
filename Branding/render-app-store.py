@@ -23,10 +23,12 @@ SANS = '/System/Library/Fonts/STHeiti Light.ttc'
 LATIN = '/System/Library/Fonts/Supplemental/Arial.ttf'
 PROFILE = ImageCms.ImageCmsProfile(ImageCms.createProfile('sRGB')).tobytes()
 MANIFEST = []
+ASSETS = ROOT / 'Previews'
+LOCALIZED = False
 
 
 def font(size, kind='serif'):
-    path, index = (SERIF, 6) if kind == 'serif' else ((SANS, 1) if kind == 'sans' else (LATIN, 0))
+    path, index = ((LATIN, 0) if LOCALIZED else ((SERIF, 6) if kind == 'serif' else ((SANS, 1) if kind == 'sans' else (LATIN, 0))))
     return ImageFont.truetype(path, round(size*S), index=index)
 
 
@@ -83,8 +85,18 @@ def shadow_paste(im, source, xy, blur=28, offset=(0,18), opacity=.17):
     im.paste(rgba,(round(xy[0]*S),round(xy[1]*S)),rgba)
 
 
+def asset_path(name):
+    path = ASSETS/name
+    # Chinese marketing keeps the original paintings and effect demo artwork.
+    if not path.exists() and ASSETS.name == 'zh-Hans' and name in {
+        'Scene-16.png', 'Scene-21.png', 'Scene-46.png', 'Weather-Effects-Grid.png'
+    }:
+        return ROOT/'Previews'/name
+    return path
+
+
 def asset(name):
-    return Image.open(ROOT/'Previews'/name).convert('RGB')
+    return Image.open(asset_path(name)).convert('RGB')
 
 
 def phone(name, width, angle=0):
@@ -171,7 +183,7 @@ def save(im,name,title,features,sources):
     print(f'{name}: {im.width} × {im.height}, RGB, {path.stat().st_size:,} bytes',flush=True)
 
 
-def render_original():
+def render_original(legacy_package=True):
     # 01 — Clear, readable weather in an original landscape.
     im=canvas(1179,2556)
     brand(im,1179,'01 / 日常晴雨')
@@ -255,6 +267,8 @@ def render_original():
     save(im,'05-overview-2556x1179.png','气象岛：天气的清晰，山水的诗意。',['天气首页','原创画境','天气地图','桌面小组件'],['Weather-Artwork-Gallery.png','Weather-Artwork-Home.png','Weather-Map-Layout-Phone.png'])
     del im
 
+    if not legacy_package:
+        return
     (OUT/'manifest.json').write_text(json.dumps(MANIFEST,ensure_ascii=False,indent=2)+'\n')
     # Review contact sheet stays separate from the five full-resolution upload images.
     thumbs=Image.new('RGB',(1600,1210),'#e3e6db')
@@ -343,11 +357,177 @@ def package_and_validate():
     print('Validated seven RGB PNGs and two ZIP archives.',flush=True)
 
 
+def fitted(im, xy, value, size, max_width, fill=INK, anchor='lt', kind='sans'):
+    while ImageDraw.Draw(im).textlength(value, font=font(size, kind)) > max_width*S and size > 12:
+        size -= 0.5
+    text(im, xy, value, size, fill=fill, anchor=anchor, kind=kind)
+
+
+def localized_brand(im, width, copy, number=None):
+    icon=Image.open(ROOT/'WeatherIsland/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png').convert('RGB').resize((62*S,62*S),Image.Resampling.LANCZOS)
+    mask=Image.new('L',icon.size);ImageDraw.Draw(mask).rounded_rectangle((0,0,62*S-1,62*S-1),radius=16*S,fill=255)
+    im.paste(icon,(82*S,77*S),mask)
+    fitted(im,(163,78),copy['name'],37,540)
+    text(im,(165,130),'WEATHER ISLAND',12,kind='latin',fill=MUTED)
+    if number: fitted(im,(width-85,92),number,15,width-780,anchor='rt',fill=MUTED)
+    line(im,(83,173,width-83,173),'#cbd1c0')
+
+
+def localized_headline(im, page):
+    fitted(im,(589.5,238),page['eyebrow'],20,1000,anchor='mt',fill=RED)
+    fitted(im,(589.5,315),page['first'],91,1010,anchor='mt')
+    fitted(im,(589.5,445),page['second'],91,1010,anchor='mt')
+    fitted(im,(589.5,608),page['subtitle'],28,1020,anchor='mt',fill=MUTED)
+    line(im,(560,683,619,683),RED,2)
+
+
+def localized_footer(im, value):
+    fitted(im,(589.5,2497),value,20,1010,anchor='mt',fill=MUTED)
+
+
+def art_mark(im,x,y):
+    # An abstract vermilion mountain seal echoes the original without new text.
+    rounded(im,(x,y,x+44,y+55),4,None,RED,1.7)
+    line(im,(x+8,y+39,x+21,y+15,x+35,y+39),RED,2)
+    line(im,(x+8,y+45,x+35,y+45),RED,2)
+
+
+def render_localized(copy):
+    pages=copy['pages']
+    def start(i,palette='paper'):
+        im=canvas(1179,2556,palette)
+        localized_brand(im,1179,copy,f'{i+1:02d} / '+pages[i]['label'])
+        localized_headline(im,pages[i]);return im
+    def finish(im,i,name,sources):
+        localized_footer(im,pages[i]['footer'])
+        save(im,name,pages[i]['first']+' '+pages[i]['second'],[pages[i]['subtitle']],sources)
+    im=start(0);mountains(im,1790,.75)
+    art=asset('Scene-16.png').resize((1250*S,860*S),Image.Resampling.LANCZOS)
+    mask=Image.new('L',art.size);ImageDraw.Draw(mask).ellipse((0,-200*S,1250*S,1050*S),fill=110)
+    im.paste(art,(-40*S,1370*S),mask)
+    shadow_paste(im,phone('Weather-Artwork-Home.png',756),(211.5,765),blur=34,opacity=.19)
+    art_mark(im,84,1950)
+    finish(im,0,'01-weather-1179x2556.png',['Weather-Artwork-Home.png','Scene-16.png']);del im
+
+    im=start(1,'sage');mountains(im,1710,.8)
+    for name,width,angle,xy in [('Scene-21.png',440,7,(-68,890)),('Scene-16.png',420,-7,(838,1190)),('Scene-46.png',430,5,(-58,1860))]:
+        shadow_paste(im,painting(name,width,angle),xy,blur=16,opacity=.11)
+    shadow_paste(im,phone('Weather-Artwork-Gallery.png',730),(224.5,790),blur=34,opacity=.19)
+    art_mark(im,1012,2075)
+    finish(im,1,'02-scenes-1179x2556.png',['Weather-Artwork-Gallery.png','Scene-21.png','Scene-16.png','Scene-46.png']);del im
+
+    im=start(2,'blue');d=ImageDraw.Draw(im)
+    for r in [470,650,840]:d.ellipse(((589-r)*S,(1630-r)*S,(589+r)*S,(1630+r)*S),outline='#cad7c9',width=S)
+    shadow_paste(im,phone('Weather-Map-Layout-Phone.png',754),(212.5,765),blur=34,opacity=.19)
+    art_mark(im,1012,1925)
+    finish(im,2,'03-maps-1179x2556.png',['Weather-Map-Layout-Phone.png']);del im
+
+    im=start(3,'sage');mountains(im,1690,.6)
+    shadow_paste(im,card('Widget-landscape-large.png',680,45),(87,790),blur=28,opacity=.13)
+    # Horizontal captions leave natural word spacing and room for Vietnamese marks.
+    fitted(im,(87,1520),pages[3]['captions'][0],27,1000,fill=MUTED)
+    shadow_paste(im,card('Widget-rain-medium.png',850,62),(227,1595),blur=25,opacity=.12)
+    fitted(im,(227,2010),pages[3]['captions'][1],26,860,fill='#5f7b7b')
+    shadow_paste(im,card('Widget-daylight-medium.png',830,62),(87,2045),blur=25,opacity=.12)
+    fitted(im,(87,2450),pages[3]['captions'][2],24,860,fill='#9b7a55')
+    finish(im,3,'04-widgets-1179x2556.png',['Widget-landscape-large.png','Widget-rain-medium.png','Widget-daylight-medium.png']);del im
+
+    im=canvas(2556,1179);o=copy['overview'];localized_brand(im,2556,copy)
+    fitted(im,(2468,97),copy['brandTagline'],21,1350,anchor='rt',fill=MUTED)
+    mountains(im,850,.65)
+    fitted(im,(92,244),o['eyebrow'],25,1080,fill=RED)
+    fitted(im,(86,338),o['first'],100,1100)
+    fitted(im,(86,475),o['second'],100,1100)
+    fitted(im,(92,651),o['subtitle'],29,1065,fill=MUTED)
+    for i,label in enumerate(o['features']):
+        x=92+i*275
+        rounded(im,(x,765,x+255,833),20,'#e0e6d7')
+        fitted(im,(x+127.5,790),label,22,232,anchor='mt')
+    fitted(im,(92,1027),o['footer'],23,1080,fill=MUTED)
+    shadow_paste(im,phone('Weather-Artwork-Gallery.png',336,5),(1258,265),blur=22,opacity=.17)
+    shadow_paste(im,phone('Weather-Map-Layout-Phone.png',346,-5),(2117,245),blur=22,opacity=.17)
+    shadow_paste(im,phone('Weather-Artwork-Home.png',416),(1660,212),blur=28,opacity=.20)
+    save(im,'05-overview-2556x1179.png',copy['name']+': '+o['first']+' '+o['second'],o['features'],['Weather-Artwork-Gallery.png','Weather-Artwork-Home.png','Weather-Map-Layout-Phone.png']);del im
+
+    im=start(5,'blue');mountains(im,1710,.68)
+    shadow_paste(im,phone('Weather-Artwork-Cities.png',570),(62,810),blur=30,opacity=.16)
+    shadow_paste(im,phone('Weather-Home-Manual-City.png',650),(450,960),blur=32,opacity=.20)
+    line(im,(91,2178,301,2178),'#a6b49f')
+    fitted(im,(92,2220),pages[5]['captions'][0],30,320)
+    fitted(im,(92,2278),pages[5]['captions'][1],26,320,fill=MUTED)
+    art_mark(im,94,2350)
+    finish(im,5,'06-cities-1179x2556.png',['Weather-Artwork-Cities.png','Weather-Home-Manual-City.png']);del im
+
+    im=start(6,'sage');mountains(im,1770,.70)
+    shadow_paste(im,phone('Weather-Artwork-Detail.png',650),(78,825),blur=34,opacity=.18)
+    grid=asset('Weather-Effects-Grid.png')
+    for idx,(crop,xy) in enumerate([((36,107,486,417),(765,1040)),((510,486,960,796),(765,1485)),((36,864,486,1175),(765,1930))]):
+        piece=grid.crop(crop).resize((338*S,round((crop[3]-crop[1])*338*S/(crop[2]-crop[0]))),Image.Resampling.LANCZOS)
+        framed=Image.new('RGB',(piece.width+12*S,piece.height+12*S),'#faf7ee');framed.paste(piece,(6*S,6*S))
+        shadow_paste(im,framed,xy,blur=17,offset=(0,12),opacity=.12)
+        fitted(im,(xy[0],xy[1]-56),pages[6]['captions'][idx],29,350)
+    finish(im,6,'07-weather-scenes-1179x2556.png',['Weather-Artwork-Detail.png','Weather-Effects-Grid.png']);del im
+
+
+def package_localized(copy):
+    import hashlib,io
+    checks=[]
+    for item in MANIFEST:
+        path=OUT/item['file']
+        with Image.open(path) as image:
+            expected=(2556,1179) if item['file'].startswith('05-') else (1179,2556)
+            assert image.size==expected and image.mode=='RGB' and image.format=='PNG'
+            profile=ImageCms.getProfileDescription(ImageCms.ImageCmsProfile(io.BytesIO(image.info['icc_profile'])))
+            assert 'srgb' in profile.lower()
+            checks.append({'file':path.name,'dimensions':list(image.size),'mode':'RGB','format':'PNG','alpha':False,'sRGB':True,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
+        item['locale']=copy['locale']
+        item['sourceAssets']=[{'file':str(asset_path(name).relative_to(ROOT)),'sha256':hashlib.sha256(asset_path(name).read_bytes()).hexdigest()} for name in item['sourceAssets']]
+    fields=['name','subtitle','promotionalText','keywords','description']
+    metadata={key:copy[key] for key in ['locale']+fields}
+    lengths={key:len(copy[key]) for key in fields};lengths['keywordsUTF8Bytes']=len(copy['keywords'].encode('utf8'))
+    assert lengths['name']<=30 and lengths['subtitle']<=30 and lengths['promotionalText']<=170 and lengths['description']<=4000 and lengths['keywordsUTF8Bytes']<=100
+    (OUT/'metadata.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n')
+    labels={'name':'App name','subtitle':'Subtitle','promotionalText':'Promotional text','keywords':'Keywords','description':'Description'}
+    if copy['locale'] == 'zh-Hans':
+        labels = dict(zip(fields, ['App 名称', '副标题', '推广文本', '关键词', '完整介绍']))
+    (OUT/'metadata.txt').write_text('\n\n'.join(labels[k]+'\n'+copy[k] for k in fields)+'\n')
+    (OUT/'manifest.json').write_text(json.dumps(MANIFEST,ensure_ascii=False,indent=2)+'\n')
+    # All seven images on one contact sheet, six portraits above the panorama.
+    preview=Image.new('RGB',(1800,1060),'#e3e6db');draw=ImageDraw.Draw(preview)
+    for i,item in enumerate([item for item in MANIFEST if not item['file'].startswith('05-')]):
+        picture=Image.open(OUT/item['file']);picture.thumbnail((280,610),Image.Resampling.LANCZOS)
+        x=12+i*298;preview.paste(picture,(x,38));draw.text((x,10),item['file'].split('-')[0],font=ImageFont.truetype(LATIN,17),fill=INK)
+    picture=Image.open(OUT/'05-overview-2556x1179.png');picture.thumbnail((840,389),Image.Resampling.LANCZOS);preview.paste(picture,(480,665))
+    preview.save(OUT/'preview.jpg',quality=95,icc_profile=PROFILE)
+    archive_path=OUT/f"WeatherIsland-AppStore-{copy['locale']}-7-Images.zip"
+    with zipfile.ZipFile(archive_path,'w',zipfile.ZIP_DEFLATED) as archive:
+        for item in MANIFEST:archive.write(OUT/item['file'],arcname=item['file'])
+    with zipfile.ZipFile(archive_path) as archive:
+        assert archive.testzip() is None and len(archive.namelist())==7
+        for item in MANIFEST: assert archive.read(item['file'])==(OUT/item['file']).read_bytes()
+    (OUT/'validation.json').write_text(json.dumps({'passed':True,'locale':copy['locale'],'images':checks,'metadataLengths':lengths,'archive':{'file':archive_path.name,'imageCount':7,'integrityPassed':True}},ensure_ascii=False,indent=2)+'\n')
+    print(f"Validated {copy['locale']}: seven RGB sRGB PNGs, ZIP and metadata {lengths}",flush=True)
+
+
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--additional-only',action='store_true',help='Keep the first five images and render only the two additions.')
+    parser.add_argument('--language',choices=['zh-Hans','en-US','vi'],help='Render a complete localized set from native app/widget captures.')
     args=parser.parse_args()
+    if args.language:
+        LOCALIZED=args.language != 'zh-Hans'
+        ASSETS=ROOT/'Previews'/args.language
+        OUT=ROOT/'Branding'/'AppStore'/args.language
+        OUT.mkdir(parents=True,exist_ok=True)
+        copy=json.loads((ROOT/'Branding'/'AppStoreCopy'/(args.language+'.json')).read_text())
+        if args.language == 'zh-Hans':
+            render_original(legacy_package=False)
+            render_additional()
+        else:
+            render_localized(copy)
+        package_localized(copy)
+        raise SystemExit(0)
     if args.additional_only:
         MANIFEST.extend(json.loads((OUT/'manifest.json').read_text())[:5])
         assert len(MANIFEST)==5

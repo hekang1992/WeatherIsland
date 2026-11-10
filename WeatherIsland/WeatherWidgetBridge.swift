@@ -20,7 +20,7 @@ import WidgetKit
         let hours = dataset.next24Hours.isEmpty ? dataset.hourly : dataset.next24Hours
         return .init(place: .init(name: place.title, latitude: place.latitude, longitude: place.longitude, timeZone: dataset.timeZoneIdentifier),
             fetchedAt: dataset.fetchedAt, observedAt: current.metrics?.time ?? dataset.fetchedAt,
-            temperature: current.temperature, feelsLike: current.feelsLike, condition: current.kind.name,
+            temperature: current.temperature, feelsLike: current.feelsLike, condition: current.kind.sourceName, conditionID: current.kind.rawValue,
             symbol: symbol(current.kind),
             hours: hours.compactMap { report in
                 guard let metrics = report.metrics else { return nil }
@@ -35,7 +35,7 @@ import WidgetKit
     private static func symbol(_ kind: WeatherKind) -> String {
         kind == .windy ? "wind" : kind.symbol + ".fill"
     }
-    private static func reload() {
+    static func reload() {
         for kind in ["IslandLandscapeWeather", "IslandUmbrellaWeather", "IslandDaylightWeather"] {
             WidgetCenter.shared.reloadTimelines(ofKind: kind)
         }

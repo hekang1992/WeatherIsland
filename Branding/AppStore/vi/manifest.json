@@ -1,0 +1,178 @@
+[
+  {
+    "file": "01-weather-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Đọc trời hôm nay. Gặp miền sơn thủy.",
+    "features": [
+      "Dự báo từng giờ · Nhiều ngày · Chất lượng không khí"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Weather-Artwork-Home.png",
+        "sha256": "f694191782a9715b61c3205fb907a5feee37a0c91d5b8fcb2ce11fa7fe92b9ec"
+      },
+      {
+        "file": "Previews/vi/Scene-16.png",
+        "sha256": "b031a5f60fe708e62ae08736bcb5c9ed2a36e8920d043c040215666452928829"
+      }
+    ],
+    "locale": "vi"
+  },
+  {
+    "file": "02-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "50 bức họa gốc. Mỗi ngày, một cảnh.",
+    "features": [
+      "Mười chủ đề phong vị Tống · Tự chọn cảnh yêu thích"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Weather-Artwork-Gallery.png",
+        "sha256": "1aed54aa584cbd7537ef692dc461a5801341a2ea67fcef839c5965186364b077"
+      },
+      {
+        "file": "Previews/vi/Scene-21.png",
+        "sha256": "21a9ae88d3300cc12f9a131350397bc3eb6ad0227468b6f09bc049c9cd292e61"
+      },
+      {
+        "file": "Previews/vi/Scene-16.png",
+        "sha256": "b031a5f60fe708e62ae08736bcb5c9ed2a36e8920d043c040215666452928829"
+      },
+      {
+        "file": "Previews/vi/Scene-46.png",
+        "sha256": "d8f185e4f5a0aeaf82dd628e4010e94662d1763bddac4622dad8420a1ffecd3e"
+      }
+    ],
+    "locale": "vi"
+  },
+  {
+    "file": "03-maps-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Theo dấu nắng mưa. Biết trời sắp đổi.",
+    "features": [
+      "Lượng mưa · Nhiệt độ · Gió · Mây"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Weather-Map-Layout-Phone.png",
+        "sha256": "8f42aebe59e9472b641d6ff85fd3bd587a36381f92df3e6c94de22ed4add0645"
+      }
+    ],
+    "locale": "vi"
+  },
+  {
+    "file": "04-widgets-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Thời tiết trong ngày. Ngay trên màn hình.",
+    "features": [
+      "Thời tiết sơn thủy · Nhắc mang ô · Bình minh, hoàng hôn"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Widget-landscape-large.png",
+        "sha256": "465079d238e91489cb51cb0b865d074bb3aaf54ee588a45bb96845a2c750062d"
+      },
+      {
+        "file": "Previews/vi/Widget-rain-medium.png",
+        "sha256": "941a6c1c53f88745ae65d4f3717f49de44667947c5aad2dd54964135a37e1db6"
+      },
+      {
+        "file": "Previews/vi/Widget-daylight-medium.png",
+        "sha256": "47e64a8ab6e9e8856b28bd61e6865d15e7945f0f1c77664b7094622cf4c8bd76"
+      }
+    ],
+    "locale": "vi"
+  },
+  {
+    "file": "05-overview-2556x1179.png",
+    "size": [
+      2556,
+      1179
+    ],
+    "mode": "RGB",
+    "title": "Đảo Thời Tiết: Xem trời hôm nay. Gặp miền sơn thủy.",
+    "features": [
+      "Thành phố",
+      "Tranh nguyên bản",
+      "Bản đồ dự báo",
+      "Tiện ích"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Weather-Artwork-Gallery.png",
+        "sha256": "1aed54aa584cbd7537ef692dc461a5801341a2ea67fcef839c5965186364b077"
+      },
+      {
+        "file": "Previews/vi/Weather-Artwork-Home.png",
+        "sha256": "f694191782a9715b61c3205fb907a5feee37a0c91d5b8fcb2ce11fa7fe92b9ec"
+      },
+      {
+        "file": "Previews/vi/Weather-Map-Layout-Phone.png",
+        "sha256": "8f42aebe59e9472b641d6ff85fd3bd587a36381f92df3e6c94de22ed4add0645"
+      }
+    ],
+    "locale": "vi"
+  },
+  {
+    "file": "06-cities-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Thành phố bạn yêu. Luôn ở thật gần.",
+    "features": [
+      "Lưu yêu thích · Chuyển thành phố · Tự chọn địa điểm"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Weather-Artwork-Cities.png",
+        "sha256": "3a89639bfe062f6c12fa9885316648ee6bea66ff1ddcc206b8567d6ee53a3e2e"
+      },
+      {
+        "file": "Previews/vi/Weather-Home-Manual-City.png",
+        "sha256": "c410ac4aabde25ad1605b3108c2e2b3de3ef8202356a18d7f7c439cfb0329493"
+      }
+    ],
+    "locale": "vi"
+  },
+  {
+    "file": "07-weather-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Khi bầu trời đổi sắc, sơn thủy cũng đổi thay.",
+    "features": [
+      "Xem trước 11 hiệu ứng thời tiết · Chọn cảnh yêu thích"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/vi/Weather-Artwork-Detail.png",
+        "sha256": "f7cae432915634b59bb3e6c50ce2923c7570a0f2b8e48885656468a276b7f3c9"
+      },
+      {
+        "file": "Previews/vi/Weather-Effects-Grid.png",
+        "sha256": "77cf1f863c7de9520d0f2464a147720c6e561f858dd547dd9e5aed8c1ee982b7"
+      }
+    ],
+    "locale": "vi"
+  }
+]

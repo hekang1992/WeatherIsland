@@ -73,13 +73,13 @@ struct RegionalWeatherHome: View {
                 hero(report)
                 summary(report)
                 dailyCompanion(data)
-                chapter("01", "未来怎么变", "按地区当地时间排列")
+                chapter("01", WL("未来怎么变"), WL("按地区当地时间排列"))
                 trend(data)
                 week(data)
-                chapter("02", "此刻的环境", "天气与空气质量独立更新")
+                chapter("02", WL("此刻的环境"), WL("天气与空气质量独立更新"))
                 airCard
                 metrics(report)
-                chapter("03", "把今天过好", "日照与生活建议")
+                chapter("03", WL("把今天过好"), WL("日照与生活建议"))
                 daylight(report)
                 life(report)
                 sources
@@ -95,15 +95,15 @@ struct RegionalWeatherHome: View {
             Button {app.presentCitySearch()} label:{
                 VStack(alignment:.leading,spacing:4){
                     HStack(spacing:5){Text(place.title).font(WeatherTypography.display(22)).lineLimit(2);Image(systemName:"chevron.down").font(.system(size:11,weight:.bold))}
-                    Text(place.isCurrentLocation ? (resolvingLocation ? "正在解析地区 · 天气同步加载" : !place.hasCityName ? (waitingLocationName ? "地区名称待更新 · 自动重试中" : "正在获取地区名称 · 坐标天气") : place.approximate ? "近似位置 · 不展示区县" : "我的位置 · 坐标天气") : place.subtitle)
+                    Text(place.isCurrentLocation ? (resolvingLocation ? WL("正在解析地区 · 天气同步加载") : !place.hasCityName ? (waitingLocationName ? WL("地区名称待更新 · 自动重试中") : WL("正在获取地区名称 · 坐标天气")) : place.approximate ? WL("近似位置 · 不展示区县") : WL("我的位置 · 坐标天气")) : place.subtitle)
                         .font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).lineLimit(1)
                 }.multilineTextAlignment(.leading)
-            }.buttonStyle(.plain).accessibilityLabel("切换城市，当前\(place.title)").accessibilityIdentifier("home.city")
+            }.buttonStyle(.plain).accessibilityLabel(WLF("切换城市，当前%1$@", String(describing: place.title))).accessibilityIdentifier("home.city")
             Spacer(minLength:2)
-            Button(action:locate){Group{if locating{ProgressView().tint(WeatherPalette.ink)}else{Image(systemName:place.isCurrentLocation ? "location.fill":"location")}}.frame(width:40,height:44)}
-                .buttonStyle(.plain).disabled(locating).accessibilityLabel("定位我的位置")
-            Button {theatre=true} label:{Image(systemName:"wind").frame(width:40,height:40).background(Circle().stroke(WeatherPalette.line,lineWidth:0.7))}
-                .buttonStyle(.plain).accessibilityLabel("打开天气剧场")
+            Button(action:locate){Group{if locating{ProgressView().tint(WeatherPalette.ink)}else{Image(systemName:place.isCurrentLocation ? "location.fill":"location")}}.font(.system(size:20)).frame(width:40,height:44)}
+                .buttonStyle(.plain).disabled(locating).accessibilityLabel(WL("定位我的位置"))
+            Button {theatre=true} label:{Image(systemName:"wind").font(.system(size:20)).frame(width:40,height:40).background(Circle().stroke(WeatherPalette.line,lineWidth:0.7))}
+                .buttonStyle(.plain).accessibilityLabel(WL("打开天气剧场"))
         }
     }
     private func hero(_ report:WeatherReport)->some View {
@@ -111,11 +111,11 @@ struct RegionalWeatherHome: View {
             HStack{
                 Text(local(report.metrics?.time ?? .now,"M月d日 EEEE")).font(.system(size:12))
                 Spacer()
-                Text("观天 · 知时 / °C").font(.system(size:11,design:.monospaced))
+                Text(WL("观天 · 知时 / °C")).font(.system(size:11,design:.monospaced))
             }.foregroundStyle(WeatherPalette.secondary)
             Button { present(.feelsLike) } label: {
                 WeatherTemperatureHeader(report: report)
-            }.buttonStyle(.plain).accessibilityHint("轻点查看气温与体感说明")
+            }.buttonStyle(.plain).accessibilityHint(WL("轻点查看气温与体感说明"))
                 .padding(.top, 14).padding(.bottom, 14)
             quickLook.padding(.bottom, 18)
             Button {detail=report} label:{
@@ -127,12 +127,12 @@ struct RegionalWeatherHome: View {
                         Image(systemName: "arrow.up.right").font(.system(size: 12, weight: .medium))
                             .padding(10).background(.regularMaterial, in: Circle()).padding(12)
                     }
-            }.buttonStyle(.plain).accessibilityLabel("\(place.title)，\(report.kind.name)。打开天气详情")
-            if let time=report.metrics?.time {Text("天气时刻 \(local(time,"HH:mm")) · \(weather.cached ? "缓存预报":"当地时间")").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).padding(.top,12)}
+            }.buttonStyle(.plain).accessibilityLabel(WLF("%1$@，%2$@。打开天气详情", String(describing: place.title), String(describing: report.kind.name)))
+            if let time=report.metrics?.time {Text(WLF("天气时刻 %1$@ · %2$@", String(describing: local(time,"HH:mm")), String(describing: weather.cached ? WL("缓存预报"):WL("当地时间")))).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).padding(.top,12)}
             HStack{
-                Text(style.artDirection + " · 点击画境查看详情")
+                Text(style.artDirection + WL(" · 点击画境查看详情"))
                 Spacer()
-                Text(app.automaticScene ? "跟随地区" : "手动选择")
+                Text(app.automaticScene ? WL("跟随地区") : WL("手动选择"))
             }.font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).padding(.top,10)
         }
         .opacity(snapshot || appeared ? 1:0)
@@ -150,9 +150,9 @@ struct RegionalWeatherHome: View {
     @ViewBuilder private var glanceButtons: some View {
         if let data {
             let insights = HomeWeatherInsights(data: data, referenceTime: preview ? nil : .now)
-            glance("umbrella", "降水", insights.rainChance.map { "\(Int($0.rounded()))%" } ?? "—", topic: .rain)
-            glance("sun.max", "紫外线", data.daily.first?.uvLevel ?? "—", topic: .uv)
-            glance("aqi.medium", "空气", quality?.label ?? "待更新", topic: .air)
+            glance("umbrella", WL("降水"), insights.rainChance.map { "\(Int($0.rounded()))%" } ?? "—", topic: .rain)
+            glance("sun.max", WL("紫外线"), data.daily.first?.uvLevel ?? "—", topic: .uv)
+            glance("aqi.medium", WL("空气"), quality?.label ?? WL("待更新"), topic: .air)
         }
     }
     private func glance(_ icon: String, _ title: String, _ value: String, topic: HomeWeatherTopic) -> some View {
@@ -165,17 +165,17 @@ struct RegionalWeatherHome: View {
                 .background(Capsule().fill(WeatherPalette.lime.opacity(0.28)))
                 .frame(minHeight: 44).contentShape(Rectangle())
         }.buttonStyle(.plain).accessibilityIdentifier("home.glance.\(topic.id)")
-            .accessibilityLabel(topic == .rain ? "未来6小时最高降水概率，\(value)" : "\(title)，\(value)")
+            .accessibilityLabel(topic == .rain ? WLF("未来6小时最高降水概率，%1$@", String(describing: value)) : "\(title)，\(value)")
     }
     private func summary(_ report:WeatherReport)->some View {
         Button { present(.briefing) } label: {
             HStack(alignment:.top,spacing:13){
-                Text("今日\n手记").font(.system(size:11,weight:.semibold)).lineSpacing(3).foregroundStyle(WeatherPalette.accent)
+                Text(WL("今日\n手记")).font(.system(size:11,weight:.semibold)).lineSpacing(3).foregroundStyle(WeatherPalette.accent)
                 Rectangle().fill(WeatherPalette.line).frame(width:1,height:44)
                 VStack(alignment:.leading,spacing:8){
                     Text(report.kind.poem).font(WeatherTypography.display(20))
                     Text(summaryText(report)).font(.system(size:12)).lineSpacing(4).foregroundStyle(WeatherPalette.secondary).fixedSize(horizontal:false,vertical:true)
-                    HStack { Text("天气生活指南 · 出门清单"); Spacer(); Image(systemName: "arrow.up.right") }
+                    HStack { Text(WL("天气生活指南 · 出门清单")); Spacer(); Image(systemName: "arrow.up.right") }
                         .font(.system(size:11)).foregroundStyle(WeatherPalette.accent).padding(.top, 3)
                 }
             }.padding(18).frame(maxWidth:.infinity,alignment:.leading)
@@ -191,10 +191,10 @@ struct RegionalWeatherHome: View {
                     .font(.system(size: 24, weight: .light)).foregroundStyle(WeatherPalette.accent)
                     .frame(width: 42, height: 44).background(Circle().fill(WeatherPalette.surface))
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("给生活留一点空白").font(WeatherTypography.display(20))
-                    Text(insights.outdoorWindow == nil ? "一杯热茶，也是一种好天气" : insights.windowLabel + " · 散步时间参考")
+                    Text(WL("给生活留一点空白")).font(WeatherTypography.display(20))
+                    Text(insights.outdoorWindow == nil ? WL("一杯热茶，也是一种好天气") : insights.windowLabel + WL(" · 散步时间参考"))
                         .font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary).fixedSize(horizontal: false, vertical: true)
-                    Text("看看户外安排").font(.system(size: 11, weight: .medium)).foregroundStyle(WeatherPalette.accent)
+                    Text(WL("看看户外安排")).font(.system(size: 11, weight: .medium)).foregroundStyle(WeatherPalette.accent)
                 }
                 Spacer(minLength: 0)
                 Image(systemName: "chevron.right").font(.system(size: 11)).foregroundStyle(WeatherPalette.secondary).padding(.top, 16)
@@ -204,8 +204,8 @@ struct RegionalWeatherHome: View {
     }
     private func summaryText(_ r:WeatherReport)->String {
         let change=r.high-r.low
-        let rain=data?.daily.first?.metrics?.probability.map{"全天最高降水概率 \(Int($0))%。"} ?? ""
-        return "今天温差 \(change)°。\(rain)\(data?.daily.first?.uvAdvice ?? r.uvAdvice)"
+        let rain=data?.daily.first?.metrics?.probability.map{WLF("全天最高降水概率 %1$@%。", String(describing: Int($0)))} ?? ""
+        return WLF("今天温差 %1$@°。%2$@%3$@", String(describing: change), String(describing: rain), String(describing: data?.daily.first?.uvAdvice ?? r.uvAdvice))
     }
     private func chapter(_ number:String,_ name:String,_ note:String)->some View {
         VStack(alignment:.leading,spacing:8){
@@ -218,20 +218,20 @@ struct RegionalWeatherHome: View {
             if typeSize.isAccessibilitySize {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(name).font(WeatherTypography.display(21))
-                    Text(english).font(.system(size:11,design:.monospaced)).tracking(0.5).foregroundStyle(WeatherPalette.secondary)
+                    Text(english).font(.system(size:11,design:.monospaced)).tracking(WeatherLocalization.isChinese ? 0.5 : 0).foregroundStyle(WeatherPalette.secondary)
                 }
             } else {
-                HStack(alignment:.firstTextBaseline){Text(name).font(WeatherTypography.display(21));Spacer();Text(english).font(.system(size:11,design:.monospaced)).tracking(0.5).foregroundStyle(WeatherPalette.secondary)}
+                HStack(alignment:.firstTextBaseline){Text(name).font(WeatherTypography.display(21));Spacer();Text(english).font(.system(size:11,design:.monospaced)).tracking(WeatherLocalization.isChinese ? 0.5 : 0).foregroundStyle(WeatherPalette.secondary)}
             }
         }
     }
     private func trend(_ data:WeatherDataset)->some View {
         VStack(alignment:.leading,spacing:15){
-            title("未来 24 小时","点击图表或时段")
-            HStack(spacing:15){Label("气温 °C",systemImage:"line.diagonal").foregroundStyle(WeatherPalette.ink);Label("降水概率 %",systemImage:"drop.fill").foregroundStyle(Color(hex:0x6B8D83));Spacer();Text("轻点查看").foregroundStyle(WeatherPalette.secondary)}.font(.system(size:12))
+            title(WL("未来 24 小时"),WL("点击图表或时段"))
+            HStack(spacing:15){Label(WL("气温 °C"),systemImage:"line.diagonal").foregroundStyle(WeatherPalette.ink);Label(WL("降水概率 %"),systemImage:"drop.fill").foregroundStyle(Color(hex:0x6B8D83));Spacer();Text(WL("轻点查看")).foregroundStyle(WeatherPalette.secondary)}.font(.system(size:12))
             Chart {
                 ForEach(data.next24Hours){r in
-                    if let t=r.metrics?.time{LineMark(x:.value("时间",t),y:.value("温度",r.temperature)).interpolationMethod(.catmullRom).foregroundStyle(WeatherPalette.ink).lineStyle(StrokeStyle(lineWidth:2));PointMark(x:.value("时间",t),y:.value("温度",r.temperature)).symbolSize(9).foregroundStyle(WeatherPalette.accent)}
+                    if let t=r.metrics?.time{LineMark(x:.value(WL("时间"),t),y:.value(WL("温度"),r.temperature)).interpolationMethod(.catmullRom).foregroundStyle(WeatherPalette.ink).lineStyle(StrokeStyle(lineWidth:2));PointMark(x:.value(WL("时间"),t),y:.value(WL("温度"),r.temperature)).symbolSize(9).foregroundStyle(WeatherPalette.accent)}
                 }
             }
             .chartYScale(domain:chartRange(data)).chartXAxis{
@@ -243,19 +243,19 @@ struct RegionalWeatherHome: View {
                 if let date:Date=proxy.value(atX:x),let r=data.next24Hours.min(by:{abs(($0.metrics?.time ?? .distantPast).timeIntervalSince(date))<abs(($1.metrics?.time ?? .distantPast).timeIntervalSince(date))}){present(.forecast, report: r)}
             }}}
             .frame(height:134)
-            .accessibilityLabel("24小时气温趋势，可在下方时段卡片查看详情")
+            .accessibilityLabel(WL("24小时气温趋势，可在下方时段卡片查看详情"))
             if data.next24Hours.contains(where:{$0.metrics?.probability != nil}) {
             Chart {
                 ForEach(data.next24Hours) { r in
                     if let t=r.metrics?.time,let chance=r.metrics?.probability {
-                        BarMark(x:.value("时间",t,unit:.hour),y:.value("降水概率",chance),width:.ratio(0.55)).foregroundStyle(Color(hex:0x6B8D83).opacity(0.85)).cornerRadius(2)
+                        BarMark(x:.value(WL("时间"),t,unit:.hour),y:.value(WL("降水概率"),chance),width:.ratio(0.55)).foregroundStyle(Color(hex:0x6B8D83).opacity(0.85)).cornerRadius(2)
                     }
                 }
             }.chartYScale(domain:0...100).chartXAxis(.hidden)
                 .chartYAxis{AxisMarks(position:.leading,values:[0,100]){value in AxisValueLabel{if let n=value.as(Int.self){Text("\(n)%").font(.system(size:12))}}}}
-                .frame(height:58).accessibilityLabel("24小时降水概率，单位百分比")
+                .frame(height:58).accessibilityLabel(WL("24小时降水概率，单位百分比"))
             } else {
-                Label("降水概率暂无预报",systemImage:"drop").font(.system(size:12))
+                Label(WL("降水概率暂无预报"),systemImage:"drop").font(.system(size:12))
                     .foregroundStyle(WeatherPalette.secondary).frame(maxWidth:.infinity,alignment:.leading).frame(height:58)
             }
             horizontal {
@@ -266,25 +266,25 @@ struct RegionalWeatherHome: View {
         }.padding(18).background(RoundedRectangle(cornerRadius:23).fill(WeatherPalette.surface))
     }
     private func hourLabel(_ report:WeatherReport,current:WeatherReport)->String {
-        guard report.id != current.id,let time=report.metrics?.time else{return "现在"}
-        if local(time,"yyyy-MM-dd") != local(current.metrics?.time ?? time,"yyyy-MM-dd") {return "明日\n" + local(time,"HH时")}
+        guard report.id != current.id,let time=report.metrics?.time else{return WL("现在")}
+        if local(time,"yyyy-MM-dd") != local(current.metrics?.time ?? time,"yyyy-MM-dd") {return WL("明日\n") + local(time,"HH时")}
         return local(time,"HH时")
     }
     private func chartRange(_ data:WeatherDataset)->ClosedRange<Int>{let values=data.next24Hours.map(\.temperature);return ((values.min() ?? 0)-2)...((values.max() ?? 1)+2)}
     private func week(_ data:WeatherDataset)->some View {
         VStack(alignment:.leading,spacing:14){
-            title("未来 7 天","每日最高 / 最低")
+            title(WL("未来 7 天"),WL("每日最高 / 最低"))
             horizontal {HStack(spacing:9){ForEach(Array((snapshot ? Array(data.daily.prefix(3)) : data.daily).enumerated()),id:\.element.id){i,r in
                 Button {present(.forecast, report: r)} label:{
                     VStack(alignment:.leading,spacing:12){
-                        HStack{Text(i==0 ? "今天":local(r.metrics!.time,"EEE")).font(.system(size:12,weight:.medium));Spacer();Text(String(format:"%02d",i+1)).font(.system(size:11,design:.monospaced)).opacity(0.5)}
+                        HStack{Text(i==0 ? WL("今天"):local(r.metrics!.time,"EEE")).font(.system(size:12,weight:.medium));Spacer();Text(String(format:"%02d",i+1)).font(.system(size:11,design:.monospaced)).opacity(0.5)}
                         Image(systemName:r.kind.symbol).font(.system(size:23,weight:.light)).frame(height:28)
                         Rectangle().fill(WeatherPalette.ink.opacity(0.15)).frame(height:0.5)
-                        Text("最高").font(.system(size:11)).opacity(0.85)
+                        Text(WL("最高")).font(.system(size:11)).opacity(0.85)
                         Text("\(r.high)°").font(.system(size:26,weight:.light,design:.serif))
                         rangeBar(r,data:data,first:i==0)
-                        Text("最低 \(r.low)°").font(.system(size:12)).opacity(0.65).lineLimit(1)
-                        Text(r.metrics?.probability.map{"降水 \(Int($0))%"} ?? "降水 —").font(.system(size:12)).opacity(0.65)
+                        Text(WLF("最低 %1$@°", String(describing: r.low))).font(.system(size:12)).opacity(0.65).lineLimit(1)
+                        Text(r.metrics?.probability.map{WLF("降水 %1$@%", String(describing: Int($0)))} ?? WL("降水 —")).font(.system(size:12)).opacity(0.65)
                     }.foregroundStyle(i==0 ? WeatherPalette.paper:WeatherPalette.ink).padding(13).frame(width:99,alignment:.leading)
                         .background(RegionalTicketShape().fill(i==0 ? WeatherPalette.ink:WeatherPalette.lime.opacity(0.27)))
                 }.buttonStyle(.plain).accessibilityIdentifier("home.day.\(i)")
@@ -307,34 +307,34 @@ struct RegionalWeatherHome: View {
         VStack(alignment: .leading, spacing: 10) {
         Button { present(.air) } label: {
         VStack(alignment:.leading,spacing:15){
-            title("空气质量","美国 AQI · 轻点了解 ↗")
+            title(WL("空气质量"),WL("美国 AQI · 轻点了解 ↗"))
             HStack(alignment:.center,spacing:18){
                 ZStack{Circle().stroke(WeatherPalette.line,lineWidth:5);Circle().trim(from:0,to:min((quality?.usAQI ?? 0)/300,1)).stroke(quality?.tint ?? WeatherPalette.secondary,style:StrokeStyle(lineWidth:5,lineCap:.round)).rotationEffect(.degrees(-90));VStack(spacing:3){Text(quality?.usAQI.map{String(Int($0))} ?? "—").font(.system(size:29,weight:.light,design:.serif));Text("US AQI").font(.system(size:10,weight:.semibold,design:.monospaced))}}.frame(width:77,height:77)
-                VStack(alignment:.leading,spacing:8){Text(quality?.label ?? (air.loading ? "正在读取空气质量":"暂无数据")).font(.system(size:15,weight:.medium));Text(quality?.advice ?? "天气仍可正常查看，空气质量稍后再试。").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).lineSpacing(3)}
+                VStack(alignment:.leading,spacing:8){Text(quality?.label ?? (air.loading ? WL("正在读取空气质量"):WL("暂无数据"))).font(.system(size:15,weight:.medium));Text(quality?.advice ?? WL("天气仍可正常查看，空气质量稍后再试。")).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary).lineSpacing(3)}
             }
             if typeSize.isAccessibilitySize {
                 VStack(alignment: .leading, spacing: 10) { pollutant("PM2.5",quality?.pm25); pollutant("PM10",quality?.pm10) }
             } else {
                 HStack{pollutant("PM2.5",quality?.pm25);Spacer();pollutant("PM10",quality?.pm10)}
             }
-            Text("美国 AQI 标准\(air.cached ? " · 缓存":"")\(air.failed ? " · 更新失败":"")").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
-            if let quality {Text("预报时刻 \(local(quality.time,"M/d HH:mm")) · 当地时间").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}
+            Text(WLF("美国 AQI 标准%1$@%2$@", String(describing: air.cached ? WL(" · 缓存"):""), String(describing: air.failed ? WL(" · 更新失败"):""))).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
+            if let quality {Text(WLF("预报时刻 %1$@ · 当地时间", String(describing: local(quality.time,"M/d HH:mm")))).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}
 
         }.padding(18).background(RoundedRectangle(cornerRadius:23).stroke(WeatherPalette.line,lineWidth:0.8))
         }.buttonStyle(.plain).accessibilityIdentifier("home.air")
-        if air.failed && !preview { Button("重新获取空气质量") { Task { await air.refresh() } }.font(.system(size: 12)).buttonStyle(.plain) }
+        if air.failed && !preview { Button(WL("重新获取空气质量")) { Task { await air.refresh() } }.font(.system(size: 12)).buttonStyle(.plain) }
         }
     }
     private func pollutant(_ name:String,_ value:Double?)->some View{HStack(alignment:.firstTextBaseline,spacing:6){Text(name).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary);Text(value.map{String(format:"%.1f",$0)} ?? "—").font(.system(size:18,weight:.light));Text("µg/m³").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}}
     private func metrics(_ r:WeatherReport)->some View {
-        VStack(spacing:14){title("天气详情","当前 + 最近小时预报")
+        VStack(spacing:14){title(WL("天气详情"),WL("当前 + 最近小时预报"))
             LazyVGrid(columns:typeSize.isAccessibilitySize ? [GridItem(.flexible())] : [GridItem(.flexible()),GridItem(.flexible())],spacing:11){
-                metric("风速 / 风向",r.metrics?.wind.map{String(format:"%.0f km/h",$0)} ?? "—",windDirection(r.metrics?.windDirection),"wind")
-                metric("相对湿度",r.metrics?.humidity.map{"\(Int($0))%"} ?? "—","当前相对湿度","humidity")
-                metric("紫外线",(data?.daily.first ?? r).uvText,"今日最高 · " + (data?.daily.first ?? r).uvLevel,"sun.max")
-                metric("能见度",r.metrics?.visibility.map{String(format:"%.1f km",$0)} ?? "—","相近时刻预报","eye")
-                metric("降水量",r.metrics?.precipitation.map{String(format:"%.1f",$0)} ?? "—",r.metrics?.precipitationUnit ?? "—","drop")
-                metric("体感温度","\(r.feelsLike)°","当前气温 \(r.temperature)°","thermometer.medium")
+                metric(WL("风速 / 风向"),r.metrics?.wind.map{String(format:"%.0f km/h",$0)} ?? "—",windDirection(r.metrics?.windDirection),"wind")
+                metric(WL("相对湿度"),r.metrics?.humidity.map{"\(Int($0))%"} ?? "—",WL("当前相对湿度"),"humidity")
+                metric(WL("紫外线"),(data?.daily.first ?? r).uvText,WL("今日最高 · ") + (data?.daily.first ?? r).uvLevel,"sun.max")
+                metric(WL("能见度"),r.metrics?.visibility.map{String(format:"%.1f km",$0)} ?? "—",WL("相近时刻预报"),"eye")
+                metric(WL("降水量"),r.metrics?.precipitation.map{String(format:"%.1f",$0)} ?? "—",r.metrics?.localizedPrecipitationUnit ?? "—","drop")
+                metric(WL("体感温度"),"\(r.feelsLike)°",WLF("当前气温 %1$@°", String(describing: r.temperature)),"thermometer.medium")
             }
         }
     }
@@ -342,13 +342,13 @@ struct RegionalWeatherHome: View {
         let topic: HomeWeatherTopic = ["wind": .wind, "humidity": .humidity, "sun.max": .uv, "eye": .visibility, "drop": .precipitation, "thermometer.medium": .feelsLike][icon] ?? .forecast
         return Button { present(topic) } label: { VStack(alignment:.leading,spacing:10){HStack { Label(name,systemImage:icon); Spacer(minLength: 0); Image(systemName: "arrow.up.right").font(.system(size: 9)) }.font(.system(size:12)).foregroundStyle(WeatherPalette.secondary);Text(value).font(.system(size:25,weight:.light,design:.serif)).minimumScaleFactor(0.7).lineLimit(1);Text(note).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}.frame(maxWidth:.infinity,alignment:.leading).padding(16).background(RoundedRectangle(cornerRadius:19).fill(WeatherPalette.surface)) }.buttonStyle(.plain).accessibilityIdentifier("home.metric.\(topic.id)")
     }
-    private func windDirection(_ value:Double?)->String{guard let value else{return "风向暂无数据"};return ["北风","东北风","东风","东南风","南风","西南风","西风","西北风"][Int((value.truncatingRemainder(dividingBy:360)+360+22.5)/45)%8]}
+    private func windDirection(_ value:Double?)->String{guard let value else{return WL("风向暂无数据")};return [WL("北风"),WL("东北风"),WL("东风"),WL("东南风"),WL("南风"),WL("西南风"),WL("西风"),WL("西北风")][Int((value.truncatingRemainder(dividingBy:360)+360+22.5)/45)%8]}
     private func daylight(_ r:WeatherReport)->some View {
         let sunrise=r.metrics?.sunrise,sunset=r.metrics?.sunset
         let progress=DaylightProgress.fraction(at:preview ? RegionalPreview.date:Date.now,sunrise:sunrise,sunset:sunset)
         return Button { present(.daylight) } label: {
         VStack(alignment:.leading,spacing:16){
-            title("日出与日落","轻点追寻日光 ↗")
+            title(WL("日出与日落"),WL("轻点追寻日光 ↗"))
             GeometryReader{geometry in
                 let width=geometry.size.width
                 ZStack(alignment:.topLeading){
@@ -357,18 +357,18 @@ struct RegionalWeatherHome: View {
                     Rectangle().fill(WeatherPalette.line).frame(height:0.8).offset(y:68)
                 }
             }.frame(height:76)
-            HStack{Label("日出 " + (sunrise.map{local($0,"HH:mm")} ?? "—"),systemImage:"sunrise");Spacer();Text(DaylightProgress.duration(sunrise:sunrise,sunset:sunset)).foregroundStyle(WeatherPalette.secondary);Spacer();Label("日落 " + (sunset.map{local($0,"HH:mm")} ?? "—"),systemImage:"sunset")}.font(.system(size:12,weight:.medium))
-            Text("当地时间 · \(data?.timeZoneIdentifier ?? place.timeZoneIdentifier)").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
+            HStack{Label(WL("日出 ") + (sunrise.map{local($0,"HH:mm")} ?? "—"),systemImage:"sunrise");Spacer();Text(DaylightProgress.duration(sunrise:sunrise,sunset:sunset)).foregroundStyle(WeatherPalette.secondary);Spacer();Label(WL("日落 ") + (sunset.map{local($0,"HH:mm")} ?? "—"),systemImage:"sunset")}.font(.system(size:12,weight:.medium))
+            Text(WLF("当地时间 · %1$@", String(describing: data?.timeZoneIdentifier ?? place.timeZoneIdentifier))).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
         }.padding(18).background(RoundedRectangle(cornerRadius:23).fill(WeatherPalette.lime.opacity(0.22)))
         }.buttonStyle(.plain).accessibilityIdentifier("home.daylight")
     }
     private func life(_ r:WeatherReport)->some View{
-        VStack(alignment:.leading,spacing:14){title("生活建议","根据预报生成")
-            advice("01","穿衣手记",r.outfitTitle+"。"+r.outfitAdvice,"tshirt")
-            advice("02","通勤备忘",r.commute,"figure.walk")
-            advice("03","户外灵感",r.kind.outing,"leaf")
-            advice("04","防晒提醒",(data?.daily.first ?? r).uvAdvice,"sun.max")
-            Text("生活建议由本地规则结合预报生成，仅供日常参考。").font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
+        VStack(alignment:.leading,spacing:14){title(WL("生活建议"),WL("根据预报生成"))
+            advice("01",WL("穿衣手记"),r.outfitTitle+"。"+r.outfitAdvice,"tshirt")
+            advice("02",WL("通勤备忘"),r.commute,"figure.walk")
+            advice("03",WL("户外灵感"),r.kind.outing,"leaf")
+            advice("04",WL("防晒提醒"),(data?.daily.first ?? r).uvAdvice,"sun.max")
+            Text(WL("生活建议由本地规则结合预报生成，仅供日常参考。")).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
         }
     }
     private func advice(_ index:String,_ title:String,_ text:String,_ symbol:String)->some View{
@@ -380,18 +380,18 @@ struct RegionalWeatherHome: View {
     private var sources:some View{
         VStack(alignment:.leading,spacing:7){
             Rectangle().fill(WeatherPalette.line).frame(height:0.8).padding(.bottom,6)
-            if snapshot {Text("天气 · Open-Meteo ↗")} else {WeatherWebLink("天气 · Open-Meteo",destination:URL(string:"https://open-meteo.com/")!)}
-            if let data{Text("\(weather.cached ? "缓存":"更新")于 \(local(data.fetchedAt,"M/d HH:mm")) · 当地时间")}
-            if snapshot {Text("空气质量 · Open-Meteo / CAMS ↗")} else {WeatherWebLink("空气质量 · Open-Meteo / CAMS",destination:URL(string:"https://open-meteo.com/en/docs/air-quality-api")!)}
-            if let quality{Text("空气\(air.cached ? "缓存":"更新")于 \(local(quality.fetchedAt,"M/d HH:mm")) · 预报时刻 \(local(quality.time,"HH:mm"))")}
-            Text("视觉 · 气象岛原创宋韵画境")
-            Text(preview ? "离线设计示例 · Preview 不联网":"坐标对应模型预报，非气象站实测或官方预警。")
-            Text("一座小岛 · 万千晴雨").tracking(2).frame(maxWidth:.infinity).padding(.top,10)
+            if snapshot {Text(WL("天气 · Open-Meteo ↗"))} else {WeatherWebLink(WL("天气 · Open-Meteo"),destination:URL(string:"https://open-meteo.com/")!)}
+            if let data{Text(WLF("%1$@于 %2$@ · 当地时间", String(describing: weather.cached ? WL("缓存"):WL("更新")), String(describing: local(data.fetchedAt,"M/d HH:mm"))))}
+            if snapshot {Text(WL("空气质量 · Open-Meteo / CAMS ↗"))} else {WeatherWebLink(WL("空气质量 · Open-Meteo / CAMS"),destination:URL(string:"https://open-meteo.com/en/docs/air-quality-api")!)}
+            if let quality{Text(WLF("空气%1$@于 %2$@ · 预报时刻 %3$@", String(describing: air.cached ? WL("缓存"):WL("更新")), String(describing: local(quality.fetchedAt,"M/d HH:mm")), String(describing: local(quality.time,"HH:mm"))))}
+            Text(WL("视觉 · 气象岛原创宋韵画境"))
+            Text(preview ? WL("离线设计示例 · Preview 不联网"):WL("坐标对应模型预报，非气象站实测或官方预警。"))
+            Text(WL("一座小岛 · 万千晴雨")).tracking(WeatherLocalization.isChinese ? 2 : 0).frame(maxWidth:.infinity).padding(.top,10)
         }.font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)
     }
-    private var status:some View{HStack(alignment:.top){Text(weather.error != nil ? "更新失败，显示 \(place.title) 的上次天气":"正在更新上次缓存…").font(.system(size:12));Spacer();Button("重试"){Task{await refresh()}}.font(.system(size:12,weight:.medium))}.padding(12).background(RoundedRectangle(cornerRadius:13).fill(WeatherPalette.lime.opacity(0.35)))}
+    private var status:some View{HStack(alignment:.top){Text(weather.error != nil ? WLF("更新失败，显示 %1$@ 的上次天气", String(describing: place.title)):WL("正在更新上次缓存…")).font(.system(size:12));Spacer();Button(WL("重试")){Task{await refresh()}}.font(.system(size:12,weight:.medium))}.padding(12).background(RoundedRectangle(cornerRadius:13).fill(WeatherPalette.lime.opacity(0.35)))}
     private var loadingState:some View{
-        VStack(spacing:20){PaperCityScene(style:style,animate:motion).frame(height:240);Text(weather.error == nil ? "正在接通\(place.title)的天空…":"暂时没收到天气来信").font(.system(size:18,weight:.medium));if let error=weather.error{Text(error).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary);Button("重新连接"){Task{await refresh()}}.buttonStyle(.bordered);Button("搜索其他城市"){app.presentCitySearch()}.buttonStyle(.plain)}else{ProgressView().tint(WeatherPalette.ink)}}.multilineTextAlignment(.center).frame(maxWidth:.infinity).padding(.vertical,40)
+        VStack(spacing:20){PaperCityScene(style:style,animate:motion).frame(height:240);Text(weather.error == nil ? WLF("正在接通%1$@的天空…", String(describing: place.title)):WL("暂时没收到天气来信")).font(.system(size:18,weight:.medium));if let error=weather.error{Text(error).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary);Button(WL("重新连接")){Task{await refresh()}}.buttonStyle(.bordered);Button(WL("搜索其他城市")){app.presentCitySearch()}.buttonStyle(.plain)}else{ProgressView().tint(WeatherPalette.ink)}}.multilineTextAlignment(.center).frame(maxWidth:.infinity).padding(.vertical,40)
     }
 }
 
@@ -431,7 +431,7 @@ struct WeatherTemperatureHeader: View {
                 .padding(.top, min(readingSize, 112) * 0.13)
         }
         .fixedSize().accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(report.temperature)摄氏度")
+        .accessibilityLabel(WLF("%1$@摄氏度", String(describing: report.temperature)))
         .accessibilityIdentifier("home.temperature")
     }
     private var stacked: some View {
@@ -444,9 +444,9 @@ struct WeatherTemperatureHeader: View {
         VStack(alignment: alignment, spacing: 8) {
             Label(report.kind.name, systemImage: report.kind.symbol).font(.headline)
                 .accessibilityIdentifier("home.condition")
-            Text("体感 \(report.feelsLike)°").font(.subheadline).foregroundStyle(WeatherPalette.secondary)
+            Text(WLF("体感 %1$@°", String(describing: report.feelsLike))).font(.subheadline).foregroundStyle(WeatherPalette.secondary)
                 .accessibilityIdentifier("home.feelsLike")
-            Text("今天 \(report.low)° — \(report.high)°").font(.caption.monospacedDigit())
+            Text(WLF("今天 %1$@° — %2$@°", String(describing: report.low), String(describing: report.high))).font(.caption.monospacedDigit())
                 .accessibilityIdentifier("home.temperatureRange")
         }
     }
@@ -458,7 +458,7 @@ struct RegionalTicketShape:Shape{
 
 enum DaylightProgress {
     static func fraction(at date:Date,sunrise:Date?,sunset:Date?)->Double?{guard let sunrise,let sunset,sunset>sunrise else{return nil};return min(max(date.timeIntervalSince(sunrise)/sunset.timeIntervalSince(sunrise),0),1)}
-    static func duration(sunrise:Date?,sunset:Date?)->String{guard let sunrise,let sunset,sunset>sunrise else{return "日照数据暂缺"};let minutes=Int(sunset.timeIntervalSince(sunrise)/60);return "白昼 \(minutes/60)时\(minutes%60)分"}
+    static func duration(sunrise:Date?,sunset:Date?)->String{guard let sunrise,let sunset,sunset>sunrise else{return WL("日照数据暂缺")};let minutes=Int(sunset.timeIntervalSince(sunrise)/60);return WLF("白昼 %1$@时%2$@分", String(describing: minutes/60), String(describing: minutes%60))}
 }
 
 enum RegionalPreview {
@@ -472,7 +472,7 @@ enum RegionalPreview {
                let supplied = Int(value), (-100...100).contains(supplied) { t = supplied }
             #endif
             let time=date.addingTimeInterval(Double(i)*(daily ? 86400:3600))
-            return WeatherReport(kind:i%7==5 ? .lightRain:.partlyCloudy,temperature:t,low:18,high:26,feelsLike:t-1,scope:place.title,isDemo:true,metrics:WeatherMetrics(time:time,uv:3.2,probability:daily ? Double([63,35,20,10,45,80,30][i%7]):Double((i*7)%70),precipitation:daily ? Double([1.2,0.5,0,0,0.7,4.1,0.3][i%7]):0.1,precipitationUnit:daily ? "mm/天":"mm/h",wind:12,windDirection:125,humidity:65,visibility:18,sunrise:date.addingTimeInterval(-4*3600),sunset:date.addingTimeInterval(7*3600),daily:daily,timeZoneIdentifier:place.timeZoneIdentifier),place:place)
+            return WeatherReport(kind:i%7==5 ? .lightRain:.partlyCloudy,temperature:t,low:18,high:26,feelsLike:t-1,scope:place.title,isDemo:true,metrics:WeatherMetrics(time:time,uv:3.2,probability:daily ? Double([63,35,20,10,45,80,30][i%7]):Double((i*7)%70),precipitation:daily ? Double([1.2,0.5,0,0,0.7,4.1,0.3][i%7]):0.1,precipitationUnit:daily ? WL("mm/天"):"mm/h",wind:12,windDirection:125,humidity:65,visibility:18,sunrise:date.addingTimeInterval(-4*3600),sunset:date.addingTimeInterval(7*3600),daily:daily,timeZoneIdentifier:place.timeZoneIdentifier),place:place)
         }
         let hours=(0..<24).map{make($0)}
         return WeatherDataset(current:hours[0],hourly:Array(hours.prefix(6)),daily:(0..<7).map{make($0,daily:true)},fetchedAt:date,next24Hours:hours,timeZoneIdentifier:place.timeZoneIdentifier)
@@ -481,6 +481,6 @@ enum RegionalPreview {
 
 #if DEBUG
 struct RegionalWeatherHome_Previews:PreviewProvider{
-    static var previews:some View{NavigationStack{RegionalWeatherHome(app:WeatherApplication(live:false),preview:true)}.preferredColorScheme(.light).previewDisplayName("离线 · 宋韵山水首页")}
+    static var previews:some View{NavigationStack{RegionalWeatherHome(app:WeatherApplication(live:false),preview:true)}.preferredColorScheme(.light).previewDisplayName(WL("离线 · 宋韵山水首页"))}
 }
 #endif

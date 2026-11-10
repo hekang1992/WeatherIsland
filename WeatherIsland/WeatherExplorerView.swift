@@ -15,8 +15,8 @@ struct WeatherExplorerView: View {
         VStack(spacing: 0) {
             HStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("天气剧场").font(WeatherTypography.display(26)).tracking(2)
-                    Text("听风看雨，观云知时。")
+                    Text(WL("天气剧场")).font(WeatherTypography.display(26)).tracking(WeatherLocalization.isChinese ? 2 : 0)
+                    Text(WL("听风看雨，观云知时。"))
                         .font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
                 }
                 Spacer()
@@ -26,7 +26,7 @@ struct WeatherExplorerView: View {
                         .background(Circle().stroke(WeatherPalette.line, lineWidth: 1))
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("关闭天气剧场")
+                .accessibilityLabel(WL("关闭天气剧场"))
             }
             .padding(.horizontal, 24).padding(.top, 25).padding(.bottom, 20)
             .weatherReadingWidth()
@@ -49,14 +49,14 @@ struct WeatherExplorerView: View {
                 HStack {
                     VStack(alignment:.leading,spacing:5){Text(selection.name).font(.system(size:20,weight:.semibold));Text(selection.effectLabel).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}
                     Spacer()
-                    Button("演示生活建议") {
-                        var report=WeatherReport.demo(selection);report.place=demoPlace;report.scope="\(demoPlace.title) · 离线天气演示";demoDetail=report
+                    Button(WL("演示生活建议")) {
+                        var report=WeatherReport.demo(selection);report.place=demoPlace;report.scope=WLF("%1$@ · 离线天气演示", String(describing: demoPlace.title));demoDetail=report
                     }.font(.system(size:13,weight:.semibold)).buttonStyle(.bordered)
                 }
             }
             HStack(spacing: 7) {
                 Circle().fill(WeatherPalette.accent).frame(width: 5, height: 5)
-                Text("11 种天空 / 离线演示，点选体验")
+                Text(WL("11 种天空 / 离线演示，点选体验"))
                     .font(.system(size: 12, weight: .medium))
             }
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 96), spacing: 10)], spacing: 12) {
@@ -86,14 +86,14 @@ struct WeatherExplorerView: View {
                         .overlay(RoundedRectangle(cornerRadius: 18).stroke(WeatherPalette.line.opacity(kind == selection ? 0 : 1), lineWidth: 0.7))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("\(kind.name)，\(kind.effectLabel)，切换示例天气")
+                    .accessibilityLabel(WLF("%1$@，%2$@，切换示例天气", String(describing: kind.name), String(describing: kind.effectLabel)))
                     .accessibilityAddTraits(kind == selection ? .isSelected : [])
                 }
             }
             VStack(alignment: .leading, spacing: 7) {
-                Text("每一种天空，都有自己的生活方式。")
+                Text(WL("每一种天空，都有自己的生活方式。"))
                     .font(.system(size: 12, weight: .medium))
-                Text(sceneStyle == nil ? "选择后回到小岛，点主画面查看紫外线、穿衣与出行建议。此处是离线天气演示，所有场景均非实时预报。":"独立体验天气特效与示例生活建议。关闭后继续查看当前地区的真实预报。")
+                Text(sceneStyle == nil ? WL("选择后回到小岛，点主画面查看紫外线、穿衣与出行建议。此处是离线天气演示，所有场景均非实时预报。"):WL("独立体验天气特效与示例生活建议。关闭后继续查看当前地区的真实预报。"))
                     .font(.system(size: 12)).lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(WeatherPalette.secondary)
@@ -110,7 +110,7 @@ struct WeatherExplorer_Previews: PreviewProvider {
     static var previews: some View {
         WeatherExplorerView(selected: .partlyCloudy, onSelect: { _ in })
             .previewDevice("iPhone 15 Pro")
-            .previewDisplayName("天气剧场 · 全部 11 种天空")
+            .previewDisplayName(WL("天气剧场 · 全部 11 种天空"))
     }
 }
 #endif

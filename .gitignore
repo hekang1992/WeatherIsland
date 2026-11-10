@@ -1,0 +1,4 @@
+# Local localization build products
+/work/LocalizationBuild/
+/Branding/__pycache__/
+/work/localization/

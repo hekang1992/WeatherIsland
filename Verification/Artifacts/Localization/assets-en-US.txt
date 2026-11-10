@@ -1,0 +1,8 @@
+01-weather-1179x2556.png: 1179 × 2556, RGB, 838,603 bytes
+02-scenes-1179x2556.png: 1179 × 2556, RGB, 831,574 bytes
+03-maps-1179x2556.png: 1179 × 2556, RGB, 1,125,603 bytes
+04-widgets-1179x2556.png: 1179 × 2556, RGB, 925,758 bytes
+05-overview-2556x1179.png: 2556 × 1179, RGB, 939,723 bytes
+06-cities-1179x2556.png: 1179 × 2556, RGB, 744,980 bytes
+07-weather-scenes-1179x2556.png: 1179 × 2556, RGB, 748,330 bytes
+Validated en-US: seven RGB sRGB PNGs, ZIP and metadata {'name': 14, 'subtitle': 30, 'promotionalText': 151, 'keywords': 97, 'description': 2220, 'keywordsUTF8Bytes': 97}

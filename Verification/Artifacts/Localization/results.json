@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-10",
+  "scope": "iPhone only; portrait app",
+  "catalogEntries": 932,
+  "translatedEntries": 914,
+  "languages": [
+    "zh-Hans",
+    "en",
+    "vi"
+  ],
+  "metadata": {
+    "en-US": {
+      "name": 14,
+      "subtitle": 30,
+      "promotionalText": 151,
+      "keywords": 97,
+      "description": 2220,
+      "keywordsUTF8Bytes": 97
+    },
+    "vi": {
+      "name": 13,
+      "subtitle": 28,
+      "promotionalText": 151,
+      "keywords": 73,
+      "description": 2281,
+      "keywordsUTF8Bytes": 96
+    }
+  },
+  "checks": {
+    "appAndWidgetBuild": {
+      "passed": true,
+      "log": "ios-build.txt"
+    },
+    "logicAndCompatibility": {
+      "passed": true,
+      "log": "service-checks.txt"
+    },
+    "compiledResources": {
+      "passed": true,
+      "log": "compiled-localizations.txt"
+    },
+    "switchPersistenceAndSystemFallback": {
+      "passed": true,
+      "log": "switching-retest.txt"
+    },
+    "standardPages": {
+      "passed": true,
+      "log": "standard-ui-initial.txt",
+      "note": "Only page-capture and adaptive scenarios passed in this initial suite; language-switch readiness failure was fixed and independently retested."
+    },
+    "compactPages": {
+      "passed": true,
+      "log": "compact-pages.txt"
+    },
+    "standardFinalLargeTypePortraitAndDark": {
+      "passed": true,
+      "log": "ui-adaptive-standard-final.txt"
+    },
+    "compactFinalLargeTypePortraitAndDark": {
+      "passed": true,
+      "log": "ui-adaptive-compact-final.txt"
+    },
+    "catalogAndReleaseAssets": {
+      "passed": true,
+      "log": "resource-validation.json"
+    },
+    "deviceFamily": {
+      "passed": true,
+      "log": "iphone-only.json"
+    }
+  }
+}

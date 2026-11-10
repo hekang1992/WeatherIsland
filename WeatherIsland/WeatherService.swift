@@ -7,6 +7,13 @@ struct WeatherMetrics: Hashable {
     let probability: Double?
     let precipitation: Double?
     let precipitationUnit: String
+    var localizedPrecipitationUnit: String {
+        if daily { return WL("mm/天") }
+        if precipitationUnit == "mm/h" { return precipitationUnit }
+        // Preserve the observation interval from old canonical cache labels.
+        let minutes = precipitationUnit.filter { $0.isNumber }
+        return minutes.isEmpty ? precipitationUnit : WLF("mm/%1$@分", minutes)
+    }
     let wind: Double?
     let windDirection: Double?
     let humidity: Double?
@@ -26,13 +33,13 @@ struct WeatherDataset {
     var timeZoneIdentifier: String = "Asia/Shanghai"
     var hours: [WeatherSample.Hour] {
         hourly.enumerated().map { index, report in
-            .init(time: index == 0 ? "现在" : WeatherClock.string(report.metrics!.time, "HH时", timeZone: timeZoneIdentifier),
+            .init(time: index == 0 ? WL("现在") : WeatherClock.string(report.metrics!.time, "HH时", timeZone: timeZoneIdentifier),
                   kind: report.kind, temperature: report.temperature)
         }
     }
     var days: [WeatherSample.Day] {
         daily.enumerated().map { index, report in
-            .init(name: index == 0 ? "今天" : WeatherClock.string(report.metrics!.time, "EEE", timeZone: timeZoneIdentifier),
+            .init(name: index == 0 ? WL("今天") : WeatherClock.string(report.metrics!.time, "EEE", timeZone: timeZoneIdentifier),
                   kind: report.kind, low: report.low, high: report.high)
         }
     }
@@ -41,20 +48,23 @@ struct WeatherDataset {
 enum WeatherClock {
     /// Offset at the requested instant, so daylight saving and fractional time zones stay correct.
     static func difference(from reference: String, to destination: String, at date: Date) -> String {
-        guard let origin = TimeZone(identifier: reference), let target = TimeZone(identifier: destination) else { return "时区未知" }
+        guard let origin = TimeZone(identifier: reference), let target = TimeZone(identifier: destination) else { return WL("时区未知") }
         let minutes = (target.secondsFromGMT(for: date) - origin.secondsFromGMT(for: date)) / 60
-        guard minutes != 0 else { return "与参照城市同一时间" }
+        guard minutes != 0 else { return WL("与参照城市同一时间") }
         let hours = abs(minutes) / 60, remainder = abs(minutes) % 60
-        let duration = (hours > 0 ? "\(hours)小时" : "") + (remainder > 0 ? "\(remainder)分钟" : "")
-        return "比参照城市" + (minutes > 0 ? "快 " : "慢 ") + duration
+        let duration: String
+        if WeatherLocalization.isChinese {
+            duration = (hours > 0 ? "\(hours)小时" : "") + (remainder > 0 ? "\(remainder)分钟" : "")
+        } else {
+            let parts = [hours > 0 ? WeatherLocalization.count("duration.hours", hours) : nil,
+                         remainder > 0 ? WeatherLocalization.count("duration.minutes", remainder) : nil].compactMap { $0 }
+            duration = parts.joined(separator: " ")
+        }
+        return WLF(minutes > 0 ? "比参照城市快 %1$@" : "比参照城市慢 %1$@", duration)
     }
 
     static func string(_ date: Date, _ format: String, timeZone: String = "Asia/Shanghai") -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "zh_CN")
-        formatter.timeZone = TimeZone(identifier: timeZone) ?? TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = format
-        return formatter.string(from: date)
+        WeatherLocalization.date(date, format: format, timeZone: timeZone)
     }
 }
 
@@ -62,9 +72,9 @@ enum WeatherServiceError: LocalizedError {
     case response(Int), invalidData, unknownCode(Int)
     var errorDescription: String? {
         switch self {
-        case .response(let code): "天气服务暂时不可用（\(code)），请稍后重试。"
-        case .invalidData: "天气数据不完整，请稍后刷新。"
-        case .unknownCode(let code): "暂不支持天气代码 \(code)，请稍后刷新。"
+        case .response(let code): WLF("天气服务暂时不可用（%1$@），请稍后重试。", String(describing: code))
+        case .invalidData: WL("天气数据不完整，请稍后刷新。")
+        case .unknownCode(let code): WLF("暂不支持天气代码 %1$@，请稍后刷新。", String(describing: code))
         }
     }
 }
@@ -186,7 +196,7 @@ enum WeatherService {
         let high = try required(d, "temperature_2m_max", dayIndex)
         let current = WeatherReport(kind: try kind(code: c.weather_code, wind: c.wind_speed_10m ?? 0),
             temperature: Int(c.temperature_2m.rounded()), low: Int(low.rounded()), high: Int(high.rounded()),
-            feelsLike: Int(c.apparent_temperature.rounded()), scope: "此刻的\(place.title)", isDemo: false,
+            feelsLike: Int(c.apparent_temperature.rounded()), scope: WLF("此刻的%1$@", String(describing: place.title)), isDemo: false,
             metrics: WeatherMetrics(time: now, uv: value(h, "uv_index", nearest),
                 probability: value(h, "precipitation_probability", nearest), precipitation: c.precipitation,
                 precipitationUnit: "mm/\(c.interval / 60)分", wind: c.wind_speed_10m, windDirection: c.wind_direction_10m,
@@ -207,7 +217,12 @@ enum WeatherService {
     private(set) var dataset: WeatherDataset?
     private(set) var loading = false
     private(set) var cached = false
-    private(set) var error: String?
+    private var serviceError: WeatherServiceError?
+    private var requestFailed = false
+    var error: String? {
+        guard requestFailed else { return nil }
+        return serviceError?.errorDescription ?? WL("暂时无法获取天气，请检查网络后重试。")
+    }
     private(set) var connectionFailed = false
     private let cacheKey: String
     private(set) var place: WeatherPlace
@@ -236,7 +251,7 @@ enum WeatherService {
         guard let old=dataset else{return}
         func updated(_ report:WeatherReport)->WeatherReport {
             var result=report;result.place=place
-            if report.id == old.current.id { result.scope="此刻的\(place.title)" }
+            if report.id == old.current.id { result.scope=WLF("此刻的%1$@", String(describing: place.title)) }
             else if let metrics=report.metrics { result.scope="\(place.title) · \(WeatherClock.string(metrics.time,metrics.daily ? "M月d日 EEE":"M月d日 HH:mm",timeZone:old.timeZoneIdentifier))" }
             return result
         }
@@ -245,7 +260,7 @@ enum WeatherService {
     func refresh() async {
         guard !loading, !Task.isCancelled else { return }
         loading = true
-        error = nil
+        requestFailed = false; serviceError = nil
         defer { loading = false }
         do {
             let data = try await loader()
@@ -260,7 +275,7 @@ enum WeatherService {
         } catch let e as URLError where e.code == .cancelled {
         } catch {
             connectionFailed = WeatherConnection.canRetry(error)
-            self.error = (error as? WeatherServiceError)?.localizedDescription ?? "暂时无法获取天气，请检查网络后重试。"
+            requestFailed = true; serviceError = error as? WeatherServiceError
         }
     }
 }

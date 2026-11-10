@@ -4,6 +4,9 @@ import SwiftUI
     enum Tab: Hashable { case weather, map, cities, settings }
     enum CitySearchPurpose { case choose, save }
     var tab: Tab = .weather
+    private(set) var languagePreference: AppLanguage
+    private(set) var placeNameRevision = 0
+    private(set) var language: AppLanguage
     private(set) var theme: WeatherTheme
     private(set) var collection: CityCollection
     var searchPresented = false
@@ -23,6 +26,14 @@ import SwiftUI
          weatherLoader: (@Sendable (WeatherPlace) async throws -> Data)? = nil,
          airLoader: (@Sendable (WeatherPlace) async throws -> AirQualityReading)? = nil) {
         self.defaults=defaults;self.live=live
+        #if DEBUG
+        let args = ProcessInfo.processInfo.arguments
+        if let i = args.firstIndex(of: "--app-language"), args.indices.contains(i + 1), let language = AppLanguage(rawValue: args[i + 1]) {
+            WeatherLocalization.persist(language, defaults: defaults)
+        }
+        #endif
+        languagePreference = WeatherLocalization.preference
+        language = WeatherLocalization.language
         theme = live ? WeatherTheme(rawValue: defaults.string(forKey: WeatherTheme.storageKey) ?? "") ?? .system : .system
         self.weatherLoader=weatherLoader;self.airLoader=airLoader
         let saved = live ? defaults.data(forKey: Self.collectionKey).flatMap {
@@ -113,6 +124,27 @@ import SwiftUI
     }
     func setDefault(_ id:String) {guard places.contains(where:{$0.id==id})else{return};collection.defaultID=id;save()}
     func move(from:IndexSet,to:Int) {collection.places.move(fromOffsets:from,toOffset:to);save()}
+    #if os(iOS)
+    func refreshPlaceNames() async {
+        let language = language
+        for place in places + (selected.isCurrentLocation ? [selected] : []) {
+            guard !Task.isCancelled else { return }
+            if let name = try? await WeatherLocationLookup.displayName(place, language: language) {
+                WeatherPlaceNames.save(name, for: place, language: language)
+            }
+        }
+        guard language == self.language, !Task.isCancelled else { return }
+        placeNameRevision += 1
+    }
+    #endif
+    func setLanguage(_ preference: AppLanguage) {
+        languagePreference = preference
+        WeatherLocalization.persist(preference, defaults: defaults)
+        refreshSystemLanguage()
+    }
+    func refreshSystemLanguage() {
+        language = WeatherLocalization.language
+    }
     func setTheme(_ value: WeatherTheme) {
         theme = value
         if live { defaults.set(value.rawValue, forKey: WeatherTheme.storageKey) }
@@ -145,13 +177,13 @@ enum WeatherTheme: String, CaseIterable, Identifiable {
     static let storageKey = "WeatherIsland.Theme.v1"
     var id: String { rawValue }
     var title: String {
-        switch self { case .system: "跟随系统"; case .light: "浅色 · 晴昼"; case .dark: "深色 · 夜墨" }
+        switch self { case .system: WL("跟随系统"); case .light: WL("浅色 · 晴昼"); case .dark: WL("深色 · 夜墨") }
     }
     var detail: String {
         switch self {
-        case .system: "随设备的浅色与深色外观自动切换。"
-        case .light: "绢色纸面与青绿淡墨，适合白天阅读。"
-        case .dark: "深色纸面与柔和文字，适合夜间查看。"
+        case .system: WL("随设备的浅色与深色外观自动切换。")
+        case .light: WL("绢色纸面与青绿淡墨，适合白天阅读。")
+        case .dark: WL("深色纸面与柔和文字，适合夜间查看。")
         }
     }
     var symbol: String {

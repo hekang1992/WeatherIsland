@@ -62,8 +62,8 @@ struct LandscapeWeatherWidget: Widget {
         StaticConfiguration(kind: "IslandLandscapeWeather", provider: IslandWeatherProvider()) { entry in
             IslandSystemWidgetView(entry: entry, style: .landscape)
         }
-        .configurationDisplayName("山水天气")
-        .description("把一卷青绿山水放在桌面，查看当前天气、逐小时气温与未来预报。")
+        .configurationDisplayName(WL("山水天气"))
+        .description(WL("把一卷青绿山水放在桌面，查看当前天气、逐小时气温与未来预报。"))
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
         .contentMarginsDisabled()
     }
@@ -73,8 +73,8 @@ struct UmbrellaWeatherWidget: Widget {
         StaticConfiguration(kind: "IslandUmbrellaWeather", provider: IslandWeatherProvider()) { entry in
             IslandSystemWidgetView(entry: entry, style: .rain)
         }
-        .configurationDisplayName("带伞提醒")
-        .description("看看未来六小时的降水概率与预计雨量，出门前记得带伞。")
+        .configurationDisplayName(WL("带伞提醒"))
+        .description(WL("看看未来六小时的降水概率与预计雨量，出门前记得带伞。"))
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
         .contentMarginsDisabled()
     }
@@ -84,8 +84,8 @@ struct DaylightWeatherWidget: Widget {
         StaticConfiguration(kind: "IslandDaylightWeather", provider: IslandWeatherProvider()) { entry in
             IslandSystemWidgetView(entry: entry, style: .daylight)
         }
-        .configurationDisplayName("日出日落")
-        .description("查看日出日落、白昼时长与太阳轨迹，等待下一束光。")
+        .configurationDisplayName(WL("日出日落"))
+        .description(WL("查看日出日落、白昼时长与太阳轨迹，等待下一束光。"))
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
         .contentMarginsDisabled()
     }
@@ -100,36 +100,36 @@ struct WeatherIslandWidgetBundle: WidgetBundle {
     }
 }
 
-#Preview("山水 · 小", as: .systemSmall) { LandscapeWeatherWidget() } timeline: {
+#Preview(WL("山水 · 小"), as: .systemSmall) { LandscapeWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
-#Preview("带伞 · 中", as: .systemMedium) { UmbrellaWeatherWidget() } timeline: {
+#Preview(WL("带伞 · 中"), as: .systemMedium) { UmbrellaWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
-#Preview("日照 · 大", as: .systemLarge) { DaylightWeatherWidget() } timeline: {
-    IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
-}
-
-#Preview("山水 · 中", as: .systemMedium) { LandscapeWeatherWidget() } timeline: {
+#Preview(WL("日照 · 大"), as: .systemLarge) { DaylightWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
 
-#Preview("山水 · 大", as: .systemLarge) { LandscapeWeatherWidget() } timeline: {
+#Preview(WL("山水 · 中"), as: .systemMedium) { LandscapeWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
 
-#Preview("带伞 · 小", as: .systemSmall) { UmbrellaWeatherWidget() } timeline: {
+#Preview(WL("山水 · 大"), as: .systemLarge) { LandscapeWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
 
-#Preview("带伞 · 大", as: .systemLarge) { UmbrellaWeatherWidget() } timeline: {
+#Preview(WL("带伞 · 小"), as: .systemSmall) { UmbrellaWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
 
-#Preview("日照 · 小", as: .systemSmall) { DaylightWeatherWidget() } timeline: {
+#Preview(WL("带伞 · 大"), as: .systemLarge) { UmbrellaWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }
 
-#Preview("日照 · 中", as: .systemMedium) { DaylightWeatherWidget() } timeline: {
+#Preview(WL("日照 · 小"), as: .systemSmall) { DaylightWeatherWidget() } timeline: {
+    IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
+}
+
+#Preview(WL("日照 · 中"), as: .systemMedium) { DaylightWeatherWidget() } timeline: {
     IslandWeatherEntry(date: IslandWidgetWeather.sample.fetchedAt, weather: .sample, demo: true)
 }

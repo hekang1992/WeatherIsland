@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "locale": "zh-Hans",
+  "images": [
+    {
+      "file": "01-weather-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "8a9a8319554cc17b83bfb7d2f6d534fd4c914baebb01301ae247526d4a63b3b0"
+    },
+    {
+      "file": "02-scenes-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "c0ada9e2fa3c6c4c7b98416677c1b19cd75c3a6c7c37d251e1727aeed99bea94"
+    },
+    {
+      "file": "03-maps-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "a3dae6dd456ee9236e0cbaba56942a88b2d0c7b0bc90920352f8523dbfc7e7a7"
+    },
+    {
+      "file": "04-widgets-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "369a105045961d1f508afd7fad164292dc2311ba9e33d845778a294d614b11db"
+    },
+    {
+      "file": "05-overview-2556x1179.png",
+      "dimensions": [
+        2556,
+        1179
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "bb570a4b61731f4db7e37337a24f775f2020480f2965d24809e6f6d0b08b366b"
+    },
+    {
+      "file": "06-cities-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "6e1e0b2f6132f505f418817cdf5463837d1544356418afb867d99e983c56c4c5"
+    },
+    {
+      "file": "07-weather-scenes-1179x2556.png",
+      "dimensions": [
+        1179,
+        2556
+      ],
+      "mode": "RGB",
+      "format": "PNG",
+      "alpha": false,
+      "sRGB": true,
+      "sha256": "5f8ad72f333fa463bbe1f8117e69478163a57b71841b687a09b28eee22b6cd2e"
+    }
+  ],
+  "metadataLengths": {
+    "name": 3,
+    "subtitle": 9,
+    "promotionalText": 79,
+    "keywords": 35,
+    "description": 688,
+    "keywordsUTF8Bytes": 85
+  },
+  "archive": {
+    "file": "WeatherIsland-AppStore-zh-Hans-7-Images.zip",
+    "imageCount": 7,
+    "integrityPassed": true
+  }
+}

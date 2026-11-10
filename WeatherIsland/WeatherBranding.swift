@@ -25,14 +25,14 @@ struct WeatherBrandLockup: View {
     var body: some View {
         VStack(spacing: 0) {
             WeatherBrandMark().frame(width: 144, height: 144)
-            Text("气象岛")
+            Text(WL("气象岛"))
                 .font(WeatherTypography.display(34))
-                .frame(height: 40)
+                .frame(minHeight: 44)
                 .padding(.top, 24)
-            Text("山水入怀，晴雨有时。")
+            Text(WL("山水入怀，晴雨有时。"))
                 .font(.system(size: 12))
                 .foregroundStyle(WeatherPalette.secondary)
-                .frame(height: 18)
+                .frame(minHeight: 20)
                 .padding(.top, 10)
         }
         .foregroundStyle(WeatherPalette.ink)
@@ -54,14 +54,14 @@ struct WeatherSplashView: View {
                 VStack(spacing: 0) {
                     HStack(spacing: 10) {
                         Circle().fill(WeatherPalette.accent).frame(width: 4, height: 4)
-                        Text("观 天 · 知 时").font(.system(size: 9, weight: .medium, design: .monospaced)).tracking(4)
+                        Text(WL("观 天 · 知 时")).font(.system(size: 9, weight: .medium, design: .monospaced)).tracking(WeatherLocalization.isChinese ? 4 : 0)
                     }
                     .foregroundStyle(WeatherPalette.secondary)
                     .padding(.top, max(geometry.safeAreaInsets.top, 59) + 32)
                     Spacer()
                     Button(action: onEnter) {
                         HStack(spacing: 12) {
-                            Text("进入小岛").font(.system(size: 14, weight: .medium)).tracking(2)
+                            Text(WL("进入小岛")).font(.system(size: 14, weight: .medium)).tracking(WeatherLocalization.isChinese ? 2 : 0)
                             Image(systemName: "arrow.right").font(.system(size: 13, weight: .medium))
                         }
                         .foregroundStyle(WeatherPalette.paper)
@@ -69,10 +69,10 @@ struct WeatherSplashView: View {
                         .background(Capsule().fill(WeatherPalette.ink))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityHint("打开真实天气首页")
+                    .accessibilityHint(WL("打开真实天气首页"))
                     .padding(.horizontal, 64)
-                    Text("一卷山水 · 四时晴雨")
-                        .font(.system(size: 10)).tracking(2)
+                    Text(WL("一卷山水 · 四时晴雨"))
+                        .font(.system(size: 10)).tracking(WeatherLocalization.isChinese ? 2 : 0)
                         .foregroundStyle(WeatherPalette.secondary)
                         .padding(.top, 20)
                         .padding(.bottom, max(geometry.safeAreaInsets.bottom, 34) + 24)
@@ -129,17 +129,17 @@ struct WeatherBranding_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             WeatherSplashView(snapshot: true, onEnter: {})
-                .previewDisplayName("气象岛 · 启动画面")
+                .previewDisplayName(WL("气象岛 · 启动画面"))
                 .previewDevice("iPhone 15 Pro")
             WeatherTabsView(app:WeatherApplication(live:false))
-                .previewDisplayName("四 Tab · 离线天气")
+                .previewDisplayName(WL("四 Tab · 离线天气"))
                 .previewDevice("iPhone 15 Pro")
             WeatherBrandMark()
                 .padding(32)
                 .frame(width: 256, height: 256)
                 .background(WeatherPalette.paper)
                 .previewLayout(.sizeThatFits)
-                .previewDisplayName("气象岛 · Logo")
+                .previewDisplayName(WL("气象岛 · Logo"))
         }
     }
 }

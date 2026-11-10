@@ -1,0 +1,38 @@
+App name
+Weather Island
+
+Subtitle
+Forecasts, Art & Daily Widgets
+
+Promotional text
+Meet your day in a landscape. Explore hourly forecasts, air quality, weather maps and 50 original scenes, with thoughtful widgets for your Home Screen.
+
+Keywords
+forecast,rain,temperature,air quality,humidity,sunrise,sunset,widgets,landscape,art,travel,cities
+
+Description
+Weather, with a little poetry.
+
+Weather Island brings clear forecasts into a quiet world of ink, mountains and open sky. Check the weather where you are, keep distant cities close, and choose a landscape that makes the everyday feel a little more spacious.
+
+YOUR DAY, CLEARLY
+See current conditions, feels-like temperature, hourly and multi-day forecasts, precipitation probability, humidity, wind, UV and visibility. Review air quality and sunrise and sunset times for your selected city. Weather times use the city's local time zone; temperatures stay in Celsius with metric units.
+
+50 ORIGINAL LANDSCAPES
+Explore 50 original scenes across ten Song-inspired art themes. Let the app match a scene to a region, or choose a favorite for every city. Preview how sun, clouds, rain, snow and other weather effects change the mood. The scenes are original artistic interpretations, not photographs of the selected location.
+
+A WIDER VIEW OF THE SKY
+Explore forecast maps for precipitation, near-surface temperature, wind speed and cloud cover. Browse forecast hours and load an area of interest. These are model forecasts, not live radar or minute-by-minute rain-stop predictions.
+
+KEEP YOUR CITIES CLOSE
+Search for cities and districts, save favorites, switch locations and choose a default city. Compare city weather and local times, or use foreground location to find nearby weather.
+
+WEATHER ON YOUR HOME SCREEN
+Choose landscape weather, umbrella advice or daylight widgets, each in small, medium and large sizes. Umbrella advice uses hourly forecasts for the next six hours. Widgets show saved data and update times so you can tell when a refresh is needed.
+
+YOUR LANGUAGE, YOUR PACE
+Use English, Simplified Chinese or Vietnamese. Follow your phone's preferred languages or choose one in Settings. Enjoy light and dark appearances, with typography adapted to each language.
+
+Forecasts and air quality are provided through Open-Meteo and its data sources. Data availability and update times vary by location and connection. Forecasts are model estimates rather than local station measurements or official severe-weather alerts.
+
+The service agreement, privacy policy and inscriptions within the artwork remain in Chinese.

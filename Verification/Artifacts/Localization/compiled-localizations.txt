@@ -1,0 +1,1 @@
+PASS: compiled zh-Hans/en/vi catalog lookup, plural resources, Vietnamese accents and sentence interpolation

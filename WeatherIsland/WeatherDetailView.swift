@@ -47,15 +47,15 @@ struct WeatherDetailView: View {
                     .contentShape(Circle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("返回气象岛")
+            .accessibilityLabel(WL("返回气象岛"))
             Spacer()
             VStack(spacing: 3) {
-                Text("天气手记").font(.system(size: 17, weight: .semibold)).tracking(2)
-                Text("WEATHER ISLAND / FIELD NOTES").font(.system(size: 7, design: .monospaced)).tracking(1)
+                Text(WL("天气手记")).font(.system(size: 17, weight: .semibold)).tracking(WeatherLocalization.isChinese ? 2 : 0)
+                Text("WEATHER ISLAND / FIELD NOTES").font(.system(size: 7, design: .monospaced)).tracking(WeatherLocalization.isChinese ? 1 : 0)
                     .foregroundStyle(WeatherPalette.secondary)
             }
             Spacer()
-            Text("生活\n指南")
+            Text(WL("生活\n指南"))
                 .font(.system(size: 12, weight: .medium)).lineSpacing(2)
                 .frame(width: 44, height: 44)
                 .background(Circle().fill(WeatherPalette.lime.opacity(0.6)))
@@ -67,9 +67,9 @@ struct WeatherDetailView: View {
             weatherSummary
             reminder
             HStack(alignment: .firstTextBaseline) {
-                Text("把自己，照顾好").font(.system(size: 17, weight: .semibold))
+                Text(WL("把自己，照顾好")).font(.system(size: 17, weight: .semibold))
                 Spacer()
-                Text(report.isLive ? "生活建议 · 结合预报" : "生活指数 · 示例").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
+                Text(report.isLive ? WL("生活建议 · 结合预报") : WL("生活指数 · 示例")).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
             }
             HStack(alignment: .top, spacing: 12) {
                 uvCard
@@ -77,26 +77,26 @@ struct WeatherDetailView: View {
             }
             .opacity(!animate || snapshot || appeared ? 1 : 0)
             .animation(reduceMotion ? nil : .easeOut(duration: 0.45).delay(0.1), value: appeared)
-            sectionTitle("天空的细节", subtitle: "WEATHER DETAILS")
+            sectionTitle(WL("天空的细节"), subtitle: "WEATHER DETAILS")
             metrics
-            sectionTitle("给今天一点灵感", subtitle: "YOUR DAY, YOUR WAY")
+            sectionTitle(WL("给今天一点灵感"), subtitle: "YOUR DAY, YOUR WAY")
             VStack(spacing: 0) {
-                adviceRow(number: "01", title: "出门前", symbol: "figure.walk", text: report.commute)
+                adviceRow(number: "01", title: WL("出门前"), symbol: "figure.walk", text: report.commute)
                 Divider().overlay(WeatherPalette.line).padding(.leading, 42)
-                adviceRow(number: "02", title: "去哪里", symbol: "leaf", text: report.kind.outing)
+                adviceRow(number: "02", title: WL("去哪里"), symbol: "leaf", text: report.kind.outing)
                 Divider().overlay(WeatherPalette.line).padding(.leading, 42)
-                adviceRow(number: "03", title: "包里带上", symbol: "bag", text: packingAdvice)
+                adviceRow(number: "03", title: WL("包里带上"), symbol: "bag", text: packingAdvice)
             }
             .padding(.horizontal, 15)
             .background(RoundedRectangle(cornerRadius: 20).fill(WeatherPalette.surface))
             daylight
             if let metrics = report.metrics {
-                Text("预报时段 · " + WeatherClock.string(metrics.time, metrics.daily ? "yyyy年M月d日" : "yyyy年M月d日 HH:mm", timeZone: report.timeZoneIdentifier))
+                Text(WL("预报时段 · ") + WeatherClock.string(metrics.time, metrics.daily ? "yyyy年M月d日" : "yyyy年M月d日 HH:mm", timeZone: report.timeZoneIdentifier))
                     .font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
-                WeatherWebLink("天气数据：Open-Meteo", destination: URL(string: "https://open-meteo.com/")!)
+                WeatherWebLink(WL("天气数据：Open-Meteo"), destination: URL(string: "https://open-meteo.com/")!)
                     .font(.system(size: 12)).foregroundStyle(WeatherPalette.ink)
             }
-            Text(report.isLive ? "数据来源 Open-Meteo · 模型天气与预报\n穿衣与出行建议由本地规则生成，仅供日常参考。\n紫外线与能见度采用相近小时预报；缺失值显示 —。" : "离线天气手记 / 所有天气与生活指数均为固定示例。\n天气剧场不代表当地实况；出行请结合当地预报与预警。")
+            Text(report.isLive ? WL("数据来源 Open-Meteo · 模型天气与预报\n穿衣与出行建议由本地规则生成，仅供日常参考。\n紫外线与能见度采用相近小时预报；缺失值显示 —。") : WL("离线天气手记 / 所有天气与生活指数均为固定示例。\n天气剧场不代表当地实况；出行请结合当地预报与预警。"))
                 .font(.system(size: 12)).lineSpacing(4)
                 .foregroundStyle(WeatherPalette.secondary)
                 .padding(.top, 3)
@@ -111,9 +111,9 @@ struct WeatherDetailView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 5) {
                 Circle().fill(report.kind.tint).frame(width: 5, height: 5)
-                Text(report.scope).font(.system(size: 12, weight: .medium))
+                Text(report.localizedScope).font(.system(size: 12, weight: .medium))
                 Spacer()
-                Text(report.isLive ? "Open-Meteo 预报" : report.isDemo ? "天气体验" : "示例预报")
+                Text(report.isLive ? WL("Open-Meteo 预报") : report.isDemo ? WL("天气体验") : WL("示例预报"))
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(WeatherPalette.secondary)
             }
@@ -129,8 +129,8 @@ struct WeatherDetailView: View {
             }
             .padding(.vertical, 12)
             HStack(spacing: 15) {
-                Text("最高 \(report.high)° / 最低 \(report.low)°")
-                Text("体感 \(report.feelsLike)°")
+                Text(WLF("最高 %1$@° / 最低 %2$@°", String(describing: report.high), String(describing: report.low)))
+                Text(WLF("体感 %1$@°", String(describing: report.feelsLike)))
             }
             .font(.system(size: 12, weight: .medium))
             .foregroundStyle(WeatherPalette.secondary)
@@ -161,7 +161,7 @@ struct WeatherDetailView: View {
             Image(systemName: report.kind.severe ? "exclamationmark.shield" : "sparkles")
                 .font(.system(size: 16)).frame(width: 20).padding(.top, 2)
             VStack(alignment: .leading, spacing: 4) {
-                Text(report.kind.severe ? "出行提醒 · 场景演示" : "小岛的今日叮咛")
+                Text(report.kind.severe ? WL("出行提醒 · 场景演示") : WL("小岛的今日叮咛"))
                     .font(.system(size: 12, weight: .semibold))
                 Text(report.kind.reminder).font(.system(size: 12)).lineSpacing(3)
             }
@@ -174,7 +174,7 @@ struct WeatherDetailView: View {
 
     private var uvCard: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label(report.metrics?.daily == true ? "最高紫外线" : "紫外线", systemImage: "sun.max")
+            Label(report.metrics?.daily == true ? WL("最高紫外线") : WL("紫外线"), systemImage: "sun.max")
                 .font(.system(size: 12, weight: .medium))
             HStack(alignment: .firstTextBaseline, spacing: 5) {
                 Text(report.uvText).font(.system(size: 32, weight: .regular, design: .serif))
@@ -222,7 +222,7 @@ struct WeatherDetailView: View {
 
     private var clothingCard: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("穿衣灵感", systemImage: "tshirt")
+            Label(WL("穿衣灵感"), systemImage: "tshirt")
                 .font(.system(size: 12, weight: .medium))
             Image(systemName: report.temperature <= 5 ? "snowflake" : report.kind.wet ? "umbrella" : "tshirt")
                 .font(.system(size: 25, weight: .light))
@@ -250,19 +250,19 @@ struct WeatherDetailView: View {
         let m = report.metrics
         let daily = m?.daily == true
         return LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-            metric(daily ? "最高降水概率" : "降水概率", value: number(report.isLive ? m?.probability : Double(report.kind.probability)), unit: "%", symbol: "umbrella", note: daily ? "全天最高概率" : "相近小时预报")
-            metric(daily ? "全天降水量" : "时段降水量", value: number(report.isLive ? m?.precipitation : report.kind.precipitation, decimals: 1), unit: m?.precipitationUnit ?? "mm/h", symbol: "drop", note: report.kind == .snow ? "含降雪水当量" : "对应时段的累计量")
-            metric(daily ? "最高风速" : "风速", value: number(report.isLive ? m?.wind : Double(report.kind.windSpeed)), unit: "km/h", symbol: "wind", note: windNote)
-            metric("相对湿度", value: number(report.isLive ? m?.humidity : Double(report.kind.humidity)), unit: "%", symbol: "humidity", note: daily ? "日汇总未提供" : "空气中的水分")
-            metric("能见度", value: number(report.isLive ? m?.visibility : report.kind.visibility, decimals: 1), unit: "km", symbol: "eye", note: daily ? "日汇总未提供" : "相近小时预报")
-            metric(daily ? "最高体感温度" : "体感温度", value: "\(report.feelsLike)", unit: "°C", symbol: "thermometer.medium", note: "与气温一起参考")
+            metric(daily ? WL("最高降水概率") : WL("降水概率"), value: number(report.isLive ? m?.probability : Double(report.kind.probability)), unit: "%", symbol: "umbrella", note: daily ? WL("全天最高概率") : WL("相近小时预报"))
+            metric(daily ? WL("全天降水量") : WL("时段降水量"), value: number(report.isLive ? m?.precipitation : report.kind.precipitation, decimals: 1), unit: m?.precipitationUnit ?? "mm/h", symbol: "drop", note: report.kind == .snow ? WL("含降雪水当量") : WL("对应时段的累计量"))
+            metric(daily ? WL("最高风速") : WL("风速"), value: number(report.isLive ? m?.wind : Double(report.kind.windSpeed)), unit: "km/h", symbol: "wind", note: windNote)
+            metric(WL("相对湿度"), value: number(report.isLive ? m?.humidity : Double(report.kind.humidity)), unit: "%", symbol: "humidity", note: daily ? WL("日汇总未提供") : WL("空气中的水分"))
+            metric(WL("能见度"), value: number(report.isLive ? m?.visibility : report.kind.visibility, decimals: 1), unit: "km", symbol: "eye", note: daily ? WL("日汇总未提供") : WL("相近小时预报"))
+            metric(daily ? WL("最高体感温度") : WL("体感温度"), value: "\(report.feelsLike)", unit: "°C", symbol: "thermometer.medium", note: WL("与气温一起参考"))
         }
     }
 
     private var windNote: String {
-        guard report.isLive else { return "风速 · 示例" }
-        guard let direction = report.metrics?.windDirection else { return "风向暂无数据" }
-        let names = ["北风", "东北风", "东风", "东南风", "南风", "西南风", "西风", "西北风"]
+        guard report.isLive else { return WL("风速 · 示例") }
+        guard let direction = report.metrics?.windDirection else { return WL("风向暂无数据") }
+        let names = [WL("北风"), WL("东北风"), WL("东风"), WL("东南风"), WL("南风"), WL("西南风"), WL("西风"), WL("西北风")]
         return names[Int((direction + 22.5) / 45) % 8]
     }
 
@@ -286,7 +286,7 @@ struct WeatherDetailView: View {
         HStack {
             Text(title).font(.system(size: 16, weight: .semibold))
             Spacer()
-            Text(subtitle).font(.system(size: 7, design: .monospaced)).tracking(0.5)
+            Text(subtitle).font(.system(size: 7, design: .monospaced)).tracking(WeatherLocalization.isChinese ? 0.5 : 0)
                 .foregroundStyle(WeatherPalette.secondary)
         }
         .padding(.top, 2)
@@ -313,12 +313,12 @@ struct WeatherDetailView: View {
 
     private var packingAdvice: String {
         if report.kind == .hail || report.kind == .thunderstorm || report.kind == .heavyRain {
-            return "必要出行前看预警，手机充好电；优先安排室内等待，随身雨具不能替代安全遮蔽。"
+            return WL("必要出行前看预警，手机充好电；优先安排室内等待，随身雨具不能替代安全遮蔽。")
         }
-        if report.temperature <= 5 { return "围巾、手套、保温杯，再加一双防滑鞋。" }
-        if report.kind.wet { return "折叠伞、防水袋与一小包纸巾，给雨天多一点从容。" }
-        if report.kind == .windy { return "防风外套和水杯，背包拉链收好，少带易被风吹走的物件。" }
-        return "水杯、薄外套与遮阳用品，轻轻松松出发。"
+        if report.temperature <= 5 { return WL("围巾、手套、保温杯，再加一双防滑鞋。") }
+        if report.kind.wet { return WL("折叠伞、防水袋与一小包纸巾，给雨天多一点从容。") }
+        if report.kind == .windy { return WL("防风外套和水杯，背包拉链收好，少带易被风吹走的物件。") }
+        return WL("水杯、薄外套与遮阳用品，轻轻松松出发。")
     }
 
     private func sunTime(_ time: Date?, sample: String) -> String {
@@ -329,9 +329,9 @@ struct WeatherDetailView: View {
     private var daylight: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("把日光，也收藏起来").font(.system(size: 13, weight: .medium))
+                Text(WL("把日光，也收藏起来")).font(.system(size: 13, weight: .medium))
                 Spacer()
-                Text(report.isLive ? "日出 / 日落" : "日出 / 日落 · 示例").font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
+                Text(report.isLive ? WL("日出 / 日落") : WL("日出 / 日落 · 示例")).font(.system(size: 12)).foregroundStyle(WeatherPalette.secondary)
             }
             GeometryReader { geometry in
                 let width = max(0, geometry.size.width - 18)
@@ -347,9 +347,9 @@ struct WeatherDetailView: View {
             }
             .frame(height: 36)
             HStack {
-                Text(sunTime(report.metrics?.sunrise, sample: "06:08") + " 日出")
+                Text(sunTime(report.metrics?.sunrise, sample: "06:08") + WL(" 日出"))
                 Spacer()
-                Text(sunTime(report.metrics?.sunset, sample: "17:06") + " 日落")
+                Text(sunTime(report.metrics?.sunset, sample: "17:06") + WL(" 日落"))
             }
             .font(.system(size: 12, weight: .medium, design: .monospaced))
         }

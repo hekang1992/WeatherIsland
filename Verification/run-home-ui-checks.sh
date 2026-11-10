@@ -3,6 +3,7 @@ set -euo pipefail
 project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 home_device="${1:?Usage: bash Verification/run-home-ui-checks.sh SIMULATOR_UDID}"
 ui_source="${2:-WeatherHomeInsightsUITests.swift}"
+if [[ $# -ge 2 ]]; then shift 2; else shift; fi
 home_qa_dir="$(mktemp -d /tmp/WeatherIsland-HomeQA.XXXXXX)"
 python3 - "$project_dir" "$home_qa_dir" "$ui_source" <<'PY'
 import pathlib, sys
@@ -11,6 +12,10 @@ project = work / 'HomeQA.xcodeproj'
 (project / 'xcshareddata/xcschemes').mkdir(parents=True)
 source = root / 'Verification' / sys.argv[3]
 if not source.is_file(): raise SystemExit(f'Missing UI test source: {source}')
+# Keep each device/run's captures with its result bundle.
+local_source = work / source.name
+local_source.write_text(source.read_text().replace('/tmp/WeatherIsland-Localization/', str(work / 'Captures') + '/'))
+source = local_source
 (project / 'project.pbxproj').write_text('''// !$*UTF8*$!
 { archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
 A00000000000000000000001 = {isa = PBXProject; buildConfigurationList = A00000000000000000000010; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; knownRegions = (en, Base); mainGroup = A00000000000000000000002; productRefGroup = A00000000000000000000003; projectDirPath = ""; targets = (A00000000000000000000004); };
@@ -34,7 +39,12 @@ A00000000000000000000013 = {isa = XCBuildConfiguration; buildSettings = {PRODUCT
 </Scheme>
 ''')
 PY
-xcodebuild -project "$project_dir/WeatherIsland.xcodeproj" -scheme WeatherIsland -configuration Debug -destination "platform=iOS Simulator,id=$home_device" -derivedDataPath "$home_qa_dir/AppBuild" CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=YES build > "$home_qa_dir/app-build.log" 2>&1
-xcrun simctl install "$home_device" "$home_qa_dir/AppBuild/Build/Products/Debug-iphonesimulator/WeatherIsland.app"
-xcodebuild -project "$home_qa_dir/HomeQA.xcodeproj" -scheme HomeQA -destination "platform=iOS Simulator,id=$home_device" -parallel-testing-enabled NO -derivedDataPath "$home_qa_dir/TestBuild" -resultBundlePath "$home_qa_dir/Home.xcresult" CODE_SIGNING_ALLOWED=NO test
+if [[ -n "${WEATHER_QA_APP_BUILD:-}" ]]; then
+  home_app_build="$WEATHER_QA_APP_BUILD"
+else
+  home_app_build="$home_qa_dir/AppBuild"
+  xcodebuild -project "$project_dir/WeatherIsland.xcodeproj" -scheme WeatherIsland -configuration Debug -destination "platform=iOS Simulator,id=$home_device" -derivedDataPath "$home_app_build" CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=YES build > "$home_qa_dir/app-build.log" 2>&1
+fi
+xcrun simctl install "$home_device" "$home_app_build/Build/Products/Debug-iphonesimulator/WeatherIsland.app"
+xcodebuild -project "$home_qa_dir/HomeQA.xcodeproj" -scheme HomeQA -destination "platform=iOS Simulator,id=$home_device" -parallel-testing-enabled NO -derivedDataPath "$home_qa_dir/TestBuild" -resultBundlePath "$home_qa_dir/Home.xcresult" CODE_SIGNING_ALLOWED=NO "$@" test
 printf 'Home QA output: %s\n' "$home_qa_dir"

@@ -1,0 +1,89 @@
+{
+  "locale": "vi",
+  "name": "Đảo Thời Tiết",
+  "subtitle": "Dự báo, sơn thủy và tiện ích",
+  "promotionalText": "Đón ngày mới giữa cảnh sơn thủy. Xem dự báo từng giờ, chất lượng không khí, bản đồ thời tiết và 50 bức họa gốc, cùng tiện ích ngay trên màn hình chính.",
+  "keywords": "thời tiết,dự báo,nhiệt độ,không khí,tiện ích,bình minh,hoàng hôn,sơn thủy",
+  "description": "Thời tiết, thêm một chút thi vị.\n\nĐảo Thời Tiết mang dự báo rõ ràng vào thế giới yên ả của nét mực, núi non và bầu trời rộng mở. Xem thời tiết nơi bạn ở, dõi theo những thành phố xa và chọn một cảnh sơn thủy để mỗi ngày thêm thư thái.\n\nHIỂU THỜI TIẾT TRONG NGÀY\nXem thời tiết hiện tại, nhiệt độ cảm nhận, dự báo từng giờ và nhiều ngày, khả năng mưa, độ ẩm, gió, chỉ số UV và tầm nhìn. Theo dõi chất lượng không khí, giờ bình minh và hoàng hôn tại thành phố đã chọn. Thời gian hiển thị theo múi giờ của thành phố; nhiệt độ dùng độ C và các đơn vị hệ mét.\n\n50 BỨC HỌA NGUYÊN BẢN\nKhám phá 50 cảnh vẽ thuộc mười chủ đề lấy cảm hứng từ mỹ học thời Tống. Để ứng dụng chọn cảnh theo khu vực hoặc dùng một bức yêu thích cho mọi thành phố. Xem nắng, mây, mưa, tuyết và các hiệu ứng thời tiết đổi sắc cảnh vật. Đây là sáng tác nghệ thuật, không phải ảnh chụp hay cảnh thực tế của địa điểm đã chọn.\n\nNHÌN RỘNG HƠN QUA BẢN ĐỒ\nKhám phá bản đồ dự báo lượng mưa, nhiệt độ gần mặt đất, tốc độ gió và độ che phủ mây. Chọn giờ dự báo và tải khu vực bạn quan tâm. Bản đồ dùng dự báo mô hình, không phải radar trực tiếp và không dự đoán thời điểm tạnh mưa theo từng phút.\n\nGIỮ GẦN NHỮNG THÀNH PHỐ THÂN QUEN\nTìm thành phố hoặc quận huyện, lưu nơi yêu thích, chuyển địa điểm và chọn thành phố mặc định. So sánh thời tiết và giờ địa phương giữa các thành phố, hoặc dùng vị trí khi đang mở ứng dụng để xem thời tiết gần bạn.\n\nTHỜI TIẾT TRÊN MÀN HÌNH CHÍNH\nChọn tiện ích thời tiết sơn thủy, nhắc mang ô hoặc bình minh và hoàng hôn. Mỗi loại có kích thước nhỏ, vừa và lớn. Gợi ý mang ô dựa trên dự báo từng giờ trong sáu giờ tới. Tiện ích hiển thị dữ liệu đã lưu và thời gian cập nhật để bạn biết khi nào cần làm mới.\n\nNGÔN NGỮ VÀ NHỊP ĐIỆU CỦA BẠN\nDùng tiếng Việt, tiếng Anh hoặc tiếng Trung giản thể. Theo ngôn ngữ ưu tiên của điện thoại hoặc tự chọn trong Cài đặt. Có giao diện sáng, tối và kiểu chữ phù hợp với từng ngôn ngữ.\n\nDự báo và chất lượng không khí được cung cấp qua Open-Meteo cùng các nguồn dữ liệu liên quan. Khả năng cung cấp dữ liệu và thời gian cập nhật tùy địa điểm và kết nối. Dự báo là ước tính từ mô hình, không phải số đo trạm tại chỗ hay cảnh báo thời tiết nguy hiểm chính thức.\n\nNội dung thỏa thuận dịch vụ, chính sách quyền riêng tư và đề tự trong tranh được giữ bằng tiếng Trung.",
+  "brandTagline": "Ôm cảnh sơn thủy, đón từng nắng mưa.",
+  "overview": {
+    "eyebrow": "Dự báo rõ ràng. Sơn thủy nên thơ.",
+    "first": "Xem trời hôm nay.",
+    "second": "Gặp miền sơn thủy.",
+    "subtitle": "Thời tiết, tranh vẽ và chút bình yên trên hòn đảo của bạn.",
+    "features": [
+      "Thành phố",
+      "Tranh nguyên bản",
+      "Bản đồ dự báo",
+      "Tiện ích"
+    ],
+    "footer": "Thêm thư thái cho mỗi ngày."
+  },
+  "pages": [
+    {
+      "label": "THỜI TIẾT MỖI NGÀY",
+      "eyebrow": "THẢNH THƠI ĐÓN MỘT NGÀY MỚI",
+      "first": "Đọc trời hôm nay.",
+      "second": "Gặp miền sơn thủy.",
+      "subtitle": "Dự báo từng giờ · Nhiều ngày · Chất lượng không khí",
+      "footer": "Dù nắng hay mưa, vẫn có chút bình yên."
+    },
+    {
+      "label": "TRANH NGUYÊN BẢN",
+      "eyebrow": "SƠN THỦY DƯỚI MUÔN SẮC TRỜI",
+      "first": "50 bức họa gốc.",
+      "second": "Mỗi ngày, một cảnh.",
+      "subtitle": "Mười chủ đề phong vị Tống · Tự chọn cảnh yêu thích",
+      "footer": "Giữ cảnh bạn yêu trong từng ngày thường."
+    },
+    {
+      "label": "BẢN ĐỒ THỜI TIẾT",
+      "eyebrow": "NGẮM BẦU TRỜI XA HƠN",
+      "first": "Theo dấu nắng mưa.",
+      "second": "Biết trời sắp đổi.",
+      "subtitle": "Lượng mưa · Nhiệt độ · Gió · Mây",
+      "footer": "Dữ liệu dự báo, không phải radar trực tiếp."
+    },
+    {
+      "label": "TIỆN ÍCH MÀN HÌNH",
+      "eyebrow": "ĐIỀU CẦN BIẾT, CHỈ MỘT ÁNH NHÌN",
+      "first": "Thời tiết trong ngày.",
+      "second": "Ngay trên màn hình.",
+      "subtitle": "Thời tiết sơn thủy · Nhắc mang ô · Bình minh, hoàng hôn",
+      "footer": "Ba tính năng · Kích thước nhỏ, vừa và lớn",
+      "captions": [
+        "Sơn thủy cho ngày mới",
+        "Nhớ ô trước khi đi",
+        "Theo ánh mặt trời"
+      ]
+    },
+    {
+      "label": "TỔNG QUAN"
+    },
+    {
+      "label": "THỜI TIẾT THÀNH PHỐ",
+      "eyebrow": "CHUYỆN GẦN ĐÂY, BẦU TRỜI PHƯƠNG XA",
+      "first": "Thành phố bạn yêu.",
+      "second": "Luôn ở thật gần.",
+      "subtitle": "Lưu yêu thích · Chuyển thành phố · Tự chọn địa điểm",
+      "footer": "Mỗi thành phố bạn thương, một hòn đảo nhỏ.",
+      "captions": [
+        "Nơi đây, hôm nay.",
+        "Và nắng mưa phương xa."
+      ]
+    },
+    {
+      "label": "SẮC TRỜI ĐỔI THAY",
+      "eyebrow": "MỘT MIỀN SƠN THỦY, MUÔN SẮC TRỜI",
+      "first": "Khi bầu trời đổi sắc,",
+      "second": "sơn thủy cũng đổi thay.",
+      "subtitle": "Xem trước 11 hiệu ứng thời tiết · Chọn cảnh yêu thích",
+      "footer": "Hiệu ứng thời tiết là bản minh họa xem trước.",
+      "captions": [
+        "Trời quang",
+        "Mưa to",
+        "Dông"
+      ]
+    }
+  ]
+}

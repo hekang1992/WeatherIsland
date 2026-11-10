@@ -4,13 +4,13 @@ enum IslandWidgetStyle: String, CaseIterable, Identifiable {
     case landscape, rain, daylight
     var id: String { rawValue }
     var title: String {
-        switch self { case .landscape: "山水天气"; case .rain: "带伞提醒"; case .daylight: "日出日落" }
+        switch self { case .landscape: WL("山水天气"); case .rain: WL("带伞提醒"); case .daylight: WL("日出日落") }
     }
     var subtitle: String {
         switch self {
-        case .landscape: "一眼知晴雨，把山水放在桌面。"
-        case .rain: "未来六小时的雨，出门前心里有数。"
-        case .daylight: "追一场日出，留住今天的余晖。"
+        case .landscape: WL("一眼知晴雨，把山水放在桌面。")
+        case .rain: WL("未来六小时的雨，出门前心里有数。")
+        case .daylight: WL("追一场日出，留住今天的余晖。")
         }
     }
     var symbol: String {
@@ -42,7 +42,7 @@ enum IslandWidgetStyle: String, CaseIterable, Identifiable {
 enum IslandWidgetSize: String, CaseIterable, Identifiable {
     case small, medium, large
     var id: String { rawValue }
-    var title: String { switch self { case .small: "小号"; case .medium: "中号"; case .large: "大号" } }
+    var title: String { switch self { case .small: WL("小号"); case .medium: WL("中号"); case .large: WL("大号") } }
 }
 
 struct IslandWidgetBackdrop: View {
@@ -126,21 +126,21 @@ struct IslandWidgetContent: View {
     private func heading(_ weather: IslandWidgetWeather, label: String? = nil) -> some View {
         HStack(spacing: 4) {
             Image(systemName: style.symbol).font(.system(size: 10, weight: .semibold))
-            Text(label ?? weather.place.name).font(.system(size: 11, weight: .semibold))
+            Text(label ?? weather.place.localizedName).font(.system(size: 11, weight: .semibold))
                 .truncationMode(.tail).layoutPriority(1)
             Spacer(minLength: 3)
-            if !small || label != nil {
-                Text(label == nil ? style.title : weather.place.name).font(.system(size: small ? 9 : 10)).opacity(0.72)
+            if !small {
+                Text(label == nil ? style.title : weather.place.localizedName).font(.system(size: small ? 9 : 10)).opacity(0.72)
             }
         }
     }
     private func stamp(_ weather: IslandWidgetWeather) -> some View {
         HStack(spacing: 3) {
             Circle().fill(weather.stale(at: date) && !demo ? Color.orange : style.accent).frame(width: 4, height: 4)
-            Text(demo ? "示例数据" : (weather.stale(at: date) ? "缓存 · " : "") + weather.clock(weather.fetchedAt, weather.stale(at: date) ? "M/d HH:mm" : "HH:mm") + " 更新")
+            Text(demo ? WL("示例数据") : (weather.stale(at: date) ? WL("缓存 · ") : "") + weather.clock(weather.fetchedAt, weather.stale(at: date) ? "M/d HH:mm" : "HH:mm") + WL(" 更新"))
                 .font(.system(size: 9))
             Spacer(minLength: 0)
-            if !small { Text("气象岛").font(.system(size: 9, weight: .medium)) }
+            if !small { Text(WL("气象岛")).font(.system(size: 9, weight: .medium)) }
         }.foregroundStyle(style.ink.opacity(0.65))
     }
     private func landscape(_ w: IslandWidgetWeather) -> some View {
@@ -148,33 +148,33 @@ struct IslandWidgetContent: View {
             heading(w)
             if small {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text("\(w.temperature)°").font(.system(size: 47, weight: .light, design: .serif)).tracking(-3)
+                    Text("\(w.temperature)°").font(.system(size: 47, weight: .light, design: WeatherLocalization.isChinese ? .serif : .default)).tracking(-3)
                     Image(systemName: w.symbol).symbolRenderingMode(.hierarchical).font(.system(size: 18))
                 }
-                Text(w.condition).font(.system(size: 12, weight: .medium))
+                Text(w.localizedCondition).font(.system(size: 12, weight: .medium))
                 temperatureRange(w)
                 Spacer(minLength: 0)
                 stamp(w)
             } else {
                 HStack(alignment: .center) {
                     HStack(alignment: .firstTextBaseline, spacing: 10) {
-                        Text("\(w.temperature)°").font(.system(size: large ? 64 : 46, weight: .light, design: .serif)).tracking(-3)
+                        Text("\(w.temperature)°").font(.system(size: large ? 64 : 46, weight: .light, design: WeatherLocalization.isChinese ? .serif : .default)).tracking(-3)
                         VStack(alignment: .leading, spacing: 5) {
-                            Label(w.condition, systemImage: w.symbol).font(.system(size: 12, weight: .medium))
+                            Label(w.localizedCondition, systemImage: w.symbol).font(.system(size: 12, weight: .medium))
                             temperatureRange(w)
                         }
                     }
                     Spacer(minLength: 0)
                 }
                 if large {
-                    HStack { Text("山水有时 · 晴雨相伴").font(.system(size: 12, design: .serif)); Spacer() }
+                    HStack { Text(WL("山水有时 · 晴雨相伴")).font(.system(size: 12, design: WeatherLocalization.isChinese ? .serif : .default)); Spacer() }
                     Divider().overlay(style.ink.opacity(0.1))
                     hourlyTemperatures(w)
                     VStack(spacing: 10) {
                         ForEach(Array(w.days.prefix(3))) { day in
                             HStack {
-                                Text(day.id == w.today(at: date)?.id ? "今天" : w.clock(day.date, "EEE"))
-                                    .frame(width: 32, alignment: .leading)
+                                Text(day.id == w.today(at: date)?.id ? WL("今天") : w.clock(day.date, "EEE"))
+                                    .frame(width: WeatherLocalization.isChinese ? 32 : 48, alignment: .leading)
                                 Image(systemName: day.symbol).symbolRenderingMode(.hierarchical).frame(width: 24)
                                 Spacer()
                                 Text("\(day.low)°").opacity(0.65)
@@ -193,7 +193,7 @@ struct IslandWidgetContent: View {
         }
     }
     private func temperatureRange(_ w: IslandWidgetWeather) -> some View {
-        Text(w.today(at: date).map { "最低 \($0.low)°  最高 \($0.high)°" } ?? "今日预报待更新")
+        Text(w.today(at: date).map { WLF("最低 %1$@°  最高 %2$@°", String(describing: $0.low), String(describing: $0.high)) } ?? WL("今日预报待更新"))
             .font(.system(size: 10)).foregroundStyle(style.ink.opacity(0.75))
     }
     private func hourlyTemperatures(_ w: IslandWidgetWeather) -> some View {
@@ -210,44 +210,44 @@ struct IslandWidgetContent: View {
     private func rainHours(_ w: IslandWidgetWeather) -> [IslandWidgetHour] { Array(w.upcoming(at: date).prefix(6)) }
     private func rainTitle(_ w: IslandWidgetWeather) -> String {
         let hours = rainHours(w)
-        guard hours.count == 6, hours.allSatisfy({ $0.probability != nil }) else { return "降水预报待更新" }
+        guard hours.count == 6, hours.allSatisfy({ $0.probability != nil }) else { return WL("降水预报待更新") }
         if let first = hours.first(where: { ($0.probability ?? 0) >= 50 }) {
-            return first.id == hours.first?.id ? "出门记得带伞" : "\(w.clock(first.date, "HH时"))起，记得带伞"
+            return first.id == hours.first?.id ? WL("出门记得带伞") : WLF("%1$@起，记得带伞", String(describing: w.clock(first.date, "HH时")))
         }
-        return "未来六小时雨意不浓"
+        return WL("未来六小时雨意不浓")
     }
     private func rain(_ w: IslandWidgetWeather) -> some View {
         let hours = rainHours(w)
         let maxProbability = hours.count == 6 && hours.allSatisfy { $0.probability != nil }
             ? hours.compactMap(\.probability).max() : nil
         return VStack(alignment: .leading, spacing: large ? 10 : (small ? 4 : 5)) {
-            heading(w, label: "带伞提醒")
+            heading(w, label: WL("带伞提醒"))
             if small {
                 Image(systemName: "umbrella.fill").font(.system(size: 23)).foregroundStyle(style.accent)
-                Text(rainTitle(w)).font(.system(size: 14, weight: .semibold))
+                Text(rainTitle(w)).font(.system(size: WeatherLocalization.isChinese ? 14 : 12, weight: .semibold)).lineLimit(2)
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(maxProbability.map { "\(Int($0.rounded()))%" } ?? "—").font(.system(size: 29, weight: .light))
-                    Text("最高概率").font(.system(size: 9)).opacity(0.7)
+                    Text(WL("最高概率")).font(.system(size: 9)).opacity(0.7)
                 }
                 Spacer(minLength: 0)
                 stamp(w)
             } else if large {
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(rainTitle(w)).font(.system(size: 21, weight: .medium, design: .serif))
-                        Text("未来 6 小时 · 逐小时降水概率").font(.system(size: 10)).opacity(0.7)
+                        Text(rainTitle(w)).font(.system(size: 21, weight: .medium, design: WeatherLocalization.isChinese ? .serif : .default))
+                        Text(WL("未来 6 小时 · 逐小时降水概率")).font(.system(size: 10)).opacity(0.7)
                     }
                     Spacer(minLength: 0)
                     Image(systemName: "umbrella.fill").font(.system(size: 33, weight: .light)).foregroundStyle(style.accent)
                 }
                 rainChart(w, hours: hours, height: 78)
                 HStack(spacing: 12) {
-                    rainMetric("最高降水概率", value: maxProbability.map { "\(Int($0.rounded()))%" } ?? "—")
+                    rainMetric(WL("最高降水概率"), value: maxProbability.map { "\(Int($0.rounded()))%" } ?? "—")
                     Rectangle().fill(style.ink.opacity(0.1)).frame(width: 1, height: 30)
-                    rainMetric("六小时预计降水", value: hours.count == 6 && hours.allSatisfy { $0.precipitation != nil }
+                    rainMetric(WL("六小时预计降水"), value: hours.count == 6 && hours.allSatisfy { $0.precipitation != nil }
                         ? String(format: "%.1f mm", hours.compactMap(\.precipitation).reduce(0, +)) : "—")
                 }.padding(12).background(.white.opacity(0.4), in: RoundedRectangle(cornerRadius: 13))
-                Text("逐小时预报 · 无分钟级停雨预测").font(.system(size: 10)).opacity(0.7)
+                Text(WL("逐小时预报 · 无分钟级停雨预测")).font(.system(size: 10)).opacity(0.7)
                 Spacer(minLength: 0)
                 stamp(w)
             } else {
@@ -255,7 +255,7 @@ struct IslandWidgetContent: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(rainTitle(w)).font(.system(size: 12, weight: .semibold)).lineLimit(2)
                         Text(maxProbability.map { "\(Int($0.rounded()))%" } ?? "—").font(.system(size: 28, weight: .light))
-                        Text("未来六小时最高概率").font(.system(size: 9)).opacity(0.7)
+                        Text(WL("未来六小时最高概率")).font(.system(size: 9)).opacity(0.7)
                     }.frame(width: 119, alignment: .leading)
                     rainChart(w, hours: hours, height: 44)
                 }
@@ -282,10 +282,10 @@ struct IslandWidgetContent: View {
                                 .frame(height: max(2, geometry.size.height * CGFloat(min(100, max(0, hour.probability ?? 0))) / 100))
                         }
                     }.frame(height: height)
-                    Text(w.clock(hour.date, "HH")).font(.system(size: 9)).opacity(0.7)
+                    Text(w.clock(hour.date, "hour")).font(.system(size: 9)).opacity(0.7)
                 }.frame(maxWidth: .infinity)
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("\(w.clock(hour.date, "HH时"))，降水概率\(hour.probability.map { "\(Int($0))%" } ?? "暂无数据")")
+                    .accessibilityLabel(WLF("%1$@，降水概率%2$@", String(describing: w.clock(hour.date, "HH时")), String(describing: hour.probability.map { "\(Int($0))%" } ?? WL("暂无数据"))))
             }
         }.frame(maxWidth: .infinity)
     }
@@ -297,12 +297,12 @@ struct IslandWidgetContent: View {
         let beforeRise = rise.map { date < $0 } ?? false
         let beforeSet = set.map { date < $0 } ?? false
         let target = beforeRise ? rise : (beforeSet ? set : nextRise)
-        let event = beforeRise ? "距日出" : (beforeSet ? "距日落" : "距下次日出")
+        let event = beforeRise ? WL("距日出") : (beforeSet ? WL("距日落") : WL("距下次日出"))
         return VStack(alignment: .leading, spacing: large ? 12 : (small ? 4 : 7)) {
-            heading(w, label: "日出日落")
+            heading(w, label: WL("日出日落"))
             if small {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(target.map { countdown(to: $0) } ?? "—").font(.system(size: 27, weight: .light, design: .serif))
+                    Text(target.map { countdown(to: $0) } ?? "—").font(.system(size: 27, weight: .light, design: WeatherLocalization.isChinese ? .serif : .default))
                     Text(event).font(.system(size: 9)).opacity(0.7)
                 }
                 sunArc(rise: rise, set: set).frame(height: 39)
@@ -311,7 +311,7 @@ struct IslandWidgetContent: View {
                 stamp(w)
             } else if large {
                 HStack(alignment: .firstTextBaseline) {
-                    Text(target.map { countdown(to: $0) } ?? "—").font(.system(size: 39, weight: .light, design: .serif))
+                    Text(target.map { countdown(to: $0) } ?? "—").font(.system(size: 39, weight: .light, design: WeatherLocalization.isChinese ? .serif : .default))
                     Text(event).font(.system(size: 12)).opacity(0.7)
                     Spacer()
                     Image(systemName: beforeRise || !beforeSet ? "moon.stars" : "sun.max").font(.system(size: 23)).foregroundStyle(style.accent)
@@ -319,22 +319,22 @@ struct IslandWidgetContent: View {
                 sunArc(rise: rise, set: set).frame(height: 104)
                 solarTimes(w, rise: rise, set: set, compact: false)
                 HStack {
-                    Label("白昼时长", systemImage: "sun.max")
+                    Label(WL("白昼时长"), systemImage: "sun.max")
                     Spacer()
-                    Text(rise.flatMap { r in set.map { countdown(seconds: $0.timeIntervalSince(r)) } } ?? "暂无数据")
+                    Text(rise.flatMap { r in set.map { countdown(seconds: $0.timeIntervalSince(r)) } } ?? WL("暂无数据"))
                 }.font(.system(size: 12, weight: .medium)).padding(12)
                     .background(.white.opacity(0.4), in: RoundedRectangle(cornerRadius: 12))
-                Text(rise == nil || set == nil ? "极昼、极夜或日照数据暂缺" : "日光行过山海，愿你从容度日。")
-                    .font(.system(size: 11, design: .serif)).opacity(0.7)
+                Text(rise == nil || set == nil ? WL("极昼、极夜或日照数据暂缺") : WL("日光行过山海，愿你从容度日。"))
+                    .font(.system(size: 11, design: WeatherLocalization.isChinese ? .serif : .default)).opacity(0.7)
                 Spacer(minLength: 0)
                 stamp(w)
             } else {
                 HStack(spacing: 18) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(event).font(.system(size: 11)).opacity(0.7)
-                        Text(target.map { countdown(to: $0) } ?? "—").font(.system(size: 29, weight: .light, design: .serif))
-                        Text(beforeRise ? "等第一束光" : (beforeSet ? "把余晖留给自己" : "静候明日晨光"))
-                            .font(.system(size: 10, design: .serif)).opacity(0.7)
+                        Text(target.map { countdown(to: $0) } ?? "—").font(.system(size: 29, weight: .light, design: WeatherLocalization.isChinese ? .serif : .default))
+                        Text(beforeRise ? WL("等第一束光") : (beforeSet ? WL("把余晖留给自己") : WL("静候明日晨光")))
+                            .font(.system(size: 10, design: WeatherLocalization.isChinese ? .serif : .default)).opacity(0.7)
                     }.frame(width: 126, alignment: .leading)
                     VStack(spacing: 6) {
                         sunArc(rise: rise, set: set).frame(height: 54)
@@ -356,7 +356,8 @@ struct IslandWidgetContent: View {
     private func countdown(to target: Date) -> String { countdown(seconds: max(0, target.timeIntervalSince(date))) }
     private func countdown(seconds: TimeInterval) -> String {
         let minutes = max(0, Int(seconds / 60))
-        return minutes >= 60 ? "\(minutes / 60)时\(String(format: "%02d", minutes % 60))分" : "\(minutes)分"
+        if !WeatherLocalization.isChinese { return minutes >= 60 ? "\(minutes / 60):\(String(format: "%02d", minutes % 60))" : WLF("%1$@分", String(minutes)) }
+        return minutes >= 60 ? WLF("%1$@时%2$@分", String(describing: minutes / 60), String(describing: String(format: "%02d", minutes % 60))) : WLF("%1$@分", String(describing: minutes))
     }
     private func sunArc(rise: Date?, set: Date?) -> some View {
         Canvas { context, size in
@@ -388,8 +389,8 @@ struct IslandWidgetContent: View {
             Label(style.title, systemImage: style.symbol).font(.system(size: 12, weight: .medium))
             Spacer(minLength: 0)
             Image(systemName: "leaf").font(.system(size: small ? 25 : 32)).foregroundStyle(style.accent)
-            Text("让天气，住进小岛").font(.system(size: small ? 15 : 21, weight: .medium, design: .serif))
-            Text("打开气象岛，选择城市\n联网后即可显示天气")
+            Text(WL("让天气，住进小岛")).font(.system(size: small ? 15 : 21, weight: .medium, design: WeatherLocalization.isChinese ? .serif : .default))
+            Text(WL("打开气象岛，选择城市\n联网后即可显示天气"))
                 .font(.system(size: 11)).lineLimit(2).opacity(0.75)
             Spacer(minLength: 0)
         }

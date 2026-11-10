@@ -6,6 +6,7 @@ import Foundation
         if CommandLine.arguments.contains("--city-search-live") { try await checkLiveCitySearch() }
         let path = CommandLine.arguments[1]
         let fixture = try Data(contentsOf: URL(fileURLWithPath: path))
+        try await checkWeatherLocalization(fixture: fixture)
         let clockWinter = ISO8601DateFormatter().date(from: "2026-11-03T16:30:00Z")!
         let clockSummer = ISO8601DateFormatter().date(from: "2026-07-01T12:00:00Z")!
         precondition(WeatherClock.difference(from: "Asia/Shanghai", to: "Asia/Tokyo", at: clockWinter) == "比参照城市快 1小时")

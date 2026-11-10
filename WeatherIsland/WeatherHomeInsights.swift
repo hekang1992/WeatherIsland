@@ -16,15 +16,15 @@ struct HomeWeatherInsights {
     var rainChance: Double? { comingHours.compactMap { $0.metrics?.probability }.max() }
     var rainTitle: String {
         if let time = data.current.metrics?.time, abs(now.timeIntervalSince(time)) < 3600 {
-            if data.current.kind.severe { return "等天气平稳再出发" }
-            if data.current.kind.wet { return "出门记得带伞" }
+            if data.current.kind.severe { return WL("等天气平稳再出发") }
+            if data.current.kind.wet { return WL("出门记得带伞") }
         }
-        guard let rainChance else { return "降水待更新" }
-        return rainChance >= 50 ? "出门记得带伞" : "留意短时晴雨"
+        guard let rainChance else { return WL("降水待更新") }
+        return rainChance >= 50 ? WL("出门记得带伞") : WL("留意短时晴雨")
     }
     var rainNote: String {
-        guard let rainChance else { return "未来 6 小时概率暂缺" }
-        return "6 小时内已知最高概率 \(Int(rainChance.rounded()))%"
+        guard let rainChance else { return WL("未来 6 小时概率暂缺") }
+        return WLF("6 小时内已知最高概率 %1$@%", String(describing: Int(rainChance.rounded())))
     }
     var outdoorWindow: (start: WeatherReport, end: WeatherReport)? {
         let hours = data.next24Hours.sorted { ($0.metrics?.time ?? .distantPast) < ($1.metrics?.time ?? .distantPast) }
@@ -46,9 +46,9 @@ struct HomeWeatherInsights {
             && chance < 30 && wind < 25 && uv < 6 && visibility >= 5 && (8...30).contains(report.feelsLike)
     }
     var windowLabel: String {
-        guard let window = outdoorWindow, let start = window.start.metrics?.time, let end = window.end.metrics?.time else { return "先看看逐时预报" }
+        guard let window = outdoorWindow, let start = window.start.metrics?.time, let end = window.end.metrics?.time else { return WL("先看看逐时预报") }
         let today = WeatherClock.string(now, "yyyy-MM-dd", timeZone: data.timeZoneIdentifier)
-        let prefix = WeatherClock.string(start, "yyyy-MM-dd", timeZone: data.timeZoneIdentifier) == today ? "今天 " : "明天 "
+        let prefix = WeatherClock.string(start, "yyyy-MM-dd", timeZone: data.timeZoneIdentifier) == today ? WL("今天 ") : WL("明天 ")
         return prefix + WeatherClock.string(start, "HH:mm", timeZone: data.timeZoneIdentifier) + "—" + WeatherClock.string(end.addingTimeInterval(3600), "HH:mm", timeZone: data.timeZoneIdentifier)
     }
 }
@@ -58,20 +58,20 @@ enum HomeWeatherTopic: String, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .briefing: "今日天气手记"
-        case .rain: "带伞这件小事"
-        case .air: "呼吸之间"
-        case .daylight: "追着日光走"
-        case .outfit: "穿衣手记"
-        case .commute: "通勤备忘"
-        case .outdoor: "留一点时间给户外"
-        case .uv: "防晒提醒"
-        case .wind: "风从哪里来"
-        case .humidity: "空气里的水分"
-        case .visibility: "目光能走多远"
-        case .precipitation: "读懂降水量"
-        case .feelsLike: "身体感受到的温度"
-        case .forecast: "这一刻的天气"
+        case .briefing: WL("今日天气手记")
+        case .rain: WL("带伞这件小事")
+        case .air: WL("呼吸之间")
+        case .daylight: WL("追着日光走")
+        case .outfit: WL("穿衣手记")
+        case .commute: WL("通勤备忘")
+        case .outdoor: WL("留一点时间给户外")
+        case .uv: WL("防晒提醒")
+        case .wind: WL("风从哪里来")
+        case .humidity: WL("空气里的水分")
+        case .visibility: WL("目光能走多远")
+        case .precipitation: WL("读懂降水量")
+        case .feelsLike: WL("身体感受到的温度")
+        case .forecast: WL("这一刻的天气")
         }
     }
     var symbol: String {
@@ -139,14 +139,14 @@ struct HomeWeatherInsightSheet: View {
                         #endif
                         fullDetail = true
                     } label: {
-                        HStack { Text("查看完整天气"); Spacer(); Image(systemName: "arrow.up.right") }
+                        HStack { Text(WL("查看完整天气")); Spacer(); Image(systemName: "arrow.up.right") }
                             .font(.system(size: 14, weight: .medium)).padding(16)
                             .background(RoundedRectangle(cornerRadius: 16).fill(WeatherPalette.lime.opacity(0.45)))
                     }.buttonStyle(.plain).accessibilityIdentifier("home.sheet.fullDetail")
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(preview ? "离线设计示例" : "Open-Meteo · \(weatherCached ? "缓存" : "更新")于 \(local(data.fetchedAt, "M/d HH:mm"))")
-                        Text("\(report.place.title) · 当地时间 · \(data.timeZoneIdentifier)")
-                        Text("生活建议根据预报生成；小时预报无法确定具体的起雨分钟。")
+                        Text(preview ? WL("离线设计示例") : WLF("Open-Meteo · %1$@于 %2$@", String(describing: weatherCached ? WL("缓存") : WL("更新")), String(describing: local(data.fetchedAt, "M/d HH:mm"))))
+                        Text(WLF("%1$@ · 当地时间 · %2$@", String(describing: report.place.title), String(describing: data.timeZoneIdentifier)))
+                        Text(WL("生活建议根据预报生成；小时预报无法确定具体的起雨分钟。"))
                     }.font(.caption).foregroundStyle(WeatherPalette.secondary).fixedSize(horizontal: false, vertical: true)
                 }.padding(24).frame(maxWidth: 640, alignment: .leading).frame(maxWidth: .infinity)
             }
@@ -155,8 +155,8 @@ struct HomeWeatherInsightSheet: View {
             .navigationTitle(topic.title).navigationBarTitleDisplayModeIfAvailable()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("关闭", systemImage: "xmark") { dismiss() }
-                        .labelStyle(.iconOnly).accessibilityLabel("关闭天气手记").accessibilityIdentifier("home.sheet.close")
+                    Button(WL("关闭"), systemImage: "xmark") { dismiss() }
+                        .labelStyle(.iconOnly).accessibilityLabel(WL("关闭天气手记")).accessibilityIdentifier("home.sheet.close")
                 }
             }
             .navigationDestination(isPresented: $fullDetail) {
@@ -172,7 +172,7 @@ struct HomeWeatherInsightSheet: View {
 
     private var introduction: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label(report.place.title + " · " + (report.metrics?.daily == true ? local(report.metrics!.time, "M月d日 EEEE") : "天气生活指南"), systemImage: topic.symbol)
+            Label(report.place.title + " · " + (report.metrics?.daily == true ? local(report.metrics!.time, "M月d日 EEEE") : WL("天气生活指南")), systemImage: topic.symbol)
                 .font(.caption).foregroundStyle(WeatherPalette.secondary)
             Text(headline).font(WeatherTypography.display(29)).fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("home.sheet.headline")
@@ -184,45 +184,45 @@ struct HomeWeatherInsightSheet: View {
         switch topic {
         case .briefing: report.kind.poem
         case .rain: insights.rainTitle
-        case .air: quality?.usAQI.map { "\(Int($0.rounded())) · \(quality!.label)" } ?? "空气质量暂缺"
+        case .air: quality?.usAQI.map { "\(Int($0.rounded())) · \(quality!.label)" } ?? WL("空气质量暂缺")
         case .daylight: DaylightProgress.duration(sunrise: today.metrics?.sunrise, sunset: today.metrics?.sunset)
         case .outfit: report.outfitTitle
-        case .commute: report.kind.severe ? "等天气平稳，再出发" : "给路途留一点余裕"
+        case .commute: report.kind.severe ? WL("等天气平稳，再出发") : WL("给路途留一点余裕")
         case .outdoor: insights.windowLabel
         case .uv: "\(today.uvText) · \(today.uvLevel)"
-        case .wind: report.metrics?.wind.map { String(format: "%.0f km/h", $0) } ?? "风速暂缺"
-        case .humidity: report.metrics?.humidity.map { "\(Int($0.rounded()))%" } ?? "湿度暂缺"
-        case .visibility: report.metrics?.visibility.map { String(format: "%.1f km", $0) } ?? "能见度暂缺"
-        case .precipitation: report.metrics?.precipitation.map { String(format: "%.1f %@", $0, report.metrics?.precipitationUnit ?? "mm") } ?? "降水量暂缺"
-        case .feelsLike: "体感 \(report.feelsLike)°"
+        case .wind: report.metrics?.wind.map { String(format: "%.0f km/h", $0) } ?? WL("风速暂缺")
+        case .humidity: report.metrics?.humidity.map { "\(Int($0.rounded()))%" } ?? WL("湿度暂缺")
+        case .visibility: report.metrics?.visibility.map { String(format: "%.1f km", $0) } ?? WL("能见度暂缺")
+        case .precipitation: report.metrics?.precipitation.map { String(format: "%.1f %@", $0, report.metrics?.localizedPrecipitationUnit ?? "mm") } ?? WL("降水量暂缺")
+        case .feelsLike: WLF("体感 %1$@°", String(describing: report.feelsLike))
         case .forecast: report.metrics?.daily == true ? "\(report.low)°—\(report.high)° · \(report.kind.name)" : "\(report.temperature)° · \(report.kind.name)"
         }
     }
     private var explanation: String {
         switch topic {
-        case .briefing: "今天 \(today.low)°—\(today.high)°，温差 \(today.high - today.low)°。\(today.uvAdvice)"
-        case .rain: "\(insights.rainNote)。降水概率描述出现降水的可能性，并不等于下雨时长或雨量。"
-        case .air: quality?.advice ?? "空气质量与天气独立更新，数据恢复后可在首页查看。"
-        case .daylight: "把日出前的期待，留到日落后的余晖。以下时间均为所选地区当地时间。"
+        case .briefing: WLF("今天 %1$@°—%2$@°，温差 %3$@°。%4$@", String(describing: today.low), String(describing: today.high), String(describing: today.high - today.low), String(describing: today.uvAdvice))
+        case .rain: WLF("%1$@。降水概率描述出现降水的可能性，并不等于下雨时长或雨量。", String(describing: insights.rainNote))
+        case .air: quality?.advice ?? WL("空气质量与天气独立更新，数据恢复后可在首页查看。")
+        case .daylight: WL("把日出前的期待，留到日落后的余晖。以下时间均为所选地区当地时间。")
         case .outfit: report.outfitAdvice
         case .commute: report.commute
-        case .outdoor: insights.outdoorWindow == nil ? "接下来 24 小时内，暂未找到数据完整且符合筛选条件的连续两小时。可以先看看逐时预报，灵活安排。" : "在未来 24 小时里，挑出一段白天的连续两小时，作为散步时间参考。出发前再确认天气与空气质量。"
+        case .outdoor: insights.outdoorWindow == nil ? WL("接下来 24 小时内，暂未找到数据完整且符合筛选条件的连续两小时。可以先看看逐时预报，灵活安排。") : WL("在未来 24 小时里，挑出一段白天的连续两小时，作为散步时间参考。出发前再确认天气与空气质量。")
         case .uv: today.uvAdvice
-        case .wind: "风速会影响体感与出行。这里使用每小时公里；开阔路段、桥面与高处的风感可能更明显。"
-        case .humidity: "相对湿度表示空气接近饱和的程度，也随温度变化。搭配气温与体感一起看，更容易判断闷热或干燥。"
-        case .visibility: "能见度是模型预报的水平可视距离，雾、降水和空气中的颗粒物都可能影响视野。"
-        case .precipitation: "降水量按标注的时间范围累计。当前、逐小时与每日的统计口径可能不同，请连同单位一起阅读。"
-        case .feelsLike: "实际气温 \(report.temperature)°。体感温度综合考虑风与湿度等因素，衣着、日晒和活动量也会影响个人感受。"
-        case .forecast: report.metrics?.daily == true ? "这是当天的综合预报，温度显示全天最低与最高值。点击下方可查看完整天气。" : "\(report.metrics.map { local($0.time, "M月d日 HH:mm") } ?? report.scope) 的时段预报，方便你决定何时出门。"
+        case .wind: WL("风速会影响体感与出行。这里使用每小时公里；开阔路段、桥面与高处的风感可能更明显。")
+        case .humidity: WL("相对湿度表示空气接近饱和的程度，也随温度变化。搭配气温与体感一起看，更容易判断闷热或干燥。")
+        case .visibility: WL("能见度是模型预报的水平可视距离，雾、降水和空气中的颗粒物都可能影响视野。")
+        case .precipitation: WL("降水量按标注的时间范围累计。当前、逐小时与每日的统计口径可能不同，请连同单位一起阅读。")
+        case .feelsLike: WLF("实际气温 %1$@°。体感温度综合考虑风与湿度等因素，衣着、日晒和活动量也会影响个人感受。", String(describing: report.temperature))
+        case .forecast: report.metrics?.daily == true ? WL("这是当天的综合预报，温度显示全天最低与最高值。点击下方可查看完整天气。") : WLF("%1$@ 的时段预报，方便你决定何时出门。", String(describing: report.metrics.map { local($0.time, "M月d日 HH:mm") } ?? report.scope))
         }
     }
     @ViewBuilder private var detailContent: some View {
         switch topic {
         case .briefing:
-            rows([("umbrella", "带伞提醒", insights.rainNote), ("tshirt", "今日穿搭", report.outfitTitle), ("figure.walk", "路上留意", report.commute)])
+            rows([("umbrella", WL("带伞提醒"), insights.rainNote), ("tshirt", WL("今日穿搭"), report.outfitTitle), ("figure.walk", WL("路上留意"), report.commute)])
         case .rain:
             if insights.comingHours.isEmpty {
-                rows([("clock", "逐小时预报暂缺", "稍后下拉首页刷新，再查看未来降水变化。")])
+                rows([("clock", WL("逐小时预报暂缺"), WL("稍后下拉首页刷新，再查看未来降水变化。"))])
             } else {
                 VStack(spacing: 0) {
                     ForEach(insights.comingHours) { hour in
@@ -231,19 +231,19 @@ struct HomeWeatherInsightSheet: View {
                 }.padding(.horizontal, 16).background(RoundedRectangle(cornerRadius: 18).fill(WeatherPalette.surface))
             }
         case .air:
-            rows([("aqi.medium", "美国 AQI 标准", "0–50 优 · 51–100 良 · 101–150 敏感人群需留意 · 151 及以上需减少户外活动"),
+            rows([("aqi.medium", WL("美国 AQI 标准"), WL("0–50 优 · 51–100 良 · 101–150 敏感人群需留意 · 151 及以上需减少户外活动")),
                   ("circle.dotted", "PM2.5 / PM10", "\(quality?.pm25.map { String(format: "%.1f", $0) } ?? "—") / \(quality?.pm10.map { String(format: "%.1f", $0) } ?? "—") µg/m³"),
-                  ("clock", "空气数据独立更新", quality.map { "Open-Meteo / CAMS · \(airCached ? "缓存" : "更新")于 \(local($0.fetchedAt, "M/d HH:mm"))\(airFailed ? " · 本次更新失败" : "")\n预报时刻 \(local($0.time, "M/d HH:mm"))，采用美国 AQI，与国内 AQI 口径不同。" } ?? "当前没有可用的空气数据。")])
+                  ("clock", WL("空气数据独立更新"), quality.map { WLF("Open-Meteo / CAMS · %1$@于 %2$@%3$@\n预报时刻 %4$@，采用美国 AQI，与国内 AQI 口径不同。", String(describing: airCached ? WL("缓存") : WL("更新")), String(describing: local($0.fetchedAt, "M/d HH:mm")), String(describing: airFailed ? WL(" · 本次更新失败") : ""), String(describing: local($0.time, "M/d HH:mm"))) } ?? WL("当前没有可用的空气数据。"))])
         case .daylight:
-            rows([("sunrise", "日出", today.metrics?.sunrise.map { local($0) } ?? "暂无日出数据"), ("sunset", "日落", today.metrics?.sunset.map { local($0) } ?? "暂无日落数据"), ("camera", "留住今日天色", "日落前后可以留意天空色彩，云层与降水也会影响实际观赏效果。")])
+            rows([("sunrise", WL("日出"), today.metrics?.sunrise.map { local($0) } ?? WL("暂无日出数据")), ("sunset", WL("日落"), today.metrics?.sunset.map { local($0) } ?? WL("暂无日落数据")), ("camera", WL("留住今日天色"), WL("日落前后可以留意天空色彩，云层与降水也会影响实际观赏效果。"))])
         case .outfit:
-            rows([("thermometer.medium", "温度参考", "当前 \(report.temperature)° · 体感 \(report.feelsLike)°\n今日 \(report.low)°—\(report.high)°"), ("bag", "随身多带一层", report.high - report.low >= 8 ? "昼夜温差较大，带一件方便增减的外搭。" : "根据室内外温差和个人感受灵活增减衣物。")])
+            rows([("thermometer.medium", WL("温度参考"), WLF("当前 %1$@° · 体感 %2$@°\n今日 %3$@°—%4$@°", String(describing: report.temperature), String(describing: report.feelsLike), String(describing: report.low), String(describing: report.high))), ("bag", WL("随身多带一层"), report.high - report.low >= 8 ? WL("昼夜温差较大，带一件方便增减的外搭。") : WL("根据室内外温差和个人感受灵活增减衣物。"))])
         case .commute:
-            rows([("umbrella", "雨具", insights.rainNote), ("wind", "风与视野", "\(data.current.metrics?.wind.map { String(format: "风速 %.0f km/h", $0) } ?? "风速暂缺") · \(data.current.metrics?.visibility.map { String(format: "能见度 %.1f km", $0) } ?? "能见度暂缺")"), ("clock", "出发之前", "长途出行再确认沿途天气，留意当地道路信息与官方天气提示。")])
+            rows([("umbrella", WL("雨具"), insights.rainNote), ("wind", WL("风与视野"), "\(data.current.metrics?.wind.map { String(format: WL("风速 %.0f km/h"), $0) } ?? WL("风速暂缺")) · \(data.current.metrics?.visibility.map { String(format: WL("能见度 %.1f km"), $0) } ?? WL("能见度暂缺"))"), ("clock", WL("出发之前"), WL("长途出行再确认沿途天气，留意当地道路信息与官方天气提示。"))])
         case .outdoor:
-            rows([("leaf", "如何挑选这段时间", "连续两小时均为日间，降水概率低于 30%、风速低于 25 km/h、紫外线低于 6、能见度至少 5 km、体感 8°—30°，且没有雨雪、雾或强风天气。"), ("aqi.medium", "再看一眼空气", quality?.advice ?? "空气质量暂缺，出发前请补充确认。"), ("cup.and.saucer", "也给室内留一个选项", report.kind.outing)])
+            rows([("leaf", WL("如何挑选这段时间"), WL("连续两小时均为日间，降水概率低于 30%、风速低于 25 km/h、紫外线低于 6、能见度至少 5 km、体感 8°—30°，且没有雨雪、雾或强风天气。")), ("aqi.medium", WL("再看一眼空气"), quality?.advice ?? WL("空气质量暂缺，出发前请补充确认。")), ("cup.and.saucer", WL("也给室内留一个选项"), report.kind.outing)])
         case .uv:
-            rows([("sun.max", "今日最高紫外线", "\(today.uvText) · \(today.uvLevel)\n0–2 低 / 3–5 中等 / 6–7 高 / 8–10 很高 / 11+ 极高"), ("hat.widebrim", "遮阳小物", "根据活动时长准备遮阳帽、太阳镜，选择有遮蔽的路线。")])
+            rows([("sun.max", WL("今日最高紫外线"), WLF("%1$@ · %2$@\n0–2 低 / 3–5 中等 / 6–7 高 / 8–10 很高 / 11+ 极高", String(describing: today.uvText), String(describing: today.uvLevel))), ("hat.widebrim", WL("遮阳小物"), WL("根据活动时长准备遮阳帽、太阳镜，选择有遮蔽的路线。"))])
         case .wind, .humidity, .visibility, .precipitation, .feelsLike, .forecast:
             forecastFacts
         }
@@ -281,10 +281,10 @@ struct HomeWeatherInsightSheet: View {
         }.frame(height: 5)
     }
     private var forecastFacts: some View {
-        rows([("thermometer.medium", report.metrics?.daily == true ? "全天温度范围" : "气温与体感", report.metrics?.daily == true ? "最低 \(report.low)° / 最高 \(report.high)°" : "气温 \(report.temperature)° / 体感 \(report.feelsLike)°"),
-              ("drop", report.metrics?.daily == true ? "全天最高降水概率" : "降水概率", report.metrics?.probability.map { "\(Int($0.rounded()))%" } ?? "暂无数据"),
-              ("wind", report.metrics?.daily == true ? "全天最大风速" : "风速", report.metrics?.wind.map { String(format: "%.0f km/h", $0) } ?? "暂无数据"),
-              ("tshirt", "穿衣参考", report.outfitAdvice)])
+        rows([("thermometer.medium", report.metrics?.daily == true ? WL("全天温度范围") : WL("气温与体感"), report.metrics?.daily == true ? WLF("最低 %1$@° / 最高 %2$@°", String(describing: report.low), String(describing: report.high)) : WLF("气温 %1$@° / 体感 %2$@°", String(describing: report.temperature), String(describing: report.feelsLike))),
+              ("drop", report.metrics?.daily == true ? WL("全天最高降水概率") : WL("降水概率"), report.metrics?.probability.map { "\(Int($0.rounded()))%" } ?? WL("暂无数据")),
+              ("wind", report.metrics?.daily == true ? WL("全天最大风速") : WL("风速"), report.metrics?.wind.map { String(format: "%.0f km/h", $0) } ?? WL("暂无数据")),
+              ("tshirt", WL("穿衣参考"), report.outfitAdvice)])
     }
     private func rows(_ items: [(String, String, String)]) -> some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -309,13 +309,13 @@ struct HomePackingList: View {
     @AppStorage("WeatherIsland.Packing.context") private var savedContext = ""
     @AppStorage("WeatherIsland.Packing.items") private var checked = 0
     private var items: [(String, String)] {
-        [("雨具", report?.kind.wet == true ? "雨伞或防水外套" : "折叠伞，随手备用"),
-         ("衣物", (report?.temperature ?? 20) <= 5 ? "围巾与保暖外层" : "方便增减的外搭"),
-         ("随身", "水杯、钥匙与手机")]
+        [(WL("雨具"), report?.kind.wet == true ? WL("雨伞或防水外套") : WL("折叠伞，随手备用")),
+         (WL("衣物"), (report?.temperature ?? 20) <= 5 ? WL("围巾与保暖外层") : WL("方便增减的外搭")),
+         (WL("随身"), WL("水杯、钥匙与手机"))]
     }
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack { Text("出门前，点一点").font(WeatherTypography.display(20)); Spacer(); Text("\(savedContext == context ? checked.nonzeroBitCount : 0)/3").font(.caption.monospacedDigit()).foregroundStyle(WeatherPalette.secondary) }
+            HStack { Text(WL("出门前，点一点")).font(WeatherTypography.display(20)); Spacer(); Text("\(savedContext == context ? checked.nonzeroBitCount : 0)/3").font(.caption.monospacedDigit()).foregroundStyle(WeatherPalette.secondary) }
             ForEach(0..<items.count, id: \.self) { index in
                 let selected = savedContext == context && checked & (1 << index) != 0
                 Button {
@@ -332,7 +332,7 @@ struct HomePackingList: View {
                     .accessibilityAddTraits(selected ? .isSelected : [])
                     .accessibilityIdentifier("home.packing.\(index)")
             }
-            Text("仅保存在本机，切换地区或日期后重新勾选。").font(.caption).foregroundStyle(WeatherPalette.secondary)
+            Text(WL("仅保存在本机，切换地区或日期后重新勾选。")).font(.caption).foregroundStyle(WeatherPalette.secondary)
         }
     }
 }

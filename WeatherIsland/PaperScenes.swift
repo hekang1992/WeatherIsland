@@ -10,6 +10,8 @@ struct PaperSceneStyle: Identifiable, Hashable, Sendable {
     let subtitle: String
     let family: Family
     let variant: Int
+    var displayName: String { WL(name) }
+    var displaySubtitle: String { WL(subtitle) }
     var artDirection:String {family.artDirection}
     var number: Int { Self.all.firstIndex(where: { $0.id == id }) ?? 0 }
     var tint: Color {
@@ -95,16 +97,16 @@ struct PaperCityScene: View {
 extension PaperSceneStyle.Family {
     var artDirection: String {
         switch self {
-        case .metropolis: "烟岚江渚"
-        case .heritage: "庭院清供"
-        case .coast: "水墨行舟"
-        case .mountain: "青绿山水"
-        case .canal: "荷风莲影"
-        case .forest: "墨竹松风"
-        case .desert: "远山秋霁"
-        case .snow: "寒江晴雪"
-        case .tropical: "花鸟小景"
-        case .countryside: "田园清和"
+        case .metropolis: WL("烟岚江渚")
+        case .heritage: WL("庭院清供")
+        case .coast: WL("水墨行舟")
+        case .mountain: WL("青绿山水")
+        case .canal: WL("荷风莲影")
+        case .forest: WL("墨竹松风")
+        case .desert: WL("远山秋霁")
+        case .snow: WL("寒江晴雪")
+        case .tropical: WL("花鸟小景")
+        case .countryside: WL("田园清和")
         }
     }
 }
@@ -516,14 +518,15 @@ enum SongPainting {
         for i in 0..<2 {let xx=x+Double(i)*6*s;curve([(xx,y-6*s),(xx+1*s,y+3*s),(xx-1*s,y+11*s)],ink.opacity(0.65),0.65*s,&c)}
     }
     private static func inscription(_ s:PaperSceneStyle,_ c:inout GraphicsContext) {
-        let font=Font.custom("STSongti-SC-Regular",size:15)
+        // Inscriptions belong to the fixed painting composition, not the UI text scale.
+        let font=Font.custom("STSongti-SC-Regular",fixedSize:15)
         for (i,ch) in s.name.enumerated() {c.draw(Text(String(ch)).font(font).foregroundStyle(ink.opacity(0.85)),at:point(329,33+Double(i)*19))}
         let words="风来有信"
-        for (i,ch) in words.enumerated() {c.draw(Text(String(ch)).font(.custom("STSongti-SC-Regular",size:6.5)).foregroundStyle(ink.opacity(0.55)),at:point(310,36+Double(i)*9))}
+        for (i,ch) in words.enumerated() {c.draw(Text(String(ch)).font(.custom("STSongti-SC-Regular",fixedSize:6.5)).foregroundStyle(ink.opacity(0.55)),at:point(310,36+Double(i)*9))}
         let sealY=36+Double(s.name.count)*19
         let stamp=Path(roundedRect:CGRect(x:322,y:sealY,width:14,height:23),cornerRadius:0.5)
         c.fill(stamp,with:.color(seal.opacity(0.8)))
-        c.draw(Text("气").font(.custom("STSongti-SC-Regular",size:8)).foregroundStyle(silk),at:point(329,sealY+6))
-        c.draw(Text("象").font(.custom("STSongti-SC-Regular",size:8)).foregroundStyle(silk),at:point(329,sealY+16))
+        c.draw(Text("气").font(.custom("STSongti-SC-Regular",fixedSize:8)).foregroundStyle(silk),at:point(329,sealY+6))
+        c.draw(Text("象").font(.custom("STSongti-SC-Regular",fixedSize:8)).foregroundStyle(silk),at:point(329,sealY+16))
     }
 }

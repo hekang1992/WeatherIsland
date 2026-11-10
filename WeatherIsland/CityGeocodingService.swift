@@ -18,7 +18,7 @@ struct GeocodedCity: Identifiable, Sendable {
             if saved.id == place.id { return true }
             let savedName = canonical(saved.city)
             return saved.countryCode == place.countryCode && saved.district.isEmpty && place.district.isEmpty
-                && name.caseInsensitiveCompare(savedName) == .orderedSame
+                && (name.caseInsensitiveCompare(savedName) == .orderedSame || abs(saved.latitude - place.latitude) < 0.01 && abs(saved.longitude - place.longitude) < 0.01)
                 && abs(saved.latitude - place.latitude) < 0.05 && abs(saved.longitude - place.longitude) < 0.05
         } ?? place
     }
@@ -67,28 +67,29 @@ enum CityGeocodingService {
         return traditional == text ? [text] : [text, traditional]
     }
 
-    static func endpoint(for name: String) -> URL {
+    static func endpoint(for name: String, language: AppLanguage = WeatherLocalization.language) -> URL {
         var components = URLComponents(string: "https://geocoding-api.open-meteo.com/v1/search")!
         components.queryItems = [
             .init(name: "name", value: name), .init(name: "count", value: "20"),
-            .init(name: "language", value: "zh"), .init(name: "format", value: "json")
+            .init(name: "language", value: language == .chinese ? "zh" : language.rawValue), .init(name: "format", value: "json")
         ]
         return components.url!
     }
 
     static func search(_ query: String, session: URLSession = .shared) async throws -> [GeocodedCity] {
+        let language = WeatherLocalization.language
         let names = queryNames(for: query)
         guard !names.isEmpty else { return [] }
         return try await withThrowingTaskGroup(of: [GeocodedCity].self) { group in
             for name in names {
                 group.addTask {
-                    var request = URLRequest(url: endpoint(for: name))
+                    var request = URLRequest(url: endpoint(for: name, language: language))
                     request.timeoutInterval = 12
                     let (data, response) = try await session.data(for: request)
                     try Task.checkCancellation()
                     guard let http = response as? HTTPURLResponse else { throw SearchError.invalidResponse }
                     guard (200..<300).contains(http.statusCode) else { throw SearchError.http(http.statusCode) }
-                    return try decode(data)
+                    return try decode(data, language: language)
                 }
             }
             var cities: [GeocodedCity] = []
@@ -109,7 +110,8 @@ enum CityGeocodingService {
         }
     }
 
-    static func decode(_ data: Data) throws -> [GeocodedCity] {
+    static func decode(_ data: Data, language: AppLanguage = WeatherLocalization.language) throws -> [GeocodedCity] {
+        func display(_ value: String) -> String { language == .chinese ? simplified(value) : value }
         let response = try JSONDecoder().decode(Response.self, from: data)
         guard response.error != true else { throw SearchError.invalidResponse }
         return (response.results ?? []).compactMap { item in
@@ -118,12 +120,13 @@ enum CityGeocodingService {
                   let zone = item.timezone, TimeZone(identifier: zone) != nil,
                   let code = item.country_code, !code.isEmpty,
                   !item.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
-            let place = WeatherPlace(city: simplified(item.name), region: simplified(item.admin1 ?? ""),
-                                     country: simplified(item.country ?? Locale(identifier: "zh_CN").localizedString(forRegionCode: code) ?? code),
+            let place = WeatherPlace(city: display(item.name), region: display(item.admin1 ?? ""),
+                                     country: display(item.country ?? language.locale.localizedString(forRegionCode: code) ?? code),
                                      countryCode: code.uppercased(), latitude: item.latitude, longitude: item.longitude,
                                      timeZoneIdentifier: zone)
             guard place.valid else { return nil }
-            return GeocodedCity(id: item.id, place: place, administrativeArea: simplified(item.admin2 ?? ""), population: item.population ?? 0)
+            WeatherPlaceNames.save(.init(city: place.city, district: place.district, region: place.region), for: place, language: language)
+            return GeocodedCity(id: item.id, place: place, administrativeArea: display(item.admin2 ?? ""), population: item.population ?? 0)
         }
     }
 

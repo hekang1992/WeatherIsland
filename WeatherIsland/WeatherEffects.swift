@@ -73,7 +73,7 @@ struct IslandScene: View {
                     }
                     Text("SHANGHAI ISLAND")
                         .font(.system(size: 6, weight: .medium, design: .monospaced))
-                        .tracking(2)
+                        .tracking(WeatherLocalization.isChinese ? 2 : 0)
                         .foregroundStyle(WeatherPalette.secondary)
                         .rotationEffect(.degrees(-12))
                         .position(x: 70 * sx, y: 193 * sy)
@@ -200,15 +200,15 @@ enum WeatherParticles {
 struct WeatherEffects_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            WeatherHomeView(initialWeather: .overcast).previewDisplayName("天空 · 阴天")
-            WeatherHomeView(initialWeather: .moderateRain).previewDisplayName("天空 · 中雨")
-            WeatherHomeView(initialWeather: .snow).previewDisplayName("天空 · 飘雪")
-            WeatherHomeView(initialWeather: .fog).previewDisplayName("天空 · 雾天")
-            WeatherHomeView(initialWeather: .windy).previewDisplayName("天空 · 大风")
-            WeatherDetailView(report: .demo(.thunderstorm)).previewDisplayName("天气手记 · 雷暴出行")
-            WeatherDetailView(report: .demo(.clear)).previewDisplayName("天气手记 · 晴天遮阳")
+            WeatherHomeView(initialWeather: .overcast).previewDisplayName(WL("天空 · 阴天"))
+            WeatherHomeView(initialWeather: .moderateRain).previewDisplayName(WL("天空 · 中雨"))
+            WeatherHomeView(initialWeather: .snow).previewDisplayName(WL("天空 · 飘雪"))
+            WeatherHomeView(initialWeather: .fog).previewDisplayName(WL("天空 · 雾天"))
+            WeatherHomeView(initialWeather: .windy).previewDisplayName(WL("天空 · 大风"))
+            WeatherDetailView(report: .demo(.thunderstorm)).previewDisplayName(WL("天气手记 · 雷暴出行"))
+            WeatherDetailView(report: .demo(.clear)).previewDisplayName(WL("天气手记 · 晴天遮阳"))
             WeatherHomeView(animate: false, initialWeather: .hail)
-                .previewDisplayName("冰雹 · 静态天空")
+                .previewDisplayName(WL("冰雹 · 静态天空"))
         }
         .previewDevice("iPhone 15 Pro")
     }

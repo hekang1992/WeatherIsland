@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "catalogEntries": 932,
+  "translatedEntries": 914,
+  "languages": [
+    "zh-Hans",
+    "en",
+    "vi"
+  ],
+  "releasePackages": [
+    {
+      "locale": "zh-Hans",
+      "images": 7,
+      "keywordsUTF8Bytes": 85
+    },
+    {
+      "locale": "en-US",
+      "images": 7,
+      "keywordsUTF8Bytes": 97
+    },
+    {
+      "locale": "vi",
+      "images": 7,
+      "keywordsUTF8Bytes": 96
+    }
+  ]
+}

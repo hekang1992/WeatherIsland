@@ -242,7 +242,7 @@ private final class ForecastPinView: MKAnnotationView {
         icon.tintColor = accent
         disc.contentView.backgroundColor = accent.withAlphaComponent(0.07)
         tip.backgroundColor = .white.withAlphaComponent(0.92)
-        accessibilityLabel = "所选位置，\(layer.title)，\(text) \(layer.unit)"
+        accessibilityLabel = WLF("所选位置，%1$@，%2$@ %3$@", String(describing: layer.title), String(describing: text), String(describing: layer.unit))
     }
 }
 #endif

@@ -45,10 +45,10 @@ struct WeatherHomeView: View {
     private var days: [WeatherSample.Day] { store.dataset?.days ?? WeatherSample.days }
     private var day: WeatherSample.Day { days[min(selectedDay ?? 0, days.count - 1)] }
     private var sourceLabel: String {
-        if demoKind != nil { return "天气剧场 · 离线演示" }
-        guard useLiveData else { return "离线示例 / 点小岛看详情" }
-        guard let data = store.dataset else { return "正在连接天气服务" }
-        return "Open-Meteo · \(store.cached || store.error != nil ? "缓存 " : "更新 ")\(WeatherClock.string(data.fetchedAt, "M/d HH:mm"))"
+        if demoKind != nil { return WL("天气剧场 · 离线演示") }
+        guard useLiveData else { return WL("离线示例 / 点小岛看详情") }
+        guard let data = store.dataset else { return WL("正在连接天气服务") }
+        return "Open-Meteo · \(store.cached || store.error != nil ? WL("缓存 ") : WL("更新 "))\(WeatherClock.string(data.fetchedAt, "M/d HH:mm"))"
     }
     private func refresh() async {
         guard useLiveData else { return }
@@ -73,10 +73,10 @@ struct WeatherHomeView: View {
     }
     private var condition: String { report.kind.name }
     private var scope: String {
-        if demoKind != nil { return "上海 · 天气剧场" }
+        if demoKind != nil { return WL("上海 · 天气剧场") }
         if store.dataset != nil { return report.scope }
-        if selectedDay != nil { return "\(day.name) · 日间最高" }
-        return selectedHour == 0 ? "此刻的上海" : "今天 \(hours[selectedHour].time)"
+        if selectedDay != nil { return WLF("%1$@ · 日间最高", String(describing: day.name)) }
+        return selectedHour == 0 ? WL("此刻的上海") : WLF("今天 %1$@", String(describing: hours[selectedHour].time))
     }
 
     var body: some View {
@@ -116,13 +116,13 @@ struct WeatherHomeView: View {
             if useLiveData && store.dataset == nil && demoKind == nil {
                 VStack(spacing: 18) {
                     Image(systemName: "cloud.sun").font(.system(size: 44, weight: .light))
-                    Text(store.loading || store.error == nil ? "正在为小岛接通天空…" : "暂时没收到天气来信")
+                    Text(store.loading || store.error == nil ? WL("正在为小岛接通天空…") : WL("暂时没收到天气来信"))
                         .font(.system(size: 20, weight: .medium))
                     if store.loading || store.error == nil { ProgressView() }
                     if let error = store.error {
                         Text(error).font(.system(size: 13)).multilineTextAlignment(.center)
-                        Button("重新连接") { Task { await refresh() } }.buttonStyle(.borderedProminent)
-                        Button("先逛逛天气剧场") { settingsPresented = true }
+                        Button(WL("重新连接")) { Task { await refresh() } }.buttonStyle(.borderedProminent)
+                        Button(WL("先逛逛天气剧场")) { settingsPresented = true }
                     }
                 }
                 .tint(WeatherPalette.ink)
@@ -144,10 +144,10 @@ struct WeatherHomeView: View {
             header
             if useLiveData && (demoKind != nil || store.error != nil || store.cached) {
                 HStack(spacing: 8) {
-                    Text(demoKind != nil ? "天气剧场 · 演示数据" : store.error != nil ? "更新失败，显示上次缓存" : "上次天气 · 正在更新")
+                    Text(demoKind != nil ? WL("天气剧场 · 演示数据") : store.error != nil ? WL("更新失败，显示上次缓存") : WL("上次天气 · 正在更新"))
                         .font(.system(size: 10))
                     Spacer()
-                    Button(demoKind != nil ? "返回实况" : "重试") {
+                    Button(demoKind != nil ? WL("返回实况") : WL("重试")) {
                         if demoKind != nil {
                             demoKind = nil; selectedDay = nil; selectedHour = 0
                             temperature = report.temperature
@@ -175,7 +175,7 @@ struct WeatherHomeView: View {
                     WeatherWebLink(sourceLabel, destination: URL(string: "https://open-meteo.com/")!)
                 } else { Text(sourceLabel) }
                 Spacer()
-                Text("11 种天空")
+                Text(WL("11 种天空"))
             }
             .font(.system(size: 8, weight: .medium, design: .monospaced))
             .foregroundStyle(WeatherPalette.secondary)
@@ -195,11 +195,11 @@ struct WeatherHomeView: View {
             WeatherBrandMark()
                 .frame(width: 34, height: 34)
             VStack(alignment: .leading, spacing: 3) {
-                Text("气象岛")
+                Text(WL("气象岛"))
                     .font(.system(size: 20, weight: .semibold))
-                    .tracking(2)
+                    .tracking(WeatherLocalization.isChinese ? 2 : 0)
                     .foregroundStyle(WeatherPalette.ink)
-                Text("把今天，过成好天气")
+                Text(WL("把今天，过成好天气"))
                     .font(.system(size: 9))
                     .foregroundStyle(WeatherPalette.secondary)
             }
@@ -207,7 +207,7 @@ struct WeatherHomeView: View {
             Button { settingsPresented = true } label: {
                 HStack(spacing: 7) {
                     Circle().fill(WeatherPalette.lime).frame(width: 5, height: 5)
-                    Text("天气剧场").font(.system(size: 11, weight: .medium))
+                    Text(WL("天气剧场")).font(.system(size: 11, weight: .medium))
                     Image(systemName: "sparkles").font(.system(size: 8, weight: .semibold))
                 }
                 .foregroundStyle(WeatherPalette.paper)
@@ -217,7 +217,7 @@ struct WeatherHomeView: View {
                 .frame(minHeight: 44)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("打开天气剧场，可切换 11 种示例天气")
+            .accessibilityLabel(WL("打开天气剧场，可切换 11 种示例天气"))
         }
         .frame(height: 48)
     }
@@ -229,7 +229,7 @@ struct WeatherHomeView: View {
                 HStack(spacing: 5) {
                     Circle().fill(WeatherPalette.accent).frame(width: 4, height: 4)
                     Text(scope)
-                    Text(demoKind != nil ? "/ 离线演示" : store.dataset != nil ? "/ " + WeatherClock.string(report.metrics!.time, "M月d日 EEE") : "/ 10月30日 周四")
+                    Text(demoKind != nil ? WL("/ 离线演示") : store.dataset != nil ? "/ " + WeatherClock.string(report.metrics!.time, "M月d日 EEE") : WL("/ 10月30日 周四"))
                         .foregroundStyle(WeatherPalette.secondary)
                 }
                 .font(.system(size: 10, weight: .medium))
@@ -244,7 +244,7 @@ struct WeatherHomeView: View {
                     .contentTransition(.numericText())
                     .animation(reduceMotion ? nil : .easeOut(duration: 0.8), value: temperature)
                     .offset(x: -3, y: 9)
-                    .accessibilityLabel("\(scope)，\(temperature) 摄氏度，\(condition)")
+                    .accessibilityLabel(WLF("%1$@，%2$@ 摄氏度，%3$@", String(describing: scope), String(describing: temperature), String(describing: condition)))
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(condition)
@@ -252,7 +252,7 @@ struct WeatherHomeView: View {
                     Text(report.kind.poem)
                         .font(.system(size: 10))
                         .foregroundStyle(WeatherPalette.secondary)
-                    Text("天气详情 ↗")
+                    Text(WL("天气详情 ↗"))
                         .font(.system(size: 9, weight: .medium))
                         .foregroundStyle(WeatherPalette.accent)
                 }
@@ -268,9 +268,9 @@ struct WeatherHomeView: View {
                 .accessibilityHidden(true)
 
                 HStack(spacing: 0) {
-                    metric("最高", value: "\(report.high)°")
-                    metric("最低", value: "\(report.low)°")
-                    metric(selectedDay == nil ? "体感" : "预报", value: selectedDay == nil ? "\(report.feelsLike)°" : "日间")
+                    metric(WL("最高"), value: "\(report.high)°")
+                    metric(WL("最低"), value: "\(report.low)°")
+                    metric(selectedDay == nil ? WL("体感") : WL("预报"), value: selectedDay == nil ? "\(report.feelsLike)°" : WL("日间"))
                 }
                 .frame(height: 35)
                 .background(Capsule().fill(WeatherPalette.surface))
@@ -285,7 +285,7 @@ struct WeatherHomeView: View {
         .frame(height: 340)
         .contentShape(Rectangle())
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(scope)，\(condition)，\(temperature) 摄氏度。打开天气详情与生活建议")
+        .accessibilityLabel(WLF("%1$@，%2$@，%3$@ 摄氏度。打开天气详情与生活建议", String(describing: scope), String(describing: condition), String(describing: temperature)))
         .accessibilityAddTraits(.isButton)
     }
 
@@ -300,11 +300,11 @@ struct WeatherHomeView: View {
     private var hourlyOrbit: some View {
         VStack(spacing: 5) {
             HStack {
-                Text(store.dataset == nil ? "今天的温度轨道" : "接下来的温度轨道")
+                Text(store.dataset == nil ? WL("今天的温度轨道") : WL("接下来的温度轨道"))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(WeatherPalette.ink)
                 Spacer()
-                Text("逐小时 · 点选看天空")
+                Text(WL("逐小时 · 点选看天空"))
                     .font(.system(size: 9))
                     .foregroundStyle(WeatherPalette.secondary)
             }
@@ -351,7 +351,7 @@ struct WeatherHomeView: View {
                         .offset(x: cell * CGFloat(index), y: 4 + orbitOffset(index))
                         .opacity(entered ? 1 : 0)
                         .animation(entrance(0.45, delay: Double(index) * 0.08), value: entered)
-                        .accessibilityLabel("\(hour.time)，\(hour.condition)，\(hour.temperature) 度，切换小岛天气")
+                        .accessibilityLabel(WLF("%1$@，%2$@，%3$@ 度，切换小岛天气", String(describing: hour.time), String(describing: hour.condition), String(describing: hour.temperature)))
                         .accessibilityAddTraits(active ? .isSelected : [])
                     }
                 }
@@ -368,13 +368,13 @@ struct WeatherHomeView: View {
     private var weekTickets: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("一周天气收藏")
+                Text(WL("一周天气收藏"))
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(WeatherPalette.ink)
                 Spacer()
                 Text("7 DAYS  ↗")
                     .font(.system(size: 8, weight: .medium, design: .monospaced))
-                    .tracking(1)
+                    .tracking(WeatherLocalization.isChinese ? 1 : 0)
                     .foregroundStyle(WeatherPalette.secondary)
             }
             .frame(height: 18)
@@ -410,7 +410,7 @@ struct WeatherHomeView: View {
                 .id(index)
                 .opacity(entered ? 1 : 0)
                 .animation(entrance(0.45, delay: Double(index) * 0.06), value: entered)
-                .accessibilityLabel("\(item.name)，\(item.condition)，最低 \(item.low) 度，最高 \(item.high) 度")
+                .accessibilityLabel(WLF("%1$@，%2$@，最低 %3$@ 度，最高 %4$@ 度", String(describing: item.name), String(describing: item.condition), String(describing: item.low), String(describing: item.high)))
                 .accessibilityAddTraits(active ? .isSelected : [])
             }
         }
@@ -746,14 +746,14 @@ extension Color {
 struct WeatherHomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            WeatherHomeView().previewDisplayName("气象岛 · 交互与入场动画")
-            WeatherHomeView(animate: false).previewDisplayName("气象岛 · 现在 / 多云")
-            WeatherHomeView(animate: false, initialHour: 3).previewDisplayName("气象岛 · 13时 / 晴")
-            WeatherHomeView(animate: false, initialDay: 3).previewDisplayName("气象岛 · 周日 / 小雨")
-            WeatherHomeView(initialWeather: .heavyRain).previewDisplayName("气象岛 · 大雨动画")
-            WeatherHomeView(initialWeather: .thunderstorm).previewDisplayName("气象岛 · 雷暴动画")
-            WeatherHomeView(initialWeather: .hail).previewDisplayName("气象岛 · 冰雹动画")
-            WeatherDetailView(report: .demo(.partlyCloudy)).previewDisplayName("天气手记 · 穿衣与紫外线")
+            WeatherHomeView().previewDisplayName(WL("气象岛 · 交互与入场动画"))
+            WeatherHomeView(animate: false).previewDisplayName(WL("气象岛 · 现在 / 多云"))
+            WeatherHomeView(animate: false, initialHour: 3).previewDisplayName(WL("气象岛 · 13时 / 晴"))
+            WeatherHomeView(animate: false, initialDay: 3).previewDisplayName(WL("气象岛 · 周日 / 小雨"))
+            WeatherHomeView(initialWeather: .heavyRain).previewDisplayName(WL("气象岛 · 大雨动画"))
+            WeatherHomeView(initialWeather: .thunderstorm).previewDisplayName(WL("气象岛 · 雷暴动画"))
+            WeatherHomeView(initialWeather: .hail).previewDisplayName(WL("气象岛 · 冰雹动画"))
+            WeatherDetailView(report: .demo(.partlyCloudy)).previewDisplayName(WL("天气手记 · 穿衣与紫外线"))
         }
         .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
         .preferredColorScheme(.light)
@@ -763,5 +763,5 @@ struct WeatherHomeView_Previews: PreviewProvider {
 
 /// Songti for display titles; measurement labels retain the system font for legibility.
 enum WeatherTypography {
-    static func display(_ size:CGFloat)->Font { .custom("STSongti-SC-Regular",size:size,relativeTo:.title) }
+    static func display(_ size:CGFloat)->Font { WeatherLocalization.isChinese ? .custom("STSongti-SC-Regular",size:size,relativeTo:.title) : .system(size: size, weight: .regular, design: .default) }
 }

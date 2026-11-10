@@ -11,7 +11,7 @@ struct SceneContactSheet:View {
                 VStack(alignment:.leading,spacing:8){
                     Text((PaperSceneStyle.all.first{$0.family==family}?.artDirection ?? "") + " · " + "卷之" + String(PaperSceneStyle.Family.allCases.firstIndex(of:family)!+1)).font(WeatherTypography.display(17)).tracking(2)
                     HStack(spacing:14){ForEach(PaperSceneStyle.all.filter{$0.family==family}){style in
-                        VStack(alignment:.leading,spacing:5){PaperCityScene(style:style,animate:false).frame(width:232,height:160).background(style.tint.opacity(0.15)).clipShape(RoundedRectangle(cornerRadius:4));Text(String(format:"%02d",style.number+1)+" / "+style.name).font(.system(size:11,weight:.medium)).padding(.leading,6)}
+                        VStack(alignment:.leading,spacing:5){PaperCityScene(style:style,animate:false).frame(width:232,height:160).background(style.tint.opacity(0.15)).clipShape(RoundedRectangle(cornerRadius:4));Text(String(format:"%02d",style.number+1)+" / "+style.displayName).font(.system(size:11,weight:.medium)).padding(.leading,6)}
                     }}
                 }
             }
@@ -31,7 +31,7 @@ struct ArtDirectionBoard:View {
                     let style=PaperSceneStyle.all[i]
                     VStack(alignment:.leading,spacing:10){
                         PaperCityScene(style:style,animate:false).frame(width:300,height:207).clipShape(RoundedRectangle(cornerRadius:5))
-                        HStack{Text(style.artDirection).font(WeatherTypography.display(19));Spacer();Text(style.name).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}
+                        HStack{Text(style.artDirection).font(WeatherTypography.display(19));Spacer();Text(style.displayName).font(.system(size:12)).foregroundStyle(WeatherPalette.secondary)}
                     }.frame(width:300)
                 }}
             }
@@ -75,7 +75,8 @@ struct WeatherClarityBoard: View {
     }
     @MainActor static func main()throws{
         _=NSApplication.shared
-        let root=URL(fileURLWithPath:CommandLine.arguments[1]);let previews=root.appendingPathComponent("Previews")
+        let root=URL(fileURLWithPath:CommandLine.arguments[1]);let previews=CommandLine.arguments.count > 2 && !CommandLine.arguments[2].hasPrefix("--") ? URL(fileURLWithPath: CommandLine.arguments[2]) : root.appendingPathComponent("Previews")
+        try FileManager.default.createDirectory(at: previews, withIntermediateDirectories: true)
         try save(WeatherClarityBoard(),to:previews.appendingPathComponent("Weather-Clear-Cloudy-Overcast.png"),scale:1.5)
         try save(HStack(spacing:16) {
             ForEach([WeatherKind.clear, .partlyCloudy, .overcast]) { kind in
@@ -90,11 +91,13 @@ struct WeatherClarityBoard: View {
             print("Exported clear, partly cloudy and overcast comparison boards.")
             return
         }
+        if !CommandLine.arguments.contains("--store-assets") {
         try save(SceneContactSheet(),to:previews.appendingPathComponent("50-Paper-Scenes.png"),scale:1.5)
         try save(ArtDirectionBoard(),to:previews.appendingPathComponent("Art-Directions.png"),scale:1.5)
+        }
         let weatherKinds:[WeatherKind]=[.clear,.overcast,.lightRain,.heavyRain,.thunderstorm,.hail]
         try save(VStack(spacing:18){
-            Text("一江山水 · 六种晴雨").font(.system(size:25,weight:.semibold))
+            Text(WL("一江山水 · 六种晴雨")).font(.system(size:25,weight:.semibold))
             ForEach(0..<3){row in HStack(spacing:16){ForEach(Array(weatherKinds[(row*2)..<(row*2+2)])){kind in
                 VStack(alignment:.leading,spacing:8){PaperCityScene(style:PaperSceneStyle.all[0],kind:kind,animate:false).frame(width:300,height:207).clipShape(RoundedRectangle(cornerRadius:5));Text(kind.name).font(.system(size:15,weight:.medium))}
             }}}
@@ -102,7 +105,7 @@ struct WeatherClarityBoard: View {
         let app=WeatherApplication(live:false)
         try save(RegionalWeatherHome(app:app,preview:true,snapshot:true).frame(width:393).fixedSize(horizontal:false,vertical:true),to:previews.appendingPathComponent("Global-Weather-Home.png"))
         try save(RegionalWeatherHome(app:app,preview:true,snapshot:true).frame(width:393).fixedSize(horizontal:false,vertical:true).frame(height:852,alignment:.top).clipped(),to:previews.appendingPathComponent("Weather-First-Screen.png"))
-        for i in [0,5,10,15,20,25,30,35,40,45]{try save(PaperCityScene(style:PaperSceneStyle.all[i],kind:.partlyCloudy,animate:false).frame(width:393,height:270).background(WeatherPalette.paper),to:previews.appendingPathComponent("Scene-\(i+1).png"))}
+        for i in [0,5,10,15,16,20,21,25,30,35,40,45,46]{try save(PaperCityScene(style:PaperSceneStyle.all[i],kind:.partlyCloudy,animate:false).frame(width:393,height:270).background(WeatherPalette.paper),to:previews.appendingPathComponent("Scene-\(i+1).png"))}
         print("Exported 50-scene contact sheet and offline homepage.")
     }
 }

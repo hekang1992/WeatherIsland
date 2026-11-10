@@ -36,14 +36,14 @@ struct WeatherMapArea: Hashable, Sendable {
 enum WeatherMapLayer: String, CaseIterable, Identifiable, Sendable {
     case precipitation, temperature, wind, cloud
     var id: String { rawValue }
-    var title: String { switch self { case .precipitation: "降水"; case .temperature: "气温"; case .wind: "风速"; case .cloud: "云量" } }
+    var title: String { switch self { case .precipitation: WL("降水"); case .temperature: WL("气温"); case .wind: WL("风速"); case .cloud: WL("云量") } }
     var symbol: String { switch self { case .precipitation: "drop.fill"; case .temperature: "thermometer.medium"; case .wind: "wind"; case .cloud: "cloud.fill" } }
     var unit: String { switch self { case .precipitation: "mm/h"; case .temperature: "°C"; case .wind: "km/h"; case .cloud: "%" } }
     var ticks: [Double] { switch self { case .precipitation: [0, 0.5, 2, 5, 10, 20]; case .temperature: [-20, -10, 0, 15, 25, 40]; case .wind: [0, 10, 20, 40, 60, 80]; case .cloud: [0, 20, 40, 60, 80, 100] } }
     var palette: [UInt32] { switch self { case .precipitation: [0x83D7E5, 0x5AAAF0, 0x7767DB, 0xD65AA9, 0xF1B75F, 0xF16661]; case .temperature: [0x5865B5, 0x589AD4, 0x86D4D1, 0xF2DA8B, 0xF19B57, 0xD4484D]; case .wind: [0xD2EEE2, 0x8FD9C5, 0x39B8AD, 0x2697AB, 0x3879B0, 0x565B9C]; case .cloud: [0xF4F7F9, 0xE9EFF3, 0xD8E2EB, 0xBCCBD9, 0x98ACBF, 0x72899F] } }
     var accent: UInt32 { switch self { case .precipitation: 0x344C43; case .temperature: 0xB96936; case .wind: 0x167E85; case .cloud: 0x576F89 } }
     var contourInterval: Double? { switch self { case .temperature: 5; case .wind: 10; default: nil } }
-    var scaleDescription: String { switch self { case .precipitation: "小时降水"; case .temperature: "冷 → 暖"; case .wind: "弱 → 强"; case .cloud: "少云 → 满云" } }
+    var scaleDescription: String { switch self { case .precipitation: WL("小时降水"); case .temperature: WL("冷 → 暖"); case .wind: WL("弱 → 强"); case .cloud: WL("少云 → 满云") } }
     func formatted(_ value: Double) -> String { self == .precipitation ? String(format: "%.1f", value) : String(format: "%.0f", value) }
     func rgba(_ value: Double) -> (Double, Double, Double, Double) {
         let stops = ticks
@@ -157,12 +157,13 @@ enum WeatherMapService {
 @MainActor @Observable final class WeatherMapStore {
     private(set) var forecast: WeatherMapForecast?
     private(set) var loading = false
-    private(set) var error: String?
+    private var failed = false
+    var error: String? { failed ? WL("天气图层暂未加载成功，请重试。") : nil }
     private var requestID = UUID()
     func load(area: WeatherMapArea, offline: Bool, force: Bool = false) async {
         if !force, let forecast, forecast.area == area, Date().timeIntervalSince(forecast.fetchedAt) < 900 { return }
         let id = UUID(); requestID = id
-        loading = true; error = nil
+        loading = true; failed = false
         // Never show an old region's heatmap under a new place name.
         if forecast?.area != area { forecast = nil }
         defer { if id == requestID { loading = false } }
@@ -176,7 +177,7 @@ enum WeatherMapService {
         } catch is CancellationError { }
         catch {
             guard id == requestID, !Task.isCancelled else { return }
-            self.error = "天气图层暂未加载成功，请重试。"
+            failed = true
         }
     }
 }

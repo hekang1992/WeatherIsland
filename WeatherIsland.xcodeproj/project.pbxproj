@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-        F50000000000000000000001 /* CityGeocodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000000000000000000002 /* CityGeocodingService.swift */; };
-        F40000000000000000000001 /* WeatherPersonalTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000000000000000000002 /* WeatherPersonalTools.swift */; };
-        F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000000000000000000002 /* WeatherHomeInsights.swift */; };
 		A00000000000000000000001 /* WeatherIslandApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* WeatherIslandApp.swift */; };
 		A00000000000000000000002 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* WeatherHomeView.swift */; };
 		B00000000000000000000014 /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* WeatherModels.swift */; };
@@ -40,6 +37,15 @@
 		E10000000000000000000019 /* IslandWidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000000000000000000002 /* IslandWidgetViews.swift */; };
 		E1000000000000000000001A /* WeatherIslandWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10000000000000000000005 /* WeatherIslandWidgets.swift */; };
 		E1000000000000000000001B /* WeatherWidgets.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E10000000000000000000008 /* WeatherWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30000000000000000000002 /* WeatherHomeInsights.swift */; };
+		F40000000000000000000001 /* WeatherPersonalTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000000000000000000002 /* WeatherPersonalTools.swift */; };
+		F50000000000000000000001 /* CityGeocodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50000000000000000000002 /* CityGeocodingService.swift */; };
+		A62000000000000000000000 = {isa = PBXBuildFile; fileRef = A61000000000000000000000; };
+		A62000000000000000000001 = {isa = PBXBuildFile; fileRef = A61000000000000000000000; };
+		A62000000000000000000010 = {isa = PBXBuildFile; fileRef = A61000000000000000000001; };
+		A62000000000000000000011 = {isa = PBXBuildFile; fileRef = A61000000000000000000001; };
+		A65000000000000000000000 = {isa = PBXBuildFile; fileRef = A63000000000000000000000; };
+		A65000000000000000000001 = {isa = PBXBuildFile; fileRef = A63000000000000000000001; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,9 +73,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-        F50000000000000000000002 /* CityGeocodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGeocodingService.swift; sourceTree = "<group>"; };
-        F40000000000000000000002 /* WeatherPersonalTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPersonalTools.swift; sourceTree = "<group>"; };
-        F30000000000000000000002 /* WeatherHomeInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeInsights.swift; sourceTree = "<group>"; };
 		A00000000000000000000003 /* WeatherIslandApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIslandApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000004 /* WeatherHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeView.swift; sourceTree = "<group>"; };
 		A00000000000000000000005 /* WeatherIsland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherIsland.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +83,7 @@
 		A00000000000000000000018 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		A00000000000000000000019 /* WeatherBranding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherBranding.swift; sourceTree = "<group>"; };
 		A0000000000000000000001A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A0000000000000000000001B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+
 		C0000000000000000000001C /* WeatherMapData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMapData.swift; sourceTree = "<group>"; };
 		C0000000000000000000001D /* WeatherMapCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMapCanvas.swift; sourceTree = "<group>"; };
 		C0000000000000000000001E /* WeatherMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMapView.swift; sourceTree = "<group>"; };
@@ -101,6 +104,20 @@
 		E10000000000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E10000000000000000000007 /* WeatherWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherWidgets.entitlements; sourceTree = "<group>"; };
 		E10000000000000000000008 /* WeatherWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeatherWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F30000000000000000000002 /* WeatherHomeInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeInsights.swift; sourceTree = "<group>"; };
+		F40000000000000000000002 /* WeatherPersonalTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPersonalTools.swift; sourceTree = "<group>"; };
+		F50000000000000000000002 /* CityGeocodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGeocodingService.swift; sourceTree = "<group>"; };
+		A61000000000000000000000 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLocalization.swift; sourceTree = "<group>"; };
+		A61000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		A64000000000000000000000 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "WeatherIsland/zh-Hans.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		A64000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en"; path = "WeatherIsland/en.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		A64000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi"; path = "WeatherIsland/vi.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		A64000000000000000000010 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "WeatherWidgets/zh-Hans.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		A64000000000000000000011 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en"; path = "WeatherWidgets/en.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		A64000000000000000000012 = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi"; path = "WeatherWidgets/vi.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		A66000000000000000000000 = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "WeatherIsland/zh-Hans.lproj/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
+		A66000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "en"; path = "WeatherIsland/en.lproj/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
+		A66000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "vi"; path = "WeatherIsland/vi.lproj/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,16 +160,16 @@
 				C00000000000000000000022 /* WeatherExtras.swift */,
 				C00000000000000000000023 /* WeatherApplication.swift */,
 				C00000000000000000000024 /* LocationSearch.swift */,
-                F50000000000000000000002 /* CityGeocodingService.swift */,
+				F50000000000000000000002 /* CityGeocodingService.swift */,
 				C00000000000000000000025 /* RegionalWeatherHome.swift */,
-                F30000000000000000000002 /* WeatherHomeInsights.swift */,
+				F30000000000000000000002 /* WeatherHomeInsights.swift */,
 				C00000000000000000000026 /* SceneGallery.swift */,
 				C00000000000000000000028 /* WeatherConnection.swift */,
 				C0000000000000000000001C /* WeatherMapData.swift */,
 				C0000000000000000000001D /* WeatherMapCanvas.swift */,
 				C0000000000000000000001E /* WeatherMapView.swift */,
 				C00000000000000000000027 /* WeatherTabsView.swift */,
-                F40000000000000000000002 /* WeatherPersonalTools.swift */,
+				F40000000000000000000002 /* WeatherPersonalTools.swift */,
 				A00000000000000000000019 /* WeatherBranding.swift */,
 				A00000000000000000000018 /* WeatherService.swift */,
 				A00000000000000000000014 /* WeatherModels.swift */,
@@ -177,6 +194,9 @@
 		E10000000000000000000028 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A63000000000000000000001,
+				A63000000000000000000000,
+				A61000000000000000000000, A61000000000000000000001,
 				E10000000000000000000001 /* IslandWidgetData.swift */,
 				E10000000000000000000002 /* IslandWidgetViews.swift */,
 			);
@@ -261,9 +281,10 @@
 			};
 			buildConfigurationList = A0000000000000000000000E /* Build configuration list for PBXProject "WeatherIsland" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
+                vi,
 				en,
 				Base,
 				"zh-Hans",
@@ -279,11 +300,20 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXVariantGroup section */
+		A63000000000000000000000 = {isa = PBXVariantGroup; children = (A64000000000000000000000,A64000000000000000000001,A64000000000000000000002); name = InfoPlist.strings; sourceTree = "<group>"; };
+		A63000000000000000000001 = {isa = PBXVariantGroup; children = (A64000000000000000000010,A64000000000000000000011,A64000000000000000000012); name = InfoPlist.strings; sourceTree = "<group>"; };
+A0000000000000000000001B /* LaunchScreen.storyboard */ = {isa = PBXVariantGroup; children = (A66000000000000000000000,A66000000000000000000001,A66000000000000000000002); name = LaunchScreen.storyboard; sourceTree = "<group>"; };
+/* End PBXVariantGroup section */
+
 /* Begin PBXResourcesBuildPhase section */
 		A0000000000000000000000B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62000000000000000000010,
+				A65000000000000000000000,
+
 				B0000000000000000000001A /* Assets.xcassets in Resources */,
 				B0000000000000000000001B /* LaunchScreen.storyboard in Resources */,
 			);
@@ -293,6 +323,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62000000000000000000011,
+				A65000000000000000000001,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62000000000000000000000,
 				B00000000000000000000019 /* WeatherBranding.swift in Sources */,
 				B00000000000000000000018 /* WeatherService.swift in Sources */,
 				B00000000000000000000014 /* WeatherModels.swift in Sources */,
@@ -319,16 +352,16 @@
 				D00000000000000000000022 /* WeatherExtras.swift in Sources */,
 				D00000000000000000000023 /* WeatherApplication.swift in Sources */,
 				D00000000000000000000024 /* LocationSearch.swift in Sources */,
-                F50000000000000000000001 /* CityGeocodingService.swift in Sources */,
+				F50000000000000000000001 /* CityGeocodingService.swift in Sources */,
 				D00000000000000000000025 /* RegionalWeatherHome.swift in Sources */,
-                F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */,
+				F30000000000000000000001 /* WeatherHomeInsights.swift in Sources */,
 				D00000000000000000000026 /* SceneGallery.swift in Sources */,
 				D00000000000000000000028 /* WeatherConnection.swift in Sources */,
 				D0000000000000000000001C /* WeatherMapData.swift in Sources */,
 				D0000000000000000000001D /* WeatherMapCanvas.swift in Sources */,
 				D0000000000000000000001E /* WeatherMapView.swift in Sources */,
 				D00000000000000000000027 /* WeatherTabsView.swift in Sources */,
-                F40000000000000000000001 /* WeatherPersonalTools.swift in Sources */,
+				F40000000000000000000001 /* WeatherPersonalTools.swift in Sources */,
 				A00000000000000000000002 /* WeatherHomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62000000000000000000001,
 				E10000000000000000000018 /* IslandWidgetData.swift in Sources */,
 				E10000000000000000000019 /* IslandWidgetViews.swift in Sources */,
 				E1000000000000000000001A /* WeatherIslandWidgets.swift in Sources */,
@@ -397,7 +431,6 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.weather.app.ios;
@@ -428,7 +461,6 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.weather.app.ios;

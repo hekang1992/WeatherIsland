@@ -1,0 +1,178 @@
+[
+  {
+    "file": "01-weather-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Read the weather. Find your landscape.",
+    "features": [
+      "Hourly forecasts · Multi-day outlook · Air quality"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Weather-Artwork-Home.png",
+        "sha256": "d43e718375551ec7262936a64b4dd43cfea9d7678b40c70dd7d434064207d243"
+      },
+      {
+        "file": "Previews/en-US/Scene-16.png",
+        "sha256": "38ba6b5d30f446640c568aca705aead08b1f3765b0dbd65aeffae362aa33ebf8"
+      }
+    ],
+    "locale": "en-US"
+  },
+  {
+    "file": "02-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "50 original scenes. A fresh view each day.",
+    "features": [
+      "Ten Song-inspired themes · Choose your favorite"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Weather-Artwork-Gallery.png",
+        "sha256": "7b79e1c58d25fb4569484708ffb047666de054735c3c56b28421eb55eb10db32"
+      },
+      {
+        "file": "Previews/en-US/Scene-21.png",
+        "sha256": "ea109281d4d7274633f4ca0e4ca5a9a6f47aaee2e33258cbd77c1f461bf8823d"
+      },
+      {
+        "file": "Previews/en-US/Scene-16.png",
+        "sha256": "38ba6b5d30f446640c568aca705aead08b1f3765b0dbd65aeffae362aa33ebf8"
+      },
+      {
+        "file": "Previews/en-US/Scene-46.png",
+        "sha256": "9ae952babf092ae2f24ccfd2c7906b05874fa1488f4685eafcbf9875b264b6c0"
+      }
+    ],
+    "locale": "en-US"
+  },
+  {
+    "file": "03-maps-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Follow the weather. See what lies ahead.",
+    "features": [
+      "Precipitation · Temperature · Wind · Cloud cover"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Weather-Map-Layout-Phone.png",
+        "sha256": "36d96e972f1d9a24c84c9c716be88355fe5b57f33da492186388ceea96a9aa18"
+      }
+    ],
+    "locale": "en-US"
+  },
+  {
+    "file": "04-widgets-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "Your day ahead. Right on your screen.",
+    "features": [
+      "Landscape weather · Umbrella advice · Daylight"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Widget-landscape-large.png",
+        "sha256": "4abaaab610819aaddafe9a46863369b272fdb3240a0bba4bac0cee9a835b80a7"
+      },
+      {
+        "file": "Previews/en-US/Widget-rain-medium.png",
+        "sha256": "491b5c78369985fef66ec6ae1cc85580c8a0231daf6f866dfac6944275e53ea6"
+      },
+      {
+        "file": "Previews/en-US/Widget-daylight-medium.png",
+        "sha256": "caf77f62da8b939458c2f269ebf08d17ca59918da420a4611f952ab0c3cfabbd"
+      }
+    ],
+    "locale": "en-US"
+  },
+  {
+    "file": "05-overview-2556x1179.png",
+    "size": [
+      2556,
+      1179
+    ],
+    "mode": "RGB",
+    "title": "Weather Island: A little weather. A world of poetry.",
+    "features": [
+      "City weather",
+      "Original scenes",
+      "Forecast maps",
+      "Home widgets"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Weather-Artwork-Gallery.png",
+        "sha256": "7b79e1c58d25fb4569484708ffb047666de054735c3c56b28421eb55eb10db32"
+      },
+      {
+        "file": "Previews/en-US/Weather-Artwork-Home.png",
+        "sha256": "d43e718375551ec7262936a64b4dd43cfea9d7678b40c70dd7d434064207d243"
+      },
+      {
+        "file": "Previews/en-US/Weather-Map-Layout-Phone.png",
+        "sha256": "36d96e972f1d9a24c84c9c716be88355fe5b57f33da492186388ceea96a9aa18"
+      }
+    ],
+    "locale": "en-US"
+  },
+  {
+    "file": "06-cities-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "The cities you love. Always close at hand.",
+    "features": [
+      "Save favorites · Switch cities · Choose your location"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Weather-Artwork-Cities.png",
+        "sha256": "cd927726770c9ca0ddf00bff5d4e584fae0c1e9c40654efbfa8c99d25e1fc75d"
+      },
+      {
+        "file": "Previews/en-US/Weather-Home-Manual-City.png",
+        "sha256": "ab42bbc8df8b3fe669b82c115f9aaeb99f54599712ba00cde60b45396b08f4a0"
+      }
+    ],
+    "locale": "en-US"
+  },
+  {
+    "file": "07-weather-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "As the sky changes, so does the scene.",
+    "features": [
+      "Preview 11 weather effects · Find your favorite scene"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/en-US/Weather-Artwork-Detail.png",
+        "sha256": "bf0536e4cd26c913c19fb3e94957504208c3c922cc3eb4531f637be3d7a440b4"
+      },
+      {
+        "file": "Previews/en-US/Weather-Effects-Grid.png",
+        "sha256": "fa23da21e12eb9391187c876be46b12184f0433a36869c6dd4dbca36d6d64473"
+      }
+    ],
+    "locale": "en-US"
+  }
+]

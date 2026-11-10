@@ -1,0 +1,17 @@
+[
+  {
+    "bundle": "com.weather.app.ios",
+    "deviceFamily": [
+      1
+    ],
+    "orientations": [
+      "UIInterfaceOrientationPortrait"
+    ]
+  },
+  {
+    "bundle": "com.weather.app.ios.widgets",
+    "deviceFamily": [
+      1
+    ]
+  }
+]

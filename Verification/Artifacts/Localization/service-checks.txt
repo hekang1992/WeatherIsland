@@ -1,0 +1,13 @@
+CITY SEARCH PASS: simplified/traditional aliases, global queries, coordinates/time zones, administrative filters, merged spellings, HTTP errors, empty results
+Localization checks passed: preferred-language ordering, fallback, explicit translations, plurals, safe interpolation, legacy widget cache, stable city identity and request language, switching preserves cities/scenes/theme/store/cache and offline place names.
+HOME INSIGHTS PASS: missing values, rain horizon and threshold, contiguous outdoor hours, weather exclusions, daylight bounds and local dates
+WIDGET PASS: API decoding, night symbols, Codable cache, malformed arrays, missing rain, polar daylight, stale data, hourly rollover and city timezone
+CONNECTION PASS: pending access, long wait/backoff, automatic recovery, independent air retry, cancellation, cached launch and offline preview
+SAVED CITIES PASS: save-only selection/location isolation, duplicate/invalid guards, default fallback, deletion revision, reorder, persistence and choose-mode navigation
+LOCATION ENTRY PASS: fresh authorization gate, duplicate prevention, denial, background recovery, manual persistence, same-city selection, invalid coordinates, current-location relaunch, stale naming and legacy migration
+LOCATION NAMING PASS: offline/empty/invalid recovery, 60-second cadence, cancellation during lookup and wait, superseded callback isolation, restart, persistence and manual-city protection
+SETTINGS PASS: corrupt preference fallback, theme persistence, city/scene/weather preservation and preview isolation
+LOCATION PASS: immediate-coordinate cache identity, asynchronous name updates during/after forecast, no refetch or data loss, stale name ignored after manual selection
+GLOBAL PASS: 24 hours, four timezone fixtures, coordinate queries, concurrent regional caches, cancellation, Shanghai-only migration, collection persistence, 50 unique scenes, partial AQI and daylight
+MAP PASS: 49-coordinate request, Mercator alignment, date-line wrap, bilinear values, missing cells, malformed grids, 66-hour horizon, transparent dry cells and regional cache
+PASS: live response decoding, all WMO mappings, optional/malformed fields, midnight rollover, cache, offline errors and Preview isolation

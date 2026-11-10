@@ -1,0 +1,192 @@
+[
+  {
+    "file": "01-weather-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "把天气，读成一卷山水。",
+    "features": [
+      "天气首页",
+      "逐小时天气",
+      "多日预报",
+      "空气质量"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Weather-Artwork-Home.png",
+        "sha256": "57bca31587efd71a3574ffe611c07c0e4ef29bf3da9016723077d19ff6640757"
+      },
+      {
+        "file": "Previews/Scene-16.png",
+        "sha256": "03a75989f1dae4192915219d1814068ad7f34f331b820c87348fa3ba191aedd3"
+      }
+    ],
+    "locale": "zh-Hans"
+  },
+  {
+    "file": "02-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "五十幅画境，每天都有新风景。",
+    "features": [
+      "50幅原创画境",
+      "10组宋韵主题",
+      "画境画廊"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Weather-Artwork-Gallery.png",
+        "sha256": "2d02ae4166dde7b6c7614765dbd38f413e7de2f524f71c8b3bc17aec31384412"
+      },
+      {
+        "file": "Previews/Scene-21.png",
+        "sha256": "7725b2dd94e610a24688e1666c915adbd063db0e714573f25750631ab29349ec"
+      },
+      {
+        "file": "Previews/Scene-16.png",
+        "sha256": "03a75989f1dae4192915219d1814068ad7f34f331b820c87348fa3ba191aedd3"
+      },
+      {
+        "file": "Previews/Scene-46.png",
+        "sha256": "bb60c150cf2285435e7e7008af883144db5b212e18d7ce17aecfaa288786bcb2"
+      }
+    ],
+    "locale": "zh-Hans"
+  },
+  {
+    "file": "03-maps-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "放眼晴雨，看见天气的走向。",
+    "features": [
+      "天气地图",
+      "四种预报图层",
+      "时间轴"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Weather-Map-Layout-Phone.png",
+        "sha256": "e852de56ca35d85322b8350b60852762b752896f01b1d08dc00b543f203b8c63"
+      }
+    ],
+    "locale": "zh-Hans"
+  },
+  {
+    "file": "04-widgets-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "抬眼之间，天气就在桌面。",
+    "features": [
+      "山水天气",
+      "带伞提醒",
+      "日出日落",
+      "三种尺寸"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Widget-landscape-large.png",
+        "sha256": "ec264a6bb6c0f57ef52468e797ac467e020ebb3381ca9ad3163145e1ac0b5adf"
+      },
+      {
+        "file": "Previews/zh-Hans/Widget-rain-medium.png",
+        "sha256": "0779a0e75bc29b3ef4af148908cba7b43e2a9bcc78acf1e07961b151addcb770"
+      },
+      {
+        "file": "Previews/zh-Hans/Widget-daylight-medium.png",
+        "sha256": "4a54c11489a486289efd1bd165ce5d564603b8aacca724c867e15a0f52b60a38"
+      }
+    ],
+    "locale": "zh-Hans"
+  },
+  {
+    "file": "05-overview-2556x1179.png",
+    "size": [
+      2556,
+      1179
+    ],
+    "mode": "RGB",
+    "title": "气象岛：天气的清晰，山水的诗意。",
+    "features": [
+      "天气首页",
+      "原创画境",
+      "天气地图",
+      "桌面小组件"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Weather-Artwork-Gallery.png",
+        "sha256": "2d02ae4166dde7b6c7614765dbd38f413e7de2f524f71c8b3bc17aec31384412"
+      },
+      {
+        "file": "Previews/zh-Hans/Weather-Artwork-Home.png",
+        "sha256": "57bca31587efd71a3574ffe611c07c0e4ef29bf3da9016723077d19ff6640757"
+      },
+      {
+        "file": "Previews/zh-Hans/Weather-Map-Layout-Phone.png",
+        "sha256": "e852de56ca35d85322b8350b60852762b752896f01b1d08dc00b543f203b8c63"
+      }
+    ],
+    "locale": "zh-Hans"
+  },
+  {
+    "file": "06-cities-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "关心的城市，都有一方晴空。",
+    "features": [
+      "城市收藏",
+      "城市切换",
+      "手动选城"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Weather-Artwork-Cities.png",
+        "sha256": "ad58d8302625cf33e2800858ad42680c1ad1e93deb35db4c6ecc8cfcc224655e"
+      },
+      {
+        "file": "Previews/zh-Hans/Weather-Home-Manual-City.png",
+        "sha256": "0b98829ec8fdab554ee7c14d973a1db8b3a31c728deeb6b08c67762b829f0eb3"
+      }
+    ],
+    "locale": "zh-Hans"
+  },
+  {
+    "file": "07-weather-scenes-1179x2556.png",
+    "size": [
+      1179,
+      2556
+    ],
+    "mode": "RGB",
+    "title": "晴雨更迭，山水各有意境。",
+    "features": [
+      "11种天气预览",
+      "画境详情",
+      "画境选择"
+    ],
+    "sourceAssets": [
+      {
+        "file": "Previews/zh-Hans/Weather-Artwork-Detail.png",
+        "sha256": "458ceac972316d9a8d8434fe4b3110aa0e1190840344e81f19d5e306e3a2a43f"
+      },
+      {
+        "file": "Previews/Weather-Effects-Grid.png",
+        "sha256": "e5d9d90adc70b08398f0872fcf387c40a299c6648032179753bc0d60e57b8295"
+      }
+    ],
+    "locale": "zh-Hans"
+  }
+]
