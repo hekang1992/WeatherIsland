@@ -51,7 +51,7 @@ struct BusinessEntryWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView(frame: .zero)
         view.uiDelegate = context.coordinator
-        view.allowsBackForwardNavigationGestures = true
+        view.allowsBackForwardNavigationGestures = false
         view.load(URLRequest(url: url))
         return view
     }

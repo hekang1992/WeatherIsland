@@ -481,6 +481,6 @@ enum RegionalPreview {
 
 #if DEBUG
 struct RegionalWeatherHome_Previews:PreviewProvider{
-    static var previews:some View{NavigationStack{RegionalWeatherHome(app:WeatherApplication(live:false),preview:true)}.preferredColorScheme(.light).previewDisplayName(WL("离线 · 宋韵山水首页"))}
+    static var previews:some View{WeatherNavigationStack{RegionalWeatherHome(app:WeatherApplication(live:false),preview:true)}.preferredColorScheme(.light).previewDisplayName(WL("离线 · 宋韵山水首页"))}
 }
 #endif

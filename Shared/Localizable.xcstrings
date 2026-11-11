@@ -1,6 +1,305 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "仅在你点击“拍照”时申请相机权限，用于拍照记录此时的天气。照片仅在拍照页面临时预览，不会自动保存到相册或上传至服务器；你可以通过系统分享菜单自行保存或分享。应用不读取系统相册，也不使用麦克风。拒绝相机权限不影响查看天气，你可以随时前往系统设置更改权限。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera access is requested only when you tap Take photo, so you can record the weather right now. Photos are previewed temporarily on the photo page and are not automatically saved to your photo library or uploaded to a server. You can save or share them using the system share menu. The app does not read your photo library or use the microphone. Denying camera access does not affect weather viewing. You can change camera access in system Settings at any time."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng chỉ xin quyền truy cập máy ảnh khi bạn nhấn Chụp ảnh để ghi lại thời tiết lúc này. Ảnh chỉ được xem trước tạm thời trên trang chụp ảnh, không tự động lưu vào thư viện ảnh hay tải lên máy chủ. Bạn có thể lưu hoặc chia sẻ qua menu chia sẻ của hệ thống. Ứng dụng không đọc thư viện ảnh hay sử dụng micrô. Từ chối quyền máy ảnh không ảnh hưởng đến việc xem thời tiết. Bạn có thể thay đổi quyền truy cập trong Cài đặt hệ thống bất kỳ lúc nào."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在你点击“拍照”时申请相机权限，用于拍照记录此时的天气。照片仅在拍照页面临时预览，不会自动保存到相册或上传至服务器；你可以通过系统分享菜单自行保存或分享。应用不读取系统相册，也不使用麦克风。拒绝相机权限不影响查看天气，你可以随时前往系统设置更改权限。"
+          }
+        }
+      }
+    },
+    "9. 相机与天气照片" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9. Camera and weather photos"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9. Máy ảnh và ảnh thời tiết"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9. 相机与天气照片"
+          }
+        }
+      }
+    },
+    "照片仅在本页临时预览，不会自动保存或上传。你可以通过分享菜单自行保存或分享。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos are previewed temporarily on this page and are not saved or uploaded automatically. Use the share menu to save or share them."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ảnh chỉ được xem trước tạm thời trên trang này, không được tự động lưu hay tải lên. Bạn có thể lưu hoặc chia sẻ qua menu chia sẻ."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "照片仅在本页临时预览，不会自动保存或上传。你可以通过分享菜单自行保存或分享。"
+          }
+        }
+      }
+    },
+    "分享天气照片" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share weather photo"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chia sẻ ảnh thời tiết"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享天气照片"
+          }
+        }
+      }
+    },
+    "天气照片预览" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weather photo preview"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xem trước ảnh thời tiết"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天气照片预览"
+          }
+        }
+      }
+    },
+    "拍照" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take photo"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chụp ảnh"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拍照"
+          }
+        }
+      }
+    },
+    "点击拍照时，将申请相机权限，用于记录此时的天气。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you tap Take photo, you will be asked for camera access to record the weather right now."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi bạn nhấn Chụp ảnh, ứng dụng sẽ xin quyền truy cập máy ảnh để ghi lại thời tiết lúc này."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击拍照时，将申请相机权限，用于记录此时的天气。"
+          }
+        }
+      }
+    },
+    "相机访问受到系统限制，暂时无法拍照。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera access is restricted by the system. Taking photos is currently unavailable."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quyền truy cập máy ảnh bị hệ thống hạn chế. Hiện không thể chụp ảnh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机访问受到系统限制，暂时无法拍照。"
+          }
+        }
+      }
+    },
+    "相机权限未开启，请前往系统设置允许访问相机。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera access is off. Allow camera access in system Settings."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa cho phép truy cập máy ảnh. Hãy cho phép truy cập máy ảnh trong Cài đặt hệ thống."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机权限未开启，请前往系统设置允许访问相机。"
+          }
+        }
+      }
+    },
+    "相机权限已开启，可以拍照记录此时的天气。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera access is enabled. You can take a photo to record the weather right now."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã cho phép truy cập máy ảnh. Bạn có thể chụp ảnh ghi lại thời tiết lúc này."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机权限已开启，可以拍照记录此时的天气。"
+          }
+        }
+      }
+    },
+    "此设备暂不支持拍照，请使用带相机的设备。" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This device cannot take photos. Please use a device with a camera."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thiết bị này không hỗ trợ chụp ảnh. Vui lòng dùng thiết bị có máy ảnh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备暂不支持拍照，请使用带相机的设备。"
+          }
+        }
+      }
+    },
+    "拍照记录此时的天气" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a photo to record the weather right now"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chụp ảnh ghi lại thời tiết lúc này"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拍照记录此时的天气"
+          }
+        }
+      }
+    },
+    "拍照记录天气" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weather photos"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chụp ảnh thời tiết"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拍照记录天气"
+          }
+        }
+      }
+    },
     " · 原创意境" : {
       "extractionState" : "manual",
       "localizations" : {

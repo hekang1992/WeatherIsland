@@ -308,7 +308,7 @@ struct WeatherMapView: View {
         hour = 0
     }
     private var sourceSheet: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
                     Label(WL("把晴雨，铺在地图上。"), systemImage: "map").font(.system(size: 23, weight: .medium, design: WeatherLocalization.isChinese ? .serif : .default))
@@ -346,7 +346,7 @@ private struct WeatherMapPlacePicker: View {
     @State private var search = CitySearchController()
     @Environment(\.dismiss) private var dismiss
     var body: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             List {
                 Section {
                     HStack { Image(systemName: "magnifyingglass"); TextField(WL("搜索城市、区县 · 支持中英文"), text: $query).autocorrectionDisabled().textInputAutocapitalization(.never).submitLabel(.search).onSubmit { search.update(query) }.accessibilityIdentifier("map.search.query"); if search.loading || search.resolving { ProgressView() } }.padding(.vertical, 7)

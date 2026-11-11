@@ -125,7 +125,7 @@ struct HomeWeatherInsightSheet: View {
     }
 
     var body: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
                     introduction

@@ -1,2 +1,3 @@
 "CFBundleDisplayName" = "Đảo Thời Tiết";
 "NSLocationWhenInUseUsageDescription" = "Vị trí được dùng để hiển thị thời tiết và tên khu vực. Bạn cũng có thể tự chọn thành phố.";
+"NSCameraUsageDescription" = "Cho phép truy cập máy ảnh để chụp ảnh ghi lại thời tiết lúc này.";

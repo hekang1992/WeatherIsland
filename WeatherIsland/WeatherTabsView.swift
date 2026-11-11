@@ -1,6 +1,7 @@
 import SwiftUI
 #if os(iOS)
 import UIKit
+import AVFoundation
 import WebKit
 
 
@@ -106,14 +107,14 @@ struct WeatherTabsView: View {
                                    enter: { startupFinished = true })
             } else {
                 TabView(selection: $binding.tab) {
-                    NavigationStack {
+                    WeatherNavigationStack {
                         RegionalWeatherHome(app: app, preview: app.offline, active: app.tab == .weather, entryReady: entryReady, locate: locate, locating: location.locating, resolvingLocation: locationNaming.resolving, waitingLocationName: locationNaming.waiting).id(app.selected.cacheID)
                     }.modifier(WeatherTabContrast()).tabItem { Label(WL("天气"), systemImage: "cloud.sun") }.tag(WeatherApplication.Tab.weather)
-                    NavigationStack { WeatherMapView(app: app) }
+                    WeatherNavigationStack { WeatherMapView(app: app) }
                         .modifier(WeatherTabContrast()).tabItem { Label(WL("地图"), systemImage: "map") }.tag(WeatherApplication.Tab.map)
-                    NavigationStack { SavedCitiesView(app: app, locate: locate, locating: location.locating) }
+                    WeatherNavigationStack { SavedCitiesView(app: app, locate: locate, locating: location.locating) }
                         .modifier(WeatherTabContrast()).tabItem { Label(WL("我的"), systemImage: "square.stack") }.tag(WeatherApplication.Tab.cities)
-                    NavigationStack { WeatherSettingsView(app: app) }
+                    WeatherNavigationStack { WeatherSettingsView(app: app) }
                         .modifier(WeatherTabContrast()).tabItem { Label(WL("设置"), systemImage: "slider.horizontal.3") }.tag(WeatherApplication.Tab.settings)
                 }
             }
@@ -134,7 +135,7 @@ struct WeatherTabsView: View {
             widgetDestination = IslandWidgetStyle(rawValue: url.lastPathComponent)
         }
         .sheet(item: $widgetDestination) { style in
-            NavigationStack {
+            WeatherNavigationStack {
                 WeatherWidgetDestination(app: app, style: style)
             }
         }
@@ -483,7 +484,7 @@ private struct CityManagementSheet: View {
     private var isDefault: Bool { app.collection.defaultID == place.id }
     private var replacement: WeatherPlace? { app.places.first { $0.id != place.id } }
     var body: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     Label(isDefault ? WL("默认城市") : WL("收藏城市"), systemImage: isDefault ? "star.fill" : "mappin.and.ellipse")
@@ -552,7 +553,7 @@ private struct MyTripSheet: View {
         return weather.place.cacheID + WeatherClock.string(date, "yyyy-MM-dd", timeZone: data?.timeZoneIdentifier ?? weather.place.timeZoneIdentifier)
     }
     var body: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
                     Label(weather.place.title, systemImage: "mappin.and.ellipse").font(.subheadline).foregroundStyle(WeatherPalette.accent)
@@ -670,7 +671,7 @@ struct CitySearchView: View {
     @State private var search = CitySearchController()
     @Environment(\.dismiss) private var dismiss
     var body: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             List {
                 Section { HStack { Image(systemName: "magnifyingglass"); TextField(WL("搜索城市、区县 · 支持中英文"), text: $query).autocorrectionDisabled().textInputAutocapitalization(.never).submitLabel(.search).onSubmit { search.update(query) }.accessibilityIdentifier("cities.search.query"); if search.loading || search.resolving { ProgressView() } }.padding(.vertical, 6) }
                 if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -794,6 +795,12 @@ struct WeatherSettingsView: View {
                         row(WL("界面主题"), subtitle: app.theme.title, symbol: "paintpalette")
                     }.accessibilityIdentifier("settings.theme")
                     Divider().overlay(WeatherPalette.line)
+                    #if os(iOS)
+                    NavigationLink { WeatherCameraView() } label: {
+                        row(WL("拍照记录天气"), subtitle: WL("拍照记录此时的天气"), symbol: "camera")
+                    }.accessibilityIdentifier("settings.camera")
+                    Divider().overlay(WeatherPalette.line)
+                    #endif
                     NavigationLink { WeatherAboutView() } label: {
                         row(WL("关于我们"), subtitle: WL("认识气象岛与数据来源"), symbol: "heart")
                     }.accessibilityIdentifier("settings.about")
@@ -828,6 +835,118 @@ struct WeatherSettingsView: View {
         .padding(.vertical, 20).contentShape(Rectangle())
     }
 }
+
+#if os(iOS)
+private struct WeatherCameraView: View {
+    @Environment(\.openURL) private var openURL
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var authorization = AVCaptureDevice.authorizationStatus(for: .video)
+    @State private var requesting = false
+    @State private var showsCamera = false
+    @State private var pendingCapture = false
+    @State private var photo: UIImage?
+    private var hasCamera: Bool { UIImagePickerController.isSourceTypeAvailable(.camera) }
+    private var status: String {
+        guard hasCamera else { return WL("此设备暂不支持拍照，请使用带相机的设备。") }
+        switch authorization {
+        case .authorized: return WL("相机权限已开启，可以拍照记录此时的天气。")
+        case .denied: return WL("相机权限未开启，请前往系统设置允许访问相机。")
+        case .restricted: return WL("相机访问受到系统限制，暂时无法拍照。")
+        default: return WL("点击拍照时，将申请相机权限，用于记录此时的天气。")
+        }
+    }
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 22) {
+                Label(WL("拍照记录此时的天气"), systemImage: "camera")
+                    .font(WeatherTypography.display(26))
+                Text(status).font(.body).foregroundStyle(WeatherPalette.secondary)
+                    .accessibilityIdentifier("settings.camera.status")
+                Button {
+                    if authorization == .denied {
+                        if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                    } else {
+                        Task { await takePhoto() }
+                    }
+                } label: {
+                    Label(WL(authorization == .denied ? "前往系统设置" : "拍照"), systemImage: authorization == .denied ? "gearshape" : "camera")
+                        .foregroundStyle(WeatherPalette.paper)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(requesting || !hasCamera || authorization == .restricted)
+                .accessibilityIdentifier("settings.camera.capture")
+                if let photo {
+                    Image(uiImage: photo).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 16))
+                        .accessibilityLabel(WL("天气照片预览"))
+                    ShareLink(item: Image(uiImage: photo), preview: SharePreview(WL("拍照记录天气"), image: Image(uiImage: photo))) {
+                        Label(WL("分享天气照片"), systemImage: "square.and.arrow.up")
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                    }.buttonStyle(.bordered).accessibilityIdentifier("settings.camera.share")
+                }
+                Text(WL("照片仅在本页临时预览，不会自动保存或上传。你可以通过分享菜单自行保存或分享。"))
+                    .font(.footnote).foregroundStyle(WeatherPalette.secondary)
+            }.padding(24).weatherReadingWidth()
+        }
+        .weatherSettingsPage(WL("拍照记录天气"))
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                authorization = AVCaptureDevice.authorizationStatus(for: .video)
+                presentCameraIfReady()
+            }
+        }
+        .onDisappear { pendingCapture = false }
+        .fullScreenCover(isPresented: $showsCamera) {
+            WeatherCameraPicker(onFinish: { photo = $0; showsCamera = false }, onCancel: { showsCamera = false })
+                .ignoresSafeArea()
+        }
+    }
+    @MainActor private func takePhoto() async {
+        guard !requesting, hasCamera else { return }
+        requesting = true
+        defer { requesting = false }
+        authorization = AVCaptureDevice.authorizationStatus(for: .video)
+        if authorization == .notDetermined {
+            _ = await AVCaptureDevice.requestAccess(for: .video)
+            authorization = AVCaptureDevice.authorizationStatus(for: .video)
+        }
+        pendingCapture = authorization == .authorized
+        presentCameraIfReady()
+    }
+    private func presentCameraIfReady() {
+        guard pendingCapture, authorization == .authorized, scenePhase == .active else { return }
+        pendingCapture = false
+        showsCamera = true
+    }
+}
+
+private struct WeatherCameraPicker: UIViewControllerRepresentable {
+    let onFinish: (UIImage?) -> Void
+    let onCancel: () -> Void
+    func makeCoordinator() -> Coordinator { Coordinator(onFinish: onFinish, onCancel: onCancel) }
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.cameraCaptureMode = .photo
+        picker.delegate = context.coordinator
+        return picker
+    }
+    func updateUIViewController(_ controller: UIImagePickerController, context: Context) {}
+    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let onFinish: (UIImage?) -> Void
+        let onCancel: () -> Void
+        init(onFinish: @escaping (UIImage?) -> Void, onCancel: @escaping () -> Void) {
+            self.onFinish = onFinish; self.onCancel = onCancel
+        }
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            onFinish(info[.originalImage] as? UIImage)
+        }
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            onCancel()
+        }
+    }
+}
+#endif
 
 struct WeatherThemeView: View {
     let app: WeatherApplication
@@ -945,7 +1064,7 @@ struct WeatherAboutView: View {
 
 enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
     case terms, privacy
-    static let updatedDate = "2026 年 11 月 9 日"
+    var updatedDate: String { self == .privacy ? "2026 年 11 月 11 日" : "2026 年 11 月 9 日" }
     var publicURL: URL { URL(string: "https://hekang1992.github.io/WeatherIsland/\(rawValue).html")! }
     var id: String { rawValue }
     var title: String { self == .terms ? "服务协议" : "隐私政策" }
@@ -974,7 +1093,8 @@ enum WeatherSettingsDocument: String, CaseIterable, Identifiable {
             ("5. 当前版本的其他数据处理", "当前版本无需注册账号，未接入广告、支付或第三方行为分析 SDK，也不读取通讯录、照片、麦克风或健康数据。应用没有自建的账号同步或位置上传后台；使用天气和地图时向上述服务发出的必要请求仍会包含对应坐标或区域信息。"),
             ("6. 管理你的选择", "你可以在“我的”中管理收藏，手动选择城市以停止使用当前位置，在设置中更改画境与主题。修改系统定位权限不会自动删除已保存的地区或历史缓存；停止使用当前位置后，新的城市天气请求使用手动选择的城市坐标。卸载应用或管理设备与备份可影响本地数据，已交由第三方处理的信息以其政策为准。"),
             ("7. 第三方政策与更新", "你可以通过下方入口查看 Open-Meteo 与 Apple 地图的隐私说明。外部页面由相应服务方维护，并需要网络访问。本说明随应用功能变化更新，更新日期显示在本页顶部；阅读本页本身无需联网。"),
-            ("8. 在线协议网站", "服务协议与隐私政策的在线版本托管在 GitHub Pages。访问在线版本时，GitHub 会为安全目的记录和保存访问者的 IP 地址；网站未添加广告或行为分析脚本。App 内的协议全文保存在应用中，可离线阅读。你可以通过下方入口查看 GitHub 的隐私声明。")
+            ("8. 在线协议网站", "服务协议与隐私政策的在线版本托管在 GitHub Pages。访问在线版本时，GitHub 会为安全目的记录和保存访问者的 IP 地址；网站未添加广告或行为分析脚本。App 内的协议全文保存在应用中，可离线阅读。你可以通过下方入口查看 GitHub 的隐私声明。"),
+            (WL("9. 相机与天气照片"), WL("仅在你点击“拍照”时申请相机权限，用于拍照记录此时的天气。照片仅在拍照页面临时预览，不会自动保存到相册或上传至服务器；你可以通过系统分享菜单自行保存或分享。应用不读取系统相册，也不使用麦克风。拒绝相机权限不影响查看天气，你可以随时前往系统设置更改权限。"))
         ]
         }
     }
@@ -988,7 +1108,7 @@ struct WeatherSettingsDocumentView: View {
             VStack(alignment: .leading, spacing: 24) {
                 if !WeatherLocalization.isChinese { Text(WL("正文为中文")).font(.subheadline).foregroundStyle(WeatherPalette.secondary) }
                 Text(WL(document.title)).font(WeatherTypography.display(30))
-                Text(WLF("更新日期：%1$@ · 适用于当前版本", String(describing: WeatherSettingsDocument.updatedDate)))
+                Text(WLF("更新日期：%1$@ · 适用于当前版本", String(describing: document.updatedDate)))
                     .font(.footnote).foregroundStyle(WeatherPalette.secondary)
                 Text(document.introduction).font(.body).lineSpacing(6)
                 ForEach(document.sections.indices, id: \.self) { index in
@@ -1140,7 +1260,7 @@ private struct WeatherEmbeddedWebView: UIViewRepresentable {
         configuration.websiteDataStore = .nonPersistent()
         let view = WKWebView(frame: .zero, configuration: configuration)
         view.navigationDelegate = context.coordinator
-        view.allowsBackForwardNavigationGestures = true
+        view.allowsBackForwardNavigationGestures = false
         view.load(URLRequest(url: url, timeoutInterval: 30))
         return view
     }

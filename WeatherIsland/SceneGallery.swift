@@ -71,8 +71,8 @@ struct SceneDetailView: View {
 struct SceneGallery_Previews:PreviewProvider {
     static var previews:some View {
         Group {
-            NavigationStack {SceneGalleryView(app:WeatherApplication(live:false))}.previewDisplayName(WL("五十幅宋韵画境 · 离线画廊"))
-            NavigationStack {WeatherSettingsView(app:WeatherApplication(live:false))}.previewDisplayName(WL("设置 · 场景入口"))
+            WeatherNavigationStack {SceneGalleryView(app:WeatherApplication(live:false))}.previewDisplayName(WL("五十幅宋韵画境 · 离线画廊"))
+            WeatherNavigationStack {WeatherSettingsView(app:WeatherApplication(live:false))}.previewDisplayName(WL("设置 · 场景入口"))
         }.preferredColorScheme(.light)
     }
 }

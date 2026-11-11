@@ -222,7 +222,7 @@ private struct MyTravelSheet<Content: View>: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var typeSize
     var body: some View {
-        NavigationStack {
+        WeatherNavigationStack {
             ScrollView {
                 content().padding(22).frame(maxWidth: 640, alignment: .leading).frame(maxWidth: .infinity)
             }.background(WeatherPalette.paper).foregroundStyle(WeatherPalette.ink)

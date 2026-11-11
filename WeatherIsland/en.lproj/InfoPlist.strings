@@ -1,2 +1,3 @@
 "CFBundleDisplayName" = "Weather Island";
 "NSLocationWhenInUseUsageDescription" = "Your location is used to show local weather and place names. You can also choose a city manually.";
+"NSCameraUsageDescription" = "Camera access lets you take photos to record the weather right now.";

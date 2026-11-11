@@ -83,7 +83,7 @@ struct WeatherHomeView: View {
         Group {
             if snapshot { homeLayout }
             else {
-                NavigationStack {
+                WeatherNavigationStack {
                     homeLayout
                         .islandNavigationStyle()
                         .navigationDestination(item: $detailReport) { report in
