@@ -98,7 +98,7 @@ struct WeatherRootView: View {
             #if os(iOS)
             if configurationLoaded {
                 if let destination {
-                    BusinessEntryWebView(url: destination)
+                    BusinessTabsView(url: destination)
                         .ignoresSafeArea(.container, edges: .vertical)
                 } else {
                     WeatherTabsView(entryReady: !showingSplash)

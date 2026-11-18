@@ -43,7 +43,7 @@ enum BusinessEntry {
 import SwiftUI
 import WebKit
 
-struct BusinessEntryWebView: UIViewRepresentable {
+struct BusinessTabsView: UIViewRepresentable {
     let url: URL
 
     func makeCoordinator() -> Coordinator { Coordinator() }
