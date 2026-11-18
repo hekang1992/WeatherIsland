@@ -1,3 +1,4 @@
 "CFBundleDisplayName" = "气象岛";
 "NSLocationWhenInUseUsageDescription" = "用于获取当前位置的天气和地区名称。也可以手动选择城市。";
-"NSCameraUsageDescription" = "用于拍照记录此时的天气。";
+"NSCameraUsageDescription" = "用于拍照记录天气，以及在你使用网页人脸验证时采集人脸影像。";
+"NSMicrophoneUsageDescription" = "用于录视频需要声音验证时采集音频。";

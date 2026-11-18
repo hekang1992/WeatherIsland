@@ -457,6 +457,8 @@
 				INFOPLIST_FILE = WeatherIsland/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "气象岛";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
+				INFOPLIST_KEY_NSCameraUsageDescription = "用于拍照记录天气，以及在你使用网页人脸验证时采集人脸影像。";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "用于网页人脸验证需要声音验证时采集音频。";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "进入首页时用于获取你所在城市和区县的天气。你也可以拒绝定位并手动选择城市，不使用后台定位。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -487,6 +489,8 @@
 				INFOPLIST_FILE = WeatherIsland/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "气象岛";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
+				INFOPLIST_KEY_NSCameraUsageDescription = "用于拍照记录天气，以及在你使用网页人脸验证时采集人脸影像。";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "用于网页人脸验证需要声音验证时采集音频。";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "进入首页时用于获取你所在城市和区县的天气。你也可以拒绝定位并手动选择城市，不使用后台定位。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
