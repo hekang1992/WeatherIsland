@@ -124,7 +124,7 @@ struct BusinessTabsView: UIViewRepresentable {
             let revision = navigationRevision
             pending[callback] = request
             if message.name == "getDeviceInfo" {
-                let payload = BusinessDeviceInfo.shared.base64(window: view.window)
+                let payload = BusinessDeviceInfo.shared.base64(window: view.window, appLanguage: WeatherLocalization.language.rawValue)
                 reply(callback: callback, request: request, revision: revision, payload: payload)
             } else {
                 BusinessH5Bridge.adjustIdProvider { [weak self] value in

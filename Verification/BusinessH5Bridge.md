@@ -32,27 +32,11 @@ window.onNativeDeviceInfo_2('<标准Base64字符串>')
 {"scene":"LOGIN","blackBox":"<同盾返回值>","nativeDeviceInfo":"<上述Base64字符串>"}
 ```
 
-用户点击登录、新建验码命令前，H5 并行采集原生设备信息和同盾 blackBox，再 POST `/api/h5/v1/risk/device-collections`。原有 KYC 设备采集继续使用相同桥。原生同步读取当前快照，不等待网络；H5 仅使用 500ms 内、同盾返回前收到的值。
+用户点击登录、新建验码命令前，H5 并行采集原生设备信息和同盾 blackBox，再 POST `/api/h5/v1/risk/device-collections`。原有 KYC 设备采集继续使用相同桥。原生同步读取当前快照，不等待网络；H5 本地已修复为等待原生回包或本次 500ms 超时；修复尚未部署的测试站仍可能在同盾先完成时漏传 nativeDeviceInfo。
 
-当前采集字段（仅在读取成功且值有效时提供）：
+字段按新的 Markdown 规范逐项核对，并应用用户后续两批删减：70 项中明确排除 34 项，最终代码支持 31 项，另 5 项因没有适合当前上报的可靠值而省略。保留屏幕、电量、电源的首选/兼容字段、内存、设备与 App 版本/语言、设备型号、网络类型/IP、条件 Wi-Fi 信息、模拟器和代理状态。实际返回数量随设备与权限变化。
 
-| 字段 | 数据来源 |
-| --- | --- |
-| a9a83d27d82d / db364a8eea95 | 当前窗口宽高 × 屏幕 nativeScale，成对提供物理像素 |
-| ef02cd5586bc | UIDevice 电量整数百分比 |
-| fe5bfc5ccba1 | UIDevice 电源状态；未知时省略 |
-| 35dac7a89792 / 6b2ed867abe2 | 总物理内存 / 当前 free pages 字节数 |
-| ef84ad290e77 / 56e967761ee7 | Apple / phone 或 tablet |
-| e6b6e67871d1 / 336a72a9ba4a | 系统版本 / 系统地区语言标识 |
-| b14e873df31b / bd8d64b3b73d | sysctl hw.machine / hw.model |
-| 61b21bc4282f / 29752e1f59f9 | 当前运行架构 ABI |
-| 9f9bdf2e1456 | CPU 核数 |
-| f2fd42e9bc36 / 1bb9f2f4b87a | nativeScale / 包含系统字体缩放的密度 |
-| a4a366f265b8 / 84b4bbeda526 | CFBundleShortVersionString |
-| 3f3bf72d1ebc / 3cd527c516c2 | CFBundleVersion 字符串 / 仅纯整数字符串提供的 Int32 |
-| 8a537473299e / 541354e5225c | NWPathMonitor 缓存网络类型 / 活跃接口 IP 字面量 |
-
-未采集磁盘容量、Wi-Fi 名称/BSSID、运营商、物理 DPI、电池温度或无法确认映射的原生标识；不新增权限弹窗或使用私有 API。模拟器保持实际架构标识，不伪装真机型号。未知字段省略，真实 0 和 false 保留。JSON 上限8192字节、96项字段，字符串上限128个 Unicode 码点且无控制字符。
+完整的每项数据来源、采集条件和省略原因见 [V6.1 原生设备字段逐项对照](BusinessDeviceFields.md)。未获取到的字段不填 null、空串或猜测值，真实 0 和 false 保留。新增字段仍由同一个 getDeviceInfo 回调整体 Base64 返回。
 
 ## 回调和生命周期
 

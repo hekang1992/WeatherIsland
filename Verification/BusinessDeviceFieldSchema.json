@@ -1,0 +1,332 @@
+{
+  "a9a83d27d82d": {
+    "name": "屏幕宽度（首选）",
+    "kind": "integer",
+    "min": "1",
+    "max": "32768"
+  },
+  "db364a8eea95": {
+    "name": "屏幕高度（首选）",
+    "kind": "integer",
+    "min": "1",
+    "max": "32768"
+  },
+  "9e2fa8fa687b": {
+    "name": "屏幕宽度（兼容）",
+    "kind": "integer",
+    "min": "1",
+    "max": "32768"
+  },
+  "f55043e72d15": {
+    "name": "屏幕高度（兼容）",
+    "kind": "integer",
+    "min": "1",
+    "max": "32768"
+  },
+  "ef02cd5586bc": {
+    "name": "剩余电量（首选）",
+    "kind": "integer",
+    "min": "0",
+    "max": "100"
+  },
+  "945f9f6e20f1": {
+    "name": "剩余电量（兼容）",
+    "kind": "integer",
+    "min": "0",
+    "max": "100"
+  },
+  "fe5bfc5ccba1": {
+    "name": "接入外部电源（首选）",
+    "kind": "boolean"
+  },
+  "10524369c6f0": {
+    "name": "接入外部电源（兼容）",
+    "kind": "boolean"
+  },
+  "fa104bf36fe5": {
+    "name": "总存储空间",
+    "kind": "integer",
+    "min": "0",
+    "max": "9007199254740991"
+  },
+  "7c24de523ec0": {
+    "name": "剩余存储空间",
+    "kind": "integer",
+    "min": "0",
+    "max": "9007199254740991"
+  },
+  "35dac7a89792": {
+    "name": "设备总内存",
+    "kind": "integer",
+    "min": "0",
+    "max": "9007199254740991"
+  },
+  "6b2ed867abe2": {
+    "name": "设备剩余内存",
+    "kind": "integer",
+    "min": "0",
+    "max": "9007199254740991"
+  },
+  "2bea3b186fa5": {
+    "name": "设备可用内存",
+    "kind": "integer",
+    "min": "0",
+    "max": "9007199254740991"
+  },
+  "ef84ad290e77": {
+    "name": "设备品牌",
+    "kind": "string"
+  },
+  "91331172ad3b": {
+    "name": "原生硬件品牌标记",
+    "kind": "string"
+  },
+  "56e967761ee7": {
+    "name": "设备类型",
+    "kind": "string"
+  },
+  "e6b6e67871d1": {
+    "name": "系统版本",
+    "kind": "string"
+  },
+  "edece32fe66e": {
+    "name": "原生操作系统版本标记",
+    "kind": "string"
+  },
+  "b14e873df31b": {
+    "name": "设备型号",
+    "kind": "string"
+  },
+  "9d63bcada728": {
+    "name": "设备制造商",
+    "kind": "string"
+  },
+  "4bc782cb67ac": {
+    "name": "设备语言",
+    "kind": "string"
+  },
+  "ab556da00f5c": {
+    "name": "应用语言",
+    "kind": "string"
+  },
+  "336a72a9ba4a": {
+    "name": "系统地区与语言标识",
+    "kind": "string"
+  },
+  "a4a366f265b8": {
+    "name": "应用版本",
+    "kind": "string"
+  },
+  "3f3bf72d1ebc": {
+    "name": "应用构建号",
+    "kind": "string"
+  },
+  "84b4bbeda526": {
+    "name": "原生版本名称",
+    "kind": "string"
+  },
+  "3cd527c516c2": {
+    "name": "原生数值版本代码",
+    "kind": "integer",
+    "min": "0",
+    "max": "2147483647"
+  },
+  "79aca3df21af": {
+    "name": "系统 SDK 版本文本",
+    "kind": "string"
+  },
+  "06c229649aad": {
+    "name": "平台 SDK 级别",
+    "kind": "integer",
+    "min": "0",
+    "max": "2147483647"
+  },
+  "9fa263605001": {
+    "name": "硬件平台标识",
+    "kind": "string"
+  },
+  "bd8d64b3b73d": {
+    "name": "主板或板级标识",
+    "kind": "string"
+  },
+  "f867b53cfa99": {
+    "name": "原生系统的产品标识",
+    "kind": "string"
+  },
+  "f834b033944a": {
+    "name": "系统构建指纹",
+    "kind": "string"
+  },
+  "61b21bc4282f": {
+    "name": "设备应用二进制接口",
+    "kind": "string"
+  },
+  "29752e1f59f9": {
+    "name": "CPU 应用二进制接口",
+    "kind": "string"
+  },
+  "9f9bdf2e1456": {
+    "name": "CPU 核心数",
+    "kind": "integer",
+    "min": "1",
+    "max": "256"
+  },
+  "f2fd42e9bc36": {
+    "name": "显示密度系数",
+    "kind": "number",
+    "min": "0.000000000001",
+    "max": "9007199254740991"
+  },
+  "1bb9f2f4b87a": {
+    "name": "文字缩放密度系数",
+    "kind": "number",
+    "min": "0.000000000001",
+    "max": "9007199254740991"
+  },
+  "8c8265c337b1": {
+    "name": "屏幕横向点密度",
+    "kind": "number",
+    "min": "0.000000000001",
+    "max": "9007199254740991"
+  },
+  "1b9323ed5c89": {
+    "name": "屏幕纵向点密度",
+    "kind": "number",
+    "min": "0.000000000001",
+    "max": "9007199254740991"
+  },
+  "bbf2cb348cee": {
+    "name": "屏幕逻辑点密度",
+    "kind": "integer",
+    "min": "0.000000000001",
+    "max": "9007199254740991"
+  },
+  "6e9dcf1ee23d": {
+    "name": "电池温度",
+    "kind": "number",
+    "min": "-100",
+    "max": "150"
+  },
+  "f02db5f548ca": {
+    "name": "链路速率",
+    "kind": "integer",
+    "min": "0",
+    "max": "2147483647"
+  },
+  "c6b64e333439": {
+    "name": "当前网络运营商代码",
+    "kind": "string"
+  },
+  "fd1f66bbc7e0": {
+    "name": "当前网络运营商名称",
+    "kind": "string"
+  },
+  "c1e3ebc27abd": {
+    "name": "SIM 运营商标识",
+    "kind": "string"
+  },
+  "855218e93ffe": {
+    "name": "SIM 所属国家或地区代码",
+    "kind": "string"
+  },
+  "8a537473299e": {
+    "name": "当前网络类型",
+    "kind": "string"
+  },
+  "ee5f1c76d284": {
+    "name": "当前 Wi-Fi 网络名称",
+    "kind": "string"
+  },
+  "37a24e5ace39": {
+    "name": "当前 Wi-Fi 接入点标识",
+    "kind": "string"
+  },
+  "541354e5225c": {
+    "name": "设备采集到的 IP 地址",
+    "kind": "string"
+  },
+  "d6bd67311e89": {
+    "name": "GPS 能力标记",
+    "kind": "boolean"
+  },
+  "2daa23bddad0": {
+    "name": "气压传感器能力标记",
+    "kind": "boolean"
+  },
+  "555ee827c278": {
+    "name": "陀螺仪能力标记",
+    "kind": "boolean"
+  },
+  "29fb9935e12d": {
+    "name": "设备 root 状态标记",
+    "kind": "boolean"
+  },
+  "293a30ce3c08": {
+    "name": "模拟器状态标记",
+    "kind": "boolean"
+  },
+  "7d005b8fa426": {
+    "name": "调试状态标记",
+    "kind": "boolean"
+  },
+  "aa14088aa580": {
+    "name": "开发者模式状态标记",
+    "kind": "boolean"
+  },
+  "fa29032c60e9": {
+    "name": "模拟定位状态标记",
+    "kind": "boolean"
+  },
+  "31db73d13a50": {
+    "name": "应用分身状态标记",
+    "kind": "boolean"
+  },
+  "3dcf8ff53d99": {
+    "name": "代理启用状态标记",
+    "kind": "boolean"
+  },
+  "50fe2f590757": {
+    "name": "应用安装时间",
+    "kind": "integer",
+    "min": "946684800000",
+    "max": "9007199254740991"
+  },
+  "eb4068674bab": {
+    "name": "系统构建时间",
+    "kind": "integer",
+    "min": "946684800000",
+    "max": "9007199254740991"
+  },
+  "0b9d7e16c871": {
+    "name": "原生设备 UUID",
+    "kind": "string"
+  },
+  "e6fc4162fd5a": {
+    "name": "原生 MAC 地址",
+    "kind": "string"
+  },
+  "9ab1e499ec60": {
+    "name": "Google 广告 ID",
+    "kind": "string"
+  },
+  "19f4d0e2b5aa": {
+    "name": "第一个 IMEI",
+    "kind": "string"
+  },
+  "1d3275aa3264": {
+    "name": "第二个 IMEI",
+    "kind": "string"
+  },
+  "188117ddbee4": {
+    "name": "短信总条数",
+    "kind": "integer",
+    "min": "0",
+    "max": "2147483647"
+  },
+  "87c9d5eb6389": {
+    "name": "已安装应用数量",
+    "kind": "integer",
+    "min": "0",
+    "max": "2147483647"
+  }
+}
