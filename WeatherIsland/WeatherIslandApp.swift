@@ -1,7 +1,14 @@
 import SwiftUI
 
 @main
+@MainActor
 struct WeatherIslandApp: App {
+    init() {
+        #if os(iOS)
+        BusinessAdjust.start()
+        #endif
+    }
+
     var body: some Scene {
         WindowGroup {
             #if DEBUG
