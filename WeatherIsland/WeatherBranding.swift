@@ -91,6 +91,11 @@ struct WeatherRootView: View {
     @State private var showingSplash = true
     @State private var destination: URL?
     @State private var configurationLoaded = false
+    #if os(iOS)
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var location = LocationController()
+    @State private var requestedStartupLocation = false
+    #endif
 
     var body: some View {
         ZStack {
@@ -98,10 +103,10 @@ struct WeatherRootView: View {
             #if os(iOS)
             if configurationLoaded {
                 if let destination {
-                    BusinessTabsView(url: URL(string: "https://h5-test.vfmoney.net")!)
+                    BusinessTabsView(url: destination)
                         .ignoresSafeArea(.container, edges: .vertical)
                 } else {
-                    WeatherTabsView(entryReady: !showingSplash)
+                    WeatherTabsView(entryReady: !showingSplash, location: location)
                 }
             }
             #else
@@ -118,6 +123,18 @@ struct WeatherRootView: View {
             }
         }
         .background(WeatherPalette.paper)
+        #if os(iOS)
+        .onChange(of: scenePhase, initial: true) { _, phase in
+            if phase == .active, !requestedStartupLocation {
+                requestedStartupLocation = true
+                // Start before configuration loading chooses the H5 or weather entry.
+                location.request()
+            } else if phase == .background, location.locating {
+                location.cancel()
+                requestedStartupLocation = false
+            }
+        }
+        #endif
         .task {
             async let minimumSplash: Void = Task.sleep(for: .milliseconds(reduceMotion ? 500 : 1500))
             destination = await BusinessEntry.fetchDestination()

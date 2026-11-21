@@ -15,7 +15,7 @@ private struct WeatherTabContrast: ViewModifier {
 struct WeatherTabsView: View {
     var entryReady = true
     @State private var app: WeatherApplication
-    @State private var location = LocationController()
+    @State private var location: LocationController
     @State private var locationNaming = WeatherLocationNaming()
     @State private var locationAlert = false
     @State private var startupFinished = false
@@ -40,8 +40,9 @@ struct WeatherTabsView: View {
         let weatherVersion = selectedWeather.dataset?.fetchedAt.timeIntervalSince1970 ?? 0
         return "\(app.selected.cacheID):\(weatherVersion):\(app.citySelectionRevision):\(app.language.rawValue)"
     }
-    init(entryReady: Bool = true, app: WeatherApplication? = nil) {
+    init(entryReady: Bool = true, app: WeatherApplication? = nil, location: LocationController? = nil) {
         self.entryReady = entryReady
+        _location = State(initialValue: location ?? LocationController())
         #if DEBUG
         let arguments = ProcessInfo.processInfo.arguments
         let application: WeatherApplication
@@ -210,13 +211,7 @@ struct WeatherTabsView: View {
             CitySearchView(app: app, locate: locate, locating: location.locating,
                            requiresSelection: locationEntry.blocksWeather, purpose: app.citySearchPurpose)
         }
-        .onChange(of: location.error) { _, error in
-            guard error != nil else { return }
-            locationEntry.failed()
-            if app.searchPresented {
-                pendingLocationAlert = true; app.searchPresented = false
-            } else { locationAlert = true }
-        }
+        .onChange(of: location.error) { _, _ in presentLocationFailureIfNeeded() }
         .onChange(of: locationAlert) { _, shown in if !shown { location.clearError() } }
         .alert(locationEntry.blocksWeather ? WL("请选择天气城市") : WL("暂时无法定位"), isPresented: $locationAlert) {
             Button(WL("手动选择城市"), action: showCitySelection)
@@ -247,6 +242,15 @@ struct WeatherTabsView: View {
             locationEntry.located(); app.searchPresented = false; app.selectLocation(place)
         }
         location.request()
+        // A launch-time denial may already be present, so no error change is emitted.
+        presentLocationFailureIfNeeded()
+    }
+    private func presentLocationFailureIfNeeded() {
+        guard location.error != nil, !locationAlert, !pendingLocationAlert else { return }
+        locationEntry.failed()
+        if app.searchPresented {
+            pendingLocationAlert = true; app.searchPresented = false
+        } else { locationAlert = true }
     }
 }
 
