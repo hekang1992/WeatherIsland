@@ -19,6 +19,7 @@ enum BusinessAdjust {
         started = true
         BusinessH5Bridge.adjustIdProvider = { completion in
             Adjust.adid(withTimeout: 5_000) { value in
+                print("value ===== \(value ?? "")")
                 completion(BusinessBridgePayload.adjustID(value))
             }
         }
